@@ -1,0 +1,17 @@
+{
+    "component": {
+        "prefix": "component",
+        "body": [
+            "<template>",
+            "    $0",
+            "</template>",
+            "",
+            "<script>",
+            "export default {",
+            "};",
+            "</script>",
+            ""
+        ],
+        "description": "Create component"
+    }
+}

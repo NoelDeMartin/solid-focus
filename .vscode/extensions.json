@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "rebornix.project-snippets",
+        "dbaeumer.vscode-eslint",
+        "octref.vetur"
+    ]
+}

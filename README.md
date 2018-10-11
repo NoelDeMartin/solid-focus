@@ -1,4 +1,4 @@
-# solid-focus
+# Focus: Solid Task Manager
 
 ## Project setup
 ```
