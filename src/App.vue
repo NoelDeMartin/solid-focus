@@ -1,29 +1,57 @@
 <template>
-    <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-    </div>
+    <v-app>
+        <div class="bg-background w-screen h-screen flex flex-col items-center justify-center">
+            <h1 class="text-4xl">Focus 省</h1>
+            <v-form class="w-4/5" @submit.prevent="createTask">
+                <div class="flex">
+                    <v-text-field v-model="newTask" />
+                    <v-btn color="primary" @click="createTask">Add</v-btn>
+                </div>
+            </v-form>
+            <v-list class="w-4/5">
+                <template v-for="(task, index) of tasks">
+                    <v-list-tile :key="index">
+                        {{ task }}
+                    </v-list-tile>
+                    <v-divider v-if="index !== tasks.length -1" :key="`divider-${index}`" />
+                </template>
+                <v-list-tile v-if="tasks.length === 0" class="text-grey-darker">
+                    No tasks
+                </v-list-tile>
+            </v-list>
+        </div>
+    </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
-import HelloWorld from '@/components/HelloWorld.vue';
+interface ComponentData {
+    newTask: string;
+    tasks: string[];
+}
 
 export default Vue.extend({
-    components: {
-        HelloWorld,
+    data(): ComponentData {
+        return {
+            newTask: '',
+            tasks: [],
+        };
+    },
+    methods: {
+        createTask() {
+            if (this.newTask) {
+                this.tasks.push(this.newTask);
+                this.newTask = '';
+            }
+        },
     },
 });
 </script>
 
 <style lang="scss">
-#app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
+    @tailwind preflight;
+    @tailwind components;
+    @import "~vuetify/dist/vuetify.css";
+    @tailwind utilities;
 </style>
