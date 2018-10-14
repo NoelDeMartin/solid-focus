@@ -10,7 +10,7 @@ declare module 'solid-auth-client' {
         storage?: AsyncStorage,
     };
 
-    type Session = {
+    export type Session = {
         idp: string,
         webId: string,
         accessToken: string,

@@ -1,16 +1,12 @@
 <template>
-    <div class="bg-background w-screen h-screen flex flex-col items-center justify-center">
-        <div class="fixed pin-r pin-t m-4">
-            <a @click="$auth.logout()">Logout</a>
-        </div>
-        <h1 class="text-4xl">Focus 省</h1>
-        <v-form class="w-4/5" @submit.prevent="createTask">
+    <div class="p-4">
+        <v-form @submit.prevent="createTask">
             <div class="flex">
                 <v-text-field v-model="newTask" />
                 <v-btn color="primary" @click="createTask">Add</v-btn>
             </div>
         </v-form>
-        <v-list class="w-4/5">
+        <v-list>
             <template v-for="(task, index) of tasks">
                 <v-list-tile :key="index">
                     {{ task }}
