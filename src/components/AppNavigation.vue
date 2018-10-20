@@ -17,15 +17,18 @@
                 <v-list>
                     <v-list-tile avatar>
                         <v-list-tile-avatar color="red">
-                            <img v-if="$auth.profile.avatarUrl" :src="$auth.profile.avatarUrl">
+                            <img v-if="$auth.user.avatarUrl" :src="$auth.user.avatarUrl">
                             <span v-else class="white--text headline">
-                                {{ ($auth.profile.name || '?').substr(0, 1) }}
+                                {{ ($auth.user.name || '?').substr(0, 1) }}
                             </span>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{ $auth.profile.name }}
+                                {{ $auth.user.name }}
                             </v-list-tile-title>
+                            <v-list-tile-sub-title v-if="!$workspaces.empty">
+                                {{ $workspaces.active.name }}
+                            </v-list-tile-sub-title>
                         </v-list-tile-content>
 
                         <v-list-tile-action>

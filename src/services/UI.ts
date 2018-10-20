@@ -1,6 +1,8 @@
-import Service from '@/services//Service';
+import Service from '@/services/Service';
 
-export default class UI extends Service {
+import { UI as UIInterface } from '@/services/types/UI';
+
+export default class UI extends Service implements UIInterface {
 
     get mobile(): boolean {
         return this.app.$vuetify.breakpoint.xs;

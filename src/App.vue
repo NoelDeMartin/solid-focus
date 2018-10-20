@@ -34,10 +34,12 @@ export default Vue.extend({
         Promise.all([
             this.$auth.ready,
             this.$ui.ready,
+            this.$workspaces.ready,
         ])
             .then(() => {
                 this.loading = false;
             });
+        // TODO handle error
     },
 });
 </script>

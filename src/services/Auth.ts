@@ -3,41 +3,16 @@ import $rdf from 'rdflib';
 
 import Service from '@/services/Service';
 
-import Reactive from '@/utils/Reactive';
+import { Auth as AuthInterface, User } from '@/services/types/Auth';
 
-interface Data {
-    session: Session | null;
-    profile: Profile | null;
-}
-
-interface Profile {
-    id: string;
-    name: string | null;
-    avatarUrl: string | null;
-}
-
-export default class Auth extends Service {
-
-    private data: Data = Reactive.object({
-        session: null,
-        profile: null,
-    });
-
-    protected async init(): Promise<void> {
-        const onSessionUpdated = this.onSessionUpdated.bind(this);
-
-        await SolidAuthClient.currentSession().then(onSessionUpdated);
-
-        SolidAuthClient.trackSession(onSessionUpdated);
-    }
+export default class Auth extends Service implements AuthInterface {
 
     public get loggedIn(): boolean {
-        return this.data.session !== null
-            && this.data.profile !== null;
+        return this.app.$store.state.user !== null;
     }
 
-    public get profile(): Profile {
-        return this.data.profile as Profile;
+    public get user(): User {
+        return this.app.$store.state.user as User;
     }
 
     public async login(idp: string): Promise<void> {
@@ -48,18 +23,23 @@ export default class Auth extends Service {
         await SolidAuthClient.logout();
     }
 
+    protected async init(): Promise<void> {
+        const onSessionUpdated = this.onSessionUpdated.bind(this);
+
+        await SolidAuthClient.currentSession().then(onSessionUpdated);
+
+        SolidAuthClient.trackSession(onSessionUpdated);
+    }
+
     private async onSessionUpdated(session: Session | void): Promise<void> {
         if (session) {
-            this.data.session = session;
-
-            await this.loadProfile(session);
+            await this.loginFromSession(session);
         } else {
-            this.data.session = null;
-            this.data.profile = null;
+            this.app.$store.dispatch('logout');
         }
     }
 
-    private async loadProfile(session: Session): Promise<void> {
+    private async loginFromSession(session: Session): Promise<void> {
         const $VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
         const $FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
@@ -77,11 +57,11 @@ export default class Auth extends Service {
                 || store.any($webId, $FOAF('image'), null as any, null as any)
                 || store.any($webId, $FOAF('img'), null as any, null as any);
 
-        this.data.profile = {
+        this.app.$store.dispatch('login', {
             id: $webId.value,
             name: $name ? $name.value : null,
             avatarUrl: $avatarUrl ? $avatarUrl.value : null,
-        };
+        });
     }
 
 }

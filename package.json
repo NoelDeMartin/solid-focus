@@ -13,7 +13,8 @@
     "solid-auth-client": "^2.2.6",
     "tailwindcss": "^0.6.6",
     "vue": "^2.5.17",
-    "vuetify": "^1.2.8"
+    "vuetify": "^1.2.8",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",

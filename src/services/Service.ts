@@ -8,7 +8,9 @@ export default abstract class Service {
 
     constructor(app: Vue) {
         this.app = app;
-        this.ready = this.init();
+
+        // defer calling init() until constructor has completed
+        this.ready = Promise.resolve().then(() => this.init());
     }
 
     protected async init(): Promise<void> {
