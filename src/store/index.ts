@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex, { ActionContext } from 'vuex';
 
-import { User } from '@/services/types/Auth';
-import { Workspace } from '@/services/types/Workspaces';
+import { User } from '@/services/Auth';
+import { Workspace } from '@/services/Workspaces';
 
 Vue.use(Vuex);
 

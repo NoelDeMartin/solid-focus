@@ -42,7 +42,7 @@
                                 </v-btn>
 
                                 <v-list>
-                                    <v-list-tile @click="$auth.logout">
+                                    <v-list-tile @click="$auth.logout()">
                                         <v-list-tile-title>Logout</v-list-tile-title>
                                     </v-list-tile>
                                 </v-list>

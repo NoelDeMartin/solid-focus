@@ -1,12 +1,16 @@
 import { ActionPayload } from 'vuex';
 
 import Service from '@/services/Service';
-import { Workspace, Workspaces as WorkspacesInterface } from '@/services/types/Workspaces';
-import { User } from '@/services/types/Auth';
+
+import { User } from '@/services/Auth';
 
 import { State } from '@/store';
 
-export default class Workspaces extends Service implements WorkspacesInterface {
+export interface Workspace {
+    name: string;
+}
+
+export default abstract class Workspaces extends Service {
 
     public get empty(): boolean {
         return this.app.$store.state.workspaces.length === 0;
@@ -18,9 +22,7 @@ export default class Workspaces extends Service implements WorkspacesInterface {
         return state.workspaces[state.activeWorkspace] as Workspace;
     }
 
-    public async create(name: string): Promise<void> {
-        // TODO
-    }
+    public abstract create(name: string): Promise<void>;
 
     protected async init(): Promise<void> {
         const Store = this.app.$store;
@@ -31,7 +33,7 @@ export default class Workspaces extends Service implements WorkspacesInterface {
         Store.subscribeAction((mutation: ActionPayload, state: State) => {
             switch (mutation.type) {
                 case 'login':
-                    this.loadWorkspacesFromUser(Auth.user);
+                    this.loadUserWorkspaces(Auth.user);
                     break;
                 case 'logout':
                     Store.dispatch('clearWorkspaces');
@@ -40,12 +42,10 @@ export default class Workspaces extends Service implements WorkspacesInterface {
         });
 
         if (Auth.loggedIn) {
-            await this.loadWorkspacesFromUser(Auth.user);
+            await this.loadUserWorkspaces(Auth.user);
         }
     }
 
-    private async loadWorkspacesFromUser(user: User): Promise<void> {
-        // TODO
-    }
+    protected abstract loadUserWorkspaces(user: User): Promise<void>;
 
 }
