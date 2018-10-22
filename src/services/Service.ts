@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+import { Store } from 'vuex';
+
 export default abstract class Service {
 
     protected app: Vue;
@@ -14,7 +16,11 @@ export default abstract class Service {
     }
 
     protected async init(): Promise<void> {
-        return Promise.resolve();
+        this.registerStoreModule(this.app.$store);
+    }
+
+    protected registerStoreModule(store: Store<any>): void {
+        // override to initialize vuex module
     }
 
 }

@@ -5,25 +5,31 @@ import Storage from '@/utils/Storage';
 export default class Auth extends BaseAuth {
 
     public async login(idp: string): Promise<void> {
-        this.app.$store.dispatch('login', {
+        const user = {
             id: '1',
             name: 'Guest',
             avatarUrl: null,
             storages: [],
-        });
-        Storage.set('user', this.app.$store.state.user);
+        };
+
+        this.loginUser(user);
+
+        Storage.set('user', user);
     }
 
     public async logout(): Promise<void> {
-        this.app.$store.dispatch('logout');
+        this.logoutUser();
+
         Storage.remove('user');
     }
 
     protected async init(): Promise<void> {
+        await super.init();
+
         const user = Storage.get('user');
 
         if (user !== null) {
-            this.app.$store.dispatch('login', user);
+            this.loginUser(user);
         }
     }
 

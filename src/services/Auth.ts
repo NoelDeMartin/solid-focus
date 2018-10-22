@@ -1,4 +1,10 @@
 import Service from '@/services/Service';
+import { Store } from 'vuex';
+import EventBus from '@/utils/EventBus';
+
+interface State {
+    user: User | null;
+}
 
 export interface User {
     id: string;
@@ -9,15 +15,44 @@ export interface User {
 export default abstract class Auth extends Service {
 
     public get loggedIn(): boolean {
-        return this.app.$store.state.user !== null;
+        return !!this.storage.user;
     }
 
-    public get user(): User {
-        return this.app.$store.state.user as User;
+    public get user(): User | null {
+        return this.storage.user;
     }
 
     public abstract login(idp: string): Promise<void>;
 
     public abstract logout(): Promise<void>;
+
+    protected get storage(): State {
+        return this.app.$store.state.auth
+            ? this.app.$store.state.auth
+            : {};
+    }
+
+    protected loginUser(user: User): void {
+        this.app.$store.commit('setUser', user);
+        EventBus.emit('login', user);
+    }
+
+    protected logoutUser(): void {
+        this.app.$store.commit('setUser', null);
+        EventBus.emit('logout');
+    }
+
+    protected async registerStoreModule(store: Store<State>): Promise<void> {
+        this.app.$store.registerModule('auth', {
+            state: {
+                user: null,
+            },
+            mutations: {
+                setUser(state: State, user: User | null) {
+                    state.user = user;
+                },
+            },
+        });
+    }
 
 }

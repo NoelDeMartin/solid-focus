@@ -14,6 +14,8 @@ export default class Auth extends BaseAuth {
     }
 
     protected async init(): Promise<void> {
+        await super.init();
+
         const onSessionUpdated = this.onSessionUpdated.bind(this);
 
         await SolidAuthClient.currentSession().then(onSessionUpdated);
@@ -25,14 +27,13 @@ export default class Auth extends BaseAuth {
         if (session) {
             await this.loginFromSession(session);
         } else {
-            this.app.$store.dispatch('logout');
+            this.logoutUser();
         }
     }
 
     private async loginFromSession(session: Session): Promise<void> {
         const $VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
         const $FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
-        const $PIM = $rdf.Namespace('http://www.w3.org/ns/pim/space#');
 
         const store = $rdf.graph();
         const fetcher = new $rdf.Fetcher(store, {});
@@ -48,7 +49,7 @@ export default class Auth extends BaseAuth {
                 || store.any($webId, $FOAF('image'), null as any, null as any)
                 || store.any($webId, $FOAF('img'), null as any, null as any);
 
-        this.app.$store.dispatch('login', {
+        this.loginUser({
             id: $webId.value,
             name: $name ? $name.value : null,
             avatarUrl: $avatarUrl ? $avatarUrl.value : null,

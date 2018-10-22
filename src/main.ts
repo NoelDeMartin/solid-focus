@@ -2,15 +2,14 @@ import Vue from 'vue';
 
 import App from '@/App.vue';
 
-import '@/plugins';
+import plugins from '@/plugins';
 
 import bootstrapServices from '@/services';
-import store from '@/store';
 
 Vue.config.productionTip = false;
 
 const app = new Vue({
-    store,
+    ...plugins,
     render: h => h(App),
 });
 

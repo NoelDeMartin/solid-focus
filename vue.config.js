@@ -5,7 +5,7 @@ module.exports = {
             'text-encoding': 'TextEncoder',
             'whatwg-url': 'window',
             'isomorphic-fetch': 'fetch',
-            '@trust/webcrypto': 'crypto'
+            '@trust/webcrypto': 'crypto',
         },
     },
 };
