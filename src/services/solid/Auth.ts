@@ -1,11 +1,17 @@
 import SolidAuthClient, { Session } from 'solid-auth-client';
 import $rdf from 'rdflib';
 
-import BaseAuth from '@/services/Auth';
+import BaseAuth, { User } from '@/services/Auth';
+
+export interface SolidUser extends User {
+    podUrl: string;
+    storages: string[];
+}
 
 export default class Auth extends BaseAuth {
 
     public async login(idp: string): Promise<void> {
+        // TODO error not handled
         await SolidAuthClient.login(idp);
     }
 
@@ -32,28 +38,33 @@ export default class Auth extends BaseAuth {
     }
 
     private async loginFromSession(session: Session): Promise<void> {
-        const $VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
-        const $FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+        const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
+        const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+        const PIM = $rdf.Namespace('http://www.w3.org/ns/pim/space#');
 
         const store = $rdf.graph();
         const fetcher = new $rdf.Fetcher(store, {});
 
         await (fetcher as any).load(session.webId);
 
-        const $webId = store.sym(session.webId);
+        const webId = store.sym(session.webId);
 
-        const $name = store.any($webId, $VCARD('fn'), null as any, null as any)
-            || store.any($webId, $FOAF('name'), null as any, null as any);
+        const name = store.any(webId, VCARD('fn'), null as any, null as any)
+            || store.any(webId, FOAF('name'), null as any, null as any);
 
-        const $avatarUrl = store.any($webId, $VCARD('hasPhoto'), null as any, null as any)
-                || store.any($webId, $FOAF('image'), null as any, null as any)
-                || store.any($webId, $FOAF('img'), null as any, null as any);
+        const avatarUrl = store.any(webId, VCARD('hasPhoto'), null as any, null as any)
+                || store.any(webId, FOAF('image'), null as any, null as any)
+                || store.any(webId, FOAF('img'), null as any, null as any);
+
+        const storages = store.each(webId, PIM('storage'), null as any, null as any);
 
         this.loginUser({
-            id: $webId.value,
-            name: $name ? $name.value : null,
-            avatarUrl: $avatarUrl ? $avatarUrl.value : null,
-        });
+            id: webId.value,
+            name: name ? name.value : null,
+            avatarUrl: avatarUrl ? avatarUrl.value : null,
+            podUrl: session.idp,
+            storages: (storages || []).map($storage => $storage.value),
+        } as SolidUser);
     }
 
 }

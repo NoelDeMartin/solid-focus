@@ -7,7 +7,7 @@ import Vue from 'vue';
 
 export default function bootstrapServices(app: Vue) {
     // TODO use webpack DefinePlugin
-    const platform = process.env.PLATFORM || 'offline';
+    const platform = process.env.PLATFORM || 'solid';
 
     const UI = require('@/services/UI').default;
     const Auth = require('@/services/' + platform + '/Auth').default;

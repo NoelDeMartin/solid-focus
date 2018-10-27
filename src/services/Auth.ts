@@ -22,6 +22,14 @@ export default abstract class Auth extends Service {
         return this.storage.user;
     }
 
+    public withUser<T>(callback: (user: User) => T): T {
+        if (!this.user) {
+            throw new Error('User not available');
+        }
+
+        return callback(this.user);
+    }
+
     public abstract login(idp: string): Promise<void>;
 
     public abstract logout(): Promise<void>;
