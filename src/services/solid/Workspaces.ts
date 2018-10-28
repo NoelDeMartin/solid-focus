@@ -2,7 +2,7 @@ import SolidAuthClient from 'solid-auth-client';
 import $rdf from 'rdflib';
 
 import BaseWorkspaces, { Workspace } from '@/services/Workspaces';
-import { SolidUser } from '@/services/solid/Auth';
+import { User } from '@/services/solid/Auth';
 
 import Str from '@/utils/Str';
 
@@ -17,17 +17,11 @@ interface Container {
     types: string[];
 }
 
-export default class Workspaces extends BaseWorkspaces {
+export default class Workspaces extends BaseWorkspaces<Workspace, User> {
 
-    public async create(name: string): Promise<void> {
-        const user = this.app.$auth.withUser(user => user) as SolidUser;
-
-        if (user.storages.length === 0) {
-            throw new Error('User does not have any storage configured');
-        }
-
+    public async create(storage: string, name: string): Promise<void> {
         const container = await this.createContainer(
-            user.storages[0],
+            storage,
             name,
             [WORKSPACE_TYPE]
         );
@@ -35,7 +29,7 @@ export default class Workspaces extends BaseWorkspaces {
         this.addWorkspace(this.createWorkspaceFromContainer(container));
     }
 
-    protected async loadUserWorkspaces(user: SolidUser): Promise<void> {
+    protected async loadUserWorkspaces(user: User): Promise<void> {
         const containers = await this.getContainers(
             user.podUrl,
             [WORKSPACE_TYPE]
@@ -137,7 +131,7 @@ export default class Workspaces extends BaseWorkspaces {
         );
 
         return {
-            name: nameTerm ? nameTerm.value: 'Unknown',
+            name: (nameTerm || {}).value || 'Unknown',
             types: typeTerms.map(term => term.value),
         };
     }

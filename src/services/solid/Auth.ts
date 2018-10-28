@@ -1,14 +1,14 @@
 import SolidAuthClient, { Session } from 'solid-auth-client';
 import $rdf from 'rdflib';
 
-import BaseAuth, { User } from '@/services/Auth';
+import BaseAuth, { User as BaseUser } from '@/services/Auth';
 
-export interface SolidUser extends User {
+export interface User extends BaseUser {
     podUrl: string;
     storages: string[];
 }
 
-export default class Auth extends BaseAuth {
+export default class Auth extends BaseAuth<User> {
 
     public async login(idp: string): Promise<void> {
         // TODO error not handled
@@ -64,7 +64,7 @@ export default class Auth extends BaseAuth {
             avatarUrl: avatarUrl ? avatarUrl.value : null,
             podUrl: session.idp,
             storages: (storages || []).map($storage => $storage.value),
-        } as SolidUser);
+        });
     }
 
 }

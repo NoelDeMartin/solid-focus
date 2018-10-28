@@ -2,8 +2,7 @@
     <v-app>
         <AppNavigation v-if="$auth.loggedIn" />
         <v-content>
-            <Splash v-if="loading"/>
-            <Home v-else-if="$auth.loggedIn" />
+            <Home v-if="$auth.loggedIn" />
             <Login v-else />
         </v-content>
     </v-app>
@@ -16,30 +15,12 @@ import AppNavigation from '@/components/AppNavigation.vue';
 
 import Home from '@/pages/Home.vue';
 import Login from '@/pages/Login.vue';
-import Splash from '@/pages/Splash.vue';
 
 export default Vue.extend({
     components: {
         Home,
         Login,
-        Splash,
         AppNavigation,
-    },
-    data() {
-        return {
-            loading: true,
-        };
-    },
-    mounted() {
-        Promise.all([
-            this.$auth.ready,
-            this.$ui.ready,
-            this.$workspaces.ready,
-        ])
-            .then(() => {
-                this.loading = false;
-            });
-        // TODO handle error
     },
 });
 </script>

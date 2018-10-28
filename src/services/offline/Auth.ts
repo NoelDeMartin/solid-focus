@@ -1,8 +1,8 @@
-import BaseAuth from '@/services/Auth';
+import BaseAuth, { User } from '@/services/Auth';
 
 import Storage from '@/utils/Storage';
 
-export default class Auth extends BaseAuth {
+export default class Auth extends BaseAuth<User> {
 
     public async login(idp: string): Promise<void> {
         const user = {

@@ -1,6 +1,6 @@
 <template>
     <div class="p-4">
-        <CreateWorkspace v-if="$workspaces.empty" />
+        <component v-if="form" :is="form" @completed="form = null"/>
         <template v-else>
             <v-form @submit.prevent="createTask">
                 <div class="flex">
@@ -24,24 +24,44 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, { AsyncComponent } from 'vue';
 
-import CreateWorkspace from '@/components/forms/CreateWorkspace.vue';
+import CreateWorkspace from '@/components/forms/solid/CreateWorkspace.vue';
 
-interface ComponentData {
+import EventBus from '@/utils/EventBus';
+
+interface Data {
     newTask: string;
     tasks: string[];
+    form: AsyncComponent | null,
+    _listener?: EventListener;
 }
 
 export default Vue.extend({
     components: {
         CreateWorkspace,
     },
-    data(): ComponentData {
+    data(): Data {
         return {
             newTask: '',
             tasks: [],
+            form: null,
         };
+    },
+    created() {
+        if (this.$workspaces.empty) {
+            this.form = () => import('@/components/forms/solid/CreateWorkspace.vue');
+        }
+
+        EventBus.on('create-workspace', this._listener = () => {
+            this.form = () => import('@/components/forms/solid/CreateWorkspace.vue');
+        });
+    },
+    destroyed() {
+        if (this._listener) {
+            EventBus.off('create-workspace', this._listener);
+            delete this._listener;
+        }
     },
     methods: {
         createTask() {

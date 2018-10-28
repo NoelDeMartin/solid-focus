@@ -6,43 +6,47 @@ import { User } from '@/services/Auth';
 
 import EventBus from '@/utils/EventBus';
 
-interface State {
-    activeWorkspace: Workspace | null;
-    workspaces: Workspace[];
+interface State<W extends Workspace> {
+    activeWorkspace: W | null;
+    workspaces: W[];
 }
 
 export interface Workspace {
     name: string;
 }
 
-export default abstract class Workspaces extends Service {
+export default abstract class Workspaces<W extends Workspace, U extends User> extends Service {
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;
     }
 
-    public get active(): Workspace | null {
+    public get active(): W | null {
         return this.storage.activeWorkspace;
     }
 
-    public get workspaces(): Workspace[] {
+    public get all(): W[] {
         return this.storage.workspaces;
     }
 
-    public abstract create(name: string): Promise<void>;
+    public setActive(workspace: W): void {
+        this.app.$store.commit('setActiveWorkspace', workspace);
+    }
 
-    protected get storage(): State {
+    public abstract create(...args: any[]): Promise<void>;
+
+    protected get storage(): State<W> {
         return this.app.$store.state.workspaces
             ? this.app.$store.state.workspaces
             : {};
     }
 
-    protected initWorkspaces(workspaces: Workspace[]): void {
+    protected initWorkspaces(workspaces: W[]): void {
         this.app.$store.commit('setWorkspaces', workspaces);
         this.app.$store.commit('setActiveWorkspace', workspaces[0]);
     }
 
-    protected addWorkspace(workspace: Workspace, activate: boolean = true): void {
+    protected addWorkspace(workspace: W, activate: boolean = true): void {
         this.app.$store.commit('addWorkspace', { workspace, activate });
     }
 
@@ -54,7 +58,7 @@ export default abstract class Workspaces extends Service {
         await Auth.ready;
 
         if (Auth.loggedIn) {
-            await this.loadUserWorkspaces(Auth.user as User);
+            await this.loadUserWorkspaces(Auth.user as U);
         }
 
         EventBus.on('login', this.loadUserWorkspaces.bind(this));
@@ -64,20 +68,20 @@ export default abstract class Workspaces extends Service {
         });
     }
 
-    protected registerStoreModule(store: Store<State>): void {
+    protected registerStoreModule(store: Store<State<W>>): void {
         this.app.$store.registerModule('workspaces', {
             state: {
                 activeWorkspace: null,
                 workspaces: [],
             },
             mutations: {
-                setActiveWorkspace(state: State, activeWorkspace: Workspace | null) {
+                setActiveWorkspace(state: State<W>, activeWorkspace: W | null) {
                     state.activeWorkspace = activeWorkspace;
                 },
-                setWorkspaces(state: State, workspaces: Workspace[]) {
+                setWorkspaces(state: State<W>, workspaces: W[]) {
                     state.workspaces = workspaces;
                 },
-                addWorkspace(state: State, payload: { workspace: Workspace, activate: boolean }) {
+                addWorkspace(state: State<W>, payload: { workspace: W, activate: boolean }) {
                     state.workspaces.push(payload.workspace);
 
                     if (payload.activate) {
@@ -88,6 +92,6 @@ export default abstract class Workspaces extends Service {
         });
     }
 
-    protected abstract loadUserWorkspaces(user: User): Promise<void>;
+    protected abstract loadUserWorkspaces(user: U): Promise<void>;
 
 }

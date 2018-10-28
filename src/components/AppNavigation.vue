@@ -11,7 +11,7 @@
             :value="!$ui.mobile || !collapsed"
             :temporary="$ui.mobile"
             app
-            @input="input"
+            @input="toggleMenu"
         >
             <v-toolbar flat dark>
                 <v-list>
@@ -28,6 +28,28 @@
                             </v-list-tile-title>
                             <v-list-tile-sub-title v-if="!$workspaces.empty">
                                 {{ $workspaces.active.name }}
+                                <v-menu bottom>
+                                    <v-btn slot="activator" icon>
+                                        <v-icon>arrow_drop_down</v-icon>
+                                    </v-btn>
+                                    <v-list>
+                                        <v-list-tile
+                                            v-for="(workspace, i) in $workspaces.all"
+                                            v-if="workspace !== $workspaces.active"
+                                            :key="i"
+                                            @click="$workspaces.setActive(workspace)"
+                                        >
+                                            <v-list-tile-title>
+                                                {{ workspace.name }}
+                                            </v-list-tile-title>
+                                        </v-list-tile>
+                                        <v-list-tile @click="createWorkspace">
+                                            <v-list-tile-title>
+                                                New Workspace
+                                            </v-list-tile-title>
+                                        </v-list-tile>
+                                    </v-list>
+                                </v-menu>
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
 
@@ -55,17 +77,24 @@
     </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+import EventBus from '@/utils/EventBus';
+
+export default Vue.extend({
     data() {
         return {
             collapsed: true,
         };
     },
     methods: {
-        input(visible) {
+        toggleMenu(visible: boolean) {
             this.collapsed = !visible;
         },
+        createWorkspace() {
+            EventBus.emit('create-workspace');
+        },
     },
-};
+});
 </script>

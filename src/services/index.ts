@@ -5,15 +5,25 @@
 
 import Vue from 'vue';
 
-export default function bootstrapServices(app: Vue) {
+import Service from '@/services/Service';
+
+export default async function bootServices(app: Vue): Promise<void> {
     // TODO use webpack DefinePlugin
     const platform = process.env.PLATFORM || 'solid';
 
-    const UI = require('@/services/UI').default;
-    const Auth = require('@/services/' + platform + '/Auth').default;
-    const Workspaces = require('@/services/' + platform + '/Workspaces').default;
+    const serviceClasses = await Promise.all([
+        import('@/services/UI'),
+        import('@/services/' + platform + '/Auth'),
+        import('@/services/' + platform + '/Workspaces'),
+    ]);
 
-    Vue.prototype.$ui = new UI(app);
-    Vue.prototype.$auth = new Auth(app);
-    Vue.prototype.$workspaces = new Workspaces(app);
+    const [UI, Auth, Workspaces] = serviceClasses.map(service => service.default);
+
+    Vue.prototype.$services = [
+        Vue.prototype.$ui = new UI(app),
+        Vue.prototype.$auth = new Auth(app),
+        Vue.prototype.$workspaces = new Workspaces(app),
+    ];
+
+    await Promise.all(Vue.prototype.$services.map((service: Service) => service.ready));
 }

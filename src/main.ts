@@ -4,7 +4,7 @@ import App from '@/App.vue';
 
 import plugins from '@/plugins';
 
-import bootstrapServices from '@/services';
+import bootServices from '@/services';
 
 Vue.config.productionTip = false;
 
@@ -13,6 +13,8 @@ const app = new Vue({
     render: h => h(App),
 });
 
-bootstrapServices(app);
+bootServices(app).then(() => {
+    app.$mount('#app');
 
-app.$mount('#app');
+    document.body.removeAttribute('loading');
+});
