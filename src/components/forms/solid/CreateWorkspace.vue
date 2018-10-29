@@ -29,7 +29,8 @@ import Vue from 'vue';
 
 import { VForm, ValidationRule } from 'vuetify';
 
-import { User } from '@/services/solid/Auth';
+import User from '@/models/solid/User';
+
 import Workspaces from '@/services/solid/Workspaces';
 
 import Validations from '@/utils/Validations';

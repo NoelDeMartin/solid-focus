@@ -2,20 +2,17 @@ import { Store } from 'vuex';
 
 import Service from '@/services/Service';
 
-import { User } from '@/services/Auth';
+import Workspace from '@/models/Workspace';
+import User from '@/models/User';
 
 import EventBus from '@/utils/EventBus';
 
-interface State<W extends Workspace> {
+interface State<W=Workspace> {
     activeWorkspace: W | null;
     workspaces: W[];
 }
 
-export interface Workspace {
-    name: string;
-}
-
-export default abstract class Workspaces<W extends Workspace, U extends User> extends Service {
+export default abstract class Workspaces<W=Workspace, U=User> extends Service {
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;

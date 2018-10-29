@@ -73,6 +73,17 @@
                     </v-list-tile>
                 </v-list>
             </v-toolbar>
+            <v-list>
+                <v-list-tile
+                    v-for="(list, i) in $workspaces.active.lists"
+                    :key="i"
+                    @click="$workspaces.active.setActiveList(list)"
+                >
+                    <v-list-tile-title>
+                        {{ list.name }}
+                    </v-list-tile-title>
+                </v-list-tile>
+            </v-list>
         </v-navigation-drawer>
     </div>
 </template>

@@ -1,8 +1,11 @@
 import SolidAuthClient from 'solid-auth-client';
 import $rdf from 'rdflib';
 
-import BaseWorkspaces, { Workspace } from '@/services/Workspaces';
-import { User } from '@/services/solid/Auth';
+import BaseWorkspaces from '@/services/Workspaces';
+
+import Workspace from '@/models/Workspace';
+import User from '@/models/solid/User';
+import List from '@/models/List';
 
 import Str from '@/utils/Str';
 
@@ -136,10 +139,10 @@ export default class Workspaces extends BaseWorkspaces<Workspace, User> {
         };
     }
 
-    private createWorkspaceFromContainer(container: Container): Workspace {
-        return {
-            name: container.name,
-        };
+    private createWorkspaceFromContainer(container: Container): Workspace<List> {
+        const inbox = new List('Inbox');
+
+        return new Workspace(container.name, [inbox], inbox);
     }
 
 }

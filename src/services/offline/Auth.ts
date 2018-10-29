@@ -1,16 +1,13 @@
-import BaseAuth, { User } from '@/services/Auth';
+import BaseAuth from '@/services/Auth';
+
+import User from '@/models/User';
 
 import Storage from '@/utils/Storage';
 
-export default class Auth extends BaseAuth<User> {
+export default class Auth extends BaseAuth {
 
     public async login(idp: string): Promise<void> {
-        const user = {
-            id: '1',
-            name: 'Guest',
-            avatarUrl: null,
-            storages: [],
-        };
+        const user = new User('1', 'Guest');
 
         this.loginUser(user);
 

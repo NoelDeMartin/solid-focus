@@ -1,18 +1,16 @@
-import Service from '@/services/Service';
 import { Store } from 'vuex';
+
+import Service from '@/services/Service';
+
+import User from '@/models/User';
+
 import EventBus from '@/utils/EventBus';
 
-interface State<U extends User> {
+interface State<U=User> {
     user: U | null;
 }
 
-export interface User {
-    id: string;
-    name: string | null;
-    avatarUrl: string | null;
-}
-
-export default abstract class Auth<U extends User> extends Service {
+export default abstract class Auth<U=User> extends Service {
 
     public get loggedIn(): boolean {
         return !!this.storage.user;

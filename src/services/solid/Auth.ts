@@ -1,12 +1,9 @@
 import SolidAuthClient, { Session } from 'solid-auth-client';
 import $rdf from 'rdflib';
 
-import BaseAuth, { User as BaseUser } from '@/services/Auth';
+import User from '@/models/solid/User';
 
-export interface User extends BaseUser {
-    podUrl: string;
-    storages: string[];
-}
+import BaseAuth from '@/services/Auth';
 
 export default class Auth extends BaseAuth<User> {
 
@@ -58,13 +55,13 @@ export default class Auth extends BaseAuth<User> {
 
         const storages = store.each(webId, PIM('storage'), null as any, null as any);
 
-        this.loginUser({
-            id: webId.value,
-            name: name ? name.value : null,
-            avatarUrl: avatarUrl ? avatarUrl.value : null,
-            podUrl: session.idp,
-            storages: (storages || []).map($storage => $storage.value),
-        });
+        this.loginUser(new User(
+            webId.value,
+            name ? name.value : null,
+            avatarUrl ? avatarUrl.value : null,
+            session.idp,
+            (storages || []).map($storage => $storage.value),
+        ));
     }
 
 }

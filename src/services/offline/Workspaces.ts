@@ -1,13 +1,18 @@
-import BaseWorkspaces, { Workspace } from '@/services/Workspaces';
+import BaseWorkspaces from '@/services/Workspaces';
 
-import { User } from '@/services/Auth';
+import Workspace from '@/models/Workspace';
+import List from '@/models/List';
+import User from '@/models/User';
 
 import Storage from '@/utils/Storage';
 
-export default class Workspaces extends BaseWorkspaces<Workspace, User> {
+export default class Workspaces extends BaseWorkspaces {
 
     public async create(name: string): Promise<void> {
-        this.addWorkspace({ name });
+        const inbox = new List('Inbox');
+
+        this.addWorkspace(new Workspace(name, [inbox], inbox));
+
         Storage.set('workspaces', this.all);
     }
 
