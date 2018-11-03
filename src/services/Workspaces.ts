@@ -30,7 +30,7 @@ export default abstract class Workspaces<W=Workspace, U=User> extends Service {
         this.app.$store.commit('setActiveWorkspace', workspace);
     }
 
-    public abstract create(...args: any[]): Promise<void>;
+    public abstract create(...args: any[]): Promise<W>;
 
     protected get storage(): State<W> {
         return this.app.$store.state.workspaces
@@ -66,7 +66,7 @@ export default abstract class Workspaces<W=Workspace, U=User> extends Service {
     }
 
     protected registerStoreModule(store: Store<State<W>>): void {
-        this.app.$store.registerModule('workspaces', {
+        store.registerModule('workspaces', {
             state: {
                 activeWorkspace: null,
                 workspaces: [],

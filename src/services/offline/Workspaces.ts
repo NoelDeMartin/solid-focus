@@ -8,12 +8,15 @@ import Storage from '@/utils/Storage';
 
 export default class Workspaces extends BaseWorkspaces {
 
-    public async create(name: string): Promise<void> {
+    public async create(name: string): Promise<Workspace> {
         const inbox = new List('Inbox');
+        const workspace = new Workspace(name, [inbox], inbox);
 
-        this.addWorkspace(new Workspace(name, [inbox], inbox));
+        this.addWorkspace(workspace);
 
         Storage.set('workspaces', this.all);
+
+        return workspace;
     }
 
     protected async init(): Promise<void> {

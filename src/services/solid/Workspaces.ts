@@ -22,14 +22,18 @@ interface Container {
 
 export default class Workspaces extends BaseWorkspaces<Workspace, User> {
 
-    public async create(storage: string, name: string): Promise<void> {
+    public async create(storage: string, name: string): Promise<Workspace> {
         const container = await this.createContainer(
             storage,
             name,
             [WORKSPACE_TYPE]
         );
 
-        this.addWorkspace(this.createWorkspaceFromContainer(container));
+        const workspace = this.createWorkspaceFromContainer(container);
+
+        this.addWorkspace(workspace);
+
+        return workspace;
     }
 
     protected async loadUserWorkspaces(user: User): Promise<void> {

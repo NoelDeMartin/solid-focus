@@ -44,6 +44,8 @@ View the full documentation at https://tailwindcss.com.
 */
 
 let colors = {
+    'jade': '#00a86b',
+
     'background': '#e3e3e3',
     'transparent': 'transparent',
 

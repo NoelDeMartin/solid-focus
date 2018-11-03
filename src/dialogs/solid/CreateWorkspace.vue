@@ -1,11 +1,10 @@
 <template>
-    <v-form
-        ref="form"
-        class="p-4"
-        lazy-validation
-        @submit.prevent="submit"
+    <DialogForm
+        :dialog="dialog"
+        title="Create Workspace"
+        submit-label="Create"
+        @completed="createWorkspace"
     >
-        <h1>Create Workspace</h1>
         <v-select
             v-model="storage"
             :items="$auth.user.storages"
@@ -18,20 +17,19 @@
             validate-on-blur
             label="Name"
         />
-        <v-btn color="primary" @click="submit">
-            Create
-        </v-btn>
-    </v-form>
+    </DialogForm>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
-import { VForm, ValidationRule } from 'vuetify';
+import { ValidationRule } from 'vuetify';
 
 import User from '@/models/solid/User';
 
 import Workspaces from '@/services/solid/Workspaces';
+
+import Dialog from '@/dialogs/Dialog';
 
 import Validations from '@/utils/Validations';
 
@@ -41,6 +39,7 @@ interface Data {
 }
 
 export default Vue.extend({
+    mixins: [Dialog],
     data(): Data {
         return {
             storage: '',
@@ -66,12 +65,10 @@ export default Vue.extend({
         });
     },
     methods: {
-        submit() {
-            if ((this.$refs.form as VForm).validate()) {
-                this.$workspaces
-                    .create(this.storage, this.name)
-                    .then(() => this.$emit('completed'));
-            }
+        async createWorkspace() {
+            const workspace = await this.$workspaces.create(this.storage, this.name);
+
+            this.complete(workspace);
         },
     },
 });

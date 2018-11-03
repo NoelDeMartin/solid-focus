@@ -49,7 +49,7 @@ export default abstract class Auth<U=User> extends Service {
     }
 
     protected async registerStoreModule(store: Store<State<U>>): Promise<void> {
-        this.app.$store.registerModule('auth', {
+        store.registerModule('auth', {
             state: {
                 user: null,
             },

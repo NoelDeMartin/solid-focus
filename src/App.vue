@@ -5,6 +5,12 @@
             <Home v-if="$auth.loggedIn" />
             <Login v-else />
         </v-content>
+        <component
+            v-for="dialog of $ui.dialogs"
+            :key="dialog.id"
+            :is="dialog.component"
+            :dialog="dialog"
+        />
     </v-app>
 </template>
 
@@ -26,8 +32,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-    @tailwind preflight;
-    @tailwind components;
     @import "~vuetify/dist/vuetify.css";
+    @tailwind components;
     @tailwind utilities;
 </style>

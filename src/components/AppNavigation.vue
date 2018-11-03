@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-toolbar app dark>
+        <v-toolbar app dark color="primary">
             <v-toolbar-side-icon @click="collapsed = !collapsed">
                 <v-icon>menu</v-icon>
             </v-toolbar-side-icon>
@@ -13,7 +13,7 @@
             app
             @input="toggleMenu"
         >
-            <v-toolbar flat dark>
+            <v-toolbar flat dark color="primary">
                 <v-list>
                     <v-list-tile avatar>
                         <v-list-tile-avatar color="red">
@@ -91,8 +91,6 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import EventBus from '@/utils/EventBus';
-
 export default Vue.extend({
     data() {
         return {
@@ -104,7 +102,10 @@ export default Vue.extend({
             this.collapsed = !visible;
         },
         createWorkspace() {
-            EventBus.emit('create-workspace');
+            // TODO use platform & handle rejection
+            this.$ui.openDialog(
+                () => import('@/dialogs/solid/CreateWorkspace.vue')
+            );
         },
     },
 });

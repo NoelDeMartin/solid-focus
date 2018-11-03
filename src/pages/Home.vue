@@ -1,7 +1,20 @@
 <template>
-    <div class="p-4">
-        <component v-if="form" :is="form" @completed="form = null" />
-        <TasksManager v-else :list="$workspaces.active.activeList" />
+    <div class="p-4 h-full">
+        <TasksManager
+            v-if="!$workspaces.empty"
+            :list="$workspaces.active.activeList"
+        />
+        <div v-else class="flex flex-col items-center justify-center h-full">
+            <h2>You don't have any workspace, create one!</h2>
+            <v-btn
+                fab
+                dark
+                color="primary"
+                @click="createWorkspace"
+            >
+                <v-icon dark>add</v-icon>
+            </v-btn>
+        </div>
     </div>
 </template>
 
@@ -10,38 +23,17 @@ import Vue, { AsyncComponent } from 'vue';
 
 import TasksManager from '@/components/TasksManager.vue';
 
-import EventBus from '@/utils/EventBus';
-
-interface Data {
-    form: AsyncComponent | null,
-    _listener?: EventListener;
-}
-
 export default Vue.extend({
     components: {
         TasksManager,
     },
-    data(): Data {
-        return {
-            form: null,
-        };
-    },
-    created() {
-        if (this.$workspaces.empty) {
-            // TODO use platform
-            this.form = () => import('@/components/forms/solid/CreateWorkspace.vue');
-        }
-
-        EventBus.on('create-workspace', this._listener = () => {
-            // TODO use platform
-            this.form = () => import('@/components/forms/solid/CreateWorkspace.vue');
-        });
-    },
-    destroyed() {
-        if (this._listener) {
-            EventBus.off('create-workspace', this._listener);
-            delete this._listener;
-        }
+    methods: {
+        createWorkspace() {
+            // TODO use platform param & handle reject
+            this.$ui.openDialog(
+                () => import('@/dialogs/solid/CreateWorkspace.vue')
+            );
+        },
     },
 });
 </script>
