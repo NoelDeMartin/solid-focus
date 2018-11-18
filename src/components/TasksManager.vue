@@ -43,10 +43,10 @@ export default Vue.extend({
         };
     },
     methods: {
-        create() {
+        async create() {
             if (this.newTask) {
                 // TODO loading & handle errors
-                this.list.add(new Task(Math.random().toString(), this.newTask));
+                await this.$workspaces.createTask(this.list, this.newTask);
                 this.newTask = '';
             }
         },

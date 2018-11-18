@@ -1,6 +1,10 @@
 import Task from '@/models/Task';
+import Workspace from '@/models/Workspace';
 
-export default class List {
+// TODO <any> should be removed (solves circular default for now)
+export default class List<W=Workspace<any>> {
+
+    public workspace!: W;
 
     public name: string;
     public tasks: Task[];
@@ -16,6 +20,10 @@ export default class List {
 
     public get length(): number {
         return this.tasks.length;
+    }
+
+    public setWorkspace(workspace: W): void {
+        this.workspace = workspace;
     }
 
     public add(task: Task): void {

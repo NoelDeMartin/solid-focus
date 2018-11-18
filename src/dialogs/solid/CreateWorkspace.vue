@@ -74,7 +74,7 @@ export default Vue.extend({
     },
     methods: {
         async createWorkspace() {
-            const workspace = await this.$workspaces.create(this.storage, this.name);
+            const workspace = await this.$workspaces.createWorkspace(this.storage, this.name);
 
             this.$ui.completeDialog(this.dialog.id, workspace);
         },
