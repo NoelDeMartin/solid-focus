@@ -4,6 +4,7 @@ import Service from '@/services/Service';
 
 import Workspace from '@/models/Workspace';
 import User from '@/models/User';
+import List from '@/models/List';
 
 import EventBus from '@/utils/EventBus';
 
@@ -12,7 +13,7 @@ interface State<W=Workspace> {
     workspaces: W[];
 }
 
-export default abstract class Workspaces<W=Workspace, U=User> extends Service {
+export default abstract class Workspaces<W=Workspace, U=User, L=List> extends Service {
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;
@@ -31,6 +32,8 @@ export default abstract class Workspaces<W=Workspace, U=User> extends Service {
     }
 
     public abstract create(...args: any[]): Promise<W>;
+
+    public abstract createList(workspace: W, ...args: any[]): Promise<L>;
 
     protected get storage(): State<W> {
         return this.app.$store.state.workspaces

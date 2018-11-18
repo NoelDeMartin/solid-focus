@@ -4,7 +4,9 @@
             <v-toolbar-side-icon @click="collapsed = !collapsed">
                 <v-icon>menu</v-icon>
             </v-toolbar-side-icon>
-            <v-toolbar-title>Inbox</v-toolbar-title>
+            <v-toolbar-title v-if="!$workspaces.empty">
+                {{ $workspaces.active.activeList.name }}
+            </v-toolbar-title>
         </v-toolbar>
         <v-navigation-drawer
             :mini-variant="!$ui.mobile && collapsed"
@@ -73,7 +75,7 @@
                     </v-list-tile>
                 </v-list>
             </v-toolbar>
-            <v-list>
+            <v-list v-if="!$workspaces.empty">
                 <v-list-tile
                     v-for="(list, i) in $workspaces.active.lists"
                     :key="i"
@@ -81,6 +83,11 @@
                 >
                     <v-list-tile-title>
                         {{ list.name }}
+                    </v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="createWorkspaceList">
+                    <v-list-tile-title>
+                        Add List
                     </v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -102,10 +109,17 @@ export default Vue.extend({
             this.collapsed = !visible;
         },
         createWorkspace() {
-            // TODO use platform & handle rejection
+            // TODO use platform parameter & handle rejection
             this.$ui.openDialog(
                 () => import('@/dialogs/solid/CreateWorkspace.vue')
             );
+        },
+        createWorkspaceList() {
+            // TODO use platform parameter & handle rejection
+            this.$ui.openDialog(
+                () => import('@/dialogs/solid/CreateWorkspaceList.vue')
+            )
+                .then(list => this.$workspaces.active.setActiveList(list));
         },
     },
 });

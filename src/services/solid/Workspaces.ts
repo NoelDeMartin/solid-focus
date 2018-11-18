@@ -36,6 +36,15 @@ export default class Workspaces extends BaseWorkspaces<Workspace, User> {
         return workspace;
     }
 
+    public async createList(workspace: Workspace, name: string): Promise<List> {
+        // TODO persist to solid POD
+        const list = new List(name);
+
+        workspace.addList(list);
+
+        return list;
+    }
+
     protected async loadUserWorkspaces(user: User): Promise<void> {
         const containers = await this.getContainers(
             user.podUrl,
@@ -144,6 +153,7 @@ export default class Workspaces extends BaseWorkspaces<Workspace, User> {
     }
 
     private createWorkspaceFromContainer(container: Container): Workspace<List> {
+        // TODO persist to solid POD
         const inbox = new List('Inbox');
 
         return new Workspace(container.name, [inbox], inbox);

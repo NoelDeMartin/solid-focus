@@ -16,4 +16,8 @@ export default class Workspace<L=List> {
         this.activeList = list;
     }
 
+    public addList(list: L): void {
+        this.lists.push(list);
+    }
+
 }

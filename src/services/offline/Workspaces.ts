@@ -19,6 +19,14 @@ export default class Workspaces extends BaseWorkspaces {
         return workspace;
     }
 
+    public async createList(workspace: Workspace, name: string): Promise<List> {
+        const list = new List(name);
+
+        workspace.addList(list);
+
+        return list;
+    }
+
     protected async init(): Promise<void> {
         await super.init();
 

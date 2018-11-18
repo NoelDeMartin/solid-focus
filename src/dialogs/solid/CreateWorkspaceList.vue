@@ -1,16 +1,10 @@
 <template>
     <DialogForm
         :dialog="dialog"
-        title="Create Workspace"
+        title="Create Workspace List"
         submit-label="Create"
-        @completed="createWorkspace"
+        @completed="createWorkspaceList"
     >
-        <v-select
-            v-model="storage"
-            :items="$auth.user.storages"
-            :rules="rules.storage"
-            label="Storage"
-        />
         <v-text-field
             v-model="name"
             :rules="rules.name"
@@ -25,8 +19,6 @@ import Vue from 'vue';
 
 import { ValidationRule } from 'vuetify';
 
-import User from '@/models/solid/User';
-
 import { Dialog } from '@/services/UI';
 
 import DialogForm from '@/dialogs/DialogForm.vue';
@@ -34,7 +26,6 @@ import DialogForm from '@/dialogs/DialogForm.vue';
 import Validations from '@/utils/Validations';
 
 interface Data {
-    storage: string;
     name: string;
 }
 
@@ -50,16 +41,12 @@ export default Vue.extend({
     },
     data(): Data {
         return {
-            storage: '',
             name: '',
         };
     },
     computed: {
         rules(): { [field: string]: ValidationRule[] } {
             return {
-                storage: [
-                    Validations.required,
-                ],
                 name: [
                     Validations.required,
                     Validations.maxLength(255),
@@ -67,16 +54,14 @@ export default Vue.extend({
             };
         },
     },
-    created() {
-        this.$auth.withUser((user: User) => {
-            this.storage = user.storages[0];
-        });
-    },
     methods: {
-        async createWorkspace() {
-            const workspace = await this.$workspaces.create(this.storage, this.name);
+        async createWorkspaceList() {
+            const list = await this.$workspaces.createList(
+                this.$workspaces.active,
+                this.name
+            );
 
-            this.$ui.completeDialog(this.dialog.id, workspace);
+            this.$ui.completeDialog(this.dialog.id, list);
         },
     },
 });
