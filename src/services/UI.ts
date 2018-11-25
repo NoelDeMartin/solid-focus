@@ -91,4 +91,8 @@ export default class UI extends Service {
         });
     }
 
+    protected unregisterStoreModule(store: Store<State>): void {
+        store.unregisterModule('ui');
+    }
+
 }

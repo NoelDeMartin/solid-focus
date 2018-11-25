@@ -9,82 +9,73 @@ import Task from '@/models/Task';
 
 import EventBus from '@/utils/EventBus';
 
-interface State<W=Workspace> {
-    activeWorkspace: W | null;
-    workspaces: W[];
+interface State {
+    activeWorkspace: Workspace | null;
+    workspaces: Workspace[];
 }
 
-export default abstract class Workspaces<W=Workspace, U=User, L=List, T=Task> extends Service {
+export default abstract class Workspaces<U=User> extends Service {
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;
     }
 
-    public get active(): W | null {
+    public get active(): Workspace | null {
         return this.storage.activeWorkspace;
     }
 
-    public get all(): W[] {
+    public get all(): Workspace[] {
         return this.storage.workspaces;
     }
 
-    public setActive(workspace: W): void {
+    public setActive(workspace: Workspace): void {
         this.app.$store.commit('setActiveWorkspace', workspace);
     }
 
-    public abstract createWorkspace(...args: any[]): Promise<W>;
+    public abstract createWorkspace(...args: any[]): Promise<Workspace>;
 
-    public abstract createList(workspace: W, ...args: any[]): Promise<L>;
+    public abstract createList(workspace: Workspace, ...args: any[]): Promise<List>;
 
-    public abstract createTask(list: L, ...args: any[]): Promise<T>;
+    public abstract createTask(list: List, ...args: any[]): Promise<Task>;
 
-    protected get storage(): State<W> {
+    protected get storage(): State {
         return this.app.$store.state.workspaces
             ? this.app.$store.state.workspaces
             : {};
     }
 
-    protected initWorkspaces(workspaces: W[]): void {
+    protected initWorkspaces(workspaces: Workspace[]): void {
         this.app.$store.commit('setWorkspaces', workspaces);
         this.app.$store.commit('setActiveWorkspace', workspaces[0]);
     }
 
-    protected addWorkspace(workspace: W, activate: boolean = true): void {
+    protected addWorkspace(workspace: Workspace, activate: boolean = true): void {
         this.app.$store.commit('addWorkspace', { workspace, activate });
     }
 
     protected async init(): Promise<void> {
         await super.init();
 
-        const Auth = this.app.$auth;
-
-        await Auth.ready;
-
-        if (Auth.loggedIn) {
-            await this.loadUserWorkspaces(Auth.user as U);
+        // Auth service will be the one calling this, so this should always be true
+        if (this.app.$auth.loggedIn) {
+            await this.loadUserWorkspaces(this.app.$auth.user as any as U);
         }
-
-        EventBus.on('login', this.loadUserWorkspaces.bind(this));
-
-        EventBus.on('logout', () => {
-            this.app.$store.commit('setWorkspaces', []);
-        });
     }
 
-    protected registerStoreModule(store: Store<State<W>>): void {
+    protected registerStoreModule(store: Store<State>): void {
         store.registerModule('workspaces', {
             state: {
                 activeWorkspace: null,
                 workspaces: [],
             },
             mutations: {
-                setActiveWorkspace(state: State<W>, activeWorkspace: W | null) {
+                setActiveWorkspace(state: State, activeWorkspace: Workspace | null) {
                     state.activeWorkspace = activeWorkspace;
                 },
-                setWorkspaces(state: State<W>, workspaces: W[]) {
+                setWorkspaces(state: State, workspaces: Workspace[]) {
                     state.workspaces = workspaces;
                 },
-                addWorkspace(state: State<W>, payload: { workspace: W, activate: boolean }) {
+                addWorkspace(state: State, payload: { workspace: Workspace, activate: boolean }) {
                     state.workspaces.push(payload.workspace);
 
                     if (payload.activate) {
@@ -93,6 +84,10 @@ export default abstract class Workspaces<W=Workspace, U=User, L=List, T=Task> ex
                 },
             },
         });
+    }
+
+    protected unregisterStoreModule(store: Store<State>): void {
+        store.unregisterModule('workspaces');
     }
 
     protected abstract loadUserWorkspaces(user: U): Promise<void>;

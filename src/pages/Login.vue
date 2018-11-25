@@ -3,8 +3,14 @@
         <h1 class="text-4xl">Focus 省</h1>
         <v-form class="w-4/5" @submit.prevent="login">
             <div class="flex">
-                <v-text-field v-model="idp" />
-                <v-btn color="primary" @click="login">Login</v-btn>
+                <v-text-field v-model="idp" placeholder="Solid URL" />
+                <v-btn color="primary" @click="loginWithSolid">Login</v-btn>
+            </div>
+            <span class="flex w-full my-2 justify-center">
+                or
+            </span>
+            <div class="text-center">
+                <v-btn color="primary" @click="loginOffline">Login Offline</v-btn>
             </div>
         </v-form>
     </div>
@@ -20,10 +26,15 @@ export default Vue.extend({
         };
     },
     methods: {
-        login() {
+        loginWithSolid() {
             // TODO show loading
             // TODO handle errors
-            this.$auth.login(this.idp);
+            this.$auth.loginWithSolid(this.idp);
+        },
+        loginOffline() {
+            // TODO show loading
+            // TODO handle errors
+            this.$auth.loginOffline();
         },
     },
 });

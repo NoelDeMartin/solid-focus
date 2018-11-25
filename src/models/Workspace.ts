@@ -1,22 +1,24 @@
 import List from '@/models/List';
 
-export default class Workspace<L=List> {
+export default class Workspace {
 
+    public id: any;
     public name: string;
-    public lists: L[];
-    public activeList: L | null;
+    public lists: List[];
+    public activeList: List | null;
 
-    constructor(name: string, lists: L[] = [], activeList: L | null = null) {
+    constructor(id: any, name: string, lists: List[] = [], activeList: List | null = null) {
+        this.id = id;
         this.name = name;
         this.lists = lists;
         this.activeList = activeList;
     }
 
-    public setActiveList(list: L): void {
+    public setActiveList(list: List): void {
         this.activeList = list;
     }
 
-    public addList(list: L): void {
+    public addList(list: List): void {
         this.lists.push(list);
     }
 

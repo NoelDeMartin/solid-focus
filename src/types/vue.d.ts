@@ -10,7 +10,7 @@ declare module 'vue/types/vue' {
     interface Vue {
         $services: Service[];
         $ui: UI;
-        $auth: Auth<User | any>;
-        $workspaces: Workspaces<Workspace | any, User | any>;
+        $auth: Auth;
+        $workspaces: Workspaces<User | any>;
     }
 }

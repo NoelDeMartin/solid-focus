@@ -25,7 +25,8 @@ import Vue from 'vue';
 
 import { ValidationRule } from 'vuetify';
 
-import User from '@/models/solid/User';
+import User from '@/models/User';
+import SolidUser from '@/models/users/SolidUser';
 
 import { Dialog } from '@/services/UI';
 
@@ -69,7 +70,7 @@ export default Vue.extend({
     },
     created() {
         this.$auth.withUser((user: User) => {
-            this.storage = user.storages[0];
+            this.storage = (user as SolidUser).storages[0];
         });
     },
     methods: {

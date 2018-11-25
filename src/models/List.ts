@@ -1,15 +1,16 @@
 import Task from '@/models/Task';
 import Workspace from '@/models/Workspace';
 
-// TODO <any> should be removed (solves circular default for now)
-export default class List<W=Workspace<any>> {
+export default class List {
 
-    public workspace!: W;
+    public workspace!: Workspace;
 
+    public id: any;
     public name: string;
     public tasks: Task[];
 
-    constructor(name: string, tasks: Task[] = []) {
+    constructor(id: any, name: string, tasks: Task[] = []) {
+        this.id = id;
         this.name = name;
         this.tasks = tasks.slice();
     }
@@ -22,7 +23,7 @@ export default class List<W=Workspace<any>> {
         return this.tasks.length;
     }
 
-    public setWorkspace(workspace: W): void {
+    public setWorkspace(workspace: Workspace): void {
         this.workspace = workspace;
     }
 

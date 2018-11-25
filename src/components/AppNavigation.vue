@@ -98,6 +98,8 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import Workspace from '@/models/Workspace';
+
 export default Vue.extend({
     data() {
         return {
@@ -119,7 +121,7 @@ export default Vue.extend({
             this.$ui.openDialog(
                 () => import('@/dialogs/solid/CreateWorkspaceList.vue')
             )
-                .then(list => this.$workspaces.active.setActiveList(list));
+                .then(list => (this.$workspaces.active as Workspace).setActiveList(list));
         },
     },
 });

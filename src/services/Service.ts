@@ -19,8 +19,16 @@ export default abstract class Service {
         this.registerStoreModule(this.app.$store);
     }
 
+    protected async destroy(): Promise<void> {
+        this.unregisterStoreModule(this.app.$store);
+    }
+
     protected registerStoreModule(store: Store<any>): void {
         // override to initialize vuex module
+    }
+
+    protected unregisterStoreModule(store: Store<any>): void {
+        // override to remove vuex module
     }
 
 }

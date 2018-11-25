@@ -21,6 +21,8 @@ import { ValidationRule } from 'vuetify';
 
 import { Dialog } from '@/services/UI';
 
+import Workspace from '@/models/Workspace';
+
 import DialogForm from '@/dialogs/DialogForm.vue';
 
 import Validations from '@/utils/Validations';
@@ -57,7 +59,7 @@ export default Vue.extend({
     methods: {
         async createWorkspaceList() {
             const list = await this.$workspaces.createList(
-                this.$workspaces.active,
+                this.$workspaces.active as Workspace,
                 this.name
             );
 

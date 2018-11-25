@@ -1,4 +1,4 @@
-import BaseWorkspaces from '@/services/Workspaces';
+import Workspaces from '@/services/Workspaces';
 
 import Workspace from '@/models/Workspace';
 import List from '@/models/List';
@@ -6,12 +6,13 @@ import User from '@/models/User';
 import Task from '@/models/Task';
 
 import Storage from '@/utils/Storage';
+import UUIDGenerator from '@/utils/UUIDGenerator';
 
-export default class Workspaces extends BaseWorkspaces {
+export default class OfflineWorkspaces extends Workspaces {
 
     public async createWorkspace(name: string): Promise<Workspace> {
-        const inbox = new List('Inbox');
-        const workspace = new Workspace(name, [inbox], inbox);
+        const inbox = new List(UUIDGenerator.generate(), 'Inbox');
+        const workspace = new Workspace(UUIDGenerator.generate(), name, [inbox], inbox);
 
         inbox.setWorkspace(workspace);
 
@@ -23,7 +24,7 @@ export default class Workspaces extends BaseWorkspaces {
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
-        const list = new List(name);
+        const list = new List(UUIDGenerator.generate(), name);
 
         list.setWorkspace(workspace);
 
@@ -35,7 +36,7 @@ export default class Workspaces extends BaseWorkspaces {
     }
 
     public async createTask(list: List, name: string): Promise<Task> {
-        const task = new Task(name);
+        const task = new Task(UUIDGenerator.generate(), name);
 
         list.add(task);
 
