@@ -1,14 +1,19 @@
-import Workspaces from '@/services/Workspaces';
+import Backend from '@/services/backends/Backend';
 
-import Workspace from '@/models/Workspace';
 import List from '@/models/List';
-import User from '@/models/User';
 import Task from '@/models/Task';
+import Workspace from '@/models/Workspace';
 
 import Storage from '@/utils/Storage';
 import UUIDGenerator from '@/utils/UUIDGenerator';
 
-export default class OfflineWorkspaces extends Workspaces {
+export default class OfflineBackend extends Backend {
+
+    public async destroy(): Promise<void> {
+        await super.destroy();
+
+        this.app.$workspaces.update([]);
+    }
 
     public async createWorkspace(name: string): Promise<Workspace> {
         const inbox = new List(UUIDGenerator.generate(), 'Inbox');
@@ -16,9 +21,9 @@ export default class OfflineWorkspaces extends Workspaces {
 
         inbox.setWorkspace(workspace);
 
-        this.addWorkspace(workspace);
+        this.app.$workspaces.addWorkspace(workspace);
 
-        Storage.set('workspaces', this.all);
+        Storage.set('workspaces', this.app.$workspaces.all);
 
         return workspace;
     }
@@ -30,7 +35,7 @@ export default class OfflineWorkspaces extends Workspaces {
 
         workspace.addList(list);
 
-        Storage.set('workspaces', this.all);
+        Storage.set('workspaces', this.app.$workspaces.all);
 
         return list;
     }
@@ -40,23 +45,17 @@ export default class OfflineWorkspaces extends Workspaces {
 
         list.add(task);
 
-        Storage.set('workspaces', this.all);
+        Storage.set('workspaces', this.app.$workspaces.all);
 
         return task;
     }
 
-    protected async init(): Promise<void> {
-        await super.init();
-
+    protected async loadUserWorkspaces(): Promise<void> {
         const workspaces = Storage.get('workspaces');
 
         if (workspaces !== null) {
-            this.initWorkspaces(workspaces);
+            this.app.$workspaces.update(workspaces);
         }
-    }
-
-    protected async loadUserWorkspaces(user: User): Promise<void> {
-        // nothing to do here
     }
 
 }

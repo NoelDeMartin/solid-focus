@@ -70,7 +70,7 @@ export default class UI extends Service {
         this.app.$store.commit('removeDialog', id);
     }
 
-    protected async registerStoreModule(store: Store<State>): Promise<void> {
+    protected registerStoreModule(store: Store<State>): void {
         store.registerModule('ui', {
             state: {
                 dialogs: [],

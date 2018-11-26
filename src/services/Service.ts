@@ -8,19 +8,19 @@ export default abstract class Service {
 
     public readonly ready: Promise<void>;
 
-    constructor(app: Vue) {
+    constructor(app: Vue, ...args: any[]) {
         this.app = app;
 
         // defer calling init() until constructor has completed
-        this.ready = Promise.resolve().then(() => this.init());
+        this.ready = Promise.resolve().then(() => this.init(...args));
     }
 
-    protected async init(): Promise<void> {
-        this.registerStoreModule(this.app.$store);
-    }
-
-    protected async destroy(): Promise<void> {
+    public async destroy(): Promise<void> {
         this.unregisterStoreModule(this.app.$store);
+    }
+
+    protected async init(...args: any[]): Promise<void> {
+        this.registerStoreModule(this.app.$store);
     }
 
     protected registerStoreModule(store: Store<any>): void {

@@ -11,6 +11,6 @@ declare module 'vue/types/vue' {
         $services: Service[];
         $ui: UI;
         $auth: Auth;
-        $workspaces: Workspaces<User | any>;
+        $workspaces: Workspaces;
     }
 }

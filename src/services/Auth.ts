@@ -8,26 +8,29 @@ import User from '@/models/User';
 import OfflineUser from '@/models/users/OfflineUser';
 import SolidUser from '@/models/users/SolidUser';
 
-import Storage from '@/utils/Storage';
 import Solid from '@/utils/Solid';
-import Vue from 'vue';
-import OfflineWorkspaces from './workspaces/OfflineWorkspaces';
-import SolidWorkspaces from './workspaces/SolidWorkspaces';
-
-enum Mode {
-    Offline = 'offline',
-    Solid = 'solid',
-}
+import Storage from '@/utils/Storage';
+import EventBus from '@/utils/EventBus';
 
 interface State {
     mode: Mode | null;
     user: User | null;
 }
 
+export enum Mode {
+    Offline = 'offline',
+    Solid = 'solid',
+}
+
 export default class Auth extends Service {
 
+    // Implement type guard so that user getter doesn't return null
     public get loggedIn(): boolean {
         return !!this.storage.user;
+    }
+
+    public get mode(): Mode | null {
+        return this.storage.mode;
     }
 
     public get user(): User | null {
@@ -80,18 +83,18 @@ export default class Auth extends Service {
         await super.init();
 
         const user = Storage.get('user');
-        const onSessionUpdated = this.onSessionUpdated.bind(this);
+        const onSolidSessionUpdated = this.onSolidSessionUpdated.bind(this);
 
-        await SolidAuthClient.currentSession().then(onSessionUpdated);
+        await SolidAuthClient.currentSession().then(onSolidSessionUpdated);
 
-        SolidAuthClient.trackSession(onSessionUpdated);
+        SolidAuthClient.trackSession(onSolidSessionUpdated);
 
         if (user !== null) {
-            await this.loginUser(user, Mode.Solid);
+            await this.loginUser(user, Mode.Offline);
         }
     }
 
-    protected async destroy(): Promise<void> {
+    public async destroy(): Promise<void> {
         await super.destroy();
 
         // TODO stop tracking user session (not implemented in solid-auth-client)
@@ -122,31 +125,20 @@ export default class Auth extends Service {
         this.app.$store.commit('setUser', user);
         this.app.$store.commit('setMode', mode);
 
-        switch (mode) {
-            case Mode.Offline:
-                Vue.prototype.$workspaces = new OfflineWorkspaces(this.app);
-                break;
-            case Mode.Solid:
-                Vue.prototype.$workspaces = new SolidWorkspaces(this.app);
-                break;
-        }
-
-        await Vue.prototype.$workspaces.init();
+        EventBus.emit('login');
     }
 
     protected async logoutUser(): Promise<void> {
         this.app.$store.commit('setUser', null);
         this.app.$store.commit('setMode', null);
 
-        await Vue.prototype.$workspaces.destroy();
-
-        delete Vue.prototype.$workspaces;
+        EventBus.emit('logout');
     }
 
-    private async onSessionUpdated(session: Session | void): Promise<void> {
-        if (session) {
+    private async onSolidSessionUpdated(session: Session | void): Promise<void> {
+        if (session && !this.user) {
             await this.loginFromSession(session);
-        } else {
+        } else if (!session && this.mode === Mode.Solid) {
             this.logoutUser();
         }
     }

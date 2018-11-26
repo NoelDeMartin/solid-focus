@@ -1,11 +1,16 @@
 import { Store } from 'vuex';
 
+import { Mode } from '@/services/Auth';
 import Service from '@/services/Service';
+import Backend from '@/services/backends/Backend';
+import OfflineBackend from '@/services/backends/OfflineBackend';
+import SolidBackend from '@/services/backends/SolidBackend';
 
-import Workspace from '@/models/Workspace';
 import User from '@/models/User';
 import List from '@/models/List';
 import Task from '@/models/Task';
+import Workspace from '@/models/Workspace';
+import SolidUser from '@/models/users/SolidUser';
 
 import EventBus from '@/utils/EventBus';
 
@@ -14,7 +19,9 @@ interface State {
     workspaces: Workspace[];
 }
 
-export default abstract class Workspaces<U=User> extends Service {
+export default class Workspaces extends Service {
+
+    private backend!: Backend;
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;
@@ -32,11 +39,26 @@ export default abstract class Workspaces<U=User> extends Service {
         this.app.$store.commit('setActiveWorkspace', workspace);
     }
 
-    public abstract createWorkspace(...args: any[]): Promise<Workspace>;
+    public createWorkspace(...args: any[]): Promise<Workspace> {
+        return this.backend.createWorkspace(...args);
+    }
 
-    public abstract createList(workspace: Workspace, ...args: any[]): Promise<List>;
+    public createList(workspace: Workspace, ...args: any[]): Promise<List> {
+        return this.backend.createList(workspace, ...args);
+    }
 
-    public abstract createTask(list: List, ...args: any[]): Promise<Task>;
+    public createTask(list: List, ...args: any[]): Promise<Task> {
+        return this.backend.createTask(list, ...args);
+    }
+
+    public update(workspaces: Workspace[]): void {
+        this.app.$store.commit('setWorkspaces', workspaces);
+        this.app.$store.commit('setActiveWorkspace', workspaces[0]);
+    }
+
+    public addWorkspace(workspace: Workspace, activate: boolean = true): void {
+        this.app.$store.commit('addWorkspace', { workspace, activate });
+    }
 
     protected get storage(): State {
         return this.app.$store.state.workspaces
@@ -44,22 +66,16 @@ export default abstract class Workspaces<U=User> extends Service {
             : {};
     }
 
-    protected initWorkspaces(workspaces: Workspace[]): void {
-        this.app.$store.commit('setWorkspaces', workspaces);
-        this.app.$store.commit('setActiveWorkspace', workspaces[0]);
-    }
-
-    protected addWorkspace(workspace: Workspace, activate: boolean = true): void {
-        this.app.$store.commit('addWorkspace', { workspace, activate });
-    }
-
     protected async init(): Promise<void> {
         await super.init();
+        await this.app.$auth.ready;
 
-        // Auth service will be the one calling this, so this should always be true
         if (this.app.$auth.loggedIn) {
-            await this.loadUserWorkspaces(this.app.$auth.user as any as U);
+            await this.updateBackend();
         }
+
+        EventBus.on('login', this.updateBackend.bind(this));
+        EventBus.on('logout', this.removeBackend.bind(this));
     }
 
     protected registerStoreModule(store: Store<State>): void {
@@ -90,6 +106,31 @@ export default abstract class Workspaces<U=User> extends Service {
         store.unregisterModule('workspaces');
     }
 
-    protected abstract loadUserWorkspaces(user: U): Promise<void>;
+    protected async updateBackend(): Promise<void> {
+        if (this.backend) {
+            await this.removeBackend();
+        }
+
+        const user = this.app.$auth.user as User;
+
+        switch (this.app.$auth.mode) {
+            case Mode.Offline:
+                this.backend = new OfflineBackend(this.app, user);
+                break;
+            case Mode.Solid:
+                this.backend = new SolidBackend(this.app, user as SolidUser);
+                break;
+        }
+
+        await this.backend.ready;
+    }
+
+    protected async removeBackend(): Promise<void> {
+        if (this.backend) {
+            await this.backend.destroy();
+
+            delete this.backend;
+        }
+    }
 
 }

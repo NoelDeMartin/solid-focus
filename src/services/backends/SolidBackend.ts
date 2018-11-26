@@ -1,9 +1,8 @@
-import Workspaces from '@/services/Workspaces';
+import Backend from '@/services/backends/Backend';
 
 import List from '@/models/List';
 import Task from '@/models/Task';
 import Workspace from '@/models/Workspace';
-
 import SolidUser from '@/models/users/SolidUser';
 
 import Solid, { Resource } from '@/utils/Solid';
@@ -11,13 +10,13 @@ import Solid, { Resource } from '@/utils/Solid';
 const TASK = 'http://vocab.org/lifecycle/schema#Task';
 const TASK_GROUP = 'http://vocab.org/lifecycle/schema#TaskGroup';
 
-export default class SolidWorkspaces extends Workspaces<SolidUser> {
+export default class SolidBackend extends Backend<SolidUser> {
 
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
         const resource = await Solid.createContainer(storage, name, [TASK_GROUP]);
         const workspace = await this.createWorkspaceFromResource(resource);
 
-        this.addWorkspace(workspace);
+        this.app.$workspaces.addWorkspace(workspace);
 
         return workspace;
     }
@@ -47,13 +46,16 @@ export default class SolidWorkspaces extends Workspaces<SolidUser> {
         const containers = await Solid.getContainers(user.podUrl, [TASK_GROUP]);
 
         if (containers.length > 0) {
-            this.addWorkspace(
+            this.app.$workspaces.addWorkspace(
                 await this.createWorkspaceFromResource(containers.pop() as Resource),
                 true
             );
 
             for (const container of containers) {
-                this.addWorkspace(await this.createWorkspaceFromResource(container), false);
+                this.app.$workspaces.addWorkspace(
+                    await this.createWorkspaceFromResource(container),
+                    false
+                );
             }
         }
     }
