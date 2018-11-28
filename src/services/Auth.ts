@@ -4,7 +4,7 @@ import SolidAuthClient, { Session } from 'solid-auth-client';
 
 import Service from '@/services/Service';
 
-import User from '@/models/User';
+import User from '@/models/users/User';
 import OfflineUser from '@/models/users/OfflineUser';
 import SolidUser from '@/models/users/SolidUser';
 
@@ -46,7 +46,7 @@ export default class Auth extends Service {
     }
 
     public async loginOffline(): Promise<void> {
-        const user = new OfflineUser('Guest');
+        const user = new OfflineUser();
 
         await this.loginUser(user, Mode.Offline);
 

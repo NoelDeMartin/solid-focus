@@ -6,9 +6,9 @@ import Backend from '@/services/backends/Backend';
 import OfflineBackend from '@/services/backends/OfflineBackend';
 import SolidBackend from '@/services/backends/SolidBackend';
 
-import User from '@/models/User';
 import List from '@/models/List';
 import Task from '@/models/Task';
+import User from '@/models/users/User';
 import Workspace from '@/models/Workspace';
 import SolidUser from '@/models/users/SolidUser';
 
@@ -39,8 +39,13 @@ export default class Workspaces extends Service {
         this.app.$store.commit('setActiveWorkspace', workspace);
     }
 
-    public createWorkspace(...args: any[]): Promise<Workspace> {
-        return this.backend.createWorkspace(...args);
+    public async createWorkspace(...args: any[]): Promise<Workspace> {
+        const workspace = await this.backend.createWorkspace(...args);
+
+        this.app.$store.commit('addWorkspace', workspace);
+        this.app.$store.commit('setActiveWorkspace', workspace);
+
+        return workspace;
     }
 
     public createList(workspace: Workspace, ...args: any[]): Promise<List> {
@@ -49,15 +54,6 @@ export default class Workspaces extends Service {
 
     public createTask(list: List, ...args: any[]): Promise<Task> {
         return this.backend.createTask(list, ...args);
-    }
-
-    public update(workspaces: Workspace[]): void {
-        this.app.$store.commit('setWorkspaces', workspaces);
-        this.app.$store.commit('setActiveWorkspace', workspaces[0]);
-    }
-
-    public addWorkspace(workspace: Workspace, activate: boolean = true): void {
-        this.app.$store.commit('addWorkspace', { workspace, activate });
     }
 
     protected get storage(): State {
@@ -91,12 +87,8 @@ export default class Workspaces extends Service {
                 setWorkspaces(state: State, workspaces: Workspace[]) {
                     state.workspaces = workspaces;
                 },
-                addWorkspace(state: State, payload: { workspace: Workspace, activate: boolean }) {
-                    state.workspaces.push(payload.workspace);
-
-                    if (payload.activate) {
-                        state.activeWorkspace = payload.workspace;
-                    }
+                addWorkspace(state: State, workspace: Workspace) {
+                    state.workspaces.push(workspace);
                 },
             },
         });
@@ -107,30 +99,29 @@ export default class Workspaces extends Service {
     }
 
     protected async updateBackend(): Promise<void> {
-        if (this.backend) {
-            await this.removeBackend();
-        }
-
-        const user = this.app.$auth.user as User;
-
         switch (this.app.$auth.mode) {
             case Mode.Offline:
-                this.backend = new OfflineBackend(this.app, user);
+                this.backend = new OfflineBackend();
                 break;
             case Mode.Solid:
-                this.backend = new SolidBackend(this.app, user as SolidUser);
+                this.backend = new SolidBackend();
                 break;
         }
 
-        await this.backend.ready;
+        const workspaces = await this.backend.loadUserWorkspaces(this.app.$auth.user as User);
+
+        this.app.$store.commit('setWorkspaces', workspaces);
+        this.app.$store.commit(
+            'setActiveWorkspace',
+            workspaces.length > 0 ? workspaces[0] : null
+        );
     }
 
-    protected async removeBackend(): Promise<void> {
-        if (this.backend) {
-            await this.backend.destroy();
+    protected removeBackend(): void {
+        delete this.backend;
 
-            delete this.backend;
-        }
+        this.app.$store.commit('setWorkspaces', []);
+        this.app.$store.commit('setActiveWorkspace', null);
     }
 
 }

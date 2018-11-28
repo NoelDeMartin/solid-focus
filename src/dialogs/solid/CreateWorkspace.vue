@@ -25,7 +25,7 @@ import Vue from 'vue';
 
 import { ValidationRule } from 'vuetify';
 
-import User from '@/models/User';
+import User from '@/models/users/User';
 import SolidUser from '@/models/users/SolidUser';
 
 import { Dialog } from '@/services/UI';

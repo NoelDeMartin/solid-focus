@@ -1,10 +1,8 @@
-import User from '@/models/User';
+import User from '@/models/users/User';
 
-export default class SolidUser implements User {
+export default class SolidUser extends User {
 
     public readonly id: string;
-    public readonly name: string;
-    public readonly avatarUrl: string | null;
     public readonly podUrl: string;
     public readonly storages: string[];
 
@@ -15,9 +13,9 @@ export default class SolidUser implements User {
         podUrl: string,
         storages: string[],
     ) {
+        super(name, avatarUrl);
+
         this.id = id;
-        this.name = name;
-        this.avatarUrl = avatarUrl;
         this.podUrl = podUrl;
         this.storages = storages.slice();
     }

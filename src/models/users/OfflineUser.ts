@@ -1,13 +1,9 @@
-import User from '@/models/User';
+import User from '@/models/users/User';
 
-export default class OfflineUser implements User {
+export default class OfflineUser extends User {
 
-    public readonly name: string;
-    public readonly avatarUrl: string | null;
-
-    constructor(name: string, avatarUrl: string | null = null) {
-        this.name = name;
-        this.avatarUrl = avatarUrl;
+    constructor(name: string = 'Guest', avatarUrl: string | null = null) {
+        super(name, avatarUrl);
     }
 
 }

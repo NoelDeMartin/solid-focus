@@ -9,10 +9,12 @@ import UUIDGenerator from '@/utils/UUIDGenerator';
 
 export default class OfflineBackend extends Backend {
 
-    public async destroy(): Promise<void> {
-        await super.destroy();
+    private workspaces: Workspace[] = [];
 
-        this.app.$workspaces.update([]);
+    public async loadUserWorkspaces(): Promise<Workspace[]> {
+        this.workspaces = Storage.get('workspaces', []);
+
+        return this.workspaces;
     }
 
     public async createWorkspace(name: string): Promise<Workspace> {
@@ -21,9 +23,9 @@ export default class OfflineBackend extends Backend {
 
         inbox.setWorkspace(workspace);
 
-        this.app.$workspaces.addWorkspace(workspace);
+        this.workspaces.push(workspace);
 
-        Storage.set('workspaces', this.app.$workspaces.all);
+        Storage.set('workspaces', this.workspaces);
 
         return workspace;
     }
@@ -32,10 +34,9 @@ export default class OfflineBackend extends Backend {
         const list = new List(UUIDGenerator.generate(), name);
 
         list.setWorkspace(workspace);
-
         workspace.addList(list);
 
-        Storage.set('workspaces', this.app.$workspaces.all);
+        Storage.set('workspaces', this.workspaces);
 
         return list;
     }
@@ -45,17 +46,9 @@ export default class OfflineBackend extends Backend {
 
         list.add(task);
 
-        Storage.set('workspaces', this.app.$workspaces.all);
+        Storage.set('workspaces', this.workspaces);
 
         return task;
-    }
-
-    protected async loadUserWorkspaces(): Promise<void> {
-        const workspaces = Storage.get('workspaces');
-
-        if (workspaces !== null) {
-            this.app.$workspaces.update(workspaces);
-        }
     }
 
 }
