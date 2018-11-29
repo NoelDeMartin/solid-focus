@@ -19,6 +19,10 @@ export default class OfflineBackend extends Backend {
         return this.workspaces;
     }
 
+    public async unloadWorkspaces(): Promise<void> {
+        Storage.remove('workspaces');
+    }
+
     public async createWorkspace(name: string): Promise<Workspace> {
         const inbox = new List(UUIDGenerator.generate(), 'Inbox');
         const workspace = new Workspace(UUIDGenerator.generate(), name, [inbox], inbox);

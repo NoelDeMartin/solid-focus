@@ -22,6 +22,10 @@ export default class SolidBackend extends Backend<SolidUser> {
         );
     }
 
+    public async unloadWorkspaces(): Promise<void> {
+        // nothing to do here
+    }
+
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
         const resource = await Solid.createContainer(storage, name, [TASK_GROUP]);
 

@@ -117,7 +117,9 @@ export default class Workspaces extends Service {
         );
     }
 
-    protected removeBackend(): void {
+    protected async removeBackend(): Promise<void> {
+        await this.backend.unloadWorkspaces();
+
         delete this.backend;
 
         this.app.$store.commit('setWorkspaces', []);

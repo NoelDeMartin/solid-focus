@@ -9,10 +9,13 @@ export interface WorkspaceJson {
 export default class Workspace {
 
     public static fromJson(json: WorkspaceJson): Workspace {
+        const lists = json.lists.map(listJson => List.fromJson(listJson));
+
         return new Workspace(
             json.id,
             json.name,
-            json.lists.map(listJson => List.fromJson(listJson)),
+            lists,
+            lists.length > 0 ? lists[0] : null,
         );
     }
 

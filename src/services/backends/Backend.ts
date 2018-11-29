@@ -8,6 +8,8 @@ export default abstract class Backend<U=User> {
 
     public abstract loadUserWorkspaces(user: U): Promise<Workspace[]>;
 
+    public abstract unloadWorkspaces(): Promise<void>;
+
     public abstract createWorkspace(...args: any[]): Promise<Workspace>;
 
     public abstract createList(workspace: Workspace, ...args: any[]): Promise<List>;
