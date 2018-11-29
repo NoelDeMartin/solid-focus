@@ -31,7 +31,7 @@ export default Vue.extend({
         createWorkspace() {
             // TODO use platform param & handle reject
             this.$ui.openDialog(
-                () => import('@/dialogs/solid/CreateWorkspace.vue')
+                () => import('@/dialogs/CreateWorkspace.vue')
             );
         },
     },

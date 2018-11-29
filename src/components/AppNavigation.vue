@@ -111,15 +111,15 @@ export default Vue.extend({
             this.collapsed = !visible;
         },
         createWorkspace() {
-            // TODO use platform parameter & handle rejection
+            // TODO handle rejection
             this.$ui.openDialog(
-                () => import('@/dialogs/solid/CreateWorkspace.vue')
+                () => import('@/dialogs/CreateWorkspace.vue')
             );
         },
         createWorkspaceList() {
-            // TODO use platform parameter & handle rejection
+            // TODO handle rejection
             this.$ui.openDialog(
-                () => import('@/dialogs/solid/CreateWorkspaceList.vue')
+                () => import('@/dialogs/CreateWorkspaceList.vue')
             )
                 .then(list => (this.$workspaces.active as Workspace).setActiveList(list));
         },

@@ -6,6 +6,7 @@
         @completed="createWorkspace"
     >
         <v-select
+            v-if="$auth.mode === Mode.Solid"
             v-model="storage"
             :items="$auth.user.storages"
             :rules="rules.storage"
@@ -33,6 +34,7 @@ import { Dialog } from '@/services/UI';
 import DialogForm from '@/dialogs/DialogForm.vue';
 
 import Validations from '@/utils/Validations';
+import { Mode } from '@/services/Auth';
 
 interface Data {
     storage: string;
@@ -67,15 +69,28 @@ export default Vue.extend({
                 ],
             };
         },
+        Mode: () => Mode,
     },
     created() {
-        this.$auth.withUser((user: User) => {
-            this.storage = (user as SolidUser).storages[0];
-        });
+        if (this.$auth.mode === Mode.Solid) {
+            this.$auth.withUser((user: User) => {
+                this.storage = (user as SolidUser).storages[0];
+            });
+        }
     },
     methods: {
         async createWorkspace() {
-            const workspace = await this.$workspaces.createWorkspace(this.storage, this.name);
+            let args: any[] = [];
+            switch (this.$auth.mode) {
+                case Mode.Offline:
+                    args = [this.name];
+                    break;
+                case Mode.Solid:
+                    args = [this.storage, this.name];
+                    break;
+            }
+
+            const workspace = await this.$workspaces.createWorkspace(...args);
 
             this.$ui.completeDialog(this.dialog.id, workspace);
         },

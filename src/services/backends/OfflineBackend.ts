@@ -2,7 +2,7 @@ import Backend from '@/services/backends/Backend';
 
 import List from '@/models/List';
 import Task from '@/models/Task';
-import Workspace from '@/models/Workspace';
+import Workspace, { WorkspaceJson } from '@/models/Workspace';
 
 import Storage from '@/utils/Storage';
 import UUIDGenerator from '@/utils/UUIDGenerator';
@@ -12,7 +12,9 @@ export default class OfflineBackend extends Backend {
     private workspaces: Workspace[] = [];
 
     public async loadUserWorkspaces(): Promise<Workspace[]> {
-        this.workspaces = Storage.get('workspaces', []);
+        const workspaceJsons: WorkspaceJson[] = Storage.get('workspaces', []);
+
+        this.workspaces = workspaceJsons.map(workspaceJson => Workspace.fromJson(workspaceJson));
 
         return this.workspaces;
     }
@@ -25,7 +27,7 @@ export default class OfflineBackend extends Backend {
 
         this.workspaces.push(workspace);
 
-        Storage.set('workspaces', this.workspaces);
+        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
 
         return workspace;
     }
@@ -36,7 +38,7 @@ export default class OfflineBackend extends Backend {
         list.setWorkspace(workspace);
         workspace.addList(list);
 
-        Storage.set('workspaces', this.workspaces);
+        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
 
         return list;
     }
@@ -46,7 +48,7 @@ export default class OfflineBackend extends Backend {
 
         list.add(task);
 
-        Storage.set('workspaces', this.workspaces);
+        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
 
         return task;
     }
