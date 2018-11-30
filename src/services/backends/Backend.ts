@@ -6,7 +6,7 @@ import Workspace from '@/models/Workspace';
 
 export default abstract class Backend<U=User> {
 
-    public abstract loadUserWorkspaces(user: U): Promise<Workspace[]>;
+    public abstract loadWorkspaces(user: U): Promise<Workspace[]>;
 
     public abstract unloadWorkspaces(): Promise<void>;
 

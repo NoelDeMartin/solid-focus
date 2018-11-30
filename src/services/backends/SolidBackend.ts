@@ -12,7 +12,7 @@ const TASK_GROUP = 'http://vocab.org/lifecycle/schema#TaskGroup';
 
 export default class SolidBackend extends Backend<SolidUser> {
 
-    public async loadUserWorkspaces(user: SolidUser): Promise<Workspace[]> {
+    public async loadWorkspaces(user: SolidUser): Promise<Workspace[]> {
         const containers = await Solid.getContainers(user.podUrl, [TASK_GROUP]);
 
         return Promise.all(

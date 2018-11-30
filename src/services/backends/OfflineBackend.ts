@@ -11,7 +11,7 @@ export default class OfflineBackend extends Backend {
 
     private workspaces: Workspace[] = [];
 
-    public async loadUserWorkspaces(): Promise<Workspace[]> {
+    public async loadWorkspaces(): Promise<Workspace[]> {
         const workspaceJsons: WorkspaceJson[] = Storage.get('workspaces', []);
 
         this.workspaces = workspaceJsons.map(workspaceJson => Workspace.fromJson(workspaceJson));

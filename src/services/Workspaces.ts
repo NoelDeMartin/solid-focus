@@ -108,7 +108,7 @@ export default class Workspaces extends Service {
                 break;
         }
 
-        const workspaces = await this.backend.loadUserWorkspaces(this.app.$auth.user as User);
+        const workspaces = await this.backend.loadWorkspaces(this.app.$auth.user as User);
 
         this.app.$store.commit('setWorkspaces', workspaces);
         this.app.$store.commit(
