@@ -16,4 +16,6 @@ export default abstract class Backend<U=User> {
 
     public abstract createTask(list: List, ...args: any[]): Promise<Task>;
 
+    public abstract toggleTask(task: Task): Promise<void>;
+
 }

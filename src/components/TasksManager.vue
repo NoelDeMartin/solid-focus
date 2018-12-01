@@ -8,7 +8,12 @@
         </v-form>
         <v-list>
             <template v-for="(task, index) of list.tasks">
-                <v-list-tile :key="task.id">
+                <v-list-tile :key="task.id" class="flex items-center">
+                    <v-checkbox
+                        :input-value="task.completed"
+                        class="p-0"
+                        @change="toggle(task)"
+                    />
                     {{ task.name }}
                 </v-list-tile>
                 <v-divider v-if="index !== list.length - 1" :key="`divider-${index}`" />
@@ -49,6 +54,10 @@ export default Vue.extend({
                 await this.$workspaces.createTask(this.list, this.newTask);
                 this.newTask = '';
             }
+        },
+        toggle(task: Task) {
+            // TODO loading & handle errors
+            this.$workspaces.toggleTask(task);
         },
     },
 });

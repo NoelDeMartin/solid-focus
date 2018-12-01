@@ -1,7 +1,7 @@
 <template>
     <div class="bg-background w-screen h-screen flex flex-col items-center justify-center">
         <h1 class="text-4xl">Focus 省</h1>
-        <v-form class="w-4/5" @submit.prevent="login">
+        <v-form class="w-4/5" @submit.prevent="loginWithSolid">
             <div class="flex">
                 <v-text-field v-model="idp" placeholder="Solid URL" />
                 <v-btn color="primary" @click="loginWithSolid">Login</v-btn>

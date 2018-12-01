@@ -7,8 +7,11 @@ import SolidUser from '@/models/users/SolidUser';
 
 import Solid, { Resource } from '@/utils/Solid';
 
-const TASK = 'http://vocab.org/lifecycle/schema#Task';
-const TASK_GROUP = 'http://vocab.org/lifecycle/schema#TaskGroup';
+const TASK = 'http://purl.org/vocab/lifecycle/schema#Task';
+const TASK_GROUP = 'http://purl.org/vocab/lifecycle/schema#TaskGroup';
+
+const ACTIVITY = 'https://www.w3.org/ns/prov#Activity';
+const COMPLETED_AT = 'http://purl.org/net/provenance/ns#completedAt';
 
 export default class SolidBackend extends Backend<SolidUser> {
 
@@ -45,7 +48,7 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     public async createTask(list: List, name: string): Promise<Task> {
         const parentUrl = list.id || list.workspace.id;
-        const resource = await Solid.createResource(parentUrl, name, [TASK]);
+        const resource = await Solid.createResource(parentUrl, name, [TASK, ACTIVITY]);
         const task = this.createTaskFromResource(resource);
 
         list.add(task);
@@ -53,9 +56,21 @@ export default class SolidBackend extends Backend<SolidUser> {
         return task;
     }
 
+    public async toggleTask(task: Task): Promise<void> {
+        task.toggle();
+
+        if (task.isCompleted()) {
+            await Solid.updateResourceProperties(task.id, {
+                [COMPLETED_AT]: task.completedAt.toISOString(),
+            });
+        } else {
+            await Solid.removeResourceProperties(task.id, [COMPLETED_AT]);
+        }
+    }
+
     private async createWorkspaceFromResource(resource: Resource): Promise<Workspace> {
         const inbox = new List(null, 'Inbox', []);
-        const resources = await Solid.getResources(resource.url, [TASK]);
+        const resources = await Solid.getResources(resource.url, [TASK, ACTIVITY]);
 
         for (const resource of resources) {
             inbox.add(this.createTaskFromResource(resource));
@@ -83,7 +98,7 @@ export default class SolidBackend extends Backend<SolidUser> {
     private async createListFromResource(resource: Resource): Promise<List> {
         const list = new List(resource.url, resource.name, []);
 
-        const resources = await Solid.getResources(resource.url, [TASK]);
+        const resources = await Solid.getResources(resource.url, [TASK, ACTIVITY]);
 
         for (const childResource of resources) {
             list.add(this.createTaskFromResource(childResource));
@@ -93,7 +108,13 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     private createTaskFromResource(resource: Resource): Task {
-        return new Task(resource.url, resource.name);
+        const completedAt = Solid.getResourceAttribute(resource, COMPLETED_AT, null);
+
+        return new Task(
+            resource.url,
+            resource.name,
+            completedAt ? new Date(completedAt) : undefined
+        );
     }
 
 }

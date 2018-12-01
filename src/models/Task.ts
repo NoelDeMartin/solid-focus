@@ -4,6 +4,10 @@ export interface TaskJson {
     completed_at?: number;
 }
 
+interface CompletedTask {
+    completedAt: Date;
+}
+
 export default class Task {
 
     public static fromJson(json: TaskJson): Task {
@@ -24,6 +28,20 @@ export default class Task {
         this.id = id;
         this.name = name;
         this.completedAt = completedAt;
+    }
+
+    get completed(): boolean {
+        return !!this.completedAt;
+    }
+
+    public isCompleted(): this is CompletedTask {
+        return this.completed;
+    }
+
+    public toggle(): void {
+        this.completed
+            ? delete this.completedAt
+            : this.completedAt = new Date;
     }
 
     public toJson(): any {

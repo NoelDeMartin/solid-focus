@@ -37,7 +37,7 @@ class Solid {
             body:
                 [
                     ...types.map(type => `<> a <${type}> .`),
-                    `<> ${FOAF('name')} "${name}" .`,
+                    `<> ${FOAF('name')} ${JSON.stringify(name)} .`,
                 ].join("\n"),
         });
 
@@ -51,6 +51,66 @@ class Solid {
         };
     }
 
+    public async updateResourceProperties(
+        resourceUrl: string,
+        properties: { [property: string]: any }
+    ): Promise<void> {
+        // TODO why doesn't this function need Solid? Is the header already set within fetcher?
+
+        const store = $rdf.graph();
+        const fetcher = new $rdf.Fetcher(store, {});
+
+        const inserts = Object.keys(properties).map((property: string) => {
+            return [
+                `<${resourceUrl}>`,
+                `<${property}>`,
+                JSON.stringify(properties[property].toString()),
+            ].join(' ') + ' .';
+        }).join("\n");
+
+        await (fetcher as any).webOperation('PATCH', resourceUrl, {
+            contentType: 'text/n3',
+            headers: { 'content-type': 'text/n3' },
+            body:
+                `@prefix solid: <http://www.w3.org/ns/solid/terms#> .
+                    <> solid:patches <${resourceUrl}>;
+                    solid:inserts { ${inserts} }.`,
+        });
+    }
+
+    public async removeResourceProperties(resourceUrl: string, properties: string[]): Promise<void> {
+        // TODO why doesn't this function need Solid? Is the header already set within fetcher?
+
+        const store = $rdf.graph();
+        const fetcher = new $rdf.Fetcher(store, {});
+
+        const where = properties.map((property: string) => {
+            return [
+                `<${resourceUrl}>`,
+                `<${property}>`,
+                '?date',
+            ].join(' ') + ' .';
+        }).join("\n");
+
+        const deletes = properties.map((property: string) => {
+            return [
+                `<${resourceUrl}>`,
+                `<${property}>`,
+                '?date',
+            ].join(' ') + ' .';
+        }).join("\n");
+
+        await (fetcher as any).webOperation('PATCH', resourceUrl, {
+            contentType: 'text/n3',
+            headers: { 'content-type': 'text/n3' },
+            body:
+                `@prefix solid: <http://www.w3.org/ns/solid/terms#> .
+                    <> solid:patches <${resourceUrl}>;
+                    solid:where   { ${where} };
+                    solid:deletes { ${deletes} }.`,
+        });
+    }
+
     public async createContainer(
         parentUrl: string,
         name: string,
@@ -62,6 +122,19 @@ class Solid {
             types,
             LDP('BasicContainer').toString()
         );
+    }
+
+    public getResourceAttribute(
+        resource: Resource,
+        attribute: NamedNode | string,
+        defaultValue: any
+    ): any {
+        return resource.graph.anyValue(
+            $rdf.sym(resource.url),
+            new NamedNode(attribute),
+            null as any,
+            null as any
+        ) || defaultValue;
     }
 
     public async getResources(containerUrl: string, types: string[]): Promise<Resource[]> {
@@ -169,19 +242,6 @@ class Solid {
         );
 
         return resource;
-    }
-
-    private getResourceAttribute(
-        resource: Resource,
-        attribute: NamedNode,
-        defaultValue: string
-    ): string {
-        return resource.graph.anyValue(
-            $rdf.sym(resource.url),
-            attribute,
-            null as any,
-            null as any
-        ) || defaultValue;
     }
 
 }

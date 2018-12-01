@@ -31,7 +31,7 @@ export default class OfflineBackend extends Backend {
 
         this.workspaces.push(workspace);
 
-        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
+        this.workspacesUpdated();
 
         return workspace;
     }
@@ -42,7 +42,7 @@ export default class OfflineBackend extends Backend {
         list.setWorkspace(workspace);
         workspace.addList(list);
 
-        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
+        this.workspacesUpdated();
 
         return list;
     }
@@ -52,9 +52,19 @@ export default class OfflineBackend extends Backend {
 
         list.add(task);
 
-        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
+        this.workspacesUpdated();
 
         return task;
+    }
+
+    public async toggleTask(task: Task): Promise<void> {
+        task.toggle();
+
+        this.workspacesUpdated();
+    }
+
+    protected workspacesUpdated(): void {
+        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
     }
 
 }

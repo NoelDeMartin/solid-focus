@@ -56,6 +56,10 @@ export default class Workspaces extends Service {
         return this.backend.createTask(list, ...args);
     }
 
+    public toggleTask(task: Task): Promise<void> {
+        return this.backend.toggleTask(task);
+    }
+
     protected get storage(): State {
         return this.app.$store.state.workspaces
             ? this.app.$store.state.workspaces
