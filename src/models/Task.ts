@@ -16,15 +16,15 @@ export default class Task {
             json.name,
             json.completed_at
                 ? new Date(json.completed_at)
-                : undefined,
+                : null,
         );
     }
 
     public id: any;
     public name: string;
-    public completedAt?: Date;
+    public completedAt: Date | null;
 
-    constructor(id: any, name: string, completedAt?: Date) {
+    constructor(id: any, name: string, completedAt: Date | null = null) {
         this.id = id;
         this.name = name;
         this.completedAt = completedAt;
@@ -39,9 +39,7 @@ export default class Task {
     }
 
     public toggle(): void {
-        this.completed
-            ? delete this.completedAt
-            : this.completedAt = new Date;
+        this.completedAt = this.completed ? null : new Date;
     }
 
     public toJson(): any {
