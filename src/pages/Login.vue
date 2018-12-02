@@ -27,14 +27,16 @@ export default Vue.extend({
     },
     methods: {
         loginWithSolid() {
-            // TODO show loading
-            // TODO handle errors
-            this.$auth.loginWithSolid(this.idp);
+            this.$ui.wrapAsyncOperation(
+                this.$auth.loginWithSolid(this.idp),
+                'Logging in...',
+            );
         },
         loginOffline() {
-            // TODO show loading
-            // TODO handle errors
-            this.$auth.loginOffline();
+            this.$ui.wrapAsyncOperation(
+                this.$auth.loginOffline(),
+                'Logging in...',
+            );
         },
     },
 });

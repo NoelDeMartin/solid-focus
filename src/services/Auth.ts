@@ -54,7 +54,6 @@ export default class Auth extends Service {
     }
 
     public async loginWithSolid(idp: string): Promise<void> {
-        // TODO error not handled
         await SolidAuthClient.login(idp);
     }
 
@@ -122,17 +121,21 @@ export default class Auth extends Service {
     }
 
     protected async loginUser(user: User, mode: Mode): Promise<void> {
-        this.app.$store.commit('setUser', user);
-        this.app.$store.commit('setMode', mode);
+        if (!this.loggedIn) {
+            this.app.$store.commit('setUser', user);
+            this.app.$store.commit('setMode', mode);
 
-        EventBus.emit('login');
+            EventBus.emit('login');
+        }
     }
 
     protected async logoutUser(): Promise<void> {
-        this.app.$store.commit('setUser', null);
-        this.app.$store.commit('setMode', null);
+        if (this.loggedIn) {
+            this.app.$store.commit('setUser', null);
+            this.app.$store.commit('setMode', null);
 
-        EventBus.emit('logout');
+            EventBus.emit('logout');
+        }
     }
 
     private async onSolidSessionUpdated(session: Session | void): Promise<void> {
@@ -147,13 +150,7 @@ export default class Auth extends Service {
         const user = await Solid.getUserFromSession(session);
 
         await this.loginUser(
-            new SolidUser(
-                user.id,
-                user.name,
-                user.avatarUrl,
-                user.idp,
-                user.storages
-            ),
+            new SolidUser(user.id, user.name, user.avatarUrl, user.storages),
             Mode.Solid
         );
     }

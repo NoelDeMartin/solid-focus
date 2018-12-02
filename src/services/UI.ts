@@ -3,7 +3,11 @@ import { Store } from 'vuex';
 
 import Service from '@/services/Service';
 
+import Arr from '@/utils/Arr';
 import UUIDGenerator from '@/utils/UUIDGenerator';
+
+import Alert from '@/dialogs/Alert.vue';
+import Loading from '@/dialogs/Loading.vue';
 
 interface State {
     dialogs: Dialog[];
@@ -12,12 +16,15 @@ interface State {
 export interface Dialog {
     id: number;
     component: Component | AsyncComponent;
+    props: { [property: string]: any };
 
     reject(...args: any[]): void,
     resolve(...args: any[]): void,
 }
 
 export default class UI extends Service {
+
+    private loadingDialogID: number | null = null;
 
     public get mobile(): boolean {
         return this.app.$vuetify.breakpoint.xs;
@@ -35,11 +42,29 @@ export default class UI extends Service {
         return this.app.$store.state.ui.dialogs;
     }
 
-    public openDialog(component: Component | AsyncComponent): Promise<any> {
+    public showLoading(message: string | null = null): void {
+        if (this.loadingDialogID === null) {
+            this.openDialog(Loading, message ? { message } : {});
+            this.loadingDialogID = Arr.last(this.dialogs).id;
+        }
+    }
+
+    public hideLoading(): void {
+        if (this.loadingDialogID !== null) {
+            this.completeDialog(this.loadingDialogID);
+            this.loadingDialogID = null;
+        }
+    }
+
+    public openDialog(
+        component: Component | AsyncComponent,
+        props: { [property: string]: any } = {},
+    ): Promise<any> {
         return new Promise((resolve, reject) => {
             const dialog: Dialog = {
                 id: UUIDGenerator.generate(),
                 component,
+                props,
                 resolve,
                 reject,
             };
@@ -68,6 +93,28 @@ export default class UI extends Service {
         }
 
         this.app.$store.commit('removeDialog', id);
+    }
+
+    public async wrapAsyncOperation(
+        operation: Promise<any>,
+        message: string | null = null
+    ): Promise<any> {
+        this.showLoading(message);
+
+        try {
+            const result = await operation;
+
+            this.hideLoading();
+
+            return result;
+        } catch (e) {
+            this.hideLoading();
+
+            this.openDialog(Alert, {
+                type: 'error',
+                message: e.message || 'Unknown Error',
+            });
+        }
     }
 
     protected registerStoreModule(store: Store<State>): void {

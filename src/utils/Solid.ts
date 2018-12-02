@@ -170,7 +170,6 @@ class Solid {
             id: webId.value,
             name: name ? name.value : 'Unknown',
             avatarUrl: avatarUrl ? avatarUrl.value : null,
-            idp: session.idp,
             storages: (storages || []).map($storage => $storage.value),
         };
     }
@@ -182,38 +181,47 @@ class Solid {
     ): Promise<Resource[]> {
         // TODO use SparQL instead to execute only one request
 
-        const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
+        try {
+            const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
+            const store = $rdf.graph();
 
-        const store = $rdf.graph();
+            $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
 
-        $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
+            const containerResources = store.each(
+                null as any,
+                RDFS('type'),
+                basicType,
+                null as any
+            );
 
-        const containerResources = store.each(
-            null as any,
-            RDFS('type'),
-            basicType,
-            null as any
-        );
+            const resources: Resource[] = [];
 
-        const resources: Resource[] = [];
+            outerLoop:
+            for (const containerResource of containerResources) {
+                try {
+                    const resourceUrl = containerResource.value;
+                    const resourceData = await SolidAuthClient.fetch(resourceUrl).then(res => res.text());
+                    const resource = this.parseResource(resourceUrl, resourceData);
 
-        outerLoop:
-        for (const containerResource of containerResources) {
+                    for (const type of types) {
+                        if (resource.types.indexOf(type) === -1) {
+                            continue outerLoop;
+                        }
+                    }
 
-            const resourceUrl = containerResource.value;
-            const resourceData = await SolidAuthClient.fetch(resourceUrl).then(res => res.text());
-            const resource = this.parseResource(resourceUrl, resourceData);
-
-            for (const type of types) {
-                if (resource.types.indexOf(type) === -1) {
-                    continue outerLoop;
+                    resources.push(resource);
+                } catch (e) {
+                    // Don't stop execution when finding a corrupt container
+                    console.error(e);
                 }
             }
 
-            resources.push(resource);
-        }
+            return resources;
+        } catch (e) {
+            console.error(e);
 
-        return resources;
+            return [];
+        }
     }
 
     private parseResource(url: string, data: string): Resource {
@@ -257,7 +265,6 @@ export interface User {
     id: string;
     name: string;
     avatarUrl: string | null;
-    idp: string;
     storages: string[];
 }
 

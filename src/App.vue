@@ -7,6 +7,7 @@
         </v-content>
         <component
             v-for="dialog of $ui.dialogs"
+            v-bind="dialog.props"
             :key="dialog.id"
             :is="dialog.component"
             :dialog="dialog"

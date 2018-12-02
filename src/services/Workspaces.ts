@@ -10,7 +10,6 @@ import List from '@/models/List';
 import Task from '@/models/Task';
 import User from '@/models/users/User';
 import Workspace from '@/models/Workspace';
-import SolidUser from '@/models/users/SolidUser';
 
 import EventBus from '@/utils/EventBus';
 
@@ -122,12 +121,14 @@ export default class Workspaces extends Service {
     }
 
     protected async removeBackend(): Promise<void> {
-        await this.backend.unloadWorkspaces();
+        if (this.backend) {
+            await this.backend.unloadWorkspaces();
 
-        delete this.backend;
+            delete this.backend;
 
-        this.app.$store.commit('setWorkspaces', []);
-        this.app.$store.commit('setActiveWorkspace', null);
+            this.app.$store.commit('setWorkspaces', []);
+            this.app.$store.commit('setActiveWorkspace', null);
+        }
     }
 
 }

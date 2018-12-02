@@ -111,13 +111,11 @@ export default Vue.extend({
             this.collapsed = !visible;
         },
         createWorkspace() {
-            // TODO handle rejection
             this.$ui.openDialog(
                 () => import('@/dialogs/CreateWorkspace.vue')
             );
         },
         createWorkspaceList() {
-            // TODO handle rejection
             this.$ui.openDialog(
                 () => import('@/dialogs/CreateWorkspaceList.vue')
             )

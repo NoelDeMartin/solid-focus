@@ -75,8 +75,10 @@ export default Vue.extend({
     methods: {
         async create() {
             if (this.newTask) {
-                // TODO loading & handle errors
-                await this.$workspaces.createTask(this.list, this.newTask);
+                await this.$ui.wrapAsyncOperation(
+                    this.$workspaces.createTask(this.list, this.newTask),
+                    'Creating task...',
+                );
                 this.newTask = '';
             }
         },

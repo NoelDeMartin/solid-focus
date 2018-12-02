@@ -16,9 +16,12 @@ const COMPLETED_AT = 'http://purl.org/net/provenance/ns#completedAt';
 export default class SolidBackend extends Backend<SolidUser> {
 
     public async loadWorkspaces(user: SolidUser): Promise<Workspace[]> {
-        const containers = await Solid.getContainers(user.podUrl, [TASK_GROUP]);
+        const containers = [];
+        for (const podUrl of user.pods) {
+            containers.push(... await Solid.getContainers(podUrl, [TASK_GROUP]));
+        }
 
-        return Promise.all(
+        return await Promise.all(
             containers.map(
                 container => this.createWorkspaceFromResource(container)
             )

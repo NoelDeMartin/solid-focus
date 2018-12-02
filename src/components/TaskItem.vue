@@ -25,8 +25,10 @@ export default Vue.extend({
     },
     methods: {
         toggle() {
-            // TODO loading & handle errors
-            this.$workspaces.toggleTask(this.task);
+            this.$ui.wrapAsyncOperation(
+                this.$workspaces.toggleTask(this.task),
+                'Toggling task...',
+            );
         },
     },
 });

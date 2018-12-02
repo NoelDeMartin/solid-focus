@@ -62,9 +62,11 @@ export default Vue.extend({
     },
     methods: {
         async createWorkspaceList() {
-            const list = await this.$workspaces.createList(
-                this.$workspaces.active as Workspace,
-                this.name
+            const list = await this.$ui.wrapAsyncOperation(
+                this.$workspaces.createList(
+                    this.$workspaces.active as Workspace,
+                    this.name
+                )
             );
 
             this.$ui.completeDialog(this.dialog.id, list);

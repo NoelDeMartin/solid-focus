@@ -1,6 +1,11 @@
 <template>
-    <v-dialog :value="true" max-width="60vw" @input="close">
-        <v-card>
+    <v-dialog
+        :value="true"
+        :persistent="persistent"
+        max-width="60vw"
+        @input="close"
+    >
+        <v-card :color="color" :dark="dark">
             <v-toolbar v-if="title" dark color="primary">
                 <v-btn icon dark @click="close">
                     <v-icon>close</v-icon>
@@ -30,10 +35,24 @@ export default Vue.extend({
             type: Object as () => Dialog,
             required: true,
         },
+        color: {
+            type: String,
+            default: null,
+        },
+        persistent: {
+            type: Boolean,
+            default: false,
+        },
+        dark: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
         close() {
-            this.$ui.closeDialog(this.dialog.id);
+            if (!this.persistent) {
+                this.$ui.closeDialog(this.dialog.id);
+            }
         },
     },
 });

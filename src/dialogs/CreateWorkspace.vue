@@ -8,7 +8,7 @@
         <v-select
             v-if="$auth.mode === Mode.Solid"
             v-model="storage"
-            :items="$auth.user.storages"
+            :items="$auth.user.pods"
             :rules="rules.storage"
             label="Storage"
         />
@@ -75,7 +75,7 @@ export default Vue.extend({
     created() {
         if (this.$auth.mode === Mode.Solid) {
             this.$auth.withUser((user: User) => {
-                this.storage = (user as SolidUser).storages[0];
+                this.storage = (user as SolidUser).pods[0];
             });
         }
     },
@@ -94,7 +94,9 @@ export default Vue.extend({
                     break;
             }
 
-            const workspace = await this.$workspaces.createWorkspace(...args);
+            const workspace = await this.$ui.wrapAsyncOperation(
+                this.$workspaces.createWorkspace(...args)
+            );
 
             this.$ui.completeDialog(this.dialog.id, workspace);
         },

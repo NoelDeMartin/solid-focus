@@ -5,7 +5,7 @@
             :list="$workspaces.active.activeList"
         />
         <div v-else class="flex flex-col items-center justify-center h-full">
-            <h2>You don't have any workspace, create one!</h2>
+            <h2 class="text-center">You don't have any workspace, create one!</h2>
             <v-btn
                 fab
                 dark
@@ -29,7 +29,6 @@ export default Vue.extend({
     },
     methods: {
         createWorkspace() {
-            // TODO use platform param & handle reject
             this.$ui.openDialog(
                 () => import('@/dialogs/CreateWorkspace.vue')
             );
