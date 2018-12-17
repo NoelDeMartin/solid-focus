@@ -44,7 +44,7 @@ class Solid {
         // TODO this doesn't work, graph incomplete :(
 
         return {
-            url: containerUrl + result.headers.get('Location'),
+            url: new URL(result.headers.get('Location') as string, containerUrl).href,
             types,
             name,
             graph: store,
