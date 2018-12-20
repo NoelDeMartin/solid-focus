@@ -3,7 +3,7 @@
         <h1 class="text-4xl">Focus 省</h1>
         <v-form class="w-4/5" @submit.prevent="loginWithSolid">
             <div class="flex">
-                <v-text-field v-model="idp" placeholder="Solid URL" />
+                <v-text-field v-model="idp" :prefix="prefix" placeholder="Solid POD" />
                 <v-btn color="primary" @click="loginWithSolid">Login</v-btn>
             </div>
             <span class="flex w-full my-2 justify-center">
@@ -25,10 +25,15 @@ export default Vue.extend({
             idp: '',
         };
     },
+    computed: {
+        prefix(): string {
+            return this.idp.startsWith('http://') ? '' : 'https://';
+        },
+    },
     methods: {
         loginWithSolid() {
             this.$ui.wrapAsyncOperation(
-                this.$auth.loginWithSolid(this.idp),
+                this.$auth.loginWithSolid(this.prefix + this.idp),
                 'Logging in...',
             );
         },

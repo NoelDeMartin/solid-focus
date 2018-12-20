@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 h-full">
+    <div class="h-full">
         <TasksManager
             v-if="!$workspaces.empty"
             :list="$workspaces.active.activeList"

@@ -79,7 +79,7 @@
                 <v-list-tile
                     v-for="(list, i) in $workspaces.active.lists"
                     :key="i"
-                    @click="$workspaces.active.setActiveList(list)"
+                    @click="activateList(list)"
                 >
                     <v-list-tile-title>
                         {{ list.name }}
@@ -98,13 +98,17 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import List from '@/models/List';
 import Workspace from '@/models/Workspace';
 
 export default Vue.extend({
     data() {
         return {
-            collapsed: true,
+            collapsed: false,
         };
+    },
+    created() {
+        this.collapsed = this.$ui.mobile;
     },
     methods: {
         toggleMenu(visible: boolean) {
@@ -120,6 +124,13 @@ export default Vue.extend({
                 () => import('@/dialogs/CreateWorkspaceList.vue')
             )
                 .then(list => (this.$workspaces.active as Workspace).setActiveList(list));
+        },
+        activateList(list: List) {
+            if (this.$workspaces.hasActive()) {
+                this.$workspaces.active.setActiveList(list);
+            }
+
+            this.collapsed = true;
         },
     },
 });

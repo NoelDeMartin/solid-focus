@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form @submit.prevent="create">
+        <v-form class="p-4" @submit.prevent="create">
             <div class="flex">
                 <v-text-field v-model="newTask" />
                 <v-btn color="primary" @click="create">Add</v-btn>
@@ -9,7 +9,7 @@
         <v-list>
             <template v-for="(task, index) of pendingTasks">
                 <TaskItem :key="task.id" :task="task" />
-                <v-divider v-if="index !== list.length - 1" :key="`divider-${index}`" />
+                <v-divider v-if="index !== pendingTasks.length - 1" :key="`divider-${index}`" />
             </template>
             <v-list-tile v-if="pendingTasks.length === 0" class="text-grey-darker">
                 No pending tasks
@@ -20,7 +20,7 @@
                 :flat="true"
                 :block="true"
                 color="primary"
-                class="opacity-50"
+                class="opacity-50 m-0"
                 @click="showCompleted = !showCompleted"
             >
                 {{ showCompleted ? 'Hide completed' : 'Show completed' }}
@@ -28,7 +28,7 @@
             <v-list v-if="showCompleted">
                 <template v-for="(task, index) of completedTasks">
                     <TaskItem :key="task.id" :task="task" />
-                    <v-divider v-if="index !== list.length - 1" :key="`divider-${index}`" />
+                    <v-divider v-if="index !== completedTasks.length - 1" :key="`divider-${index}`" />
                 </template>
             </v-list>
         </template>

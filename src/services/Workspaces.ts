@@ -18,6 +18,10 @@ interface State {
     workspaces: Workspace[];
 }
 
+interface HasActive {
+    active: Workspace;
+}
+
 export default class Workspaces extends Service {
 
     private backend!: Backend;
@@ -32,6 +36,10 @@ export default class Workspaces extends Service {
 
     public get all(): Workspace[] {
         return this.storage.workspaces;
+    }
+
+    public hasActive(): this is HasActive {
+        return !!this.storage.activeWorkspace;
     }
 
     public setActive(workspace: Workspace): void {
