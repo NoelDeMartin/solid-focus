@@ -14,8 +14,8 @@
     "register-service-worker": "^1.0.0",
     "solid-auth-client": "^2.2.6",
     "tailwindcss": "^0.7.0",
-    "vue": "^2.5.17",
-    "vuetify": "^1.3.5",
+    "vue": "^2.5.21",
+    "vuetify": "^1.3.15",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -38,6 +38,6 @@
     "ts-jest": "^23.10.5",
     "typescript": "^3.0.0",
     "vue-cli-plugin-vuetify": "^0.2.1",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.21"
   }
 }
