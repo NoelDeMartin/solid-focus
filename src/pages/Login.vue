@@ -3,9 +3,22 @@
         <h1 class="text-4xl">Focus 省</h1>
         <v-form class="w-4/5" @submit.prevent="loginWithSolid">
             <div class="flex">
-                <v-text-field v-model="idp" :prefix="prefix" placeholder="Solid POD" />
+                <v-select
+                    :items="['https://', 'http://']"
+                    v-model="prefix"
+                    class="flex-no-grow hide-input"
+                />
+                <v-text-field
+                    ref="idpInput"
+                    v-model="idp"
+                    placeholder="Solid POD"
+                    @keyup.enter="loginWithSolid"
+                />
                 <v-btn color="primary" @click="loginWithSolid">Login</v-btn>
             </div>
+            <p v-if="prefix === 'http://'" class="text-red-dark text-sm">
+                <strong>Attention!</strong> Using http:// is not secure, use at your own risk.
+            </p>
             <span class="flex w-full my-2 justify-center">
                 or
             </span>
@@ -22,13 +35,12 @@ import Vue from 'vue';
 export default Vue.extend({
     data() {
         return {
+            prefix: 'https://',
             idp: '',
         };
     },
-    computed: {
-        prefix(): string {
-            return this.idp.startsWith('http://') ? '' : 'https://';
-        },
+    mounted() {
+        (this.$refs.idpInput as HTMLInputElement).focus();
     },
     methods: {
         loginWithSolid() {

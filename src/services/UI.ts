@@ -42,6 +42,10 @@ export default class UI extends Service {
         return this.app.$store.state.ui.dialogs;
     }
 
+    public get mobileBreakpoint(): number {
+        return 600;
+    }
+
     public showLoading(message: string | null = null): void {
         if (this.loadingDialogID === null) {
             this.openDialog(Loading, message ? { message } : {});

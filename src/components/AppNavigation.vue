@@ -9,6 +9,7 @@
             </v-toolbar-title>
         </v-toolbar>
         <v-navigation-drawer
+            :mobile-break-point="$ui.mobileBreakpoint"
             :mini-variant="!$ui.mobile && collapsed"
             :value="!$ui.mobile || !collapsed"
             :temporary="$ui.mobile"

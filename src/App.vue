@@ -36,4 +36,6 @@ export default Vue.extend({
     @import "~vuetify/dist/vuetify.css";
     @tailwind components;
     @tailwind utilities;
+
+    @import "./styles/vuetify.scss";
 </style>

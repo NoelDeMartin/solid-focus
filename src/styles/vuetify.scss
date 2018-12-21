@@ -1,0 +1,4 @@
+// Allow selects without input
+.v-input.hide-input input {
+    display: none;
+}
