@@ -23,6 +23,9 @@ export default class List {
     public name: string;
     public tasks: Task[];
 
+    public loaded: boolean = false;
+    public loading: boolean = false;
+
     constructor(id: any, name: string, tasks: Task[] = []) {
         this.id = id;
         this.name = name;

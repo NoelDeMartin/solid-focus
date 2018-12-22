@@ -138,11 +138,82 @@ class Solid {
     }
 
     public async getResources(containerUrl: string, types: string[]): Promise<Resource[]> {
-        return await this.getResourcesByType(containerUrl, types, LDP('Resource'));
+        const data = await SolidAuthClient.fetch(containerUrl + '*').then(res => res.text());
+        const store = $rdf.graph();
+
+        $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
+
+        // TODO we can't be sure that these are resources and not containers... or can we?
+        const namedNodes = store.each(
+            null as any,
+            FOAF('name'),
+            null as any,
+            null as any
+        );
+
+        return namedNodes
+            .map(namedNode => this.parseResource(namedNode.value, data))
+            .filter(resource => {
+                for (const type of types) {
+                    if (resource.types.indexOf(type) === -1) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
     }
 
     public async getContainers(containerUrl: string, types: string[]): Promise<Resource[]> {
-        return await this.getResourcesByType(containerUrl, types, LDP('BasicContainer'));
+        // TODO use SparQL instead to execute only one request
+
+        try {
+            const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
+            const store = $rdf.graph();
+
+            $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
+
+            const containerResources = store.each(
+                null as any,
+                RDFS('type'),
+                LDP('BasicContainer'),
+                null as any
+            );
+
+            const resources: Resource[] = [];
+
+            outerLoop:
+            for (const containerResource of containerResources) {
+                try {
+                    const resourceUrl = containerResource.value;
+
+                    let resource;
+                    if (resourceUrl === containerUrl) {
+                        resource = this.parseResource(resourceUrl, data);
+                    } else {
+                        const resourceData = await SolidAuthClient.fetch(resourceUrl).then(res => res.text());
+                        resource = this.parseResource(resourceUrl, resourceData);
+                    }
+
+                    for (const type of types) {
+                        if (resource.types.indexOf(type) === -1) {
+                            continue outerLoop;
+                        }
+                    }
+
+                    resources.push(resource);
+                } catch (e) {
+                    // Don't stop execution when finding a corrupt container
+                    console.error(e);
+                }
+            }
+
+            return resources;
+        } catch (e) {
+            console.error(e);
+
+            return [];
+        }
     }
 
     public async getUserFromSession(session: Session): Promise<User> {
@@ -174,59 +245,10 @@ class Solid {
         };
     }
 
-    private async getResourcesByType(
-        containerUrl: string,
-        types: string[],
-        basicType: NamedNode
-    ): Promise<Resource[]> {
-        // TODO use SparQL instead to execute only one request
-
-        try {
-            const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
-            const store = $rdf.graph();
-
-            $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
-
-            const containerResources = store.each(
-                null as any,
-                RDFS('type'),
-                basicType,
-                null as any
-            );
-
-            const resources: Resource[] = [];
-
-            outerLoop:
-            for (const containerResource of containerResources) {
-                try {
-                    const resourceUrl = containerResource.value;
-                    const resourceData = await SolidAuthClient.fetch(resourceUrl).then(res => res.text());
-                    const resource = this.parseResource(resourceUrl, resourceData);
-
-                    for (const type of types) {
-                        if (resource.types.indexOf(type) === -1) {
-                            continue outerLoop;
-                        }
-                    }
-
-                    resources.push(resource);
-                } catch (e) {
-                    // Don't stop execution when finding a corrupt container
-                    console.error(e);
-                }
-            }
-
-            return resources;
-        } catch (e) {
-            console.error(e);
-
-            return [];
-        }
-    }
-
     private parseResource(url: string, data: string): Resource {
         const store = $rdf.graph();
 
+        // TODO remove statements unrelated to url (called from globbing results)
         $rdf.parse(data, store, url, 'text/turtle', null as any);
 
         const typeTerms = store.each(

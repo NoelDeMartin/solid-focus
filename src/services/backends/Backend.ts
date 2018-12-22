@@ -10,7 +10,11 @@ export default abstract class Backend<U=User> {
 
     public abstract unloadWorkspaces(): Promise<void>;
 
+    public abstract loadWorkspace(workspace: Workspace): Promise<void>;
+
     public abstract createWorkspace(...args: any[]): Promise<Workspace>;
+
+    public abstract loadList(list: List): Promise<void>;
 
     public abstract createList(workspace: Workspace, ...args: any[]): Promise<List>;
 

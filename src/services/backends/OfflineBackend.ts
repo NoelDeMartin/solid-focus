@@ -14,13 +14,24 @@ export default class OfflineBackend extends Backend {
     public async loadWorkspaces(): Promise<Workspace[]> {
         const workspaceJsons: WorkspaceJson[] = Storage.get('workspaces', []);
 
-        this.workspaces = workspaceJsons.map(workspaceJson => Workspace.fromJson(workspaceJson));
+        this.workspaces = workspaceJsons.map(workspaceJson => {
+            const workspace = Workspace.fromJson(workspaceJson);
+
+            workspace.loaded = true;
+            workspace.lists.forEach(list => { list.loaded = true; });
+
+            return workspace;
+        });
 
         return this.workspaces;
     }
 
     public async unloadWorkspaces(): Promise<void> {
         Storage.remove('workspaces');
+    }
+
+    public async loadWorkspace(workspace: Workspace): Promise<void> {
+        // Offline workspaces are always fully loaded
     }
 
     public async createWorkspace(name: string): Promise<Workspace> {
@@ -34,6 +45,10 @@ export default class OfflineBackend extends Backend {
         this.workspacesUpdated();
 
         return workspace;
+    }
+
+    public async loadList(list: List): Promise<void> {
+        // Offline lists are always fully loaded
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {

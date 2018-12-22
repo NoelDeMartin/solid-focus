@@ -40,7 +40,7 @@
                                             v-for="(workspace, i) in $workspaces.all"
                                             v-if="workspace !== $workspaces.active"
                                             :key="i"
-                                            @click="$workspaces.setActive(workspace)"
+                                            @click="activateWorkspace(workspace)"
                                         >
                                             <v-list-tile-title>
                                                 {{ workspace.name }}
@@ -126,12 +126,23 @@ export default Vue.extend({
             )
                 .then(list => (this.$workspaces.active as Workspace).setActiveList(list));
         },
+        activateWorkspace(workspace: Workspace) {
+            this.$ui.wrapAsyncOperation(
+                this.$workspaces.setActiveWorkspace(workspace),
+                `Loading ${workspace.name}...`
+            );
+        },
         activateList(list: List) {
             if (this.$workspaces.hasActive()) {
-                this.$workspaces.active.setActiveList(list);
+                this.$ui.wrapAsyncOperation(
+                    this.$workspaces.setActiveList(list),
+                    `Loading ${list.name}...`
+                );
             }
 
-            this.collapsed = true;
+            if (this.$ui.mobile) {
+                this.collapsed = true;
+            }
         },
     },
 });

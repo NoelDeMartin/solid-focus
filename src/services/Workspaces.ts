@@ -42,8 +42,24 @@ export default class Workspaces extends Service {
         return !!this.storage.activeWorkspace;
     }
 
-    public setActive(workspace: Workspace): void {
+    public async setActiveWorkspace(workspace: Workspace): Promise<void> {
+        if (!workspace.loaded) {
+            await this.backend.loadWorkspace(workspace);
+        }
+
         this.app.$store.commit('setActiveWorkspace', workspace);
+    }
+
+    public async setActiveList(list: List): Promise<void> {
+        if (list.workspace !== this.active) {
+            throw new Error('Attempting to activate list outside of the active workspace');
+        }
+
+        if (!list.loaded) {
+            await this.backend.loadList(list);
+        }
+
+        this.active.setActiveList(list);
     }
 
     public async createWorkspace(...args: any[]): Promise<Workspace> {
@@ -120,12 +136,18 @@ export default class Workspaces extends Service {
         }
 
         const workspaces = await this.backend.loadWorkspaces(this.app.$auth.user as User);
+        const activeWorkspace = workspaces.length > 0 ? workspaces[0] : null;
+
+        if (activeWorkspace) {
+            await this.backend.loadWorkspace(activeWorkspace);
+
+            if (activeWorkspace.hasActiveList()) {
+                await this.backend.loadList(activeWorkspace.activeList);
+            }
+        }
 
         this.app.$store.commit('setWorkspaces', workspaces);
-        this.app.$store.commit(
-            'setActiveWorkspace',
-            workspaces.length > 0 ? workspaces[0] : null
-        );
+        this.app.$store.commit('setActiveWorkspace', activeWorkspace);
     }
 
     protected async removeBackend(): Promise<void> {

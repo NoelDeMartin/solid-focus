@@ -6,6 +6,10 @@ export interface WorkspaceJson {
     lists: ListJson[];
 }
 
+interface HasActiveList {
+    activeList: List;
+}
+
 export default class Workspace {
 
     public static fromJson(json: WorkspaceJson): Workspace {
@@ -24,11 +28,18 @@ export default class Workspace {
     public lists: List[];
     public activeList: List | null;
 
+    public loaded: boolean = false;
+    public loading: boolean = false;
+
     constructor(id: any, name: string, lists: List[] = [], activeList: List | null = null) {
         this.id = id;
         this.name = name;
         this.lists = lists;
         this.activeList = activeList;
+    }
+
+    public hasActiveList(): this is HasActiveList {
+        return !!this.activeList;
     }
 
     public setActiveList(list: List): void {

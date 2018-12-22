@@ -32,10 +32,47 @@ export default class SolidBackend extends Backend<SolidUser> {
         // nothing to do here
     }
 
+    public async loadWorkspace(workspace: Workspace): Promise<void> {
+        if (!workspace.loaded && !workspace.loading) {
+            workspace.loading = true;
+
+            const childContainers = await Solid.getContainers(workspace.id, [TASK_GROUP]);
+
+            for (const childContainer of childContainers) {
+                if (childContainer.url !== workspace.id) {
+                    const list = await this.createListFromResource(childContainer);
+
+                    list.setWorkspace(workspace);
+                    workspace.lists.push(list);
+                }
+            }
+
+            workspace.loaded = true;
+            workspace.loading = false;
+        }
+    }
+
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
         const resource = await Solid.createContainer(storage, name, [TASK_GROUP]);
 
         return await this.createWorkspaceFromResource(resource);
+    }
+
+    public async loadList(list: List): Promise<void> {
+        if (!list.loaded && !list.loading) {
+            list.loading = true;
+
+            const resources = list.id === null
+                ? await Solid.getResources(list.workspace.id, [TASK, ACTIVITY])
+                : await Solid.getResources(list.id, [TASK, ACTIVITY]);
+
+            for (const childResource of resources) {
+                list.add(this.createTaskFromResource(childResource));
+            }
+
+            list.loaded = true;
+            list.loading = false;
+        }
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
@@ -73,41 +110,15 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     private async createWorkspaceFromResource(resource: Resource): Promise<Workspace> {
         const inbox = new List(null, 'Inbox', []);
-        const resources = await Solid.getResources(resource.url, [TASK, ACTIVITY]);
+        const workspace = new Workspace(resource.url, resource.name, [inbox], inbox);
 
-        for (const resource of resources) {
-            inbox.add(this.createTaskFromResource(resource));
-        }
-
-        const lists = [inbox];
-
-        const childContainers = await Solid.getContainers(resource.url, [TASK_GROUP]);
-
-        for (const childContainer of childContainers) {
-            if (childContainer.url !== resource.url) {
-                lists.push(await this.createListFromResource(childContainer));
-            }
-        }
-
-        const workspace = new Workspace(resource.url, resource.name, lists, inbox);
-
-        for (const list of lists) {
-            list.setWorkspace(workspace);
-        }
+        inbox.setWorkspace(workspace);
 
         return workspace;
     }
 
     private async createListFromResource(resource: Resource): Promise<List> {
-        const list = new List(resource.url, resource.name, []);
-
-        const resources = await Solid.getResources(resource.url, [TASK, ACTIVITY]);
-
-        for (const childResource of resources) {
-            list.add(this.createTaskFromResource(childResource));
-        }
-
-        return list;
+        return new List(resource.url, resource.name, []);
     }
 
     private createTaskFromResource(resource: Resource): Task {
