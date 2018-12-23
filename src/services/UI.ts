@@ -13,6 +13,12 @@ interface State {
     dialogs: Dialog[];
 }
 
+export enum Layout {
+    Mobile = 'mobile',
+    Tablet = 'tablet',
+    Desktop = 'desktop',
+}
+
 export interface Dialog {
     id: number;
     component: Component | AsyncComponent;
@@ -25,6 +31,12 @@ export interface Dialog {
 export default class UI extends Service {
 
     private loadingDialogID: number | null = null;
+
+    public get layout(): Layout {
+        return this.mobile ? Layout.Mobile : null
+            || this.tablet ? Layout.Tablet : null
+            || Layout.Desktop;
+    }
 
     public get mobile(): boolean {
         return this.app.$vuetify.breakpoint.xs;

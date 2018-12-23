@@ -1,6 +1,11 @@
 <template>
     <div>
-        <v-toolbar app dark color="primary">
+        <v-toolbar
+            :height="toolbarHeight"
+            color="primary"
+            app
+            dark
+        >
             <v-toolbar-side-icon @click="collapsed = !collapsed">
                 <v-icon>menu</v-icon>
             </v-toolbar-side-icon>
@@ -11,71 +16,89 @@
         <v-navigation-drawer
             :mobile-break-point="$ui.mobileBreakpoint"
             :mini-variant="!$ui.mobile && collapsed"
+            :mini-variant-width="collapsedDrawerWidth"
             :value="!$ui.mobile || !collapsed"
             :temporary="$ui.mobile"
             app
             @input="toggleMenu"
         >
-            <v-toolbar flat dark color="primary">
-                <v-list>
-                    <v-list-tile avatar>
-                        <v-list-tile-avatar color="red">
+            <div
+                :style="{ height: toolbarHeight + 'px' }"
+                class="bg-jade relative overflow-hidden"
+            >
+                <div class="block absolute pin-y pin-l" style="width:300px">
+                    <div class="p-2 h-full flex items-center">
+                        <div
+                            :style="{
+                                height: `calc(${toolbarHeight}px - 1rem)`,
+                                width: `calc(${toolbarHeight}px - 1rem)`,
+                                'margin-left': centerAvatar
+                                    ? `${(collapsedDrawerWidth - toolbarHeight) / 2}px`
+                                    : '0',
+                                'margin-right': centerAvatar
+                                    ? `calc(${(collapsedDrawerWidth - toolbarHeight) / 2}px + .5rem)`
+                                    : '.5rem',
+                            }"
+                            class="
+                                bg-red rounded-full transition-all
+                                flex items-center justify-center flex-no-grow
+                            "
+                        >
                             <img v-if="$auth.user.avatarUrl" :src="$auth.user.avatarUrl">
                             <span v-else class="white--text headline">
                                 {{ ($auth.user.name || '?').substr(0, 1) }}
                             </span>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                            <v-list-tile-title>
+                        </div>
+                        <div class="text-white flex-grow flex flex-col">
+                            <span class="text-lg tablet:text-xl desktop:text-xl">
                                 {{ $auth.user.name }}
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-if="!$workspaces.empty">
-                                {{ $workspaces.active.name }}
-                                <v-menu bottom>
-                                    <v-btn slot="activator" icon>
-                                        <v-icon>arrow_drop_down</v-icon>
-                                    </v-btn>
-                                    <v-list>
-                                        <v-list-tile
-                                            v-for="(workspace, i) in $workspaces.all"
-                                            v-if="workspace !== $workspaces.active"
-                                            :key="i"
-                                            @click="activateWorkspace(workspace)"
-                                        >
-                                            <v-list-tile-title>
-                                                {{ workspace.name }}
-                                            </v-list-tile-title>
-                                        </v-list-tile>
-                                        <v-list-tile @click="createWorkspace">
-                                            <v-list-tile-title>
-                                                New Workspace
-                                            </v-list-tile-title>
-                                        </v-list-tile>
-                                    </v-list>
-                                </v-menu>
-                            </v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-list-tile-action>
-                            <v-menu bottom left>
-                                <v-btn
+                            </span>
+                            <v-menu bottom>
+                                <div
+                                    v-ripple
                                     slot="activator"
-                                    dark
-                                    icon
+                                    class="opacity-75 flex items-center text-sm"
                                 >
-                                    <v-icon>more_vert</v-icon>
-                                </v-btn>
-
+                                    <span>{{ $workspaces.active.name }}</span>
+                                    <v-icon color="white">arrow_drop_down</v-icon>
+                                </div>
                                 <v-list>
-                                    <v-list-tile @click="$auth.logout()">
-                                        <v-list-tile-title>Logout</v-list-tile-title>
+                                    <v-list-tile
+                                        v-for="(workspace, i) in $workspaces.all"
+                                        v-if="workspace !== $workspaces.active"
+                                        :key="i"
+                                        @click="activateWorkspace(workspace)"
+                                    >
+                                        <v-list-tile-title>
+                                            {{ workspace.name }}
+                                        </v-list-tile-title>
+                                    </v-list-tile>
+                                    <v-list-tile @click="createWorkspace">
+                                        <v-list-tile-title>
+                                            New Workspace
+                                        </v-list-tile-title>
                                     </v-list-tile>
                                 </v-list>
                             </v-menu>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
-            </v-toolbar>
+                        </div>
+                        <v-menu bottom left>
+                            <v-btn
+                                slot="activator"
+                                dark
+                                icon
+                            >
+                                <v-icon>more_vert</v-icon>
+                            </v-btn>
+
+                            <v-list>
+                                <v-list-tile @click="$auth.logout()">
+                                    <v-list-tile-title>Logout</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </div>
+                </div>
+            </div>
             <v-list v-if="!$workspaces.empty">
                 <v-list-tile
                     v-for="(list, i) in $workspaces.active.lists"
@@ -102,11 +125,29 @@ import Vue from 'vue';
 import List from '@/models/List';
 import Workspace from '@/models/Workspace';
 
+import { Layout } from '@/services/UI';
+
 export default Vue.extend({
     data() {
         return {
             collapsed: false,
         };
+    },
+    computed: {
+        toolbarHeight(): number {
+            switch (this.$ui.layout) {
+                case Layout.Mobile:
+                    return 56;
+                default:
+                    return 64;
+            }
+        },
+        collapsedDrawerWidth(): number {
+            return 80;
+        },
+        centerAvatar(): boolean {
+            return this.collapsed && !this.$ui.mobile;
+        },
     },
     created() {
         this.collapsed = this.$ui.mobile;

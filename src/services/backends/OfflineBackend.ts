@@ -39,6 +39,8 @@ export default class OfflineBackend extends Backend {
         const workspace = new Workspace(UUIDGenerator.generate(), name, [inbox], inbox);
 
         inbox.setWorkspace(workspace);
+        inbox.loaded = true;
+        workspace.loaded = true;
 
         this.workspaces.push(workspace);
 
@@ -56,6 +58,7 @@ export default class OfflineBackend extends Backend {
 
         list.setWorkspace(workspace);
         workspace.addList(list);
+        list.loaded = true;
 
         this.workspacesUpdated();
 
