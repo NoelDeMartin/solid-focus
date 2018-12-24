@@ -45,6 +45,10 @@ export default class Workspaces extends Service {
     public async setActiveWorkspace(workspace: Workspace): Promise<void> {
         if (!workspace.loaded) {
             await this.backend.loadWorkspace(workspace);
+
+            if (workspace.hasActiveList() && !workspace.activeList.loaded) {
+                await this.backend.loadList(workspace.activeList);
+            }
         }
 
         this.app.$store.commit('setActiveWorkspace', workspace);

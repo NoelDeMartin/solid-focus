@@ -138,35 +138,41 @@ class Solid {
     }
 
     public async getResources(containerUrl: string, types: string[]): Promise<Resource[]> {
-        const data = await SolidAuthClient.fetch(containerUrl + '*').then(res => res.text());
-        const store = $rdf.graph();
+        try {
+            const data = await SolidAuthClient.fetch(containerUrl + '*').then(res => res.text());
+            const store = $rdf.graph();
 
-        $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
+            $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
 
-        // TODO we can't be sure that these are resources and not containers... or can we?
-        const namedNodes = store.each(
-            null as any,
-            FOAF('name'),
-            null as any,
-            null as any
-        );
+            // TODO we can't be sure that these are resources and not containers... or can we?
+            const namedNodes = store.each(
+                null as any,
+                FOAF('name'),
+                null as any,
+                null as any
+            );
 
-        return namedNodes
-            .map(namedNode => this.parseResource(namedNode.value, data))
-            .filter(resource => {
-                for (const type of types) {
-                    if (resource.types.indexOf(type) === -1) {
-                        return false;
+            return namedNodes
+                .map(namedNode => this.parseResource(namedNode.value, data))
+                .filter(resource => {
+                    for (const type of types) {
+                        if (resource.types.indexOf(type) === -1) {
+                            return false;
+                        }
                     }
-                }
 
-                return true;
-            });
+                    return true;
+                });
+        } catch (e) {
+            // Due to an existing bug, empty containers return 404
+            // see: https://github.com/solid/node-solid-server/issues/900
+            console.error(e);
+
+            return [];
+        }
     }
 
     public async getContainers(containerUrl: string, types: string[]): Promise<Resource[]> {
-        // TODO use SparQL instead to execute only one request
-
         try {
             const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
             const store = $rdf.graph();
