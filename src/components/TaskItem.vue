@@ -2,7 +2,7 @@
     <v-list-tile class="flex items-center">
         <v-checkbox
             :input-value="task.completed"
-            class="p-0"
+            class="v-input--simple"
             @change="toggle()"
         />
         <span :class="{ 'line-through': task.completed }">

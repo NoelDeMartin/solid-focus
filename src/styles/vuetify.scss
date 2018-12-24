@@ -2,3 +2,18 @@
 .v-input.hide-input input {
     display: none;
 }
+
+// Remove all baggage from checkbox
+.v-input--checkbox.v-input--simple {
+    margin-top: 0;
+    padding-top: 0;
+
+    .v-input__slot {
+        margin-bottom: 0;
+    }
+
+    .v-messages {
+        display: none;
+    }
+
+}
