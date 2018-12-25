@@ -1,7 +1,11 @@
+$material-design-icons-font-path: "~material-design-icons-iconfont/dist/fonts/";
+
+@import "~material-design-icons-iconfont/src/material-design-icons";
+@import "~typeface-roboto/index.css";
 @import "~vuetify/dist/vuetify.css";
-@import "./vuetify.scss";
 
 @tailwind components;
+@import "./vuetify.scss";
 
 @tailwind utilities;
 @import "./utils.scss";
