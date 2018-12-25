@@ -10,6 +10,7 @@
                 fab
                 dark
                 color="primary"
+                title="Create new workspace"
                 @click="createWorkspace"
             >
                 <v-icon dark>add</v-icon>
