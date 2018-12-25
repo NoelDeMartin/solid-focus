@@ -84,9 +84,13 @@ export default class Auth extends Service {
         const user = Storage.get('user');
         const onSolidSessionUpdated = this.onSolidSessionUpdated.bind(this);
 
-        await SolidAuthClient.currentSession().then(onSolidSessionUpdated);
+        try {
+            await SolidAuthClient.currentSession().then(onSolidSessionUpdated);
 
-        SolidAuthClient.trackSession(onSolidSessionUpdated);
+            SolidAuthClient.trackSession(onSolidSessionUpdated);
+        } catch (error) {
+            this.app.$ui.showError(error);
+        }
 
         if (user !== null) {
             await this.loginUser(user, Mode.Offline);

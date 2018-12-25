@@ -13,8 +13,14 @@ const app = new Vue({
     render: h => h(App),
 });
 
-bootServices(app).then(() => {
-    app.$mount('#app');
+bootServices(app)
+    .catch(error => error)
+    .then(error => {
+        app.$mount('#app');
 
-    document.body.removeAttribute('loading');
-});
+        document.body.removeAttribute('loading');
+
+        if (error) {
+            app.$ui.showError(error);
+        }
+    });
