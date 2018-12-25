@@ -1,9 +1,11 @@
 {
-  "manifest_version": 2,
+  "name": "Solid Focus",
   "version": "0.1.0",
-  "name": "Focus",
-  "short_name": "Focus",
-
+  "theme_color": "#4dba87",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "./index.html",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -15,10 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "./index.html",
-  "orientation": "portrait",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  ]
 }
