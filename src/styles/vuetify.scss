@@ -17,3 +17,8 @@
     }
 
 }
+
+// This should take priority over material-design-icons styles
+.v-icon {
+    display: inline-flex !important;
+}
