@@ -89,7 +89,14 @@ export default class Auth extends Service {
 
             SolidAuthClient.trackSession(onSolidSessionUpdated);
         } catch (error) {
-            this.app.$ui.showError(error);
+            // TODO handle session expiration properly instead of communicating
+            // this like an error
+            this.app.$ui.showError(
+                "We couldn't validate your credentials, please login again"
+            );
+
+            await SolidAuthClient.logout();
+            this.logoutUser();
         }
 
         if (user !== null) {

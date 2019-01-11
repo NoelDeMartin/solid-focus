@@ -75,7 +75,9 @@ export default class UI extends Service {
     public showError(error: any): void {
         this.openDialog(Alert, {
             type: 'error',
-            message: error.message || 'Unknown Error',
+            message: typeof error === 'string'
+                ? error
+                : error.message || 'Unknown Error',
         });
     }
 
