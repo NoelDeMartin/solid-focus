@@ -8,7 +8,7 @@
         <v-select
             v-if="$auth.mode === Mode.Solid"
             v-model="storage"
-            :items="$auth.user.pods"
+            :items="$auth.user.storages"
             :rules="rules.storage"
             label="Storage"
         />
@@ -75,7 +75,7 @@ export default Vue.extend({
     created() {
         if (this.$auth.mode === Mode.Solid) {
             this.$auth.withUser((user: User) => {
-                this.storage = (user as SolidUser).pods[0];
+                this.storage = (user as SolidUser).storages[0];
             });
         }
     },

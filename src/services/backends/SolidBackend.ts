@@ -17,8 +17,8 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     public async loadWorkspaces(user: SolidUser): Promise<Workspace[]> {
         const containers = [];
-        for (const podUrl of user.pods) {
-            containers.push(... await Solid.getContainers(podUrl, [TASK_GROUP]));
+        for (const storageUrl of user.storages) {
+            containers.push(... await Solid.getContainers(storageUrl, [TASK_GROUP]));
         }
 
         return await Promise.all(
