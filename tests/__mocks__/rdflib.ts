@@ -1,19 +1,26 @@
 const rdflib = require('rdflib');
-const mock = jest.genMockFromModule<any>('rdflib');
+const RDFMock = jest.genMockFromModule<any>('rdflib');
 
-mock.Namespace = jest.spyOn(rdflib, 'Namespace');
+const spies = ['Namespace', 'graph', 'parse', 'sym'];
+for (const spy of spies) {
+    RDFMock[spy] = jest.spyOn(rdflib, spy);
+}
 
-mock.__webOperationResults = [];
-mock.Fetcher = jest.fn(function (this: any) {
-    this.webOperation = jest.fn(() => {
-        return mock.__webOperationResults.pop();
-    });
+const original = ['NamedNode'];
+for (const originalMember of original) {
+    RDFMock[originalMember] = rdflib[originalMember];
+}
+
+RDFMock.__webOperationResults = [];
+
+RDFMock.Fetcher = jest.fn(function (this: any) {
+    this.webOperation = jest.fn(() => RDFMock.__webOperationResults.shift());
 });
 
-mock.__addWebOperationResult = function (headers: {} = {}) {
-    mock.__webOperationResults.push({
+RDFMock.__addWebOperationResult = function (headers: {} = {}) {
+    RDFMock.__webOperationResults.push({
         headers: new Headers(headers),
     });
 };
 
-module.exports = mock;
+module.exports = RDFMock;
