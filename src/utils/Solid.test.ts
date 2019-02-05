@@ -38,4 +38,68 @@ describe('Solid', () => {
         );
     });
 
+    it('fetches resources using a trailing slash', async () => {
+        const containerUrl = Faker.internet.url() + '/' + Str.slug(Faker.random.word());
+        const data = `<foobar> <http://cmlns.com/foaf/0.1/name> "Foo Bar" .`;
+
+        const SolidAuthClientMock = require('solid-auth-client');
+        const RDFMock = require('rdflib');
+
+        SolidAuthClientMock.__addFetchResult(data);
+
+        const resources = await Solid.getResources(containerUrl, []);
+
+        expect(resources).toHaveLength(1);
+
+        expect(resources[0].url).toEqual(containerUrl + '/foobar');
+        expect(resources[0].name).toEqual('Foo Bar');
+        expect(resources[0].types).toEqual([]);
+
+        expect(RDFMock.parse).toHaveBeenCalledWith(
+            data,
+            expect.anything(),
+            containerUrl + '/',
+            'text/turtle',
+            null
+        );
+    });
+
+    it('fetches containers using a trailing slash', async () => {
+        const containerUrl = Faker.internet.url() + '/' + Str.slug(Faker.random.word());
+        const containerData = `<foobar> a <http://www.w3.org/ns/ldp#BasicContainer> .`;
+        const resourceData =
+            `<foobar>
+                a <http://www.w3.org/ns/ldp#BasicContainer> ;
+                <http://cmlns.com/foaf/0.1/name> "Foo Bar" .`;
+
+        const SolidAuthClientMock = require('solid-auth-client');
+        const RDFMock = require('rdflib');
+
+        SolidAuthClientMock.__addFetchResult(containerData);
+        SolidAuthClientMock.__addFetchResult(resourceData);
+
+        const containers = await Solid.getContainers(containerUrl, []);
+
+        expect(containers).toHaveLength(1);
+
+        expect(containers[0].url).toEqual(containerUrl + '/foobar');
+        expect(containers[0].name).toEqual('Foo Bar');
+        expect(containers[0].types).toEqual(['http://www.w3.org/ns/ldp#BasicContainer']);
+
+        expect(RDFMock.parse).toHaveBeenCalledWith(
+            containerData,
+            expect.anything(),
+            containerUrl + '/',
+            'text/turtle',
+            null
+        );
+        expect(RDFMock.parse).toHaveBeenCalledWith(
+            resourceData,
+            expect.anything(),
+            containerUrl + '/foobar',
+            'text/turtle',
+            null
+        );
+    });
+
 });

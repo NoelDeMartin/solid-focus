@@ -1,3 +1,13 @@
-const SolidAuthClient = jest.genMockFromModule('solid-auth-client');
+const SolidAuthClientMock = jest.genMockFromModule<any>('solid-auth-client');
 
-module.exports = SolidAuthClient;
+SolidAuthClientMock.__fetchResults = [];
+
+SolidAuthClientMock.fetch = jest.fn(async () =>
+    new Response(SolidAuthClientMock.__fetchResults.shift())
+);
+
+SolidAuthClientMock.__addFetchResult = function (data: any = null) {
+    SolidAuthClientMock.__fetchResults.push(data);
+};
+
+module.exports = SolidAuthClientMock;

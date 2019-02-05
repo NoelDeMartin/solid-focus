@@ -138,6 +138,10 @@ class Solid {
     }
 
     public async getResources(containerUrl: string, types: string[]): Promise<Resource[]> {
+        if (!containerUrl.endsWith('/')) {
+            containerUrl += '/';
+        }
+
         try {
             const data = await SolidAuthClient.fetch(containerUrl + '*').then(res => res.text());
             const store = $rdf.graph();
@@ -173,6 +177,10 @@ class Solid {
     }
 
     public async getContainers(containerUrl: string, types: string[]): Promise<Resource[]> {
+        if (!containerUrl.endsWith('/')) {
+            containerUrl += '/';
+        }
+
         try {
             const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
             const store = $rdf.graph();
