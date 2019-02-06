@@ -242,7 +242,7 @@ class Solid {
         const webId = store.sym(session.webId);
 
         const name = store.any(webId, FOAF('name'), null as any, null as any);
-        const avatarUrl = store.any(webId, FOAF('image'), null as any, null as any);
+        const avatarUrl = store.any(webId, FOAF('img'), null as any, null as any);
         const storages = store.each(webId, PIM('storage'), null as any, null as any);
 
         // TODO load extended profile to find additional storages
