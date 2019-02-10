@@ -1,5 +1,11 @@
 <template>
-    <v-app>
+    <v-app
+        :class="{
+            'layout-mobile': $ui.mobile,
+            'layout-tablet': $ui.tablet,
+            'layout-desktop': $ui.desktop,
+        }"
+    >
         <AppNavigation v-if="$auth.loggedIn" />
         <v-content>
             <Home v-if="$auth.loggedIn" />

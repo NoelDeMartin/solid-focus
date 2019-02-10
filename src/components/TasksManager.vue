@@ -6,7 +6,7 @@
                 <v-btn color="primary" @click="create">Add</v-btn>
             </div>
         </v-form>
-        <v-list>
+        <v-list class="p-0">
             <template v-for="(task, index) of pendingTasks">
                 <TaskItem :key="task.id" :task="task" />
                 <v-divider v-if="index !== pendingTasks.length - 1" :key="`divider-${index}`" />
@@ -25,7 +25,7 @@
             >
                 {{ showCompleted ? 'Hide completed' : 'Show completed' }}
             </v-btn>
-            <v-list v-if="showCompleted">
+            <v-list v-if="showCompleted" class="p-0">
                 <template v-for="(task, index) of completedTasks">
                     <TaskItem :key="task.id" :task="task" />
                     <v-divider v-if="index !== completedTasks.length - 1" :key="`divider-${index}`" />
