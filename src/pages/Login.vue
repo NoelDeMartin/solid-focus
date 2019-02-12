@@ -9,8 +9,8 @@
                     class="flex-no-grow hide-input"
                 />
                 <v-text-field
-                    ref="idpInput"
                     v-model="idp"
+                    :autofocus="true"
                     placeholder="Solid POD"
                     @keyup.enter="loginWithSolid"
                 />
@@ -38,9 +38,6 @@ export default Vue.extend({
             prefix: 'https://',
             idp: '',
         };
-    },
-    mounted() {
-        (this.$refs.idpInput as HTMLInputElement).focus();
     },
     methods: {
         loginWithSolid() {

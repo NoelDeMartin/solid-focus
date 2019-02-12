@@ -3,7 +3,7 @@
         <v-card-text class="text-xl">
             {{ message }}
         </v-card-text>
-        <template slot="actions">
+        <template v-slot:actions>
             <v-spacer />
             <v-btn :color="type" flat @click="close">
                 OK

@@ -68,8 +68,7 @@
                                 </div>
                                 <v-list>
                                     <v-list-tile
-                                        v-for="(workspace, i) in $workspaces.all"
-                                        v-if="workspace !== $workspaces.active"
+                                        v-for="(workspace, i) in inactiveWorkspaces"
                                         :key="i"
                                         @click="activateWorkspace(workspace)"
                                     >
@@ -199,6 +198,10 @@ export default Vue.extend({
         },
         centerAvatar(): boolean {
             return this.collapsed && !this.$ui.mobile;
+        },
+        inactiveWorkspaces(): Workspace[] {
+            return this.$workspaces.all
+                .filter((workspace: Workspace) => workspace !== this.$workspaces.active);
         },
     },
     created() {

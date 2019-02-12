@@ -8,7 +8,7 @@
         >
             <slot />
         </v-form>
-        <template slot="actions">
+        <template v-slot:actions>
             <v-spacer />
             <v-btn flat @click="close">Close</v-btn>
             <v-btn color="primary" @click="submit">

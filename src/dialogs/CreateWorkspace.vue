@@ -13,9 +13,9 @@
             label="Storage"
         />
         <v-text-field
-            ref="name"
             v-model="name"
             :rules="rules.name"
+            :autofocus="true"
             validate-on-blur
             label="Name"
         />
@@ -78,9 +78,6 @@ export default Vue.extend({
                 this.storage = (user as SolidUser).storages[0];
             });
         }
-    },
-    mounted() {
-        (this.$refs.name as HTMLInputElement).focus();
     },
     methods: {
         async createWorkspace() {
