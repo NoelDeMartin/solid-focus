@@ -6,11 +6,7 @@
                 <v-btn color="primary" @click="create">Add</v-btn>
             </div>
         </v-form>
-        <v-slide-x-transition
-            class="p-0"
-            tag="v-list"
-            group
-        >
+        <VerticalSlide tag="v-list" class="p-0">
             <template v-for="(task, index) of pendingTasks">
                 <TaskItem :key="task.id" :task="task" />
                 <v-divider
@@ -18,10 +14,10 @@
                     :key="`divider-${task.id}`"
                 />
             </template>
-            <v-list-tile v-if="pendingTasks.length === 0" class="text-grey-darker">
-                No pending tasks
-            </v-list-tile>
-        </v-slide-x-transition>
+        </VerticalSlide>
+        <div v-if="pendingTasks.length === 0" class="text-grey-darker text-center">
+            Congratulations, you don't have any pending tasks!
+        </div>
         <template v-if="completedTasks.length > 0">
             <v-btn
                 :flat="true"
@@ -32,12 +28,7 @@
             >
                 {{ showCompleted ? 'Hide completed' : 'Show completed' }}
             </v-btn>
-            <v-slide-x-transition
-                v-if="showCompleted"
-                class="p-0"
-                tag="v-list"
-                group
-            >
+            <VerticalSlide tag="v-list" class="p-0">
                 <template v-for="(task, index) of completedTasks">
                     <TaskItem :key="task.id" :task="task" />
                     <v-divider
@@ -45,7 +36,7 @@
                         :key="`divider-${task.id}`"
                     />
                 </template>
-            </v-slide-x-transition>
+            </VerticalSlide>
         </template>
     </div>
 </template>
@@ -57,6 +48,7 @@ import Task from '@/models/Task';
 import List from '@/models/List';
 
 import TaskItem from '@/components/TaskItem.vue';
+import VerticalSlide from '@/components/transitions/VerticalSlide.vue';
 
 interface Data {
     newTask: string;
@@ -66,6 +58,7 @@ interface Data {
 export default Vue.extend({
     components: {
         TaskItem,
+        VerticalSlide,
     },
     props: {
         list: {
@@ -90,10 +83,14 @@ export default Vue.extend({
     methods: {
         async create() {
             if (this.newTask) {
-                await this.$ui.wrapAsyncOperation(
-                    this.$workspaces.createTask(this.list, this.newTask),
-                    'Creating task...',
-                );
+                try {
+                    await this.$workspaces.createTask(this.list, this.newTask);
+                } catch (e) {
+                    this.$ui.showError(e);
+
+                    // TODO delete task from local store
+                }
+
                 this.newTask = '';
             }
         },

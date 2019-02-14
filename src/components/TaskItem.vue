@@ -30,11 +30,14 @@ export default Vue.extend({
         },
     },
     methods: {
-        toggle() {
-            this.$ui.wrapAsyncOperation(
-                this.$workspaces.toggleTask(this.task),
-                'Toggling task...',
-            );
+        async toggle() {
+            try {
+                await this.$workspaces.toggleTask(this.task);
+            } catch (e) {
+                this.$ui.showError(e);
+
+                // TODO revert task status
+            }
         },
     },
 });
@@ -48,6 +51,7 @@ export default Vue.extend({
     $task-label-margin: config('margin.2');
 
     .task-item {
+        height: 48px; // This is necessary for transitions to work correctly
 
         .checkbox {
             width: $task-checkbox-width;
