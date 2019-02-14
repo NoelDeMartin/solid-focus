@@ -20,7 +20,7 @@ export enum Layout {
 }
 
 export interface Dialog {
-    id: number;
+    id: string;
     component: Component | AsyncComponent;
     props: { [property: string]: any };
 
@@ -30,7 +30,7 @@ export interface Dialog {
 
 export default class UI extends Service {
 
-    private loadingDialogID: number | null = null;
+    private loadingDialogID: string | null = null;
 
     public get layout(): Layout {
         return this.mobile ? Layout.Mobile : null
@@ -98,7 +98,7 @@ export default class UI extends Service {
         });
     }
 
-    public closeDialog(id: number, ...args: any[]): void {
+    public closeDialog(id: string, ...args: any[]): void {
         for (const dialog of this.dialogs) {
             if (dialog.id === id) {
                 dialog.reject(...args);
@@ -109,7 +109,7 @@ export default class UI extends Service {
         this.app.$store.commit('removeDialog', id);
     }
 
-    public completeDialog(id: number, ...args: any[]): void {
+    public completeDialog(id: string, ...args: any[]): void {
         for (const dialog of this.dialogs) {
             if (dialog.id === id) {
                 dialog.resolve(...args);
@@ -147,7 +147,7 @@ export default class UI extends Service {
                 addDialog(state: State, dialog: Dialog) {
                     state.dialogs.push(dialog);
                 },
-                removeDialog(state: State, id: number) {
+                removeDialog(state: State, id: string) {
                     for (const dialog of state.dialogs) {
                         if (dialog.id === id) {
                             state.dialogs.splice(state.dialogs.indexOf(dialog), 1);
