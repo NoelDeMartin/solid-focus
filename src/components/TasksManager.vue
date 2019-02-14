@@ -28,15 +28,17 @@
             >
                 {{ showCompleted ? 'Hide completed' : 'Show completed' }}
             </v-btn>
-            <VerticalSlide tag="v-list" class="p-0">
-                <template v-for="(task, index) of completedTasks">
-                    <TaskItem :key="task.id" :task="task" />
-                    <v-divider
-                        v-if="index !== completedTasks.length - 1"
-                        :key="`divider-${task.id}`"
-                    />
-                </template>
-            </VerticalSlide>
+            <v-slide-y-transition>
+                <VerticalSlide v-if="showCompleted" tag="v-list" class="p-0">
+                    <template v-for="(task, index) of completedTasks">
+                        <TaskItem :key="task.id" :task="task" />
+                        <v-divider
+                            v-if="index !== completedTasks.length - 1"
+                            :key="`divider-${task.id}`"
+                        />
+                    </template>
+                </VerticalSlide>
+            </v-slide-y-transition>
         </template>
     </div>
 </template>

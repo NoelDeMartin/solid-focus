@@ -6,14 +6,16 @@
         }"
         class="task-item"
     >
-        <div class="checkbox" @click="toggle()">
-            <v-icon v-if="task.completed" class="icon pending">undo</v-icon>
-            <v-icon v-else class="icon pending">check_box_outline_blank</v-icon>
-            <v-icon class="icon completed">done</v-icon>
-        </div>
-        <span class="label">
+        <v-list-tile-action>
+            <v-checkbox
+                :input-value="task.completed"
+                color="primary"
+                @change="toggle"
+            />
+        </v-list-tile-action>
+        <v-list-tile-content>
             {{ task.name }}
-        </span>
+        </v-list-tile-content>
     </v-list-tile>
 </template>
 
@@ -30,78 +32,44 @@ export default Vue.extend({
         },
     },
     methods: {
-        async toggle() {
-            try {
-                await this.$workspaces.toggleTask(this.task);
-            } catch (e) {
-                this.$ui.showError(e);
+        toggle() {
+            // Allow the checkbox to be displayed as checked before the animation starts
+            this.$nextTick(async () => {
+                try {
+                    await this.$workspaces.toggleTask(this.task);
+                } catch (e) {
+                    this.$ui.showError(e);
 
-                // TODO revert task status
-            }
+                    // TODO revert task status
+                }
+            });
         },
     },
 });
 </script>
 
 <style lang="scss">
-    $task-checkbox-width: 48px;
-    $task-checkbox-hover-background-color: config('colors.grey-lighter');
-    $task-pending-checkbox-icon-color: config('colors.grey');
-    $task-completed-checkbox-icon-color: config('colors.green-light');
-    $task-label-margin: config('margin.2');
+    // Minimum clickable area size in mobile devices
+    $mobile-min-size: 32px;
 
     .task-item {
         height: 48px; // This is necessary for transitions to work correctly
 
-        .checkbox {
-            width: $task-checkbox-width;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-
-            .icon.pending {
-                color: $task-pending-checkbox-icon-color;
-            }
-
-            .icon.completed {
-                color: $task-completed-checkbox-icon-color;
-            }
-
-            &:hover {
-                background: $task-checkbox-hover-background-color;
-            }
-
+        .v-list__tile__action {
+            min-width: 0;
         }
 
-        .label {
-            margin-left: calc(#{$task-checkbox-width} + #{$task-label-margin});
+        .v-list__tile__content {
+            margin-left: config('margin.2');
         }
 
-        &.completed .label {
-            text-decoration: line-through;
+        &.completed .v-list__tile__content {
+            opacity: config('opacity.75');
         }
 
-        &.completed .checkbox .icon.completed,
-        &.completed .checkbox:hover .icon.pending,
-        &.pending .checkbox .icon.pending,
-        &.pending .checkbox:hover .icon.completed {
-            display: flex !important;
-        }
-
-        &.completed .checkbox .icon.pending,
-        &.completed .checkbox:hover .icon.completed,
-        &.pending .checkbox .icon.completed,
-        &.pending .checkbox:hover .icon.pending {
-            display: none !important;
-        }
-
-        .layout-mobile & .v-list__tile {
-            padding: 0;
+        .layout-mobile & .v-list__tile__action i {
+            font-size: $mobile-min-size;
+            margin-left: calc((24px - #{$mobile-min-size}) / 2);
         }
 
     }
