@@ -13,11 +13,12 @@
             label="Storage"
         />
         <v-text-field
+            ref="name"
             v-model="name"
             :rules="rules.name"
-            :autofocus="true"
             validate-on-blur
             label="Name"
+            autofocus
         />
     </DialogForm>
 </template>
@@ -78,6 +79,11 @@ export default Vue.extend({
                 this.storage = (user as SolidUser).storages[0];
             });
         }
+    },
+    mounted() {
+        // Autofocus does not seem to work as expected inside dialogs
+        // see: https://github.com/vuetifyjs/vuetify/search?q=autofocus+dialog&type=Issues
+        this.$nextTick((this.$refs.name as any).focus);
     },
     methods: {
         async createWorkspace() {
