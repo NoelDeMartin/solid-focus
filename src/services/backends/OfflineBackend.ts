@@ -18,12 +18,15 @@ export default class OfflineBackend extends Backend {
             const workspace = Workspace.fromJson(workspaceJson);
 
             workspace.loaded = true;
-            workspace.lists.forEach(list => { list.loaded = true; });
+            workspace.lists.forEach(list => {
+                list.setWorkspace(workspace);
+                list.loaded = true;
+            });
 
             return workspace;
         });
 
-        return this.workspaces;
+        return this.workspaces.slice(0);
     }
 
     public async unloadWorkspaces(): Promise<void> {
