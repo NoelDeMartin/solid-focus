@@ -9,8 +9,8 @@
             ref="name"
             v-model="name"
             :rules="rules.name"
-            validate-on-blur
             label="Name"
+            validate-on-blur
             autofocus
         />
     </DialogForm>
@@ -65,14 +65,14 @@ export default Vue.extend({
     },
     methods: {
         async createWorkspaceList() {
-            const list = await this.$ui.wrapAsyncOperation(
+            this.$ui.completeDialog(this.dialog.id);
+            this.$ui.wrapAsyncOperation(
                 this.$workspaces.createList(
                     this.$workspaces.active as Workspace,
                     this.name
-                )
+                ),
+                `Creating ${this.name} list...`
             );
-
-            this.$ui.completeDialog(this.dialog.id, list);
         },
     },
 });

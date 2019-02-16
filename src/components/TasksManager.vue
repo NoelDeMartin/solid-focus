@@ -85,15 +85,16 @@ export default Vue.extend({
     methods: {
         async create() {
             if (this.newTask) {
+                const newTask = this.newTask;
+                this.newTask = '';
+
                 try {
-                    await this.$workspaces.createTask(this.list, this.newTask);
+                    await this.$workspaces.createTask(this.list, newTask);
                 } catch (e) {
                     this.$ui.showError(e);
 
                     // TODO delete task from local store
                 }
-
-                this.newTask = '';
             }
         },
     },

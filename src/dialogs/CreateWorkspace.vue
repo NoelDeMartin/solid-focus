@@ -1,5 +1,6 @@
 <template>
     <DialogForm
+        v-slot="{ submit }"
         :dialog="dialog"
         title="Create Workspace"
         submit-label="Create"
@@ -16,9 +17,10 @@
             ref="name"
             v-model="name"
             :rules="rules.name"
-            validate-on-blur
             label="Name"
+            validate-on-blur
             autofocus
+            @keydown.enter="submit"
         />
     </DialogForm>
 </template>
@@ -97,11 +99,11 @@ export default Vue.extend({
                     break;
             }
 
-            const workspace = await this.$ui.wrapAsyncOperation(
-                this.$workspaces.createWorkspace(...args)
+            this.$ui.completeDialog(this.dialog.id);
+            this.$ui.wrapAsyncOperation(
+                this.$workspaces.createWorkspace(...args),
+                `Creating ${this.name} workspace...`
             );
-
-            this.$ui.completeDialog(this.dialog.id, workspace);
         },
     },
 });

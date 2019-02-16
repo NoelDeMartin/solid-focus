@@ -212,28 +212,31 @@ export default Vue.extend({
             this.collapsed = !visible;
         },
         createWorkspace() {
-            this.$ui.openDialog(
-                () => import('@/dialogs/CreateWorkspace.vue')
-            );
+            this.$ui.openDialog(() => import('@/dialogs/CreateWorkspace.vue'));
         },
         createWorkspaceList() {
-            this.$ui.openDialog(
-                () => import('@/dialogs/CreateWorkspaceList.vue')
-            )
-                .then(list => (this.$workspaces.active as Workspace).setActiveList(list));
+            this.$ui.openDialog(() => import('@/dialogs/CreateWorkspaceList.vue'));
         },
         activateWorkspace(workspace: Workspace) {
-            this.$ui.wrapAsyncOperation(
-                this.$workspaces.setActiveWorkspace(workspace),
-                `Loading ${workspace.name}...`
-            );
+            if (!workspace.loaded) {
+                this.$ui.wrapAsyncOperation(
+                    this.$workspaces.setActiveWorkspace(workspace),
+                    `Loading ${workspace.name} workspace...`
+                );
+            } else {
+                this.$workspaces.setActiveWorkspace(workspace);
+            }
         },
         activateList(list: List) {
             if (this.$workspaces.hasActive()) {
-                this.$ui.wrapAsyncOperation(
-                    this.$workspaces.setActiveList(list),
-                    `Loading ${list.name}...`
-                );
+                if (!list.loaded) {
+                    this.$ui.wrapAsyncOperation(
+                        this.$workspaces.setActiveList(list),
+                        `Loading ${list.name} list...`
+                    );
+                } else {
+                    this.$workspaces.setActiveList(list);
+                }
             }
 
             if (this.$ui.mobile) {

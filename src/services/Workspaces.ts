@@ -75,8 +75,12 @@ export default class Workspaces extends Service {
         return workspace;
     }
 
-    public createList(workspace: Workspace, ...args: any[]): Promise<List> {
-        return this.backend.createList(workspace, ...args);
+    public async createList(workspace: Workspace, ...args: any[]): Promise<List> {
+        const list = await this.backend.createList(workspace, ...args);
+
+        workspace.setActiveList(list);
+
+        return list;
     }
 
     public createTask(list: List, ...args: any[]): Promise<Task> {

@@ -1,8 +1,9 @@
 import Faker from 'faker';
 
-import Str from '@/utils/Str';
 import Arr from '@/utils/Arr';
 import Solid from '@/utils/Solid';
+import Str from '@/utils/Str';
+import UUIDGenerator from '@/utils/UUIDGenerator';
 
 describe('Solid', () => {
 
@@ -19,7 +20,8 @@ describe('Solid', () => {
 
         RDFMock.__addWebOperationResult({ Location: location });
 
-        const container = await Solid.createContainer(containerUrl, name, types);
+        const id = UUIDGenerator.generate();
+        const container = await Solid.createContainer(containerUrl, id, name, types);
 
         expect(container.url).toBe(baseUrl + location);
         expect(container.name).toBe(name);

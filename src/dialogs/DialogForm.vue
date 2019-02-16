@@ -6,7 +6,7 @@
             lazy-validation
             @submit.prevent="submit"
         >
-            <slot />
+            <slot :submit="submit" />
         </v-form>
         <template v-slot:actions>
             <v-spacer />

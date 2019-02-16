@@ -6,6 +6,8 @@ import Workspace from '@/models/Workspace';
 import SolidUser from '@/models/users/SolidUser';
 
 import Solid, { Resource } from '@/utils/Solid';
+import Str from '@/utils/Str';
+import UUIDGenerator from '@/utils/UUIDGenerator';
 
 const TASK = 'http://purl.org/vocab/lifecycle/schema#Task';
 const TASK_GROUP = 'http://purl.org/vocab/lifecycle/schema#TaskGroup';
@@ -53,7 +55,12 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
-        const resource = await Solid.createContainer(storage, name, [TASK_GROUP]);
+        const resource = await Solid.createContainer(
+            storage,
+            Str.slug(name),
+            name,
+            [TASK_GROUP]
+        );
 
         return await this.createWorkspaceFromResource(resource);
     }
@@ -76,7 +83,12 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
-        const container = await Solid.createContainer(workspace.id, name, [TASK_GROUP]);
+        const container = await Solid.createContainer(
+            workspace.id,
+            Str.slug(name),
+            name,
+            [TASK_GROUP]
+        );
         const list = await this.createListFromResource(container);
 
         list.setWorkspace(workspace);
@@ -88,10 +100,27 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     public async createTask(list: List, name: string): Promise<Task> {
         const parentUrl = list.id || list.workspace.id;
-        const resource = await Solid.createResource(parentUrl, name, [TASK, ACTIVITY]);
-        const task = this.createTaskFromResource(resource);
+        const id = UUIDGenerator.generate();
+
+        // In order to update the UI before getting a server response, we need to
+        // create the task before sending the request.
+
+        // TODO This can cause some potential problems like not handling errors or having
+        // a url with a different format than expected. Right now this is using the format
+        // used by node-solid-server. Other implementations will work as well, but a
+        // weird UI animation will be triggered.
+        const task = new Task(parentUrl + id + '.ttl', name);
 
         list.add(task);
+
+        const resource = await Solid.createResource(
+            parentUrl,
+            id,
+            name,
+            [TASK, ACTIVITY]
+        );
+
+        this.updateTaskWithResource(task, resource);
 
         return task;
     }
@@ -129,6 +158,12 @@ export default class SolidBackend extends Backend<SolidUser> {
             resource.name,
             completedAt ? new Date(completedAt) : undefined
         );
+    }
+
+    private updateTaskWithResource(task: Task, resource: Resource): void {
+        if (task.id !== resource.url) {
+            task.id = resource.url;
+        }
     }
 
 }

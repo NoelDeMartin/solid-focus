@@ -13,6 +13,7 @@ class Solid {
 
     public async createResource(
         containerUrl: string,
+        id: string,
         name: string,
         types: string[],
         basicType: string | null = null
@@ -25,13 +26,10 @@ class Solid {
         const result: Response = await (fetcher as any).webOperation('POST', containerUrl, {
             contentType: 'text/turtle',
             headers: {
+                'slug': id,
                 'content-type': 'text/turtle',
-                // TODO test giving a task a slug
                 ...(basicType
-                    ? {
-                        'link': basicType + '; rel="type"',
-                        'slug': Str.slug(name),
-                    }
+                    ? { 'link': basicType + '; rel="type"' }
                     : {}),
             },
             body:
@@ -113,11 +111,13 @@ class Solid {
 
     public async createContainer(
         parentUrl: string,
+        id: string,
         name: string,
         types: string[]
     ): Promise<Resource> {
         return await this.createResource(
             parentUrl,
+            id,
             name,
             types,
             LDP('BasicContainer').toString()
@@ -280,6 +280,10 @@ class Solid {
             FOAF('name'),
             resource.name
         );
+
+        // Workaround for node-solid-server issue with urls:
+        // https://github.com/solid/node-solid-server/issues/942
+        resource.url = Str.fixUrl(url);
 
         return resource;
     }
