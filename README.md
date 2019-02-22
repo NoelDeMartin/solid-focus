@@ -17,3 +17,4 @@ PRs, issues, comments and anything else are welcome :).
 
 You can read more about this on my activity log:
 - [Implementing a Task Manager using Solid](https://noeldemartin.com/tasks/implementing-a-task-manager-using-solid)
+- [Improving Solid Focus Task Manager](https://noeldemartin.com/tasks/improving-solid-focus-task-manager)
