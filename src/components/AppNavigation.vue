@@ -53,7 +53,7 @@
                             </span>
                         </div>
                         <div class="text-white flex-grow flex flex-col">
-                            <span class="text-lg tablet:text-xl desktop:text-xl">
+                            <span :title="userInfo" class="text-lg tablet:text-xl desktop:text-xl">
                                 {{ $auth.user.name }}
                             </span>
                             <v-menu v-if="!$workspaces.empty" bottom>
@@ -174,6 +174,7 @@
 import Vue from 'vue';
 
 import List from '@/models/List';
+import SolidUser from '@/models/users/SolidUser';
 import Workspace from '@/models/Workspace';
 
 import { Layout } from '@/services/UI';
@@ -202,6 +203,13 @@ export default Vue.extend({
         inactiveWorkspaces(): Workspace[] {
             return this.$workspaces.all
                 .filter((workspace: Workspace) => workspace !== this.$workspaces.active);
+        },
+        userInfo(): string | void {
+            // TODO this should be moved to a dedicated section with more information
+            // about the user.
+            if (this.$auth.user instanceof SolidUser) {
+                return 'WebID: ' + this.$auth.user.id;
+            }
         },
     },
     created() {
