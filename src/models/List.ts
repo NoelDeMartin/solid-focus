@@ -1,4 +1,4 @@
-import Task, { TaskJson } from '@/models/Task';
+import Task, { TaskJson } from '@/models/soukai/Task';
 import Workspace from '@/models/Workspace';
 
 export interface ListJson {

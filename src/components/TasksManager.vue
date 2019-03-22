@@ -52,7 +52,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import Task from '@/models/Task';
+import Task from '@/models/soukai/Task';
 import List from '@/models/List';
 
 import TaskItem from '@/components/TaskItem.vue';

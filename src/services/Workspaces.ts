@@ -7,7 +7,7 @@ import OfflineBackend from '@/services/backends/OfflineBackend';
 import SolidBackend from '@/services/backends/SolidBackend';
 
 import List from '@/models/List';
-import Task from '@/models/Task';
+import Task from '@/models/soukai/Task';
 import User from '@/models/users/User';
 import Workspace from '@/models/Workspace';
 

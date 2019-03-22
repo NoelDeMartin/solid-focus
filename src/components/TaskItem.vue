@@ -22,7 +22,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import Task from '@/models/Task';
+import Task from '@/models/soukai/Task';
 
 export default Vue.extend({
     props: {

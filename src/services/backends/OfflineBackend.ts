@@ -1,7 +1,7 @@
 import Backend from '@/services/backends/Backend';
 
 import List from '@/models/List';
-import Task from '@/models/Task';
+import Task from '@/models/soukai/Task';
 import Workspace, { WorkspaceJson } from '@/models/Workspace';
 
 import Storage from '@/utils/Storage';
@@ -69,7 +69,7 @@ export default class OfflineBackend extends Backend {
     }
 
     public async createTask(list: List, name: string): Promise<Task> {
-        const task = new Task(UUIDGenerator.generate(), name);
+        const task = new Task({ url: UUIDGenerator.generate(), name });
 
         list.add(task);
 

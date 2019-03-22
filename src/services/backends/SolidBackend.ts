@@ -1,19 +1,14 @@
 import Backend from '@/services/backends/Backend';
 
 import List from '@/models/List';
-import Task from '@/models/Task';
-import Workspace from '@/models/Workspace';
 import SolidUser from '@/models/users/SolidUser';
+import Task from '@/models/soukai/Task';
+import Workspace from '@/models/Workspace';
 
 import Solid, { Resource } from '@/utils/Solid';
 import Str from '@/utils/Str';
-import UUIDGenerator from '@/utils/UUIDGenerator';
 
-const TASK = 'http://purl.org/vocab/lifecycle/schema#Task';
 const TASK_GROUP = 'http://purl.org/vocab/lifecycle/schema#TaskGroup';
-
-const ACTIVITY = 'https://www.w3.org/ns/prov#Activity';
-const COMPLETED_AT = 'http://purl.org/net/provenance/ns#completedAt';
 
 export default class SolidBackend extends Backend<SolidUser> {
 
@@ -69,12 +64,12 @@ export default class SolidBackend extends Backend<SolidUser> {
         if (!list.loaded && !list.loading) {
             list.loading = true;
 
-            const resources = list.id === null
-                ? await Solid.getResources(list.workspace.id, [TASK, ACTIVITY])
-                : await Solid.getResources(list.id, [TASK, ACTIVITY]);
+            const containerUrl = list.id || list.workspace.id;
 
-            for (const childResource of resources) {
-                list.add(this.createTaskFromResource(childResource));
+            const tasks = await Task.from(containerUrl).all<Task>();
+
+            for (const task of tasks) {
+                list.add(task);
             }
 
             list.loaded = true;
@@ -100,41 +95,23 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     public async createTask(list: List, name: string): Promise<Task> {
         const parentUrl = list.id || list.workspace.id;
-        const id = UUIDGenerator.generate();
 
-        // In order to update the UI before getting a server response, we need to
-        // create the task before sending the request.
+        const task = new Task({
+            name,
+        });
 
-        // TODO This can cause some potential problems like not handling errors or having
-        // a url with a different format than expected. Right now this is using the format
-        // used by node-solid-server. Other implementations will work as well, but a
-        // weird UI animation will be triggered.
-        const task = new Task(parentUrl + id + '.ttl', name);
+        // TODO use from per instance instead
+        Task.from(parentUrl);
+        task.save();
 
         list.add(task);
-
-        const resource = await Solid.createResource(
-            parentUrl,
-            id,
-            name,
-            [TASK, ACTIVITY]
-        );
-
-        this.updateTaskWithResource(task, resource);
 
         return task;
     }
 
     public async toggleTask(task: Task): Promise<void> {
         task.toggle();
-
-        if (task.isCompleted()) {
-            await Solid.updateResourceProperties(task.id, {
-                [COMPLETED_AT]: task.completedAt.toISOString(),
-            });
-        } else {
-            await Solid.removeResourceProperties(task.id, [COMPLETED_AT]);
-        }
+        task.save();
     }
 
     private async createWorkspaceFromResource(resource: Resource): Promise<Workspace> {
@@ -148,22 +125,6 @@ export default class SolidBackend extends Backend<SolidUser> {
 
     private async createListFromResource(resource: Resource): Promise<List> {
         return new List(resource.url, resource.name, []);
-    }
-
-    private createTaskFromResource(resource: Resource): Task {
-        const completedAt = Solid.getResourceAttribute(resource, COMPLETED_AT, null);
-
-        return new Task(
-            resource.url,
-            resource.name,
-            completedAt ? new Date(completedAt) : undefined
-        );
-    }
-
-    private updateTaskWithResource(task: Task, resource: Resource): void {
-        if (task.id !== resource.url) {
-            task.id = resource.url;
-        }
     }
 
 }
