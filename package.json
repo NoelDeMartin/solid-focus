@@ -44,7 +44,7 @@
     "ts-jest": "^23.10.5",
     "typescript": "^3.0.0",
     "vue-cli-plugin-vuetify": "^0.2.1",
-    "vue-template-compiler": "^2.6.6",
+    "vue-template-compiler": "^2.6.10",
     "workbox-webpack-plugin": "^3.6.3"
   }
 }
