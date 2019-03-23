@@ -1,0 +1,8 @@
+{
+    "baseUrl": "http://localhost:8080",
+    "integrationFolder": "tests/cypress/integration",
+    "supportFile": false,
+    "pluginsFile": false,
+    "fixturesFolder": false,
+    "video": false
+}

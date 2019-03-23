@@ -7,7 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "scripts/deploy.sh",
-    "test": "jest"
+    "test": "jest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:test": "start-server-and-test serve http://localhost:8080 cy:run"
   },
   "vuePlugins": {
     "service": [
@@ -37,10 +40,12 @@
     "@vue/cli-plugin-typescript": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
     "@vue/eslint-config-typescript": "^3.0.5",
+    "cypress": "^3.2.0",
     "faker": "^4.1.0",
     "jest": "^23.6.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "start-server-and-test": "^1.7.12",
     "ts-jest": "^23.10.5",
     "typescript": "^3.0.0",
     "vue-cli-plugin-vuetify": "^0.2.1",
