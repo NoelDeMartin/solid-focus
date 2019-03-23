@@ -3,7 +3,13 @@
         <v-form class="p-4" @submit.prevent="create">
             <div class="flex">
                 <v-text-field v-model="newTask" />
-                <v-btn color="primary" @click="create">Add</v-btn>
+                <v-btn
+                    title="Create new task"
+                    color="primary"
+                    @click="create"
+                >
+                    Add
+                </v-btn>
             </div>
         </v-form>
         <VerticalSlide tag="v-list" class="p-0">

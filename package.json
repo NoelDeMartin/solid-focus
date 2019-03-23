@@ -10,7 +10,7 @@
     "test": "jest",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:test": "start-server-and-test serve http://localhost:8080 cy:run"
+    "cy:test": "NODE_ENV=testing start-server-and-test serve http://localhost:8080 cy:run"
   },
   "vuePlugins": {
     "service": [

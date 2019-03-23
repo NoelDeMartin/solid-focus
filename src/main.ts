@@ -18,9 +18,13 @@ bootServices(app)
     .then(error => {
         app.$mount('#app');
 
-        document.body.removeAttribute('loading');
+        if (app.$config.isTesting) {
+            window.__app__ = app;
+        }
 
         if (error) {
             app.$ui.showError(error);
         }
+
+        document.body.removeAttribute('loading');
     });
