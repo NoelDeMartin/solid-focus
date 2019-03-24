@@ -94,15 +94,11 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     public async createTask(list: List, name: string): Promise<Task> {
-        const parentUrl = list.id || list.workspace.id;
-
         const task = new Task({
             name,
         });
 
-        // TODO use from per instance instead
-        Task.from(parentUrl);
-        task.save();
+        task.save(list.id || list.workspace.id);
 
         list.add(task);
 
