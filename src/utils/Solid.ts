@@ -182,7 +182,9 @@ class Solid {
         }
 
         try {
-            const data = await SolidAuthClient.fetch(containerUrl).then(res => res.text());
+            const data = await SolidAuthClient
+                .fetch(containerUrl, { headers: { 'Accept': 'text/turtle' } })
+                .then(res => res.text());
             const store = $rdf.graph();
 
             $rdf.parse(data, store, containerUrl, 'text/turtle', null as any);
