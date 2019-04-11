@@ -1,4 +1,4 @@
-import List, { ListJson } from '@/models/List';
+import List, { ListJson } from '@/models/soukai/List';
 
 export interface WorkspaceJson {
     id: any;

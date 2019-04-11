@@ -1,5 +1,5 @@
 
-import List from '@/models/List';
+import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
 import User from '@/models/users/User';
 import Workspace from '@/models/Workspace';

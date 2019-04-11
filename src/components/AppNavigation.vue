@@ -173,7 +173,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import List from '@/models/List';
+import List from '@/models/soukai/List';
 import SolidUser from '@/models/users/SolidUser';
 import Workspace from '@/models/Workspace';
 

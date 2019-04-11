@@ -1,6 +1,6 @@
 import Backend from '@/services/backends/Backend';
 
-import List from '@/models/List';
+import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
 import Workspace, { WorkspaceJson } from '@/models/Workspace';
 
@@ -38,8 +38,9 @@ export default class OfflineBackend extends Backend {
     }
 
     public async createWorkspace(name: string): Promise<Workspace> {
-        const inbox = new List(UUIDGenerator.generate(), 'Inbox');
-        const workspace = new Workspace(UUIDGenerator.generate(), name, [inbox], inbox);
+        const workspaceId = UUIDGenerator.generate();
+        const inbox = new List({ url: workspaceId, name: 'Inbox' });
+        const workspace = new Workspace(workspaceId, name, [inbox], inbox);
 
         inbox.setWorkspace(workspace);
         inbox.loaded = true;
@@ -57,7 +58,7 @@ export default class OfflineBackend extends Backend {
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
-        const list = new List(UUIDGenerator.generate(), name);
+        const list = new List({ url: UUIDGenerator.generate(), name });
 
         list.setWorkspace(workspace);
         workspace.addList(list);

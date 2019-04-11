@@ -18,10 +18,7 @@ export default class Task extends SolidModel {
     public static rdfsClasses = ['lifecycle:Task', 'prov:Activity'];
 
     public static fields = {
-        name: {
-            type: FieldType.String,
-            rdfProperty: 'foaf:name',
-        },
+        name: FieldType.String,
         completedAt: {
             type: FieldType.Date,
             rdfProperty: 'provenance:completedAt',
@@ -29,11 +26,14 @@ export default class Task extends SolidModel {
     };
 
     public static fromJson(json: TaskJson): Task {
-        return new Task({
-            url: json.id,
-            name: json.name,
-            completedAt: json.completedAt ? new Date(json.completedAt) : null,
-        });
+        return new Task(
+            {
+                url: json.id,
+                name: json.name,
+                completedAt: json.completedAt ? new Date(json.completedAt) : null,
+            },
+            true,
+        );
     }
 
     get completed(): boolean {
@@ -50,7 +50,7 @@ export default class Task extends SolidModel {
 
     public toJson(): TaskJson {
         const json: TaskJson = {
-            id: this.id,
+            id: this.url,
             name: this.name,
         };
 

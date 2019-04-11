@@ -53,7 +53,7 @@
 import Vue from 'vue';
 
 import Task from '@/models/soukai/Task';
-import List from '@/models/List';
+import List from '@/models/soukai/List';
 
 import TaskItem from '@/components/TaskItem.vue';
 import VerticalSlide from '@/components/transitions/VerticalSlide.vue';
