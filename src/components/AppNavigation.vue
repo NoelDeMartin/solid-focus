@@ -237,7 +237,7 @@ export default Vue.extend({
         },
         activateList(list: List) {
             if (this.$workspaces.hasActive()) {
-                if (!list.loaded) {
+                if (!list.isRelationLoaded('tasks')) {
                     this.$ui.wrapAsyncOperation(
                         this.$workspaces.setActiveList(list),
                         `Loading ${list.name} list...`

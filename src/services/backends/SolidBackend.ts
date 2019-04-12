@@ -38,6 +38,7 @@ export default class SolidBackend extends Backend<SolidUser> {
             const lists = await List.from(workspace.id).all<List>();
 
             for (const list of lists) {
+                list.setWorkspace(workspace);
                 workspace.lists.push(list);
             }
 
@@ -58,20 +59,7 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     public async loadList(list: List): Promise<void> {
-        if (!list.loaded && !list.loading) {
-            list.loading = true;
-
-            const containerUrl = list.id || list.workspace.id;
-
-            const tasks = await Task.from(containerUrl).all<Task>();
-
-            for (const task of tasks) {
-                list.add(task);
-            }
-
-            list.loaded = true;
-            list.loading = false;
-        }
+        await list.loadRelation('tasks');
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
@@ -89,7 +77,11 @@ export default class SolidBackend extends Backend<SolidUser> {
 
         task.save(list.id || list.workspace.id);
 
-        list.add(task);
+        if (list.isRelationLoaded('tasks')) {
+            list.tasks = [...list.tasks, task];
+        } else {
+            list.loadRelation('tasks');
+        }
 
         return task;
     }

@@ -1,4 +1,4 @@
-import { FieldType } from 'soukai';
+import { FieldType, MultipleModelsRelation } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
 import Task, { TaskJson } from '@/models/soukai/Task';
@@ -38,11 +38,10 @@ export default class List extends SolidModel {
         return list;
     }
 
-    // TODO replace with relationship
-    public workspace!: Workspace;
+    public static classFields = ['workspace'];
 
     // TODO replace with relationship
-    public tasks: Task[] = [];
+    public workspace!: Workspace;
 
     public get empty(): boolean {
         return this.tasks.length === 0;
@@ -52,19 +51,21 @@ export default class List extends SolidModel {
         return this.tasks.length;
     }
 
-    public setWorkspace(workspace: Workspace): void {
-        this.workspace = workspace;
+    public tasksRelationship(): MultipleModelsRelation {
+        return this.contains(Task);
     }
 
-    public add(task: Task): void {
-        this.tasks.push(task);
+    public setWorkspace(workspace: Workspace): void {
+        this.workspace = workspace;
     }
 
     public toJson(): ListJson {
         return {
             id: this.url,
             name: this.name,
-            tasks: this.tasks.map(task => task.toJson()),
+            tasks: this.isRelationLoaded('tasks')
+                ? this.tasks.map((task: Task) => task.toJson())
+                : [],
         };
     }
 

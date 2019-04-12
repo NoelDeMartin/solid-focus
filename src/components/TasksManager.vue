@@ -81,11 +81,14 @@ export default Vue.extend({
         };
     },
     computed: {
+        listTasks(): Task[] {
+            return this.list.isRelationLoaded('tasks') ? this.list.tasks : [];
+        },
         pendingTasks(): Task[] {
-            return this.list.tasks.filter((task: Task) => !task.completed);
+            return this.listTasks.filter((task: Task) => !task.completed);
         },
         completedTasks(): Task[] {
-            return this.list.tasks.filter((task: Task) => task.completed);
+            return this.listTasks.filter((task: Task) => task.completed);
         },
     },
     methods: {

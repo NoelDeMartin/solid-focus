@@ -20,7 +20,6 @@ export default class OfflineBackend extends Backend {
             workspace.loaded = true;
             workspace.lists.forEach(list => {
                 list.setWorkspace(workspace);
-                list.loaded = true;
             });
 
             return workspace;
@@ -60,9 +59,9 @@ export default class OfflineBackend extends Backend {
     public async createList(workspace: Workspace, name: string): Promise<List> {
         const list = new List({ url: UUIDGenerator.generate(), name });
 
+        list.tasks = [];
         list.setWorkspace(workspace);
         workspace.addList(list);
-        list.loaded = true;
 
         this.workspacesUpdated();
 
@@ -72,7 +71,7 @@ export default class OfflineBackend extends Backend {
     public async createTask(list: List, name: string): Promise<Task> {
         const task = new Task({ url: UUIDGenerator.generate(), name });
 
-        list.add(task);
+        list.tasks = [...list.tasks, task];
 
         this.workspacesUpdated();
 

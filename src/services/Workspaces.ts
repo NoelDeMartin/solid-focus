@@ -59,7 +59,7 @@ export default class Workspaces extends Service {
             throw new Error('Attempting to activate list outside of the active workspace');
         }
 
-        if (!list.loaded) {
+        if (!list.isRelationLoaded('tasks')) {
             await this.backend.loadList(list);
         }
 

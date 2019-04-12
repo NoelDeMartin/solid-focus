@@ -16,7 +16,7 @@ module.exports = {
             '@trust/webcrypto': 'crypto',
         },
         resolve: {
-            alias: process.env.NODE_ENV === 'development'
+            alias: process.env.NODE_ENV !== 'production'
                 ? {
                     // This is necessary to use npm link for development:
                     // https://stackoverflow.com/questions/31169760/how-to-avoid-react-loading-twice-with-webpack-when-developing
@@ -28,7 +28,7 @@ module.exports = {
     chainWebpack: (config) => {
         // This is necessary to use npm link for development:
         // https://cli.vuejs.org/guide/troubleshooting.html#symbolic-links-in-node-modules
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV !== 'production') {
             config.resolve.symlinks(false);
         }
     },
