@@ -175,7 +175,7 @@ import Vue from 'vue';
 
 import List from '@/models/soukai/List';
 import SolidUser from '@/models/users/SolidUser';
-import Workspace from '@/models/Workspace';
+import Workspace from '@/models/soukai/Workspace';
 
 import { Layout } from '@/services/UI';
 

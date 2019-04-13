@@ -3,26 +3,31 @@ import Backend from '@/services/backends/Backend';
 import List from '@/models/soukai/List';
 import SolidUser from '@/models/users/SolidUser';
 import Task from '@/models/soukai/Task';
-import Workspace from '@/models/Workspace';
-
-import Solid, { Resource } from '@/utils/Solid';
-import Str from '@/utils/Str';
-
-const TASK_GROUP = 'http://purl.org/vocab/lifecycle/schema#TaskGroup';
+import Workspace from '@/models/soukai/Workspace';
 
 export default class SolidBackend extends Backend<SolidUser> {
 
     public async loadWorkspaces(user: SolidUser): Promise<Workspace[]> {
-        const containers = [];
+        const workspaces: Workspace[] = [];
+
         for (const storageUrl of user.storages) {
-            containers.push(... await Solid.getContainers(storageUrl, [TASK_GROUP]));
+            workspaces.push(
+                ...(await Workspace.from(storageUrl).all<Workspace>())
+                    .map(workspace => {
+                        // TODO treat contained tasks as the inbox
+                        const inbox = new List({ url: workspace.url, name: 'Inbox' });
+
+                        inbox.setRelation('tasks', []);
+                        inbox.setWorkspace(workspace);
+                        workspace.addList(inbox);
+                        workspace.setActiveList(inbox);
+
+                        return workspace;
+                    }),
+            );
         }
 
-        return await Promise.all(
-            containers.map(
-                container => this.createWorkspaceFromResource(container)
-            )
-        );
+        return workspaces;
     }
 
     public async unloadWorkspaces(): Promise<void> {
@@ -48,14 +53,20 @@ export default class SolidBackend extends Backend<SolidUser> {
     }
 
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
-        const resource = await Solid.createContainer(
-            storage,
-            Str.slug(name),
-            name,
-            [TASK_GROUP]
-        );
+        const workspace = new Workspace({ name });
 
-        return await this.createWorkspaceFromResource(resource);
+        // TODO treat contained tasks as the inbox
+        const inbox = new List({ name: 'Inbox' });
+
+        workspace.save(storage);
+
+        inbox.setRelation('tasks', []);
+        inbox.setAttribute('url', workspace.url);
+        inbox.setWorkspace(workspace);
+        workspace.addList(inbox);
+        workspace.setActiveList(inbox);
+
+        return workspace;
     }
 
     public async loadList(list: List): Promise<void> {
@@ -66,10 +77,11 @@ export default class SolidBackend extends Backend<SolidUser> {
         const list = new List({ name });
 
         list.save(workspace.id);
+        list.setRelation('tasks', []);
 
-        workspace.addList(list as any);
+        workspace.addList(list);
 
-        return list as any;
+        return list;
     }
 
     public async createTask(list: List, name: string): Promise<Task> {
@@ -89,18 +101,6 @@ export default class SolidBackend extends Backend<SolidUser> {
     public async toggleTask(task: Task): Promise<void> {
         task.toggle();
         task.save();
-    }
-
-    private async createWorkspaceFromResource(resource: Resource): Promise<Workspace> {
-        // TODO make Workspaces a lifecycle:TaskGroup as well and treat
-        // contained tasks as the inbox
-        const inbox = new List ({ name: 'Inbox' });
-        const workspace = new Workspace(resource.url, resource.name, [inbox], inbox);
-
-        inbox.setAttribute('url', workspace.id);
-        inbox.setWorkspace(workspace);
-
-        return workspace;
     }
 
 }

@@ -23,7 +23,7 @@ import { ValidationRule } from 'vuetify';
 
 import { Dialog } from '@/services/UI';
 
-import Workspace from '@/models/Workspace';
+import Workspace from '@/models/soukai/Workspace';
 
 import DialogForm from '@/dialogs/DialogForm.vue';
 

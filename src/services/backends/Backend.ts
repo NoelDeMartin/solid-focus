@@ -2,7 +2,7 @@
 import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
 import User from '@/models/users/User';
-import Workspace from '@/models/Workspace';
+import Workspace from '@/models/soukai/Workspace';
 
 export default abstract class Backend<U=User> {
 

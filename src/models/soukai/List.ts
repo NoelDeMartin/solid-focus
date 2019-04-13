@@ -2,7 +2,7 @@ import { FieldType, MultipleModelsRelation } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
 import Task, { TaskJson } from '@/models/soukai/Task';
-import Workspace from '@/models/Workspace';
+import Workspace from '@/models/soukai/Workspace';
 
 export interface ListJson {
     id: any;
