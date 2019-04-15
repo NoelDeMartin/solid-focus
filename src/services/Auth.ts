@@ -1,5 +1,6 @@
 import { Store } from 'vuex';
 
+import $rdf from 'rdflib';
 import SolidAuthClient, { Session } from 'solid-auth-client';
 
 import Service from '@/services/Service';
@@ -8,7 +9,6 @@ import User from '@/models/users/User';
 import OfflineUser from '@/models/users/OfflineUser';
 import SolidUser from '@/models/users/SolidUser';
 
-import Solid from '@/utils/Solid';
 import Storage from '@/utils/Storage';
 import EventBus from '@/utils/EventBus';
 
@@ -158,10 +158,29 @@ export default class Auth extends Service {
     }
 
     private async loginFromSession(session: Session): Promise<void> {
-        const user = await Solid.getUserFromSession(session);
+        const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+        const PIM = $rdf.Namespace('http://www.w3.org/ns/pim/space#');
+
+        const store = $rdf.graph();
+        const fetcher = new $rdf.Fetcher(store, {});
+
+        await (fetcher as any).load(session.webId);
+
+        const webId = store.sym(session.webId);
+
+        const name = store.any(webId, FOAF('name'), null as any, null as any);
+        const avatarUrl = store.any(webId, FOAF('img'), null as any, null as any);
+        const storages = store.each(webId, PIM('storage'), null as any, null as any);
+
+        // TODO load extended profile to find additional storages
 
         await this.loginUser(
-            new SolidUser(user.id, user.name, user.avatarUrl, user.storages),
+            new SolidUser(
+                webId.value,
+                name ? name.value : 'Unknown',
+                avatarUrl ? avatarUrl.value : null,
+                (storages || []).map($storage => $storage.value),
+            ),
             Mode.Solid
         );
     }
