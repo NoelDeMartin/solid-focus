@@ -111,7 +111,7 @@
             >
                 <v-list v-if="!$workspaces.empty">
                     <v-list-tile
-                        v-for="(list, i) in $workspaces.active.lists"
+                        v-for="(list, i) in lists"
                         :key="i"
                         @click="activateList(list)"
                     >
@@ -206,10 +206,20 @@ export default Vue.extend({
         },
         userInfo(): string | void {
             // TODO this should be moved to a dedicated section with more information
-            // about the user.
+            // about the user
             if (this.$auth.user instanceof SolidUser) {
                 return 'WebID: ' + this.$auth.user.id;
             }
+        },
+        lists(): List[] {
+            const activeWorkspace = this.$workspaces.active;
+
+            return activeWorkspace
+                ? [
+                    activeWorkspace.inbox,
+                    ...(activeWorkspace.lists || []),
+                ]
+                : [];
         },
     },
     created() {
@@ -225,27 +235,37 @@ export default Vue.extend({
         createWorkspaceList() {
             this.$ui.openDialog(() => import('@/dialogs/CreateWorkspaceList.vue'));
         },
-        activateWorkspace(workspace: Workspace) {
-            if (!workspace.loaded) {
-                this.$ui.wrapAsyncOperation(
-                    this.$workspaces.setActiveWorkspace(workspace),
-                    `Loading ${workspace.name} workspace...`
+        async activateWorkspace(workspace: Workspace) {
+            if (!workspace.isRelationLoaded('lists')) {
+                await this.$ui.wrapAsyncOperation(
+                    workspace.loadRelation('lists'),
+                    `Loading ${workspace.name}...`,
                 );
-            } else {
-                this.$workspaces.setActiveWorkspace(workspace);
-            }
-        },
-        activateList(list: List) {
-            if (this.$workspaces.hasActive()) {
-                if (!list.isRelationLoaded('tasks')) {
-                    this.$ui.wrapAsyncOperation(
-                        this.$workspaces.setActiveList(list),
-                        `Loading ${list.name} list...`
-                    );
-                } else {
-                    this.$workspaces.setActiveList(list);
+
+                // TODO this could be done automatically in Soukai
+                for (const list of workspace.lists!) {
+                    list.setRelation('workspace', workspace);
                 }
             }
+
+            if (!workspace.activeList.isRelationLoaded('tasks')) {
+                await this.$ui.wrapAsyncOperation(
+                    workspace.activeList.loadRelation('tasks'),
+                    `Loading ${workspace.activeList.name}...`,
+                );
+            }
+
+            this.$workspaces.setActiveWorkspace(workspace);
+        },
+        async activateList(list: List) {
+            if (!list.isRelationLoaded('tasks')) {
+                await this.$ui.wrapAsyncOperation(
+                    list.loadRelation('tasks'),
+                    `Loading ${list.name}...`,
+                );
+            }
+
+            this.$workspaces.active!.setActiveList(list);
 
             if (this.$ui.mobile) {
                 this.collapsed = true;

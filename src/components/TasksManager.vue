@@ -52,8 +52,8 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import Task from '@/models/soukai/Task';
 import List from '@/models/soukai/List';
+import Task from '@/models/soukai/Task';
 
 import TaskItem from '@/components/TaskItem.vue';
 import VerticalSlide from '@/components/transitions/VerticalSlide.vue';
@@ -81,24 +81,24 @@ export default Vue.extend({
         };
     },
     computed: {
-        listTasks(): Task[] {
-            return this.list.isRelationLoaded('tasks') ? this.list.tasks : [];
+        tasks(): Task[] {
+            return this.list.tasks || [];
         },
         pendingTasks(): Task[] {
-            return this.listTasks.filter((task: Task) => !task.completed);
+            return this.tasks.filter((task: Task) => !task.completed);
         },
         completedTasks(): Task[] {
-            return this.listTasks.filter((task: Task) => task.completed);
+            return this.tasks.filter((task: Task) => task.completed);
         },
     },
     methods: {
         async create() {
             if (this.newTask) {
-                const newTask = this.newTask;
+                const name = this.newTask;
                 this.newTask = '';
 
                 try {
-                    await this.$workspaces.createTask(this.list, newTask);
+                    await this.$workspaces.createTask(this.list, name);
                 } catch (e) {
                     this.$ui.showError(e);
 

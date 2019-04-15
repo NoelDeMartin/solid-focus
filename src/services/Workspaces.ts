@@ -43,27 +43,7 @@ export default class Workspaces extends Service {
     }
 
     public async setActiveWorkspace(workspace: Workspace): Promise<void> {
-        if (!workspace.loaded) {
-            await this.backend.loadWorkspace(workspace);
-
-            if (workspace.hasActiveList() && !workspace.activeList.loaded) {
-                await this.backend.loadList(workspace.activeList);
-            }
-        }
-
         this.app.$store.commit('setActiveWorkspace', workspace);
-    }
-
-    public async setActiveList(list: List): Promise<void> {
-        if (list.workspace !== this.active) {
-            throw new Error('Attempting to activate list outside of the active workspace');
-        }
-
-        if (!list.isRelationLoaded('tasks')) {
-            await this.backend.loadList(list);
-        }
-
-        this.active.setActiveList(list);
     }
 
     public async createWorkspace(...args: any[]): Promise<Workspace> {
@@ -146,12 +126,17 @@ export default class Workspaces extends Service {
         const workspaces = await this.backend.loadWorkspaces(this.app.$auth.user as User);
         const activeWorkspace = workspaces.length > 0 ? workspaces[0] : null;
 
-        if (activeWorkspace) {
-            await this.backend.loadWorkspace(activeWorkspace);
+        if (activeWorkspace && !activeWorkspace.isRelationLoaded('lists')) {
+            await activeWorkspace.loadRelation('lists');
 
-            if (activeWorkspace.hasActiveList()) {
-                await this.backend.loadList(activeWorkspace.activeList);
+            // TODO this could be done automatically in Soukai
+            for (const list of activeWorkspace.lists!) {
+                list.setRelation('workspace', activeWorkspace);
             }
+        }
+
+        if (activeWorkspace && !activeWorkspace.activeList.isRelationLoaded('tasks')) {
+            await activeWorkspace.activeList.loadRelation('tasks');
         }
 
         this.app.$store.commit('setWorkspaces', workspaces);

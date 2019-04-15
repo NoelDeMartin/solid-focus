@@ -12,18 +12,7 @@ export default class SolidBackend extends Backend<SolidUser> {
 
         for (const storageUrl of user.storages) {
             workspaces.push(
-                ...(await Workspace.from(storageUrl).all<Workspace>())
-                    .map(workspace => {
-                        // TODO treat contained tasks as the inbox
-                        const inbox = new List({ url: workspace.url, name: 'Inbox' });
-
-                        inbox.setRelation('tasks', []);
-                        inbox.setWorkspace(workspace);
-                        workspace.addList(inbox);
-                        workspace.setActiveList(inbox);
-
-                        return workspace;
-                    }),
+                ...(await Workspace.from(storageUrl).all<Workspace>()),
             );
         }
 
@@ -34,43 +23,14 @@ export default class SolidBackend extends Backend<SolidUser> {
         // nothing to do here
     }
 
-    public async loadWorkspace(workspace: Workspace): Promise<void> {
-        // TODO once workspace <-> lists relation is implemented,
-        // check if relation is loaded or is loading instead
-        if (!workspace.loaded && !workspace.loading) {
-            workspace.loading = true;
-
-            const lists = await List.from(workspace.id).all<List>();
-
-            for (const list of lists) {
-                list.setWorkspace(workspace);
-                workspace.lists.push(list);
-            }
-
-            workspace.loaded = true;
-            workspace.loading = false;
-        }
-    }
-
     public async createWorkspace(storage: string, name: string): Promise<Workspace> {
         const workspace = new Workspace({ name });
 
-        // TODO treat contained tasks as the inbox
-        const inbox = new List({ name: 'Inbox' });
-
         workspace.save(storage);
 
-        inbox.setRelation('tasks', []);
-        inbox.setAttribute('url', workspace.url);
-        inbox.setWorkspace(workspace);
-        workspace.addList(inbox);
-        workspace.setActiveList(inbox);
+        workspace.setRelation('lists', []);
 
         return workspace;
-    }
-
-    public async loadList(list: List): Promise<void> {
-        await list.loadRelation('tasks');
     }
 
     public async createList(workspace: Workspace, name: string): Promise<List> {
@@ -78,8 +38,9 @@ export default class SolidBackend extends Backend<SolidUser> {
 
         list.save(workspace.id);
         list.setRelation('tasks', []);
+        list.setRelation('workspace', workspace);
 
-        workspace.addList(list);
+        workspace.setRelation('lists', [...workspace.lists!, list]);
 
         return list;
     }
@@ -87,13 +48,9 @@ export default class SolidBackend extends Backend<SolidUser> {
     public async createTask(list: List, name: string): Promise<Task> {
         const task = new Task({ name });
 
-        task.save(list.id || list.workspace.id);
+        task.save(list.id);
 
-        if (list.isRelationLoaded('tasks')) {
-            list.tasks = [...list.tasks, task];
-        } else {
-            list.loadRelation('tasks');
-        }
+        list.setRelation('tasks', [...list.tasks || [], task]);
 
         return task;
     }

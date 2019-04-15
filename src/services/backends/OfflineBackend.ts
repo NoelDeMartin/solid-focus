@@ -14,16 +14,7 @@ export default class OfflineBackend extends Backend {
     public async loadWorkspaces(): Promise<Workspace[]> {
         const workspaceJsons: WorkspaceJson[] = Storage.get('workspaces', []);
 
-        this.workspaces = workspaceJsons.map(workspaceJson => {
-            const workspace = Workspace.fromJson(workspaceJson);
-
-            workspace.loaded = true;
-            workspace.lists.forEach(list => {
-                list.setWorkspace(workspace);
-            });
-
-            return workspace;
-        });
+        this.workspaces = workspaceJsons.map(Workspace.fromJson);
 
         return this.workspaces.slice(0);
     }
@@ -32,20 +23,10 @@ export default class OfflineBackend extends Backend {
         Storage.remove('workspaces');
     }
 
-    public async loadWorkspace(workspace: Workspace): Promise<void> {
-        // Offline workspaces are always fully loaded
-    }
-
     public async createWorkspace(name: string): Promise<Workspace> {
         const workspace = new Workspace({ url: UUIDGenerator.generate(), name }, true);
-        const inbox = new List({ url: workspace.url, name: 'Inbox' });
 
-        inbox.setRelation('tasks', []);
-        inbox.setWorkspace(workspace);
-        inbox.loaded = true;
-        workspace.addList(inbox);
-        workspace.setActiveList(inbox);
-        workspace.loaded = true;
+        workspace.setRelation('lists', []);
 
         this.workspaces.push(workspace);
 
@@ -54,16 +35,13 @@ export default class OfflineBackend extends Backend {
         return workspace;
     }
 
-    public async loadList(list: List): Promise<void> {
-        // Offline lists are always fully loaded
-    }
-
     public async createList(workspace: Workspace, name: string): Promise<List> {
         const list = new List({ url: UUIDGenerator.generate(), name });
 
         list.setRelation('tasks', []);
-        list.setWorkspace(workspace);
-        workspace.addList(list);
+        list.setRelation('workspace', workspace);
+
+        workspace.setRelation('lists', [...workspace.lists || [], list]);
 
         this.workspacesUpdated();
 
@@ -73,7 +51,7 @@ export default class OfflineBackend extends Backend {
     public async createTask(list: List, name: string): Promise<Task> {
         const task = new Task({ url: UUIDGenerator.generate(), name });
 
-        list.tasks = [...list.tasks, task];
+        list.setRelation('tasks', [...list.tasks || [], task]);
 
         this.workspacesUpdated();
 
