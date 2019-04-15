@@ -2,7 +2,8 @@ import Backend from '@/services/backends/Backend';
 
 import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
-import Workspace, { WorkspaceJson } from '@/models/soukai/Workspace';
+import Workspace from '@/models/soukai/Workspace';
+import { restoreWorkspace, WorkspaceJson, serializeWorkspace } from '@/models/serialization';
 
 import Storage from '@/utils/Storage';
 import UUIDGenerator from '@/utils/UUIDGenerator';
@@ -14,7 +15,7 @@ export default class OfflineBackend extends Backend {
     public async loadWorkspaces(): Promise<Workspace[]> {
         const workspaceJsons: WorkspaceJson[] = Storage.get('workspaces', []);
 
-        this.workspaces = workspaceJsons.map(Workspace.fromJson);
+        this.workspaces = workspaceJsons.map(restoreWorkspace);
 
         return this.workspaces.slice(0);
     }
@@ -65,7 +66,7 @@ export default class OfflineBackend extends Backend {
     }
 
     protected workspacesUpdated(): void {
-        Storage.set('workspaces', this.workspaces.map(workspace => workspace.toJson()));
+        Storage.set('workspaces', this.workspaces.map(serializeWorkspace));
     }
 
 }

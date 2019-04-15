@@ -1,13 +1,7 @@
 import { FieldType, MultipleModelsRelation, Attributes, Model } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
-import List, { ListJson } from '@/models/soukai/List';
-
-export interface WorkspaceJson {
-    id: any;
-    name: string;
-    lists: ListJson[];
-}
+import List from '@/models/soukai/List';
 
 export default class Workspace extends SolidModel {
 
@@ -24,24 +18,6 @@ export default class Workspace extends SolidModel {
     };
 
     public static classFields = ['activeList'];
-
-    public static fromJson(json: WorkspaceJson): Workspace {
-        const workspace = new Workspace(
-            {
-                url: json.id,
-                name: json.name,
-            },
-            true,
-        );
-
-        workspace.setRelation('lists', json.lists.map(listJson => List.fromJson(listJson)));
-
-        for (const list of workspace.lists!) {
-            list.setRelation('workspace', workspace);
-        }
-
-        return workspace;
-    }
 
     public inbox: List;
 
@@ -77,16 +53,6 @@ export default class Workspace extends SolidModel {
 
     public listsRelationship(): MultipleModelsRelation {
         return this.contains(List);
-    }
-
-    public toJson(): WorkspaceJson {
-        return {
-            id: this.url,
-            name: this.name,
-            lists: this.isRelationLoaded('lists')
-                ? this.lists!.map((list: List) => list.toJson())
-                : [],
-        };
     }
 
 }
