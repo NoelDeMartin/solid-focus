@@ -3,13 +3,13 @@ import Faker from 'faker';
 describe('Tasks', () => {
 
     beforeEach(() => {
+        cy.visit('/');
+        cy.start();
         cy.login();
     });
 
     it('Creates a workspace', () => {
         const name = Faker.lorem.sentence();
-
-        cy.visit('/');
 
         cy.get('[title="Create new workspace"]').click();
 
@@ -37,8 +37,6 @@ describe('Tasks', () => {
         const name = Faker.lorem.sentence();
 
         cy.addWorkspace(Faker.lorem.sentence());
-
-        cy.visit('/');
 
         cy.get('input').type(name).type('{enter}');
 

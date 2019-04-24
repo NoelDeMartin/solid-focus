@@ -8,9 +8,10 @@
     "lint": "vue-cli-service lint",
     "deploy": "scripts/deploy.sh",
     "test": "jest",
+    "test:serve": "NODE_ENV=testing vue-cli-service serve src/main.testing.ts",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:test": "NODE_ENV=testing start-server-and-test serve http://localhost:8080 cy:run"
+    "cy:test": "start-server-and-test test:serve http://localhost:8080 cy:run"
   },
   "vuePlugins": {
     "service": [
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",
+    "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/faker": "^4.1.4",
     "@types/jest": "^23.3.10",
     "@types/node": "^10.11.7",

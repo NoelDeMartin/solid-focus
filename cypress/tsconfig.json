@@ -1,0 +1,23 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "types": [
+            "cypress",
+            "faker",
+            "jest",
+            "node",
+            "rdflib",
+            "webpack-env"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@cy/*": [
+                "./*"
+            ]
+        },
+    },
+    "include": [
+        "./**/*.ts",
+        "../src/types/*.d.ts"
+    ]
+}

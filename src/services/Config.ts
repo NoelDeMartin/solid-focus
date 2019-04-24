@@ -10,10 +10,6 @@ export default class Config extends Service {
         return this.environment === 'development';
     }
 
-    public get isTesting(): boolean {
-        return this.environment === 'testing';
-    }
-
     protected async init(): Promise<void> {
         await super.init();
 
