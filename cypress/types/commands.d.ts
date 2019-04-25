@@ -6,6 +6,8 @@ declare namespace Cypress {
 
         start(): Chainable<Subject>;
 
+        require<T>(name: string): Chainable<T>;
+
         login(): Chainable<Subject>;
 
         addWorkspace(name: string): Chainable<Subject>;

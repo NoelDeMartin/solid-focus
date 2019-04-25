@@ -1,6 +1,6 @@
 import Faker from 'faker';
 
-describe('Tasks', () => {
+describe('Data Management', () => {
 
     beforeEach(() => {
         cy.visit('/');

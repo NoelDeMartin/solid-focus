@@ -162,9 +162,9 @@ export default class Auth extends Service {
         const PIM = $rdf.Namespace('http://www.w3.org/ns/pim/space#');
 
         const store = $rdf.graph();
-        const fetcher = new $rdf.Fetcher(store, {});
+        const data = await SolidAuthClient.fetch(session.webId).then(res => res.text());
 
-        await (fetcher as any).load(session.webId);
+        $rdf.parse(data, store, session.webId, null as any, null as any);
 
         const webId = store.sym(session.webId);
 

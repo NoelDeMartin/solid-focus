@@ -6,6 +6,12 @@ Cypress.Commands.add('start', () => {
     }));
 });
 
+Cypress.Commands.add('require', name => {
+    getRuntime().then(runtime => new Cypress.Promise(resolve => {
+        resolve(runtime.require(name));
+    }));
+});
+
 Cypress.Commands.add('login', () => {
     getApp().then(app => new Cypress.Promise(resolve => {
         app.$auth.loginOffline().then(() => resolve());

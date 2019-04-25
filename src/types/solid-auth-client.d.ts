@@ -19,7 +19,7 @@ declare module 'solid-auth-client' {
         sessionKey: string,
     };
 
-    class SolidAuthClient extends EventEmitter {
+    export class SolidAuthClient extends EventEmitter {
         public fetch(input: RequestInfo, options?: Object): Promise<Response>;
 
         public login(idp: string, options?: loginOptions): Promise<Session | void>;
