@@ -1,19 +1,19 @@
 import { getApp, getRuntime } from '@cy/support/utils';
 
 Cypress.Commands.add('start', () => {
-    getRuntime().then(async runtime => {
-        await runtime.start();
-    });
+    getRuntime().then(runtime => new Cypress.Promise(resolve => {
+        runtime.start().then(() => resolve());
+    }));
 });
 
 Cypress.Commands.add('login', () => {
-    getApp().then(async app => {
-        await app.$auth.loginOffline();
-    });
+    getApp().then(app => new Cypress.Promise(resolve => {
+        app.$auth.loginOffline().then(() => resolve());
+    }));
 });
 
 Cypress.Commands.add('addWorkspace', name => {
-    getApp().then(async app => {
-        await app.$workspaces.createWorkspace(name);
-    });
+    getApp().then(app => new Cypress.Promise(resolve => {
+        app.$workspaces.createWorkspace(name).then(() => resolve());
+    }));
 });
