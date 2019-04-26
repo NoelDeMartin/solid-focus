@@ -4,7 +4,7 @@ const version = require('./package.json').version;
 process.env.VUE_APP_VERSION = version;
 
 module.exports = {
-    baseUrl: process.env.NODE_ENV === 'production'
+    publicPath: process.env.NODE_ENV === 'production'
         ? '/solid-focus/'
         : '/',
     configureWebpack: {
