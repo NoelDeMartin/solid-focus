@@ -1,16 +1,18 @@
 /// <reference types="cypress" />
 
-declare namespace Cypress {
+import commands from '@cy/support/commands';
 
-    interface Chainable<Subject> {
+type CustomCommands<Subject> = {
+    [command in keyof typeof commands]: typeof commands[command];
+};
 
-        start(): Chainable<Subject>;
+declare global {
 
-        require<T>(name: string): Chainable<T>;
+    namespace Cypress {
 
-        login(): Chainable<Subject>;
+        interface Chainable<Subject> extends CustomCommands<Subject> {
 
-        addWorkspace(name: string): Chainable<Subject>;
+        }
 
     }
 
