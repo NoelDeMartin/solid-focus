@@ -255,7 +255,7 @@ export default Vue.extend({
                 );
             }
 
-            this.$workspaces.setActiveWorkspace(workspace);
+            this.$workspaces.setActive(workspace);
         },
         async activateList(list: List) {
             if (!list.isRelationLoaded('tasks')) {

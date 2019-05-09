@@ -1,13 +1,10 @@
+import { SolidEngine } from 'soukai-solid';
 import { Store } from 'vuex';
+import Soukai, { LocalStorageEngine } from 'soukai';
 
-import { Mode } from '@/services/Auth';
 import Service from '@/services/Service';
-import Backend from '@/services/backends/Backend';
-import OfflineBackend from '@/services/backends/OfflineBackend';
-import SolidBackend from '@/services/backends/SolidBackend';
 
-import List from '@/models/soukai/List';
-import Task from '@/models/soukai/Task';
+import SolidUser from '@/models/users/SolidUser';
 import User from '@/models/users/User';
 import Workspace from '@/models/soukai/Workspace';
 
@@ -18,13 +15,7 @@ interface State {
     workspaces: Workspace[];
 }
 
-interface HasActive {
-    active: Workspace;
-}
-
 export default class Workspaces extends Service {
-
-    private backend!: Backend;
 
     public get empty(): boolean {
         return !this.storage.workspaces || this.storage.workspaces.length === 0;
@@ -38,37 +29,16 @@ export default class Workspaces extends Service {
         return this.storage.workspaces;
     }
 
-    public hasActive(): this is HasActive {
-        return !!this.storage.activeWorkspace;
-    }
-
-    public async setActiveWorkspace(workspace: Workspace): Promise<void> {
+    public async setActive(workspace: Workspace): Promise<void> {
         this.app.$store.commit('setActiveWorkspace', workspace);
     }
 
-    public async createWorkspace(...args: any[]): Promise<Workspace> {
-        const workspace = await this.backend.createWorkspace(...args);
-
+    public add(workspace: Workspace, activate: boolean = true): void {
         this.app.$store.commit('addWorkspace', workspace);
-        this.app.$store.commit('setActiveWorkspace', workspace);
 
-        return workspace;
-    }
-
-    public async createList(workspace: Workspace, ...args: any[]): Promise<List> {
-        const list = await this.backend.createList(workspace, ...args);
-
-        workspace.setActiveList(list);
-
-        return list;
-    }
-
-    public createTask(list: List, ...args: any[]): Promise<Task> {
-        return this.backend.createTask(list, ...args);
-    }
-
-    public toggleTask(task: Task): Promise<void> {
-        return this.backend.toggleTask(task);
+        if (activate) {
+            this.app.$store.commit('setActiveWorkspace', workspace);
+        }
     }
 
     protected get storage(): State {
@@ -82,11 +52,11 @@ export default class Workspaces extends Service {
         await this.app.$auth.ready;
 
         if (this.app.$auth.loggedIn) {
-            await this.updateBackend();
+            await this.load(this.app.$auth.user as User);
         }
 
-        EventBus.on('login', this.updateBackend.bind(this));
-        EventBus.on('logout', this.removeBackend.bind(this));
+        EventBus.on('login', this.load.bind(this));
+        EventBus.on('logout', this.unload.bind(this));
     }
 
     protected registerStoreModule(store: Store<State>): void {
@@ -113,17 +83,25 @@ export default class Workspaces extends Service {
         store.unregisterModule('workspaces');
     }
 
-    protected async updateBackend(): Promise<void> {
-        switch (this.app.$auth.mode) {
-            case Mode.Offline:
-                this.backend = new OfflineBackend();
-                break;
-            case Mode.Solid:
-                this.backend = new SolidBackend();
-                break;
+    protected async load(user: User): Promise<void> {
+        let storages: string[];
+
+        if (user instanceof SolidUser) {
+            Soukai.useEngine(new SolidEngine());
+            storages = user.storages;
+        } else {
+            Soukai.useEngine(new LocalStorageEngine('solid-focus-'));
+            storages = [Workspace.collection];
         }
 
-        const workspaces = await this.backend.loadWorkspaces(this.app.$auth.user as User);
+        const workspaces: Workspace[] = [];
+
+        for (const storage of storages) {
+            workspaces.push(
+                ...(await Workspace.from(storage).all<Workspace>()),
+            );
+        }
+
         const activeWorkspace = workspaces.length > 0 ? workspaces[0] : null;
 
         if (activeWorkspace && !activeWorkspace.isRelationLoaded('lists')) {
@@ -143,15 +121,13 @@ export default class Workspaces extends Service {
         this.app.$store.commit('setActiveWorkspace', activeWorkspace);
     }
 
-    protected async removeBackend(): Promise<void> {
-        if (this.backend) {
-            await this.backend.unloadWorkspaces();
-
-            delete this.backend;
-
-            this.app.$store.commit('setWorkspaces', []);
-            this.app.$store.commit('setActiveWorkspace', null);
+    protected async unload(): Promise<void> {
+        if (Soukai.engine instanceof LocalStorageEngine) {
+            (Soukai.engine as LocalStorageEngine).clear();
         }
+
+        this.app.$store.commit('setWorkspaces', []);
+        this.app.$store.commit('setActiveWorkspace', null);
     }
 
 }

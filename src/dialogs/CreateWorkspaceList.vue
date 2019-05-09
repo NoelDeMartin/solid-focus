@@ -23,6 +23,7 @@ import { ValidationRule } from 'vuetify';
 
 import { Dialog } from '@/services/UI';
 
+import List from '@/models/soukai/List';
 import Workspace from '@/models/soukai/Workspace';
 
 import DialogForm from '@/dialogs/DialogForm.vue';
@@ -64,15 +65,19 @@ export default Vue.extend({
         this.$nextTick((this.$refs.name as any).focus);
     },
     methods: {
-        async createWorkspaceList() {
+        createWorkspaceList() {
             this.$ui.completeDialog(this.dialog.id);
-            this.$ui.wrapAsyncOperation(
-                this.$workspaces.createList(
-                    this.$workspaces.active as Workspace,
-                    this.name
-                ),
-                `Creating ${this.name} list...`
-            );
+
+            const workspace = this.$workspaces.active as Workspace;
+            const list = new List({ name: this.name });
+
+            // TODO handle async errors
+            list.save(workspace.url);
+            list.setRelation('tasks', []);
+            list.setRelation('workspace', workspace);
+
+            workspace.setRelation('lists', [...workspace.lists!, list]);
+            workspace.setActiveList(list);
         },
     },
 });

@@ -24,27 +24,30 @@ const customCommands = {
         }));
     },
 
-    createWorkspace(name: string): Cypress.Chainable<Workspace> {
-        return getApp().then(app => new Cypress.Promise<Workspace>(resolve => {
-            app.$workspaces.createWorkspace(name).then(workspace => resolve(workspace));
+    createWorkspace(name: string, storage: string = ''): Cypress.Chainable<Workspace> {
+        return getRuntime().then(runtime => new Cypress.Promise<Workspace>(resolve => {
+            runtime.createWorkspace(name, storage).then(workspace => resolve(workspace));
         }));
     },
 
     createList(workspace: Workspace, name: string): Cypress.Chainable<List> {
-        return getApp().then(app => new Cypress.Promise<List>(resolve => {
-            app.$workspaces.createList(workspace, name).then(list => resolve(list));
+        return getRuntime().then(runtime => new Cypress.Promise<List>(resolve => {
+            runtime.createList(workspace, name).then(list => resolve(list));
         }));
     },
 
     createTask(list: List, name: string): Cypress.Chainable<Task> {
-        return getApp().then(app => new Cypress.Promise<Task>(resolve => {
-            app.$workspaces.createTask(list, name).then(task => resolve(task));
+        return getRuntime().then(runtime => new Cypress.Promise<Task>(resolve => {
+            runtime.createTask(list, name).then(task => resolve(task));
         }));
     },
 
     toggleTask(task: Task): Cypress.Chainable<void> {
         return getApp().then(app => new Cypress.Promise<void>(resolve => {
-            app.$workspaces.toggleTask(task).then(() => resolve());
+            task.toggle();
+            task.save();
+
+            resolve();
         }));
     },
 

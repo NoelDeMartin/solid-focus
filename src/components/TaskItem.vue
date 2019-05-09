@@ -35,13 +35,10 @@ export default Vue.extend({
         toggle() {
             // Allow the checkbox to be displayed as checked before the animation starts
             this.$nextTick(async () => {
-                try {
-                    await this.$workspaces.toggleTask(this.task);
-                } catch (e) {
-                    this.$ui.showError(e);
+                this.task.toggle();
 
-                    // TODO revert task status
-                }
+                // TODO handle async errors
+                this.task.save();
             });
         },
     },

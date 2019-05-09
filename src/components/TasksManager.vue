@@ -94,16 +94,14 @@ export default Vue.extend({
     methods: {
         async create() {
             if (this.newTask) {
-                const name = this.newTask;
+                const task = new Task({ name: this.newTask });
+
+                // TODO handle async errors
+                task.save(this.list.url);
+
+                this.list.setRelation('tasks', [...this.list.tasks || [], task]);
+
                 this.newTask = '';
-
-                try {
-                    await this.$workspaces.createTask(this.list, name);
-                } catch (e) {
-                    this.$ui.showError(e);
-
-                    // TODO delete task from local store
-                }
             }
         },
     },

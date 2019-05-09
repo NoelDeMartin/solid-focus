@@ -7,9 +7,9 @@
         @completed="createWorkspace"
     >
         <v-select
-            v-if="$auth.mode === Mode.Solid"
+            v-if="storages.length > 0"
             v-model="storage"
-            :items="$auth.user.storages"
+            :items="storages"
             :rules="rules.storage"
             label="Storage"
         />
@@ -30,8 +30,9 @@ import Vue from 'vue';
 
 import { ValidationRule } from 'vuetify';
 
-import User from '@/models/users/User';
 import SolidUser from '@/models/users/SolidUser';
+import User from '@/models/users/User';
+import Workspace from '@/models/soukai/Workspace';
 
 import { Dialog } from '@/services/UI';
 
@@ -57,7 +58,7 @@ export default Vue.extend({
     },
     data(): Data {
         return {
-            storage: '',
+            storage: Workspace.collection,
             name: '',
         };
     },
@@ -73,7 +74,11 @@ export default Vue.extend({
                 ],
             };
         },
-        Mode: () => Mode,
+        storages(): string[] {
+            return this.$auth.mode === Mode.Solid
+                ? (this.$auth.user as SolidUser).storages
+                : [];
+        },
     },
     created() {
         if (this.$auth.mode === Mode.Solid) {
@@ -88,22 +93,16 @@ export default Vue.extend({
         this.$nextTick((this.$refs.name as any).focus);
     },
     methods: {
-        async createWorkspace() {
-            let args: any[] = [];
-            switch (this.$auth.mode) {
-                case Mode.Offline:
-                    args = [this.name];
-                    break;
-                case Mode.Solid:
-                    args = [this.storage, this.name];
-                    break;
-            }
-
+        createWorkspace() {
             this.$ui.completeDialog(this.dialog.id);
-            this.$ui.wrapAsyncOperation(
-                this.$workspaces.createWorkspace(...args),
-                `Creating ${this.name} workspace...`
-            );
+
+            const workspace = new Workspace({ name: this.name });
+
+            // TODO handle async errors
+            workspace.save(this.storage);
+            workspace.setRelation('lists', []);
+
+            this.$workspaces.add(workspace);
         },
     },
 });

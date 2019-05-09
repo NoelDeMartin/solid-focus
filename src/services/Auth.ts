@@ -136,7 +136,7 @@ export default class Auth extends Service {
             this.app.$store.commit('setUser', user);
             this.app.$store.commit('setMode', mode);
 
-            EventBus.emit('login');
+            EventBus.emit('login', user);
         }
     }
 
