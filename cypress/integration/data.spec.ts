@@ -109,7 +109,8 @@ describe('Data Management', () => {
 
         cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
             cy.createTask(workspace.inbox, name).then(task => {
-                cy.toggleTask(task);
+                task.toggle();
+                task.save();
             });
         });
 

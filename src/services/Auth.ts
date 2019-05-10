@@ -1,7 +1,9 @@
 import { Store } from 'vuex';
 
+import { SolidEngine } from 'soukai-solid';
 import $rdf from 'rdflib';
 import SolidAuthClient, { Session } from 'solid-auth-client';
+import Soukai, { LocalStorageEngine } from 'soukai';
 
 import Service from '@/services/Service';
 
@@ -13,44 +15,33 @@ import Storage from '@/utils/Storage';
 import EventBus from '@/utils/EventBus';
 
 interface State {
-    mode: Mode | null;
     user: User | null;
 }
 
-export enum Mode {
-    Offline = 'offline',
-    Solid = 'solid',
+interface HasUser {
+    user: User;
 }
 
 export default class Auth extends Service {
 
-    // Implement type guard so that user getter doesn't return null
     public get loggedIn(): boolean {
         return !!this.storage.user;
-    }
-
-    public get mode(): Mode | null {
-        return this.storage.mode;
     }
 
     public get user(): User | null {
         return this.storage.user;
     }
 
-    public withUser<R>(callback: (user: User) => R): R {
-        if (!this.user) {
-            throw new Error('User not available');
-        }
-
-        return callback(this.user);
+    public isLoggedIn(): this is HasUser {
+        return this.loggedIn;
     }
 
     public async loginOffline(): Promise<void> {
         const user = new OfflineUser();
 
-        await this.loginUser(user, Mode.Offline);
+        await this.loginUser(user);
 
-        Storage.set('user', user);
+        Storage.set('user', user.toJson());
     }
 
     public async loginWithSolid(idp: string): Promise<void> {
@@ -59,13 +50,10 @@ export default class Auth extends Service {
 
     public async logout(): Promise<void> {
         if (this.loggedIn) {
-            switch (this.storage.mode) {
-                case Mode.Offline:
-                    Storage.remove('user');
-                    break;
-                case Mode.Solid:
-                    await SolidAuthClient.logout();
-                    break;
+            if (this.user instanceof OfflineUser) {
+                Storage.remove('user');
+            } else if (this.user instanceof SolidUser) {
+                await SolidAuthClient.logout();
             }
 
             this.logoutUser();
@@ -100,7 +88,7 @@ export default class Auth extends Service {
         }
 
         if (user !== null) {
-            await this.loginUser(user, Mode.Offline);
+            await this.loginUser(OfflineUser.fromJson(user));
         }
     }
 
@@ -113,15 +101,11 @@ export default class Auth extends Service {
     protected async registerStoreModule(store: Store<State>): Promise<void> {
         store.registerModule('auth', {
             state: {
-                mode: null,
                 user: null,
             },
             mutations: {
                 setUser(state: State, user: User | null) {
                     state.user = user;
-                },
-                setMode(state: State, mode: Mode | null) {
-                    state.mode = mode;
                 },
             },
         });
@@ -131,10 +115,15 @@ export default class Auth extends Service {
         store.unregisterModule('auth');
     }
 
-    protected async loginUser(user: User, mode: Mode): Promise<void> {
+    protected async loginUser(user: User): Promise<void> {
         if (!this.loggedIn) {
             this.app.$store.commit('setUser', user);
-            this.app.$store.commit('setMode', mode);
+
+            if (user instanceof OfflineUser) {
+                Soukai.useEngine(new LocalStorageEngine('solid-focus-'));
+            } else if (user instanceof SolidUser) {
+                Soukai.useEngine(new SolidEngine());
+            }
 
             EventBus.emit('login', user);
         }
@@ -142,8 +131,11 @@ export default class Auth extends Service {
 
     protected async logoutUser(): Promise<void> {
         if (this.loggedIn) {
+            if (this.user instanceof OfflineUser) {
+                (Soukai.engine as LocalStorageEngine).clear();
+            }
+
             this.app.$store.commit('setUser', null);
-            this.app.$store.commit('setMode', null);
 
             EventBus.emit('logout');
         }
@@ -152,7 +144,7 @@ export default class Auth extends Service {
     private async onSolidSessionUpdated(session: Session | void): Promise<void> {
         if (session && !this.user) {
             await this.loginFromSession(session);
-        } else if (!session && this.mode === Mode.Solid) {
+        } else if (!session && this.user instanceof SolidUser) {
             this.logoutUser();
         }
     }
@@ -181,7 +173,6 @@ export default class Auth extends Service {
                 avatarUrl ? avatarUrl.value : null,
                 (storages || []).map($storage => $storage.value),
             ),
-            Mode.Solid
         );
     }
 

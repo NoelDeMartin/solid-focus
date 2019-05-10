@@ -4,13 +4,18 @@ import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
 import Workspace from '@/models/soukai/Workspace';
 
+import EventBus from '@/utils/EventBus';
+
 window.Runtime = {
     instance,
     start,
 
+    eventBus: EventBus,
+
     require(name: string): any {
         const libs: any = {
             'solid-auth-client': require('solid-auth-client'),
+            'soukai': require('soukai'),
         };
 
         return libs[name];
@@ -19,7 +24,8 @@ window.Runtime = {
     async createWorkspace(name: string, storage: string = ''): Promise<Workspace> {
         const workspace = new Workspace({ name });
 
-        workspace.save(storage);
+        await workspace.save(storage);
+
         workspace.setRelation('lists', []);
 
         this.instance.$workspaces.add(workspace);
@@ -30,7 +36,8 @@ window.Runtime = {
     async createList(workspace: Workspace, name: string): Promise<List> {
         const list = new List({ name });
 
-        list.save(workspace.url);
+        await list.save(workspace.url);
+
         list.setRelation('tasks', []);
         list.setRelation('workspace', workspace);
 
@@ -43,7 +50,7 @@ window.Runtime = {
     async createTask(list: List, name: string): Promise<Task> {
         const task = new Task({ name });
 
-        task.save(list.url);
+        await task.save(list.url);
 
         list.setRelation('tasks', [...list.tasks || [], task]);
 

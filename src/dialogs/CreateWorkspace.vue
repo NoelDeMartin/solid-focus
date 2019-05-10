@@ -7,7 +7,7 @@
         @completed="createWorkspace"
     >
         <v-select
-            v-if="storages.length > 0"
+            v-if="storages.length > 1"
             v-model="storage"
             :items="storages"
             :rules="rules.storage"
@@ -39,7 +39,6 @@ import { Dialog } from '@/services/UI';
 import DialogForm from '@/dialogs/DialogForm.vue';
 
 import Validations from '@/utils/Validations';
-import { Mode } from '@/services/Auth';
 
 interface Data {
     storage: string;
@@ -58,7 +57,7 @@ export default Vue.extend({
     },
     data(): Data {
         return {
-            storage: Workspace.collection,
+            storage: this.$auth.user!.storages[0],
             name: '',
         };
     },
@@ -75,17 +74,8 @@ export default Vue.extend({
             };
         },
         storages(): string[] {
-            return this.$auth.mode === Mode.Solid
-                ? (this.$auth.user as SolidUser).storages
-                : [];
+            return this.$auth.user!.storages;
         },
-    },
-    created() {
-        if (this.$auth.mode === Mode.Solid) {
-            this.$auth.withUser((user: User) => {
-                this.storage = (user as SolidUser).storages[0];
-            });
-        }
     },
     mounted() {
         // Autofocus does not seem to work as expected inside dialogs

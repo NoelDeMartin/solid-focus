@@ -1,54 +1,49 @@
+import Soukai, { InMemoryEngine } from 'soukai';
+
 import List from '@/models/soukai/List';
+import OfflineUser from '@/models/users/OfflineUser';
 import Task from '@/models/soukai/Task';
 import Workspace from '@/models/soukai/Workspace';
 
-import { getApp, getRuntime } from '@cy/support/utils';
+const getRuntime = () => cy.window().its('Runtime').then(runtime => runtime!);
 
 const customCommands = {
 
     start(): Cypress.Chainable<void> {
-        return getRuntime().then(runtime => new Cypress.Promise<void>(resolve => {
-            runtime.start().then(() => resolve());
-        }));
+        return getRuntime().then(runtime => runtime.start());
     },
 
     require<T>(name: string): Cypress.Chainable<T> {
-        return getRuntime().then(runtime => new Cypress.Promise<T>(resolve => {
-            resolve(runtime.require(name));
-        }));
+        return getRuntime().then(runtime => runtime.require(name));
     },
 
     login(): Cypress.Chainable<void> {
-        return getApp().then(app => new Cypress.Promise<void>(resolve => {
-            app.$auth.loginOffline().then(() => resolve());
-        }));
+        return getRuntime().then(async runtime => {
+            const Soukai: Soukai = runtime.require('soukai').default;
+
+            const user = new OfflineUser('Cypress');
+            const engine = new InMemoryEngine();
+
+            Soukai.useEngine(engine);
+
+            runtime.instance.$store.commit('setUser', user);
+            runtime.eventBus.emit('login', user);
+
+            cy.wrap(user).as('user');
+            cy.wrap(engine).as('soukaiEngine');
+        });
     },
 
     createWorkspace(name: string, storage: string = ''): Cypress.Chainable<Workspace> {
-        return getRuntime().then(runtime => new Cypress.Promise<Workspace>(resolve => {
-            runtime.createWorkspace(name, storage).then(workspace => resolve(workspace));
-        }));
+        return getRuntime().then(runtime => runtime.createWorkspace(name, storage));
     },
 
     createList(workspace: Workspace, name: string): Cypress.Chainable<List> {
-        return getRuntime().then(runtime => new Cypress.Promise<List>(resolve => {
-            runtime.createList(workspace, name).then(list => resolve(list));
-        }));
+        return getRuntime().then(runtime => runtime.createList(workspace, name));
     },
 
     createTask(list: List, name: string): Cypress.Chainable<Task> {
-        return getRuntime().then(runtime => new Cypress.Promise<Task>(resolve => {
-            runtime.createTask(list, name).then(task => resolve(task));
-        }));
-    },
-
-    toggleTask(task: Task): Cypress.Chainable<void> {
-        return getApp().then(app => new Cypress.Promise<void>(resolve => {
-            task.toggle();
-            task.save();
-
-            resolve();
-        }));
+        return getRuntime().then(runtime => runtime.createTask(list, name));
     },
 
 };

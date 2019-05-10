@@ -1,10 +1,7 @@
-import { SolidEngine } from 'soukai-solid';
 import { Store } from 'vuex';
-import Soukai, { LocalStorageEngine } from 'soukai';
 
 import Service from '@/services/Service';
 
-import SolidUser from '@/models/users/SolidUser';
 import User from '@/models/users/User';
 import Workspace from '@/models/soukai/Workspace';
 
@@ -51,8 +48,8 @@ export default class Workspaces extends Service {
         await super.init();
         await this.app.$auth.ready;
 
-        if (this.app.$auth.loggedIn) {
-            await this.load(this.app.$auth.user as User);
+        if (this.app.$auth.isLoggedIn()) {
+            await this.load(this.app.$auth.user);
         }
 
         EventBus.on('login', this.load.bind(this));
@@ -84,19 +81,9 @@ export default class Workspaces extends Service {
     }
 
     protected async load(user: User): Promise<void> {
-        let storages: string[];
-
-        if (user instanceof SolidUser) {
-            Soukai.useEngine(new SolidEngine());
-            storages = user.storages;
-        } else {
-            Soukai.useEngine(new LocalStorageEngine('solid-focus-'));
-            storages = [Workspace.collection];
-        }
-
         const workspaces: Workspace[] = [];
 
-        for (const storage of storages) {
+        for (const storage of user.storages) {
             workspaces.push(
                 ...(await Workspace.from(storage).all<Workspace>()),
             );
@@ -122,10 +109,6 @@ export default class Workspaces extends Service {
     }
 
     protected async unload(): Promise<void> {
-        if (Soukai.engine instanceof LocalStorageEngine) {
-            (Soukai.engine as LocalStorageEngine).clear();
-        }
-
         this.app.$store.commit('setWorkspaces', []);
         this.app.$store.commit('setActiveWorkspace', null);
     }
