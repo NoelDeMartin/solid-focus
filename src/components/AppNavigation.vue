@@ -244,7 +244,7 @@ export default Vue.extend({
 
                 // TODO this could be done automatically in Soukai
                 for (const list of workspace.lists!) {
-                    list.setRelation('workspace', workspace);
+                    list.setRelationModels('workspace', workspace);
                 }
             }
 

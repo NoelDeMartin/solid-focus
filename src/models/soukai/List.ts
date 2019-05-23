@@ -1,4 +1,4 @@
-import { FieldType, MultipleModelsRelation, SingleModelRelation } from 'soukai';
+import { FieldType, MultiModelRelation, SingleModelRelation } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
 import Task from '@/models/soukai/Task';
@@ -36,7 +36,7 @@ export default class List extends SolidModel {
         return this.isContainedBy(Workspace);
     }
 
-    public tasksRelationship(): MultipleModelsRelation {
+    public tasksRelationship(): MultiModelRelation {
         return this.contains(Task);
     }
 

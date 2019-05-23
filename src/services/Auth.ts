@@ -122,7 +122,7 @@ export default class Auth extends Service {
             if (user instanceof OfflineUser) {
                 Soukai.useEngine(new LocalStorageEngine('solid-focus-'));
             } else if (user instanceof SolidUser) {
-                Soukai.useEngine(new SolidEngine());
+                Soukai.useEngine(new SolidEngine(SolidAuthClient.fetch.bind(SolidAuthClient)));
             }
 
             EventBus.emit('login', user);

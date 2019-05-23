@@ -73,10 +73,10 @@ export default Vue.extend({
 
             // TODO handle async errors
             list.save(workspace.url);
-            list.setRelation('tasks', []);
-            list.setRelation('workspace', workspace);
+            list.setRelationModels('tasks', []);
+            list.setRelationModels('workspace', workspace);
 
-            workspace.setRelation('lists', [...workspace.lists!, list]);
+            workspace.setRelationModels('lists', [...workspace.lists!, list]);
             workspace.setActiveList(list);
         },
     },

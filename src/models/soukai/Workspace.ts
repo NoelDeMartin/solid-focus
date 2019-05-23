@@ -1,4 +1,4 @@
-import { FieldType, MultipleModelsRelation, Attributes, Model } from 'soukai';
+import { FieldType, MultiModelRelation, Attributes, Model } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
 import List from '@/models/soukai/List';
@@ -30,7 +30,7 @@ export default class Workspace extends SolidModel {
 
         const inbox = new List({ url: this.url, name: 'Inbox' });
 
-        inbox.setRelation('workspace', this);
+        inbox.setRelationModels('workspace', this);
 
         this.inbox = inbox;
         this.activeList = inbox;
@@ -51,7 +51,7 @@ export default class Workspace extends SolidModel {
         this.activeList = list;
     }
 
-    public listsRelationship(): MultipleModelsRelation {
+    public listsRelationship(): MultiModelRelation {
         return this.contains(List);
     }
 

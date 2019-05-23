@@ -90,7 +90,7 @@ export default Vue.extend({
 
             // TODO handle async errors
             workspace.save(this.storage);
-            workspace.setRelation('lists', []);
+            workspace.setRelationModels('lists', []);
 
             this.$workspaces.add(workspace);
         },

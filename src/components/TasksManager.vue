@@ -99,7 +99,7 @@ export default Vue.extend({
                 // TODO handle async errors
                 task.save(this.list.url);
 
-                this.list.setRelation('tasks', [...this.list.tasks || [], task]);
+                this.list.setRelationModels('tasks', [...this.list.tasks || [], task]);
 
                 this.newTask = '';
             }

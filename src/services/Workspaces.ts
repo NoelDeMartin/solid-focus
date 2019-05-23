@@ -96,7 +96,7 @@ export default class Workspaces extends Service {
 
             // TODO this could be done automatically in Soukai
             for (const list of activeWorkspace.lists!) {
-                list.setRelation('workspace', activeWorkspace);
+                list.setRelationModels('workspace', activeWorkspace);
             }
         }
 

@@ -26,7 +26,7 @@ window.Runtime = {
 
         await workspace.save(storage);
 
-        workspace.setRelation('lists', []);
+        workspace.setRelationModels('lists', []);
 
         this.instance.$workspaces.add(workspace);
 
@@ -38,10 +38,10 @@ window.Runtime = {
 
         await list.save(workspace.url);
 
-        list.setRelation('tasks', []);
-        list.setRelation('workspace', workspace);
+        list.setRelationModels('tasks', []);
+        list.setRelationModels('workspace', workspace);
 
-        workspace.setRelation('lists', [...workspace.lists!, list]);
+        workspace.setRelationModels('lists', [...workspace.lists!, list]);
         workspace.setActiveList(list);
 
         return list;
@@ -52,7 +52,7 @@ window.Runtime = {
 
         await task.save(list.url);
 
-        list.setRelation('tasks', [...list.tasks || [], task]);
+        list.setRelationModels('tasks', [...list.tasks || [], task]);
 
         return task;
     },
