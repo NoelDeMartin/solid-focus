@@ -22,7 +22,7 @@
 <script lang="ts">
 import Vue, { AsyncComponent } from 'vue';
 
-import TasksManager from '@/components/TasksManager.vue';
+import TasksManager from './components/TasksManager.vue';
 
 export default Vue.extend({
     components: {

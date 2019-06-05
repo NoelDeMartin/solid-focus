@@ -26,8 +26,8 @@ import Vue from 'vue';
 
 import AppNavigation from '@/components/AppNavigation.vue';
 
-import Home from '@/screens/Home.vue';
-import Login from '@/screens/Login.vue';
+import Home from '@/screens/home';
+import Login from '@/screens/login';
 
 export default Vue.extend({
     components: {
