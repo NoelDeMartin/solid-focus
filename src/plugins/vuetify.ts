@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
-import { colors } from '@/styles/tailwind';
+import Styles from '@/styles/variables';
 
 import '@babel/polyfill';
 
 Vue.use(Vuetify, {
     theme: {
-        primary: colors.jade,
+        primary: Styles.colors.jade,
     },
 });

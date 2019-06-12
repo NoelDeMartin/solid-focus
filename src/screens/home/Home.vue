@@ -1,9 +1,6 @@
 <template>
     <div class="h-full">
-        <TasksManager
-            v-if="!$workspaces.empty"
-            :list="$workspaces.active.activeList"
-        />
+        <TasksManager v-if="!$workspaces.empty" />
         <div v-else class="flex flex-col items-center justify-center h-full">
             <h2 class="text-center">You don't have any workspace, create one!</h2>
             <v-btn

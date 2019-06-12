@@ -1,7 +1,7 @@
 <template>
     <v-form class="p-4" @submit.prevent="create">
         <div class="flex">
-            <v-text-field v-model="newTask" />
+            <v-text-field v-model="name" />
             <v-btn
                 title="Create new task"
                 color="primary"
@@ -18,34 +18,30 @@ import Vue from 'vue';
 
 import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
+import Workspace from '@/models/soukai/Workspace';
 
 interface Data {
-    newTask: string;
+    name: string;
 }
 
 export default Vue.extend({
-    props: {
-        list: {
-            type: Object as () => List,
-            required: true,
-        },
-    },
     data(): Data {
         return {
-            newTask: '',
+            name: '',
         };
     },
     methods: {
         async create() {
-            if (this.newTask) {
-                const task = new Task({ name: this.newTask });
+            if (this.name) {
+                const list = (this.$workspaces.active as Workspace).activeList;
+                const task = new Task({ name: this.name });
 
                 // TODO handle async errors
-                task.save(this.list.url);
+                task.save(list.url);
 
-                this.list.setRelationModels('tasks', [...this.list.tasks || [], task]);
+                list.setRelationModels('tasks', [...list.tasks || [], task]);
 
-                this.newTask = '';
+                this.name = '';
             }
         },
     },

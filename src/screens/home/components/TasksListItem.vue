@@ -4,9 +4,9 @@
             'pending': !task.completed,
             'completed': task.completed,
         }"
-        class="task-item"
+        class="task-item cursor-pointer"
     >
-        <v-list-tile-action>
+        <v-list-tile-action >
             <v-checkbox
                 :input-value="task.completed"
                 color="primary"

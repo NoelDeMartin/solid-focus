@@ -6,11 +6,10 @@
             'layout-desktop': $ui.desktop,
         }"
     >
-        <AppNavigation v-if="$auth.loggedIn" />
-        <v-content>
+        <AppNavigation>
             <Home v-if="$auth.loggedIn" />
             <Login v-else />
-        </v-content>
+        </AppNavigation>
         <component
             v-for="dialog of $ui.dialogs"
             v-bind="dialog.props"

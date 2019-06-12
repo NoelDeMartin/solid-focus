@@ -15,7 +15,7 @@ describe('Authentication', () => {
 
         cy.contains('Login Offline').click();
 
-        cy.contains('.v-navigation-drawer', 'Local (offline)').should('be.visible');
+        cy.contains('#app-navigation-drawer', 'Local (offline)').should('be.visible');
     });
 
     it('Logs in with Solid', () => {
@@ -53,7 +53,7 @@ describe('Authentication', () => {
         cy.get('input[placeholder="Solid POD"]').type(domain);
         cy.contains('Login').click();
 
-        cy.contains('.v-navigation-drawer', name).should('be.visible');
+        cy.contains('#app-navigation-drawer', name).should('be.visible');
     });
 
 });

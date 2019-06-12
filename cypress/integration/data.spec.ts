@@ -15,7 +15,7 @@ describe('Data Management', () => {
 
         cy.get('input').type(name).type('{enter}');
 
-        cy.contains('.v-navigation-drawer', name).should('be.visible');
+        cy.contains('#app-navigation-drawer', name).should('be.visible');
         cy.contains('.v-toolbar', 'Inbox').should('be.visible');
     });
 
@@ -30,7 +30,7 @@ describe('Data Management', () => {
             cy.get('input').type(name).type('{enter}');
         });
 
-        cy.contains('.v-navigation-drawer a', name).should('be.visible');
+        cy.contains('#app-navigation-drawer a', name).should('be.visible');
         cy.contains('.v-toolbar', name).should('be.visible');
     });
 
@@ -61,19 +61,19 @@ describe('Data Management', () => {
             });
         });
 
-        cy.contains('.v-navigation-drawer a', 'Inbox').click();
+        cy.contains('#app-navigation-drawer a', 'Inbox').click();
         cy.contains('.v-toolbar', 'Inbox').should('be.visible');
         cy.contains('.task-item', inboxTask).should('be.visible');
         cy.contains('.task-item', firstListTask).should('not.exist');
         cy.contains('.task-item', secondListTask).should('not.exist');
 
-        cy.contains('.v-navigation-drawer a', firstList).click();
+        cy.contains('#app-navigation-drawer a', firstList).click();
         cy.contains('.v-toolbar', firstList).should('be.visible');
         cy.contains('.task-item', inboxTask).should('not.exist');
         cy.contains('.task-item', firstListTask).should('be.visible');
         cy.contains('.task-item', secondListTask).should('not.exist');
 
-        cy.contains('.v-navigation-drawer a', secondList).click();
+        cy.contains('#app-navigation-drawer a', secondList).click();
         cy.contains('.v-toolbar', secondList).should('be.visible');
         cy.contains('.task-item', inboxTask).should('not.exist');
         cy.contains('.task-item', firstListTask).should('not.exist');

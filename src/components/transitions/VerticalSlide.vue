@@ -1,7 +1,7 @@
 <template>
     <transition-group
         :tag="tag"
-        :duration="300"
+        :duration="$ui.styles.transitions.normal"
         class="vertical-slide-transition-group"
         name="vertical-slide-transition"
     >
@@ -23,13 +23,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-    .vertical-slide-transition-group > * {
-        overflow: hidden;
-        transition: all .3s !important;
-    }
+$transition-duration: config('transitions.normal');
 
-    .vertical-slide-transition-enter,
-    .vertical-slide-transition-leave-to {
-        height: 0;
-    }
+.vertical-slide-transition-group > * {
+    overflow: hidden;
+    transition: all $transition-duration !important;
+}
+
+.vertical-slide-transition-enter,
+.vertical-slide-transition-leave-to {
+    height: 0;
+}
 </style>

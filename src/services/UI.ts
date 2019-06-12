@@ -9,8 +9,11 @@ import UUIDGenerator from '@/utils/UUIDGenerator';
 import Alert from '@/dialogs/Alert.vue';
 import Loading from '@/dialogs/Loading.vue';
 
+import Styles, { StyleVariables } from '@/styles/variables';
+
 interface State {
     dialogs: Dialog[];
+    navigationDrawerOpen: boolean;
 }
 
 export enum Layout {
@@ -52,6 +55,18 @@ export default class UI extends Service {
 
     public get dialogs(): Dialog[] {
         return this.app.$store.state.ui.dialogs;
+    }
+
+    public get toolbarHeight(): number {
+        return this.mobile ? 56 : 64;
+    }
+
+    public get navigationDrawerOpen(): boolean {
+        return this.app.$store.state.ui.navigationDrawerOpen;
+    }
+
+    public get styles(): StyleVariables {
+        return Styles;
     }
 
     public get mobileBreakpoint(): number {
@@ -138,10 +153,19 @@ export default class UI extends Service {
         }
     }
 
+    public setNavigationDrawerOpen(open: boolean): void {
+        this.app.$store.commit('setNavigationDrawerOpen', open);
+    }
+
+    public toggleNavigationDrawer(): void {
+        this.app.$store.commit('setNavigationDrawerOpen', !this.navigationDrawerOpen);
+    }
+
     protected registerStoreModule(store: Store<State>): void {
         store.registerModule('ui', {
             state: {
                 dialogs: [],
+                navigationDrawerOpen: false,
             },
             mutations: {
                 addDialog(state: State, dialog: Dialog) {
@@ -154,6 +178,9 @@ export default class UI extends Service {
                             break;
                         }
                     }
+                },
+                setNavigationDrawerOpen(state: State, open: boolean) {
+                    state.navigationDrawerOpen = open;
                 },
             },
         });

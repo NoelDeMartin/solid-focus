@@ -43,11 +43,24 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
+const variables = require('./variables');
+
+let widths = {};
+for (const width in variables.widths) {
+    widths[width] = variables.widths[width] + 'px';
+}
+
+let transitions = {};
+for (const transition in variables.transitions) {
+    transitions[transition] = variables.transitions[transition] + 'ms';
+}
+
 let colors = {
-    'jade': '#00a86b',
+    ...variables.colors,
 
     'background': '#e3e3e3',
     'transparent': 'transparent',
+    'border-overlay': 'rgba(0, 0, 0, .12)',
 
     'black': '#22292f',
     'grey-darkest': '#3d4852',
@@ -133,6 +146,8 @@ let colors = {
 };
 
 module.exports = {
+
+    transitions: transitions,
 
     /*
     |-----------------------------------------------------------------------------
@@ -469,6 +484,8 @@ module.exports = {
     */
 
     width: {
+        ...widths,
+
         'auto': 'auto',
         'px': '1px',
         '1': '0.25rem',
