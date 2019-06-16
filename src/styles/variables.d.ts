@@ -8,7 +8,8 @@ declare module '@/styles/variables' {
 
         widths: {
             'panel': number;
-            'collapsed-panel': number;
+            'panel-collapsed': number;
+            'panel-large': number;
         };
 
         transitions: {

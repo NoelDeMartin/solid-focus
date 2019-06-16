@@ -2,7 +2,7 @@
     <portal to="app-navigation-overlay">
         <transition name="fade">
             <div
-                v-if="open"
+                v-if="active"
                 class="fixed pin bg-black opacity-25 cursor-pointer z-10"
                 @click="$emit('click')"
             />
@@ -15,7 +15,7 @@ import Vue from 'vue';
 
 export default Vue.extend({
     props: {
-        open: {
+        active: {
             type: Boolean,
             default: true,
         },

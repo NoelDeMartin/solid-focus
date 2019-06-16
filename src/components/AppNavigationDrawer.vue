@@ -5,7 +5,7 @@
             open: isOpen,
             closed: isClosed,
         }"
-        class="bg-white z-20 overflow-hidden"
+        class="bg-white z-20 overflow-hidden flex-no-shrink"
     >
         <div
             :style="{ height: $ui.toolbarHeight + 'px' }"
@@ -18,10 +18,10 @@
                             height: `calc(${$ui.toolbarHeight}px - 1rem)`,
                             width: `calc(${$ui.toolbarHeight}px - 1rem)`,
                             'margin-left': centerAvatar
-                                ? `${($ui.styles.widths['collapsed-panel'] - $ui.toolbarHeight) / 2}px`
+                                ? `${($ui.styles.widths['panel-collapsed'] - $ui.toolbarHeight) / 2}px`
                                 : '0',
                             'margin-right': centerAvatar
-                                ? `calc(${($ui.styles.widths['collapsed-panel'] - $ui.toolbarHeight) / 2}px + .5rem)`
+                                ? `calc(${($ui.styles.widths['panel-collapsed'] - $ui.toolbarHeight) / 2}px + .5rem)`
                                 : '.5rem',
                         }"
                         class="
@@ -86,9 +86,7 @@
             </div>
         </div>
         <div
-            :style="{
-                height: `calc(100vh - ${$ui.toolbarHeight}px)`
-            }"
+            :style="{ height: `calc(100vh - ${$ui.toolbarHeight}px)` }"
             class="flex flex-col"
         >
             <v-list v-if="!$workspaces.empty">
@@ -149,7 +147,7 @@
             </div>
         </div>
         <AppNavigationOverlay
-            :open="isOpen && $ui.mobile"
+            :active="isOpen && $ui.mobile"
             @click="$ui.setNavigationDrawerOpen(false)"
         />
     </div>
@@ -252,7 +250,7 @@ export default Vue.extend({
 
 <style lang="scss">
 $navigation-drawer-width: config('width.panel');
-$navigation-drawer-collapsed-width: config('width.collapsed-panel');
+$navigation-drawer-collapsed-width: config('width.panel-collapsed');
 
 #app-navigation-drawer {
     position: relative;

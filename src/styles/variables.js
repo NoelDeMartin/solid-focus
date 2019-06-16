@@ -5,7 +5,8 @@ module.exports = {
 
     widths: {
         'panel': 300,
-        'collapsed-panel': 80,
+        'panel-collapsed': 80,
+        'panel-large': 350,
     },
 
     transitions: {

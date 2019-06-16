@@ -1,18 +1,16 @@
 <template>
-    <div class="h-full">
-        <TasksManager v-if="!$workspaces.empty" />
-        <div v-else class="flex flex-col items-center justify-center h-full">
-            <h2 class="text-center">You don't have any workspace, create one!</h2>
-            <v-btn
-                fab
-                dark
-                color="primary"
-                title="Create new workspace"
-                @click="createWorkspace"
-            >
-                <v-icon dark>add</v-icon>
-            </v-btn>
-        </div>
+    <TasksManager v-if="!$workspaces.empty" />
+    <div v-else class="flex flex-col items-center justify-center h-full">
+        <h2 class="text-center">You don't have any workspace, create one!</h2>
+        <v-btn
+            fab
+            dark
+            color="primary"
+            title="Create new workspace"
+            @click="createWorkspace"
+        >
+            <v-icon dark>add</v-icon>
+        </v-btn>
     </div>
 </template>
 

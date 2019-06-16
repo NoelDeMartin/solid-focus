@@ -32,6 +32,6 @@ $transition-duration: config('transitions.normal');
 
 .vertical-slide-transition-enter,
 .vertical-slide-transition-leave-to {
-    height: 0;
+    height: 0 !important;
 }
 </style>

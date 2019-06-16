@@ -41,11 +41,11 @@ describe('Authentication', () => {
                     }
                 });
                 cy.stub(SolidAuthClient, 'fetch')
-                    .withArgs(session.webId)
-                    .resolves(StubResponse.success(`
-                        @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-                        <${session.webId}> foaf:name "${name}" .
-                    `));
+                  .withArgs(session.webId)
+                  .resolves(StubResponse.success(`
+                      @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+                      <${session.webId}> foaf:name "${name}" .
+                  `));
             });
 
         cy.start();
