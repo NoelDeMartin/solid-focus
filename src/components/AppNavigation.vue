@@ -6,7 +6,9 @@
             <div class="flex flex-grow">
                 <main
                     :style="{
-                        height: `calc(100vh - ${$ui.toolbarHeight}px)`,
+                        height: $auth.loggedIn
+                            ? `calc(100vh - ${$ui.toolbarHeight}px)`
+                            : '100vh',
                     }"
                     class="flex-grow overflow-y-auto"
                 >
