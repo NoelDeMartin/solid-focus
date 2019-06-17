@@ -87,7 +87,7 @@
         </div>
         <div
             :style="{ height: `calc(100vh - ${$ui.toolbarHeight}px)` }"
-            class="flex flex-col"
+            class="flex flex-col overflow-y-auto"
         >
             <v-list v-if="!$workspaces.empty">
                 <v-list-tile

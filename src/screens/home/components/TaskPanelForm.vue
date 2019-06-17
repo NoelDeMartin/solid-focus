@@ -56,10 +56,8 @@ export default Vue.extend({
     },
     methods: {
         save() {
-            this.task.update({ name: this.name });
-
             // TODO handle async errors
-            this.task.save();
+            this.task.update({ name: this.name });
 
             this.$tasks.setEditing(false);
         },
