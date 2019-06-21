@@ -94,4 +94,24 @@ describe('Tasks', () => {
           .should('be.visible');
     });
 
+    it('Deletes tasks', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name);
+        });
+
+        cy.contains('.task-item', name)
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Remove')
+          .click();
+
+        cy.contains('Delete').click();
+
+        cy.contains('.task-item', name)
+          .should('not.be.visible');
+    });
+
 });

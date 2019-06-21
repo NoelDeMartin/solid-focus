@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col flex-grow">
+    <div class="task-panel flex flex-col flex-grow">
         <div class="p-4 overflow-y-auto">
             <h2>{{ task.name }}</h2>
         </div>
@@ -7,10 +7,24 @@
         <v-spacer />
 
         <div class="flex flex-row-reverse justify-between align-end">
-            <div class="flex flex-col flex-no-grow align-end">
-                <v-btn flat @click="$tasks.setEditing(true)">
+            <div class="actions flex flex-col flex-no-grow align-end">
+                <v-btn
+                    flat
+                    small
+                    color="blue lighten-1"
+                    @click="edit"
+                >
                     Edit
                     <v-icon class="ml-2">edit</v-icon>
+                </v-btn>
+                <v-btn
+                    flat
+                    small
+                    color="red lighten-1"
+                    @click="remove"
+                >
+                    Remove
+                    <v-icon class="ml-2">delete</v-icon>
                 </v-btn>
             </div>
 
@@ -33,5 +47,22 @@ export default Vue.extend({
             required: true,
         },
     },
+    methods: {
+        edit() {
+            this.$tasks.setEditing(true);
+        },
+        remove() {
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveTask.vue'),
+                { task: this.task },
+            );
+        },
+    },
 });
 </script>
+
+<style lang="scss">
+.task-panel .actions .v-btn__content {
+    justify-content: flex-end;
+}
+</style>

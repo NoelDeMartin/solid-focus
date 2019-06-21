@@ -19,8 +19,23 @@
             <span class="truncate w-full">{{ task.name }}</span>
         </v-list-tile-content>
 
-        <v-list-tile-action class="actions flex flex-row flex-no-shrink flex-no-grow align-center ml-2">
-            <v-btn icon @click.stop="edit">
+        <v-list-tile-action
+            v-if="!$ui.mobile"
+            class="actions flex flex-row flex-no-shrink flex-no-grow align-center ml-2"
+        >
+            <v-btn
+                title="Edit task"
+                class="mr-2"
+                icon
+                @click.stop="remove"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
+            <v-btn
+                title="Edit task"
+                icon
+                @click.stop="edit"
+            >
                 <v-icon>edit</v-icon>
             </v-btn>
         </v-list-tile-action>
@@ -54,6 +69,12 @@ export default Vue.extend({
         },
         edit() {
             this.$tasks.setActive(this.task, true);
+        },
+        remove() {
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveTask.vue'),
+                { task: this.task },
+            );
         },
     },
 });
