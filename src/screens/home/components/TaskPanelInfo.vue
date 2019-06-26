@@ -2,6 +2,9 @@
     <div class="task-panel flex flex-col flex-grow">
         <div class="p-4 overflow-y-auto">
             <h2>{{ task.name }}</h2>
+            <p class="text-sm italic mt-2">
+                {{ task.description || 'No description' }}
+            </p>
         </div>
 
         <v-spacer />

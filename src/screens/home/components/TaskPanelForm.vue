@@ -11,6 +11,17 @@
             />
         </div>
 
+        <div class="p-4">
+            <v-textarea
+                v-model="description"
+                :rows="3"
+                label="Description"
+                placeholder="Write a note..."
+                class="p-0 m-0 ml-1"
+                auto-grow
+            />
+        </div>
+
         <v-spacer />
 
         <div class="flex flex-no-grow justify-end p-2 border-solid border-0 border-t border-grey-light bg-grey-lighter">
@@ -32,6 +43,7 @@ import Task from '@/models/soukai/Task';
 
 interface Data {
     name: string,
+    description: string,
 }
 
 export default Vue.extend({
@@ -44,6 +56,7 @@ export default Vue.extend({
     data(): Data {
         return {
             name: '',
+            description: '',
         };
     },
     watch: {
@@ -57,7 +70,10 @@ export default Vue.extend({
     methods: {
         save() {
             // TODO handle async errors
-            this.task.update({ name: this.name });
+            this.task.update({
+                name: this.name,
+                description: this.description,
+            });
 
             this.$tasks.setEditing(false);
         },
@@ -66,6 +82,7 @@ export default Vue.extend({
         },
         updateValues() {
             this.name = this.task.name;
+            this.description = this.task.description;
         },
     },
 });

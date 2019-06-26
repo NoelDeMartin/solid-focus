@@ -66,7 +66,7 @@ describe('Tasks', () => {
           .should('be.visible');
     });
 
-    it('Edits tasks', () => {
+    it('Edits task names', () => {
         const oldName = Faker.lorem.sentence();
         const newName = Faker.lorem.sentence();
 
@@ -83,6 +83,7 @@ describe('Tasks', () => {
 
         cy.get('#app-navigation-sidepanel')
           .find('textarea')
+          .first()
           .clear()
           .type(newName);
 
@@ -91,6 +92,34 @@ describe('Tasks', () => {
           .click();
 
         cy.contains('.task-item', newName)
+          .should('be.visible');
+    });
+
+    it('Edits task descriptions', () => {
+        const name = Faker.lorem.sentence();
+        const description = Faker.lorem.paragraph();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name);
+        });
+
+        cy.contains('.task-item', name)
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Edit')
+          .click();
+
+        cy.contains('label', 'Description')
+          .next('textarea')
+          .type(description);
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Save')
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains(description)
           .should('be.visible');
     });
 
