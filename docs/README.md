@@ -40,6 +40,7 @@ Data is modeled using 3 classes: Task, List and Workspace. When using Solid auth
 | lifecycle  | http://purl.org/vocab/lifecycle/schema# |
 | prov       | https://www.w3.org/ns/prov#             |
 | provenance | http://purl.org/net/provenance/ns#      |
+| purl       | http://purl.org/dc/terms/               |
 
 ![Data schema](Classes.jpg)
 
@@ -56,6 +57,7 @@ Properties:
 | Name        | RDF type                 | Description                           |
 | ----------- | ------------------------ | ------------------------------------- |
 | name        | `foaf:name`              | Task name.                            |
+| description | `purl:description`       | Task description.                     |
 | completedAt | `provenance:completedAt` | Date of completion of the task. If the task hasn't been completed, this property will be missing. |
 | createdAt   | `purl:created`           | Date of creation of the task.         |
 | updatedAt   | `purl:modified`          | Last date when the task was modified. |
