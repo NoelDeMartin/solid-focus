@@ -7,6 +7,7 @@ import '@babel/polyfill';
 
 Vue.use(Vuetify, {
     theme: {
-        primary: Styles.colors.jade,
+        primary: Styles.colors['jade'],
+        accent: Styles.colors['jade-accent'],
     },
 });

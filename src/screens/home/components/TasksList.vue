@@ -1,6 +1,6 @@
 <template>
     <VerticalSlide tag="v-list" class="p-0">
-        <template v-for="(task, index) of tasks">
+        <template v-for="(task, index) of sortedTasks">
             <TasksListItem :key="task.id" :task="task" />
             <v-divider
                 v-if="index !== tasks.length - 1"
@@ -28,6 +28,25 @@ export default Vue.extend({
         tasks: {
             type: Array as () => Task[],
             required: true,
+        },
+    },
+    computed: {
+        sortedTasks(): Task[] {
+            return this.tasks.slice(0).sort((a: Task, b: Task) => {
+                if (a.dueAt && b.dueAt) {
+                    return a.dueAt.getTime() - b.dueAt.getTime();
+                }
+
+                if (a.dueAt) {
+                    return -1;
+                }
+
+                if (b.dueAt) {
+                    return 1;
+                }
+
+                return 0;
+            });
         },
     },
 });

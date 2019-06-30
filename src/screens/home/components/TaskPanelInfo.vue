@@ -2,6 +2,9 @@
     <div class="task-panel flex flex-col flex-grow">
         <div class="p-4 overflow-y-auto">
             <h2>{{ task.name }}</h2>
+            <p v-if="task.dueAt" class="text-sm mt-2">
+                Due {{ dueDate }}
+            </p>
             <p class="text-sm italic mt-2">
                 {{ task.description || 'No description' }}
             </p>
@@ -48,6 +51,18 @@ export default Vue.extend({
         task: {
             type: Object as () => Task,
             required: true,
+        },
+    },
+    computed: {
+        dueDate(): string {
+            return this.$dayjs(this.task.dueAt).calendar(undefined, {
+                sameDay: '[Today]',
+                nextDay: '[Tomorrow]',
+                nextWeek: 'dddd',
+                lastDay: '[Yesterday]',
+                lastWeek: '[Last] dddd',
+                sameElse: 'DD/MM/YYYY',
+            });
         },
     },
     methods: {

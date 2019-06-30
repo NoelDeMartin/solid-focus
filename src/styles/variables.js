@@ -1,6 +1,7 @@
 module.exports = {
     colors: {
         'jade': '#00a86b',
+        'jade-accent': '#008f5b',
     },
 
     widths: {

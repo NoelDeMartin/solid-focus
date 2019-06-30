@@ -20,24 +20,14 @@
         </v-list-tile-content>
 
         <v-list-tile-action
-            v-if="!$ui.mobile"
-            class="actions flex flex-row flex-no-shrink flex-no-grow align-center ml-2"
+            v-if="task.dueAt"
+            :class="{
+                'text-red': !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
+                'text-blue': !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
+            }"
+            class="flex flex-row flex-no-shrink flex-no-grow align-center ml-2 text-base"
         >
-            <v-btn
-                title="Edit task"
-                class="mr-2"
-                icon
-                @click.stop="remove"
-            >
-                <v-icon>delete</v-icon>
-            </v-btn>
-            <v-btn
-                title="Edit task"
-                icon
-                @click.stop="edit"
-            >
-                <v-icon>edit</v-icon>
-            </v-btn>
+            {{ dueDate }}
         </v-list-tile-action>
     </v-list-tile>
 </template>
@@ -54,6 +44,18 @@ export default Vue.extend({
             required: true,
         },
     },
+    computed: {
+        dueDate(): string {
+            return this.$dayjs(this.task.dueAt).calendar(undefined, {
+                sameDay: '[Today]',
+                nextDay: '[Tomorrow]',
+                nextWeek: 'dddd',
+                lastDay: '[Yesterday]',
+                lastWeek: '[Last] dddd',
+                sameElse: 'DD/MM/YYYY',
+            });
+        },
+    },
     methods: {
         focus() {
             this.$tasks.setActive(this.task);
@@ -66,15 +68,6 @@ export default Vue.extend({
                 // TODO handle async errors
                 this.task.save();
             });
-        },
-        edit() {
-            this.$tasks.setActive(this.task, true);
-        },
-        remove() {
-            this.$ui.openDialog(
-                () => import('@/dialogs/RemoveTask.vue'),
-                { task: this.task },
-            );
         },
     },
 });
@@ -93,14 +86,6 @@ export default Vue.extend({
 
         .v-list__tile__content {
             margin-left: config('margin.2');
-        }
-
-        .actions {
-            display: none;
-        }
-
-        &:hover .actions {
-            display: flex;
         }
 
         &.completed .v-list__tile__content {

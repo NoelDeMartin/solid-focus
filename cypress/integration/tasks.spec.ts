@@ -110,8 +110,7 @@ describe('Tasks', () => {
           .contains('button', 'Edit')
           .click();
 
-        cy.contains('label', 'Description')
-          .next('textarea')
+        cy.get('[placeholder="Description"]')
           .type(description);
 
         cy.get('#app-navigation-sidepanel')
@@ -120,6 +119,35 @@ describe('Tasks', () => {
 
         cy.get('#app-navigation-sidepanel')
           .contains(description)
+          .should('be.visible');
+    });
+
+    it('Schedules tasks', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name);
+        });
+
+        cy.contains('.task-item', name)
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Edit')
+          .click();
+
+        cy.get('[placeholder="Due date"]')
+          .click();
+
+        cy.get('.v-btn.accent')
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Save')
+          .click();
+
+        cy.contains('.task-item', name)
+          .contains('Today')
           .should('be.visible');
     });
 

@@ -4,6 +4,7 @@ declare module '@/styles/variables' {
 
         colors: {
             'jade': string;
+            'jade-accent': string;
         };
 
         widths: {

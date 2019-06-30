@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col flex-grow">
-        <div class="p-4">
+        <div class="m-4">
             <v-textarea
                 v-model="name"
                 :hide-details="true"
@@ -11,14 +11,23 @@
             />
         </div>
 
-        <div class="p-4">
+        <div class="mx-4 mb-4">
             <v-textarea
                 v-model="description"
-                :rows="3"
-                label="Description"
-                placeholder="Write a note..."
-                class="p-0 m-0 ml-1"
+                :hide-details="true"
+                :rows="1"
+                prepend-icon="description"
+                placeholder="Description"
+                class="p-0"
+                clearable
                 auto-grow
+            />
+        </div>
+
+        <div class="mx-4">
+            <DatePickerInput
+                v-model="dueAt"
+                placeholder="Due date"
             />
         </div>
 
@@ -41,12 +50,18 @@ import Vue from 'vue';
 
 import Task from '@/models/soukai/Task';
 
+import DatePickerInput from '@/components/DatePickerInput.vue';
+
 interface Data {
     name: string,
     description: string,
+    dueAt: Date | null,
 }
 
 export default Vue.extend({
+    components: {
+        DatePickerInput,
+    },
     props: {
         task: {
             type: Object as () => Task,
@@ -57,6 +72,7 @@ export default Vue.extend({
         return {
             name: '',
             description: '',
+            dueAt: null,
         };
     },
     watch: {
@@ -72,7 +88,8 @@ export default Vue.extend({
             // TODO handle async errors
             this.task.update({
                 name: this.name,
-                description: this.description,
+                description: this.description || undefined,
+                dueAt: this.dueAt || undefined,
             });
 
             this.$tasks.setEditing(false);
@@ -83,6 +100,7 @@ export default Vue.extend({
         updateValues() {
             this.name = this.task.name;
             this.description = this.task.description;
+            this.dueAt = this.task.dueAt;
         },
     },
 });
