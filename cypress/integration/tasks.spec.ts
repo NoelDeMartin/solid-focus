@@ -18,6 +18,18 @@ describe('Tasks', () => {
         cy.contains('.task-item', name).should('be.visible');
     });
 
+    it('Supports markdown for task names', () => {
+        cy.createWorkspace(Faker.lorem.sentence());
+
+        cy.get('input')
+          .type('Tasks support **bold**, *italic* and any `markdown` syntax.')
+          .type('{enter}');
+
+        cy.contains('.task-item strong', 'bold').should('be.visible');
+        cy.contains('.task-item em', 'italic').should('be.visible');
+        cy.contains('.task-item code', 'markdown').should('be.visible');
+    });
+
     it('Checks tasks', () => {
         const name = Faker.lorem.sentence();
 
@@ -120,6 +132,38 @@ describe('Tasks', () => {
         cy.get('#app-navigation-sidepanel')
           .contains(description)
           .should('be.visible');
+    });
+
+    it('Supports markdown for task descriptions', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name);
+        });
+
+        cy.contains('.task-item', name)
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Edit')
+          .click();
+
+        cy.get('[placeholder="Description"]')
+          .type('Descriptions also support markdown. Look at this list:')
+          .type('{enter}')
+          .type('- Item 1')
+          .type('{enter}')
+          .type('- Item 2')
+          .type('{enter}')
+          .type('- Item 3');
+
+        cy.get('#app-navigation-sidepanel')
+          .contains('button', 'Save')
+          .click();
+
+        cy.contains('#app-navigation-sidepanel ul li', 'Item 1').should('be.visible');
+        cy.contains('#app-navigation-sidepanel ul li', 'Item 2').should('be.visible');
+        cy.contains('#app-navigation-sidepanel ul li', 'Item 3').should('be.visible');
     });
 
     it('Schedules tasks', () => {

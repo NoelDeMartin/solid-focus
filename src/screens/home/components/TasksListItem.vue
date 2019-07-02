@@ -16,7 +16,7 @@
             />
         </v-list-tile-action>
         <v-list-tile-content class="flex flex-row align-center flex-grow">
-            <span class="truncate w-full">{{ task.name }}</span>
+            <span class="truncate w-full" v-html="renderedName" />
         </v-list-tile-content>
 
         <v-list-tile-action
@@ -27,7 +27,7 @@
             }"
             class="flex flex-row flex-no-shrink flex-no-grow align-center ml-2 text-base"
         >
-            {{ dueDate }}
+            {{ renderedDueAt }}
         </v-list-tile-action>
     </v-list-tile>
 </template>
@@ -45,7 +45,13 @@ export default Vue.extend({
         },
     },
     computed: {
-        dueDate(): string {
+        renderedName(): string {
+            const html = this.$marked(this.task.name);
+
+            // Strip surrounding p tag
+            return html.substring(3, html.length - 5);
+        },
+        renderedDueAt(): string {
             return this.$dayjs(this.task.dueAt).calendar(undefined, {
                 sameDay: '[Today]',
                 nextDay: '[Tomorrow]',

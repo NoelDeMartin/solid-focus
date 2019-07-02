@@ -1,13 +1,22 @@
 <template>
     <div class="task-panel flex flex-col flex-grow">
         <div class="p-4 overflow-y-auto">
-            <h2>{{ task.name }}</h2>
-            <p v-if="task.dueAt" class="text-sm mt-2">
-                Due {{ dueDate }}
+            <h2 v-html="renderedName" />
+            <p
+                :class="{
+                    'text-red': task.dueAt && !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
+                    'text-blue': task.dueAt && !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
+                }"
+                class="flex text-base mt-2 text-right items-center"
+            >
+                <v-icon class="mr-2">event</v-icon>
+                <span v-if="task.dueAt">{{ renderedDueAt }}</span>
+                <span v-else>No due date</span>
             </p>
-            <p class="text-sm italic mt-2">
-                {{ task.description || 'No description' }}
-            </p>
+            <div class="flex text-base mt-2">
+                <v-icon class="self-start mr-2">description</v-icon>
+                <div v-html="$marked(task.description || 'No description')" />
+            </div>
         </div>
 
         <v-spacer />
@@ -17,7 +26,6 @@
                 <v-btn
                     flat
                     small
-                    color="blue lighten-1"
                     @click="edit"
                 >
                     Edit
@@ -54,7 +62,13 @@ export default Vue.extend({
         },
     },
     computed: {
-        dueDate(): string {
+        renderedName(): string {
+            const html = this.$marked(this.task.name.trim());
+
+            // Strip surrounding p tag
+            return html.substring(3, html.length - 5);
+        },
+        renderedDueAt(): string {
             return this.$dayjs(this.task.dueAt).calendar(undefined, {
                 sameDay: '[Today]',
                 nextDay: '[Tomorrow]',
@@ -80,7 +94,15 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.task-panel .actions .v-btn__content {
-    justify-content: flex-end;
+.task-panel {
+
+    .description p:last-child {
+        margin-bottom: 0;
+    }
+
+    .actions .v-btn__content {
+        justify-content: flex-end;
+    }
+
 }
 </style>

@@ -7,7 +7,7 @@
     >
         <template v-slot:activator="{}">
             <v-text-field
-                :value="displayValue"
+                :value="renderedValue"
                 :placeholder="placeholder"
                 prepend-icon="event"
                 class="p-0"
@@ -52,7 +52,7 @@ export default Vue.extend({
         stringValue(): string | null {
             return this.value ? this.value.toISOString().substr(0, 10) : null;
         },
-        displayValue(): string | null {
+        renderedValue(): string | null {
             if (this.value === null) {
                 return null;
             }
@@ -79,13 +79,6 @@ export default Vue.extend({
         },
         parseDate(date: string): Date {
             return new Date(Date.parse(date));
-        },
-        displayWeekDay(day: number) {
-            switch(day) {
-                case 0:
-                    return 'Monday';
-                case 1:
-            }
         },
     },
 });

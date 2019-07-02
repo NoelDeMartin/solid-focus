@@ -19,6 +19,7 @@
     ]
   },
   "dependencies": {
+    "marked": "^0.6.3",
     "material-design-icons-iconfont": "^4.0.3",
     "portal-vue": "^2.1.5",
     "rdflib": "^0.19.0",
@@ -37,6 +38,7 @@
     "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/faker": "^4.1.4",
     "@types/jest": "^24.0.11",
+    "@types/marked": "^0.6.5",
     "@types/node": "^10.11.7",
     "@types/rdflib": "^0.17.0",
     "@types/webpack-env": "^1.13.6",
