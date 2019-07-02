@@ -59,6 +59,7 @@ Properties:
 | name        | `foaf:name`              | Task name.                            |
 | description | `purl:description`       | Task description.                     |
 | completedAt | `provenance:completedAt` | Date of completion of the task. If the task hasn't been completed, this property will be missing. |
+| dueAt       | `purl:date`              | Scheduled date to complete the task.  |
 | createdAt   | `purl:created`           | Date of creation of the task.         |
 | updatedAt   | `purl:modified`          | Last date when the task was modified. |
 
