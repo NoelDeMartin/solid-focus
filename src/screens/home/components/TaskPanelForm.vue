@@ -11,6 +11,13 @@
             />
         </div>
 
+        <div class="mx-4">
+            <DatePickerInput
+                v-model="dueAt"
+                placeholder="Due date"
+            />
+        </div>
+
         <div class="mx-4 mb-4">
             <v-textarea
                 v-model="description"
@@ -21,13 +28,6 @@
                 class="p-0"
                 clearable
                 auto-grow
-            />
-        </div>
-
-        <div class="mx-4">
-            <DatePickerInput
-                v-model="dueAt"
-                placeholder="Due date"
             />
         </div>
 
