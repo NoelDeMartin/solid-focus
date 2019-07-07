@@ -30,6 +30,7 @@ export default class Workspace extends SolidModel {
 
         const inbox = new List({ url: this.url, name: 'Inbox' });
 
+        inbox.editable = false;
         inbox.setRelationModels('workspace', this);
 
         this.inbox = inbox;

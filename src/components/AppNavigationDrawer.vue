@@ -26,7 +26,7 @@
                         }"
                         class="
                             bg-red rounded-full transition-all
-                            flex items-center justify-center flex-no-grow
+                            flex items-center justify-center flex-no-grow flex-no-shrink
                         "
                     >
                         <img v-if="$auth.user.avatarUrl" :src="$auth.user.avatarUrl">
@@ -34,7 +34,7 @@
                             {{ ($auth.user.name || '?').substr(0, 1) }}
                         </span>
                     </div>
-                    <div class="text-white flex-grow flex flex-col">
+                    <div class="text-white flex-grow flex flex-col overflow-hidden">
                         <span :title="userInfo" class="text-lg tablet:text-xl desktop:text-xl">
                             {{ $auth.user.name }}
                         </span>
@@ -42,25 +42,40 @@
                             <div
                                 v-ripple
                                 slot="activator"
-                                title="Change active workspace"
+                                title="Manage workspaces"
                                 class="opacity-75 flex items-center text-sm"
                             >
-                                <span>{{ $workspaces.active.name }}</span>
+                                <span class="truncate">{{ $workspaces.active.name }}</span>
                                 <v-icon color="white">arrow_drop_down</v-icon>
                             </div>
                             <v-list>
                                 <v-list-tile
-                                    v-for="(workspace, i) in inactiveWorkspaces"
+                                    v-for="(workspace, i) in $workspaces.all"
                                     :key="i"
                                     @click="activateWorkspace(workspace)"
                                 >
                                     <v-list-tile-title>
-                                        {{ workspace.name }}
+                                        <strong v-if="workspace === $workspaces.active">
+                                            {{ workspace.name }}
+                                        </strong>
+                                        <span v-else>
+                                            {{ workspace.name }}
+                                        </span>
                                     </v-list-tile-title>
+                                    <v-list-tile-action class="reveal-on-hover justify-end">
+                                        <v-btn
+                                            title="Edit workspace"
+                                            icon
+                                            @click.stop="editWorkspace(workspace)"
+                                        >
+                                            <v-icon>edit</v-icon>
+                                        </v-btn>
+                                    </v-list-tile-action>
                                 </v-list-tile>
                                 <v-list-tile @click="createWorkspace">
                                     <v-list-tile-title>
-                                        New Workspace
+                                        <v-icon class="mr-1">add_circle</v-icon>
+                                        Create workspace
                                     </v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
@@ -96,12 +111,32 @@
                     @click="activateList(list)"
                 >
                     <v-list-tile-title>
-                        {{ list.name }}
+                        <strong v-if="$workspaces.active.activeList === list">{{ list.name }}</strong>
+                        <span v-else>{{ list.name }}</span>
                     </v-list-tile-title>
+                    <v-list-tile-action v-if="list.editable" class="reveal-on-hover justify-end">
+                        <v-btn
+                            title="Edit list"
+                            icon
+                            @click.stop="editList(list)"
+                        >
+                            <v-icon>edit</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
                 </v-list-tile>
                 <v-list-tile @click="createWorkspaceList">
-                    <v-list-tile-title>
-                        Add List
+                    <v-list-tile-title class="flex" title="Create list">
+                        <v-icon
+                            :style="{
+                                width: isClosed
+                                    ? ($ui.styles.widths['panel-collapsed'] - 32) + 'px'
+                                    : '24px',
+                            }"
+                            class="mr-2 transition-all flex-no-shrink"
+                        >
+                            add_circle
+                        </v-icon>
+                        <span>Create list</span>
                     </v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -170,10 +205,6 @@ export default Vue.extend({
         centerAvatar(): boolean {
             return this.isClosed && !this.$ui.mobile;
         },
-        inactiveWorkspaces(): Workspace[] {
-            return this.$workspaces.all
-                .filter((workspace: Workspace) => workspace !== this.$workspaces.active);
-        },
         userInfo(): string | void {
             // TODO this should be moved to a dedicated section with more information
             // about the user
@@ -203,10 +234,10 @@ export default Vue.extend({
     },
     methods: {
         createWorkspace() {
-            this.$ui.openDialog(() => import('@/dialogs/CreateWorkspace.vue'));
+            this.$ui.openDialog(() => import('@/dialogs/WorkspaceForm.vue'));
         },
         createWorkspaceList() {
-            this.$ui.openDialog(() => import('@/dialogs/CreateWorkspaceList.vue'));
+            this.$ui.openDialog(() => import('@/dialogs/ListForm.vue'));
         },
         async activateWorkspace(workspace: Workspace) {
             if (!workspace.isRelationLoaded('lists')) {
@@ -243,6 +274,18 @@ export default Vue.extend({
             if (this.$ui.mobile) {
                 this.$ui.setNavigationDrawerOpen(true);
             }
+        },
+        editWorkspace(workspace: Workspace) {
+            this.$ui.openDialog(
+                () => import('@/dialogs/WorkspaceForm.vue'),
+                { workspace },
+            );
+        },
+        editList(list: List) {
+            this.$ui.openDialog(
+                () => import('@/dialogs/ListForm.vue'),
+                { list },
+            );
         },
     },
 });

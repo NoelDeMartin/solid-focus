@@ -46,7 +46,7 @@ export default Vue.extend({
     },
     computed: {
         renderedName(): string {
-            const html = this.$marked(this.task.name);
+            const html = this.$marked(this.task.name || '');
 
             // Strip surrounding p tag
             return html.substring(3, html.length - 5);

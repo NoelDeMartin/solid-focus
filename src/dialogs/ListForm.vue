@@ -1,9 +1,9 @@
 <template>
     <DialogForm
         :dialog="dialog"
-        title="Create Workspace List"
-        submit-label="Create"
-        @completed="createWorkspaceList"
+        :title="title"
+        :submit-label="submitLabel"
+        @completed="submit"
     >
         <v-text-field
             ref="name"
@@ -43,13 +43,23 @@ export default Vue.extend({
             type: Object as () => Dialog,
             required: true,
         },
+        list: {
+            type: Object as () => List,
+            default: null,
+        },
     },
     data(): Data {
         return {
-            name: '',
+            name: this.list ? this.list.name : '',
         };
     },
     computed: {
+        title(): string {
+            return this.list ? `Edit "${this.list.name}" list` : 'Create workspace list';
+        },
+        submitLabel(): string {
+            return this.list ? 'Update' : 'Create';
+        },
         rules(): { [field: string]: ValidationRule[] } {
             return {
                 name: [
@@ -65,19 +75,26 @@ export default Vue.extend({
         this.$nextTick((this.$refs.name as any).focus);
     },
     methods: {
-        createWorkspaceList() {
+        submit() {
+            const attributes = { name: this.name };
+
+            if (this.list) {
+                // TODO handle async errors
+                this.list.update(attributes);
+            } else {
+                const workspace = this.$workspaces.active as Workspace;
+                const list = new List(attributes);
+
+                // TODO handle async errors
+                list.save(workspace.url);
+                list.setRelationModels('tasks', []);
+                list.setRelationModels('workspace', workspace);
+
+                workspace.setRelationModels('lists', [...workspace.lists!, list]);
+                workspace.setActiveList(list);
+            }
+
             this.$ui.completeDialog(this.dialog.id);
-
-            const workspace = this.$workspaces.active as Workspace;
-            const list = new List({ name: this.name });
-
-            // TODO handle async errors
-            list.save(workspace.url);
-            list.setRelationModels('tasks', []);
-            list.setRelationModels('workspace', workspace);
-
-            workspace.setRelationModels('lists', [...workspace.lists!, list]);
-            workspace.setActiveList(list);
         },
     },
 });

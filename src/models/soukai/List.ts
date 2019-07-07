@@ -24,6 +24,8 @@ export default class List extends SolidModel {
 
     public tasks?: Task[];
 
+    public editable: boolean = true;
+
     public get empty(): boolean {
         return this.isRelationLoaded('tasks') ? this.tasks!.length === 0 : true;
     }

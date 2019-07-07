@@ -15,7 +15,7 @@ export default class OfflineUser extends User {
     constructor(
         name: string = 'Local (offline)',
         avatarUrl: string | null = null,
-        storages: string[] = ['local'],
+        storages: string[] = ['local/'],
     ) {
         super(name, avatarUrl, storages);
     }

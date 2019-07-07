@@ -24,7 +24,7 @@ describe('Workspaces', () => {
 
         cy.createWorkspace(Faker.lorem.sentence());
 
-        cy.contains('a', 'Add List').click();
+        cy.contains('a', 'Create list').click();
 
         cy.get('.v-dialog').within(() => {
             cy.get('input').type(name).type('{enter}');
@@ -32,6 +32,51 @@ describe('Workspaces', () => {
 
         cy.contains('#app-navigation-drawer a', name).should('be.visible');
         cy.contains('.v-toolbar', name).should('be.visible');
+    });
+
+    it('Edits workspaces', () => {
+        const name = Faker.lorem.sentence();
+        const newName = Faker.lorem.sentence();
+
+        cy.createWorkspace(name);
+
+        cy.get('#app-navigation-drawer [title="Manage workspaces"]')
+          .click();
+
+        cy.contains('.v-menu__content .v-list__tile', name)
+          .children('.v-list__tile__action')
+          .then($el => $el.removeClass('reveal-on-hover'))
+          .children('button[title="Edit workspace"]')
+          .click();
+
+        cy.get('.v-dialog').within(() => {
+            cy.get('input').clear().type(newName).type('{enter}');
+        });
+
+        cy.contains('#app-navigation-drawer', newName).should('be.visible');
+    });
+
+    it('Edits lists', () => {
+        const name = Faker.lorem.sentence();
+        const newName = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createList(workspace, name);
+        });
+
+        cy.contains('#app-navigation-drawer .v-list__tile', name)
+          .children('.v-list__tile__action')
+          .then($el => $el.removeClass('reveal-on-hover'));
+
+        cy.contains('#app-navigation-drawer .v-list__tile', name)
+          .get('button[title="Edit list"]')
+          .click();
+
+        cy.get('.v-dialog').within(() => {
+            cy.get('input').clear().type(newName).type('{enter}');
+        });
+
+        cy.contains('#app-navigation-drawer', newName).should('be.visible');
     });
 
     it('Switches lists', () => {

@@ -25,9 +25,7 @@ export default Vue.extend({
     },
     methods: {
         createWorkspace() {
-            this.$ui.openDialog(
-                () => import('@/dialogs/CreateWorkspace.vue')
-            );
+            this.$ui.openDialog(() => import('@/dialogs/WorkspaceForm.vue'));
         },
     },
 });

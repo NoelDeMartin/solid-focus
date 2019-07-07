@@ -2,12 +2,12 @@
     <DialogForm
         v-slot="{ submit }"
         :dialog="dialog"
-        title="Create Workspace"
-        submit-label="Create"
+        :title="title"
+        :submit-label="submitLabel"
         @completed="createWorkspace"
     >
         <v-select
-            v-if="storages.length > 1"
+            v-if="!workspace && storages.length > 1"
             v-model="storage"
             :items="storages"
             :rules="rules.storage"
@@ -54,14 +54,24 @@ export default Vue.extend({
             type: Object as () => Dialog,
             required: true,
         },
+        workspace: {
+            type: Object as () => Workspace,
+            default: null,
+        },
     },
     data(): Data {
         return {
             storage: this.$auth.user!.storages[0],
-            name: '',
+            name: this.workspace ? this.workspace.name : '',
         };
     },
     computed: {
+        title(): string {
+            return this.workspace ? `Edit "${this.workspace.name}" workspace` : 'Create Workspace';
+        },
+        submitLabel(): string {
+            return this.workspace ? 'Update' : 'Create';
+        },
         rules(): { [field: string]: ValidationRule[] } {
             return {
                 storage: [
@@ -84,15 +94,22 @@ export default Vue.extend({
     },
     methods: {
         createWorkspace() {
+            const attributes = { name: this.name };
+
+            if (this.workspace) {
+                // TODO handle async errors
+                this.workspace.update(attributes);
+            } else {
+                const workspace = new Workspace(attributes);
+
+                // TODO handle async errors
+                workspace.save(this.storage);
+                workspace.setRelationModels('lists', []);
+
+                this.$workspaces.add(workspace);
+            }
+
             this.$ui.completeDialog(this.dialog.id);
-
-            const workspace = new Workspace({ name: this.name });
-
-            // TODO handle async errors
-            workspace.save(this.storage);
-            workspace.setRelationModels('lists', []);
-
-            this.$workspaces.add(workspace);
         },
     },
 });
