@@ -1,7 +1,8 @@
 <template>
     <DialogBase :dialog="dialog">
         <v-card-text class="text-xl">
-            Are you sure that you want to remove the task <strong>{{ task.name }}</strong>?
+            Are you sure that you want to remove the list <strong>{{ list.name }}</strong>? All
+            tasks will also be removed.
         </v-card-text>
         <template v-slot:actions>
             <v-spacer />
@@ -22,7 +23,7 @@ import { Dialog } from '@/services/UI';
 
 import DialogBase from '@/dialogs/DialogBase.vue';
 
-import Task from '@/models/soukai/Task';
+import List from '@/models/soukai/List';
 
 export default Vue.extend({
     components: {
@@ -33,32 +34,34 @@ export default Vue.extend({
             type: Object as () => Dialog,
             required: true,
         },
-        task: {
-            type: Object as () => Task,
+        list: {
+            type: Object as () => List,
             required: true,
         },
     },
     methods: {
         async confirm() {
-            await this.$ui.wrapAsyncOperation(this.deleteTask());
+            await this.$ui.wrapAsyncOperation(this.removeList());
 
             this.$ui.completeDialog(this.dialog.id);
         },
         cancel() {
             this.$ui.completeDialog(this.dialog.id);
         },
-        async deleteTask() {
-            await this.task.delete();
+        async removeList() {
+            await this.list.delete();
 
-            if (this.$tasks.active === this.task) {
-                this.$tasks.setActive(null);
+            const workspace = this.list.workspace;
+
+            if (!workspace.isRelationLoaded('lists')) {
+                return;
             }
 
-            const activeListTasks = this.$workspaces.active!.activeList.tasks!;
-            const index = activeListTasks.findIndex(task => task === this.task);
+            const index = workspace.lists!.findIndex(list => list === this.list);
 
             if (index !== -1) {
-                activeListTasks.splice(index, 1);
+                workspace.lists!.splice(index, 1);
+                workspace.setActiveList(workspace.inbox);
             }
         },
     },

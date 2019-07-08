@@ -8,7 +8,7 @@ describe('Workspaces', () => {
         cy.login();
     });
 
-    it('Creates a workspace', () => {
+    it('Creates workspaces', () => {
         const name = Faker.lorem.sentence();
 
         cy.get('[title="Create new workspace"]').click();
@@ -17,21 +17,6 @@ describe('Workspaces', () => {
 
         cy.contains('#app-navigation-drawer', name).should('be.visible');
         cy.contains('.v-toolbar', 'Inbox').should('be.visible');
-    });
-
-    it('Creates a list', () => {
-        const name = Faker.lorem.sentence();
-
-        cy.createWorkspace(Faker.lorem.sentence());
-
-        cy.contains('a', 'Create list').click();
-
-        cy.get('.v-dialog').within(() => {
-            cy.get('input').type(name).type('{enter}');
-        });
-
-        cy.contains('#app-navigation-drawer a', name).should('be.visible');
-        cy.contains('.v-toolbar', name).should('be.visible');
     });
 
     it('Edits workspaces', () => {
@@ -56,6 +41,45 @@ describe('Workspaces', () => {
         cy.contains('#app-navigation-drawer', newName).should('be.visible');
     });
 
+    it('Deletes workspaces', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(name);
+
+        cy.get('#app-navigation-drawer [title="Manage workspaces"]')
+          .click();
+
+        cy.contains('.v-menu__content .v-list__tile', name)
+          .children('.v-list__tile__action')
+          .then($el => $el.removeClass('reveal-on-hover'))
+          .children('button[title="Edit workspace"]')
+          .click();
+
+        cy.get('.v-dialog')
+          .find('button[title="Remove workspace"]')
+          .click();
+
+        cy.contains('Delete').click();
+
+        cy.contains('#app-navigation-drawer', name)
+          .should('not.be.visible');
+    });
+
+    it('Creates lists', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence());
+
+        cy.contains('a', 'Create list').click();
+
+        cy.get('.v-dialog').within(() => {
+            cy.get('input').type(name).type('{enter}');
+        });
+
+        cy.contains('#app-navigation-drawer a', name).should('be.visible');
+        cy.contains('.v-toolbar', name).should('be.visible');
+    });
+
     it('Edits lists', () => {
         const name = Faker.lorem.sentence();
         const newName = Faker.lorem.sentence();
@@ -77,6 +101,31 @@ describe('Workspaces', () => {
         });
 
         cy.contains('#app-navigation-drawer', newName).should('be.visible');
+    });
+
+    it('Deletes lists', () => {
+        const name = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createList(workspace, name);
+        });
+
+        cy.contains('#app-navigation-drawer .v-list__tile', name)
+          .children('.v-list__tile__action')
+          .then($el => $el.removeClass('reveal-on-hover'));
+
+        cy.contains('#app-navigation-drawer .v-list__tile', name)
+          .get('button[title="Edit list"]')
+          .click();
+
+        cy.get('.v-dialog')
+          .find('button[title="Remove list"]')
+          .click();
+
+        cy.contains('Delete').click();
+
+        cy.contains('#app-navigation-drawer', name)
+          .should('not.be.visible');
     });
 
     it('Switches lists', () => {

@@ -1,7 +1,8 @@
 <template>
     <DialogBase :dialog="dialog">
         <v-card-text class="text-xl">
-            Are you sure that you want to remove the task <strong>{{ task.name }}</strong>?
+            Are you sure that you want to remove the workspace <strong>{{ workspace.name }}</strong>? All
+            tasks and lists will also be removed.
         </v-card-text>
         <template v-slot:actions>
             <v-spacer />
@@ -22,7 +23,7 @@ import { Dialog } from '@/services/UI';
 
 import DialogBase from '@/dialogs/DialogBase.vue';
 
-import Task from '@/models/soukai/Task';
+import Workspace from '@/models/soukai/Workspace';
 
 export default Vue.extend({
     components: {
@@ -33,33 +34,24 @@ export default Vue.extend({
             type: Object as () => Dialog,
             required: true,
         },
-        task: {
-            type: Object as () => Task,
+        workspace: {
+            type: Object as () => Workspace,
             required: true,
         },
     },
     methods: {
         async confirm() {
-            await this.$ui.wrapAsyncOperation(this.deleteTask());
+            await this.$ui.wrapAsyncOperation(this.removeWorkspace());
 
             this.$ui.completeDialog(this.dialog.id);
         },
         cancel() {
             this.$ui.completeDialog(this.dialog.id);
         },
-        async deleteTask() {
-            await this.task.delete();
+        async removeWorkspace() {
+            await this.workspace.delete();
 
-            if (this.$tasks.active === this.task) {
-                this.$tasks.setActive(null);
-            }
-
-            const activeListTasks = this.$workspaces.active!.activeList.tasks!;
-            const index = activeListTasks.findIndex(task => task === this.task);
-
-            if (index !== -1) {
-                activeListTasks.splice(index, 1);
-            }
+            this.$workspaces.remove(this.workspace);
         },
     },
 });

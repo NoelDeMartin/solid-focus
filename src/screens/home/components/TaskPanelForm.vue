@@ -34,10 +34,20 @@
         <v-spacer />
 
         <div class="flex flex-no-grow justify-end p-2 border-solid border-0 border-t border-grey-light bg-grey-lighter">
+            <v-btn
+                title="Remove task"
+                flat
+                icon
+                @click="remove"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
+
+            <v-spacer />
+
             <v-btn flat @click="cancel">
                 Cancel
             </v-btn>
-
             <v-btn depressed color="primary" @click="save">
                 Save
             </v-btn>
@@ -101,6 +111,12 @@ export default Vue.extend({
             this.name = this.task.name;
             this.description = this.task.description;
             this.dueAt = this.task.dueAt;
+        },
+        remove() {
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveTask.vue'),
+                { task: this.task },
+            );
         },
     },
 });

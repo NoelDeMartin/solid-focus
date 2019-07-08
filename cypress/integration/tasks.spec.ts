@@ -8,7 +8,7 @@ describe('Tasks', () => {
         cy.login();
     });
 
-    it('Creates a task', () => {
+    it('Creates tasks', () => {
         const name = Faker.lorem.sentence();
 
         cy.createWorkspace(Faker.lorem.sentence());
@@ -206,7 +206,11 @@ describe('Tasks', () => {
           .click();
 
         cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Remove')
+          .contains('button', 'Edit')
+          .click();
+
+        cy.get('#app-navigation-sidepanel')
+          .find('button[title="Remove task"]')
           .click();
 
         cy.contains('Delete').click();

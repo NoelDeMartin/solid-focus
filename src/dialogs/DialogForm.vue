@@ -9,6 +9,7 @@
             <slot :submit="submit" />
         </v-form>
         <template v-slot:actions>
+            <slot name="secondary-actions" />
             <v-spacer />
             <v-btn flat @click="close">Close</v-btn>
             <v-btn color="primary" type="submit" @click="submit">

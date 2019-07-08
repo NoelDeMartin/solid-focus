@@ -38,6 +38,11 @@ export default class Workspaces extends Service {
         }
     }
 
+    public remove(workspace: Workspace): void {
+        this.app.$store.commit('removeWorkspace', workspace);
+        this.app.$store.commit('setActiveWorkspace', this.all.length > 0 ? this.all[0] : null);
+    }
+
     protected get storage(): State {
         return this.app.$store.state.workspaces
             ? this.app.$store.state.workspaces
@@ -71,6 +76,13 @@ export default class Workspaces extends Service {
                 },
                 addWorkspace(state: State, workspace: Workspace) {
                     state.workspaces.push(workspace);
+                },
+                removeWorkspace(state: State, workspace: Workspace) {
+                    const index = state.workspaces.findIndex(existingWorkspace => existingWorkspace === workspace);
+
+                    if (index !== -1) {
+                        state.workspaces.splice(index, 1);
+                    }
                 },
             },
         });

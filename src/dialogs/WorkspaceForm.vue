@@ -1,6 +1,5 @@
 <template>
     <DialogForm
-        v-slot="{ submit }"
         :dialog="dialog"
         :title="title"
         :submit-label="submitLabel"
@@ -20,8 +19,18 @@
             label="Name"
             validate-on-blur
             autofocus
-            @keydown.enter="submit"
         />
+
+        <template v-slot:secondary-actions v-if="workspace">
+            <v-btn
+                title="Remove workspace"
+                flat
+                icon
+                @click="remove"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
+        </template>
     </DialogForm>
 </template>
 
@@ -110,6 +119,13 @@ export default Vue.extend({
             }
 
             this.$ui.completeDialog(this.dialog.id);
+        },
+        remove() {
+            this.$ui.completeDialog(this.dialog.id);
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveWorkspace.vue'),
+                { workspace: this.workspace },
+            );
         },
     },
 });

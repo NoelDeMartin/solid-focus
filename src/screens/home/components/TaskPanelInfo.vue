@@ -22,25 +22,10 @@
         <v-spacer />
 
         <div class="flex flex-row-reverse justify-between align-end">
-            <div class="actions flex flex-col flex-no-grow align-end">
-                <v-btn
-                    flat
-                    small
-                    @click="edit"
-                >
-                    Edit
-                    <v-icon class="ml-2">edit</v-icon>
-                </v-btn>
-                <v-btn
-                    flat
-                    small
-                    color="red lighten-1"
-                    @click="remove"
-                >
-                    Remove
-                    <v-icon class="ml-2">delete</v-icon>
-                </v-btn>
-            </div>
+            <v-btn flat @click="edit">
+                Edit
+                <v-icon class="ml-2">edit</v-icon>
+            </v-btn>
 
             <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">
                 <v-icon>chevron_right</v-icon>
@@ -82,12 +67,6 @@ export default Vue.extend({
     methods: {
         edit() {
             this.$tasks.setEditing(true);
-        },
-        remove() {
-            this.$ui.openDialog(
-                () => import('@/dialogs/RemoveTask.vue'),
-                { task: this.task },
-            );
         },
     },
 });

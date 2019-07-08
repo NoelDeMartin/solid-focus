@@ -13,6 +13,17 @@
             validate-on-blur
             autofocus
         />
+
+        <template v-slot:secondary-actions v-if="list">
+            <v-btn
+                title="Remove list"
+                flat
+                icon
+                @click="remove"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
+        </template>
     </DialogForm>
 </template>
 
@@ -95,6 +106,13 @@ export default Vue.extend({
             }
 
             this.$ui.completeDialog(this.dialog.id);
+        },
+        remove() {
+            this.$ui.completeDialog(this.dialog.id);
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveList.vue'),
+                { list: this.list },
+            );
         },
     },
 });
