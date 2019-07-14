@@ -2,7 +2,11 @@
     <portal to="app-navigation-sidepanel">
         <aside
             id="app-navigation-sidepanel"
-            :class="{ closed: !open }"
+            :class="{
+                'closed': !open,
+                'drawer-collapsed': !this.$ui.navigationDrawerOpen,
+                'drawer-expanded': this.$ui.navigationDrawerOpen,
+            }"
             :style="{
                 height: $ui.mobile
                     ? '100vh'
@@ -30,12 +34,14 @@ export default Vue.extend({
 
 <style lang="scss">
 $navigation-sidepanel-width: config('width.panel-large');
+$navigation-drawer-width: config('width.panel');
+$navigation-drawer-collapsed-width: config('width.panel-collapsed');
 
 #app-navigation-sidepanel {
     position: relative;
     margin-right: 0;
 
-    transition: margin-right 0.3s;
+    transition: width 0.3s, margin-right 0.3s;
 
     &::after {
         content: " ";
@@ -65,6 +71,30 @@ $navigation-sidepanel-width: config('width.panel-large');
 
         &.closed {
             margin-right: calc(-1 * #{$navigation-sidepanel-width});
+        }
+
+    }
+
+    .layout-tablet & {
+        position: absolute;
+        right: 0;
+
+        &.drawer-expanded {
+            width: calc(100vw - #{$navigation-drawer-width});
+
+            &.closed {
+                margin-right: calc(-1 * (100vw - #{$navigation-drawer-width}));
+            }
+
+        }
+
+        &.drawer-collapsed {
+            width: calc(100vw - #{$navigation-drawer-collapsed-width});
+
+            &.closed {
+                margin-right: calc(-1 * (100vw - #{$navigation-drawer-collapsed-width}));
+            }
+
         }
 
     }

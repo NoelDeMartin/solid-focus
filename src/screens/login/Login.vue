@@ -1,20 +1,35 @@
 <template>
     <div class="bg-background w-screen h-screen flex flex-col items-center justify-center">
-        <h1 class="text-4xl">Focus 省</h1>
+        <h1 class="flex flex-no-grow mb-4">
+            <img class="w-16 h-16 mr-2" src="logo.svg">
+            <span class="font-normal italic text-4xl self-end">Focus 省</span>
+        </h1>
         <v-form class="w-4/5" @submit.prevent="loginWithSolid">
-            <div class="flex">
-                <v-select
-                    :items="['https://', 'http://']"
-                    v-model="prefix"
-                    class="flex-no-grow hide-input"
-                />
-                <v-text-field
-                    v-model="idp"
-                    :autofocus="true"
-                    placeholder="Solid POD"
-                    @keyup.enter="loginWithSolid"
-                />
-                <v-btn color="primary" @click="loginWithSolid">Login</v-btn>
+            <div :class="{ 'flex-col': $ui.mobile }" class="flex">
+                <div class="flex">
+                    <v-select
+                        :items="['https://', 'http://']"
+                        :hide-details="true"
+                        v-model="prefix"
+                        class="flex-no-grow hide-input mt-0 pt-0 self-center"
+                    />
+                    <v-text-field
+                        v-model="idp"
+                        :autofocus="true"
+                        :hide-details="true"
+                        placeholder="Solid POD"
+                        class="mt-0 pt-0 self-center"
+                        @keyup.enter="loginWithSolid"
+                    />
+                </div>
+                <v-btn
+                    :class="{ 'mt-4': $ui.mobile }"
+                    class="flex-no-grow self-center"
+                    color="primary"
+                    @click="loginWithSolid"
+                >
+                    Login with Solid
+                </v-btn>
             </div>
             <p v-if="prefix === 'http://'" class="text-red-dark text-sm">
                 <strong>Attention!</strong> Using http:// is not secure, use at your own risk.

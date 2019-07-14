@@ -1,3 +1,8 @@
+// Reset html overflow
+html {
+    overflow-y: auto !important;
+}
+
 // Allow selects without input
 .v-input.hide-input input {
     display: none;
@@ -34,4 +39,12 @@
         display: flex;
     }
 
+}
+
+// Input append button
+.v-btn.text-field-append {
+    margin-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    transform: translateY(-1px);
 }

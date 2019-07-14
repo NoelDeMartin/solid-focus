@@ -9,9 +9,9 @@
     >
         <div
             :style="{ height: $ui.toolbarHeight + 'px' }"
-            class="bg-jade relative overflow-hidden"
+            class="bg-jade relative w-panel overflow-hidden"
         >
-            <div class="block absolute pin-y pin-l w-panel">
+            <div class="block absolute pin-y pin-l w-panel max-w-full">
                 <div class="p-2 h-full flex items-center">
                     <div
                         :style="{
@@ -34,69 +34,71 @@
                             {{ ($auth.user.name || '?').substr(0, 1) }}
                         </span>
                     </div>
-                    <div class="text-white flex-grow flex flex-col overflow-hidden">
-                        <span :title="userInfo" class="text-lg tablet:text-xl desktop:text-xl">
-                            {{ $auth.user.name }}
-                        </span>
-                        <v-menu v-if="!$workspaces.empty" bottom>
-                            <div
-                                v-ripple
-                                slot="activator"
-                                title="Manage workspaces"
-                                class="opacity-75 flex items-center text-sm"
-                            >
-                                <span class="truncate">{{ $workspaces.active.name }}</span>
-                                <v-icon color="white">arrow_drop_down</v-icon>
-                            </div>
-                            <v-list>
-                                <v-list-tile
-                                    v-for="(workspace, i) in $workspaces.all"
-                                    :key="i"
-                                    @click="activateWorkspace(workspace)"
+                    <div :style="{ width: $ui.styles.widths['panel'] + 'px' }" class="flex flex-row">
+                        <div class="text-white flex-grow flex flex-col overflow-hidden">
+                            <span :title="userInfo" class="text-lg tablet:text-xl desktop:text-xl">
+                                {{ $auth.user.name }}
+                            </span>
+                            <v-menu v-if="!$workspaces.empty" bottom>
+                                <div
+                                    v-ripple
+                                    slot="activator"
+                                    title="Manage workspaces"
+                                    class="opacity-75 flex items-center text-sm"
                                 >
-                                    <v-list-tile-title>
-                                        <strong v-if="workspace === $workspaces.active">
-                                            {{ workspace.name }}
-                                        </strong>
-                                        <span v-else>
-                                            {{ workspace.name }}
-                                        </span>
-                                    </v-list-tile-title>
-                                    <v-list-tile-action class="reveal-on-hover justify-end">
-                                        <v-btn
-                                            title="Edit workspace"
-                                            icon
-                                            @click.stop="editWorkspace(workspace)"
-                                        >
-                                            <v-icon>edit</v-icon>
-                                        </v-btn>
-                                    </v-list-tile-action>
-                                </v-list-tile>
-                                <v-list-tile @click="createWorkspace">
-                                    <v-list-tile-title>
-                                        <v-icon class="mr-1">add_circle</v-icon>
-                                        Create workspace
-                                    </v-list-tile-title>
+                                    <span class="truncate">{{ $workspaces.active.name }}</span>
+                                    <v-icon color="white">arrow_drop_down</v-icon>
+                                </div>
+                                <v-list>
+                                    <v-list-tile
+                                        v-for="(workspace, i) in $workspaces.all"
+                                        :key="i"
+                                        @click="activateWorkspace(workspace)"
+                                    >
+                                        <v-list-tile-title>
+                                            <strong v-if="workspace === $workspaces.active">
+                                                {{ workspace.name }}
+                                            </strong>
+                                            <span v-else>
+                                                {{ workspace.name }}
+                                            </span>
+                                        </v-list-tile-title>
+                                        <v-list-tile-action class="reveal-on-hover justify-end">
+                                            <v-btn
+                                                title="Edit workspace"
+                                                icon
+                                                @click.stop="editWorkspace(workspace)"
+                                            >
+                                                <v-icon>edit</v-icon>
+                                            </v-btn>
+                                        </v-list-tile-action>
+                                    </v-list-tile>
+                                    <v-list-tile @click="createWorkspace">
+                                        <v-list-tile-title>
+                                            <v-icon class="mr-1">add_circle</v-icon>
+                                            Create workspace
+                                        </v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </div>
+                        <v-menu bottom left>
+                            <v-btn
+                                slot="activator"
+                                title="Show options"
+                                dark
+                                icon
+                            >
+                                <v-icon>more_vert</v-icon>
+                            </v-btn>
+
+                            <v-list>
+                                <v-list-tile @click="$auth.logout()">
+                                    <v-list-tile-title>Logout</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
                         </v-menu>
                     </div>
-                    <v-menu bottom left>
-                        <v-btn
-                            slot="activator"
-                            title="Show options"
-                            dark
-                            icon
-                        >
-                            <v-icon>more_vert</v-icon>
-                        </v-btn>
-
-                        <v-list>
-                            <v-list-tile @click="$auth.logout()">
-                                <v-list-tile-title>Logout</v-list-tile-title>
-                            </v-list-tile>
-                        </v-list>
-                    </v-menu>
                 </div>
             </div>
         </div>
@@ -140,7 +142,7 @@
                     </v-list-tile-title>
                 </v-list-tile>
             </v-list>
-            <div v-else-if="!isClosed" class="p-4 w-panel">
+            <div v-else-if="!isClosed" class="p-4 w-panel max-w-full">
                 Welcome! Create a workspace to get started.
             </div>
             <div v-else class="p-4 text-center">
@@ -312,7 +314,8 @@ $navigation-drawer-collapsed-width: config('width.panel-collapsed');
         bottom: 0;
     }
 
-    .layout-desktop &.closed {
+    .layout-desktop &.closed,
+    .layout-tablet &.closed {
         width: $navigation-drawer-collapsed-width;
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <DialogBase :dialog="dialog" :title="title">
+    <DialogBase :dialog="dialog" :title="title" :fullscreen="$ui.mobile">
         <v-form
             ref="form"
             class="p-4"
@@ -10,9 +10,22 @@
         </v-form>
         <template v-slot:actions>
             <slot name="secondary-actions" />
-            <v-spacer />
-            <v-btn flat @click="close">Close</v-btn>
-            <v-btn color="primary" type="submit" @click="submit">
+            <template v-if="!$ui.mobile">
+                <v-spacer />
+                <v-btn flat @click="close">Close</v-btn>
+                <v-btn color="primary" type="submit" @click="submit">
+                    {{ submitLabel }}
+                </v-btn>
+            </template>
+        </template>
+        <template v-slot:toolbar-actions>
+            <v-btn
+                v-if="$ui.mobile"
+                dark
+                flat
+                small
+                @click="submit"
+            >
                 {{ submitLabel }}
             </v-btn>
         </template>

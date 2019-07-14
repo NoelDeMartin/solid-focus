@@ -6,7 +6,6 @@
             'bg-grey-lighter': $tasks.active === task,
         }"
         class="task-item cursor-pointer"
-        @click="focus"
     >
         <v-list-tile-action class="flex-no-shrink">
             <v-checkbox
@@ -15,7 +14,7 @@
                 @change="toggle"
             />
         </v-list-tile-action>
-        <v-list-tile-content class="flex flex-row align-center flex-grow">
+        <v-list-tile-content class="flex flex-row align-center flex-grow" @click="focus">
             <span class="truncate w-full" v-html="renderedName" />
         </v-list-tile-content>
 
@@ -26,6 +25,7 @@
                 'text-blue': !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
             }"
             class="flex flex-row flex-no-shrink flex-no-grow align-center ml-2 text-base"
+            @click="focus"
         >
             {{ renderedDueAt }}
         </v-list-tile-action>

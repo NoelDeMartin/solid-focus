@@ -15,7 +15,12 @@
         />
 
         <template v-slot:secondary-actions v-if="list">
+            <v-btn v-if="$ui.mobile" flat @click="remove">
+                <v-icon class="mr-1">delete</v-icon>
+                Remove
+            </v-btn>
             <v-btn
+                v-else
                 title="Remove list"
                 flat
                 icon

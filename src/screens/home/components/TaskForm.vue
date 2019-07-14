@@ -1,13 +1,21 @@
 <template>
     <v-form class="p-4" @submit.prevent="create">
         <div class="flex">
-            <v-text-field v-model="name" />
+            <v-text-field
+                :hide-details="true"
+                v-model="name"
+                class="mt-0 pt-0 self-center"
+            />
             <v-btn
+                :class="{ 'min-w-0': $ui.mobile }"
                 title="Create new task"
                 color="primary"
+                class="text-field-append"
+                depressed
                 @click="create"
             >
-                Add
+                <v-icon v-if="$ui.mobile">add</v-icon>
+                <span v-else>Add</span>
             </v-btn>
         </div>
     </v-form>
