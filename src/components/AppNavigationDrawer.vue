@@ -237,9 +237,11 @@ export default Vue.extend({
     methods: {
         createWorkspace() {
             this.$ui.openDialog(() => import('@/dialogs/WorkspaceForm.vue'));
+            this.closeDrawerOnMobile();
         },
         createWorkspaceList() {
             this.$ui.openDialog(() => import('@/dialogs/ListForm.vue'));
+            this.closeDrawerOnMobile();
         },
         async activateWorkspace(workspace: Workspace) {
             if (!workspace.isRelationLoaded('lists')) {
@@ -262,6 +264,7 @@ export default Vue.extend({
             }
 
             this.$workspaces.setActive(workspace);
+            this.closeDrawerOnMobile();
         },
         async activateList(list: List) {
             if (!list.isRelationLoaded('tasks')) {
@@ -272,22 +275,28 @@ export default Vue.extend({
             }
 
             this.$workspaces.active!.setActiveList(list);
-
-            if (this.$ui.mobile) {
-                this.$ui.setNavigationDrawerOpen(true);
-            }
+            this.closeDrawerOnMobile();
         },
         editWorkspace(workspace: Workspace) {
             this.$ui.openDialog(
                 () => import('@/dialogs/WorkspaceForm.vue'),
                 { workspace },
             );
+
+            this.closeDrawerOnMobile();
         },
         editList(list: List) {
             this.$ui.openDialog(
                 () => import('@/dialogs/ListForm.vue'),
                 { list },
             );
+
+            this.closeDrawerOnMobile();
+        },
+        closeDrawerOnMobile() {
+            if (this.$ui.mobile) {
+                this.$ui.setNavigationDrawerOpen(false);
+            }
         },
     },
 });
