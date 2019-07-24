@@ -1,4 +1,4 @@
-import Soukai, { InMemoryEngine } from 'soukai';
+import Soukai, { InMemoryEngine, Engine } from 'soukai';
 
 import List from '@/models/soukai/List';
 import OfflineUser from '@/models/users/OfflineUser';
@@ -31,6 +31,34 @@ const customCommands = {
 
             cy.wrap(user).as('user');
             cy.wrap(engine).as('soukaiEngine');
+        });
+    },
+
+    spyEngine(): Cypress.Chainable<void> {
+        return cy.get<Engine>('@soukaiEngine').then(async engine => {
+            cy.wrap({
+                create: cy.spy(engine, 'create'),
+                readOne: cy.spy(engine, 'readOne'),
+                readMany: cy.spy(engine, 'readMany'),
+                update: cy.spy(engine, 'update'),
+                delete: cy.spy(engine, 'delete'),
+            }).as('soukaiEngineSpies');
+        });
+    },
+
+    engineSpiesExpectations(
+        expectations: { [method in keyof Engine]?: (spy: Cypress.Agent<sinon.SinonSpy>) => void },
+    ): Cypress.Chainable<void> {
+        return cy.get('@soukaiEngineSpies').then(async spies => {
+            for (const method in spies) {
+                const spy = spies[method] as any as Cypress.Agent<sinon.SinonSpy>;
+
+                if (method in expectations) {
+                    expectations[method as keyof Engine]!(spy);
+                } else {
+                    expect(spy).to.not.have.been.called;
+                }
+            }
         });
     },
 

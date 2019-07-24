@@ -11,19 +11,43 @@ describe('Workspaces', () => {
     it('Creates workspaces', () => {
         const name = Faker.lorem.sentence();
 
+        cy.spyEngine();
+
         cy.get('[title="Create new workspace"]').click();
 
         cy.get('input').type(name).type('{enter}');
 
         cy.contains('#app-navigation-drawer', name).should('be.visible');
         cy.contains('.v-toolbar', 'Inbox').should('be.visible');
+
+        cy.engineSpiesExpectations({
+            create: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                {
+                    '@id': Cypress.sinon.match.any,
+                    '@type': [
+                        { '@id': 'http://purl.org/vocab/lifecycle/schema#TaskGroup' },
+                        { '@id': 'http://www.w3.org/ns/ldp#Resource' },
+                        { '@id': 'http://www.w3.org/ns/ldp#Container' },
+                    ],
+                    'http://purl.org/vocab/lifecycle/schema#name': name,
+                    'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                Cypress.sinon.match.string,
+            ),
+        });
     });
 
     it('Edits workspaces', () => {
         const name = Faker.lorem.sentence();
         const newName = Faker.lorem.sentence();
 
-        cy.createWorkspace(name);
+        let workspaceUrl: string;
+
+        cy.createWorkspace(name).then(workspace => workspaceUrl = workspace.url);
+
+        cy.spyEngine();
 
         cy.get('#app-navigation-drawer [title="Manage workspaces"]')
           .click();
@@ -39,12 +63,28 @@ describe('Workspaces', () => {
         });
 
         cy.contains('#app-navigation-drawer', newName).should('be.visible');
+
+        cy.engineSpiesExpectations({
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                workspaceUrl,
+                {
+                    'http://purl.org/vocab/lifecycle/schema#name': newName,
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                [],
+            ),
+        });
     });
 
     it('Deletes workspaces', () => {
         const name = Faker.lorem.sentence();
 
-        cy.createWorkspace(name);
+        let workspaceUrl: string;
+
+        cy.createWorkspace(name).then(workspace => workspaceUrl = workspace.url);
+
+        cy.spyEngine();
 
         cy.get('#app-navigation-drawer [title="Manage workspaces"]')
           .click();
@@ -63,12 +103,23 @@ describe('Workspaces', () => {
 
         cy.contains('#app-navigation-drawer', name)
           .should('not.be.visible');
+
+        cy.engineSpiesExpectations({
+            delete: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                workspaceUrl,
+            ),
+        });
     });
 
     it('Creates lists', () => {
         const name = Faker.lorem.sentence();
 
-        cy.createWorkspace(Faker.lorem.sentence());
+        let workspaceUrl: string;
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => workspaceUrl = workspace.url);
+
+        cy.spyEngine();
 
         cy.contains('a', 'Create list').click();
 
@@ -78,15 +129,37 @@ describe('Workspaces', () => {
 
         cy.contains('#app-navigation-drawer a', name).should('be.visible');
         cy.contains('.v-toolbar', name).should('be.visible');
+
+        cy.engineSpiesExpectations({
+            create: method => expect(method).to.have.been.calledWith(
+                workspaceUrl,
+                {
+                    '@id': Cypress.sinon.match.any,
+                    '@type': [
+                        { '@id': 'http://purl.org/vocab/lifecycle/schema#TaskGroup' },
+                        { '@id': 'http://www.w3.org/ns/ldp#Resource' },
+                        { '@id': 'http://www.w3.org/ns/ldp#Container' },
+                    ],
+                    'http://purl.org/vocab/lifecycle/schema#name': name,
+                    'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                Cypress.sinon.match.string,
+            ),
+        });
     });
 
     it('Edits lists', () => {
         const name = Faker.lorem.sentence();
         const newName = Faker.lorem.sentence();
 
+        let listUrl: string;
+
         cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
-            cy.createList(workspace, name);
+            cy.createList(workspace, name).then(list => listUrl = list.url);
         });
+
+        cy.spyEngine();
 
         cy.contains('#app-navigation-drawer .v-list__tile', name)
           .children('.v-list__tile__action')
@@ -101,14 +174,30 @@ describe('Workspaces', () => {
         });
 
         cy.contains('#app-navigation-drawer', newName).should('be.visible');
+
+        cy.engineSpiesExpectations({
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                listUrl,
+                {
+                    'http://purl.org/vocab/lifecycle/schema#name': newName,
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                [],
+            ),
+        });
     });
 
     it('Deletes lists', () => {
         const name = Faker.lorem.sentence();
 
+        let listUrl: string;
+
         cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
-            cy.createList(workspace, name);
+            cy.createList(workspace, name).then(list => listUrl = list.url);
         });
+
+        cy.spyEngine();
 
         cy.contains('#app-navigation-drawer .v-list__tile', name)
           .children('.v-list__tile__action')
@@ -126,6 +215,13 @@ describe('Workspaces', () => {
 
         cy.contains('#app-navigation-drawer', name)
           .should('not.be.visible');
+
+        cy.engineSpiesExpectations({
+            delete: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                listUrl,
+            ),
+        });
     });
 
     it('Switches lists', () => {

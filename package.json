@@ -47,7 +47,7 @@
     "@vue/cli-plugin-typescript": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
     "@vue/eslint-config-typescript": "^3.0.5",
-    "cypress": "^3.2.0",
+    "cypress": "^3.4.0",
     "dayjs": "^1.8.14",
     "faker": "^4.1.0",
     "jest": "^24.7.1",
