@@ -5,29 +5,28 @@ export default class Task extends SolidModel {
 
     public static rdfContexts = {
         'lifecycle': 'http://purl.org/vocab/lifecycle/schema#',
-        'prov': 'https://www.w3.org/ns/prov#',
-        'provenance': 'http://purl.org/net/provenance/ns#',
-        'purl': 'http://purl.org/dc/terms/',
+        'cal': 'http://www.w3.org/2002/12/cal/ical#',
     };
 
-    public static rdfsClasses = ['lifecycle:Task', 'prov:Activity'];
+    public static rdfsClasses = ['lifecycle:Task'];
 
     public static fields = {
         name: {
             type: FieldType.String,
+            rdfProperty: 'rdfs:label',
             required: true,
         },
         description: {
             type: FieldType.String,
-            rdfProperty: 'purl:description',
+            rdfProperty: 'rdfs:comment',
         },
         dueAt: {
             type: FieldType.Date,
-            rdfProperty: 'purl:date',
+            rdfProperty: 'cal:due',
         },
         completedAt: {
             type: FieldType.Date,
-            rdfProperty: 'provenance:completedAt',
+            rdfProperty: 'cal:completed',
         },
     };
 

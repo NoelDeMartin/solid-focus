@@ -36,10 +36,9 @@ Data is modeled using 3 classes: Task, List and Workspace. When using Solid auth
 | Prefix     | Url                                     |
 | ---------- | --------------------------------------- |
 | ldp        | http://www.w3.org/ns/ldp#               |
-| foaf       | http://cmlns.com/foaf/0.1/              |
+| rdfs       | http://www.w3.org/2000/01/rdf-schema#   |
 | lifecycle  | http://purl.org/vocab/lifecycle/schema# |
-| prov       | https://www.w3.org/ns/prov#             |
-| provenance | http://purl.org/net/provenance/ns#      |
+| cal        | http://www.w3.org/2002/12/cal/ical#     |
 | purl       | http://purl.org/dc/terms/               |
 
 ![Data schema](Classes.jpg)
@@ -50,16 +49,15 @@ Types:
 
   - `ldp:Resource`
   - `lifecycle:Task`
-  - `prov:Activity`
 
 Properties:
 
 | Name        | RDF type                 | Description                           |
 | ----------- | ------------------------ | ------------------------------------- |
-| name        | `foaf:name`              | Task name.                            |
-| description | `purl:description`       | Task description.                     |
-| completedAt | `provenance:completedAt` | Date of completion of the task. If the task hasn't been completed, this property will be missing. |
-| dueAt       | `purl:date`              | Scheduled date to complete the task.  |
+| name        | `rdfs:label`             | Task name.                            |
+| description | `rdfs:comment`           | Task description.                     |
+| dueAt       | `cal:due`                | Scheduled date to complete the task.  |
+| completedAt | `cal:completed`          | Date of completion of the task. If the task hasn't been completed, this property will be missing. |
 | createdAt   | `purl:created`           | Date of creation of the task.         |
 | updatedAt   | `purl:modified`          | Last date when the task was modified. |
 
@@ -75,17 +73,18 @@ Types:
 
 Properties:
 
-| Name        | RDF type                 | Description                           |
-| ----------- | ------------------------ | ------------------------------------- |
-| name        | `foaf:name`              | List name.                            |
-| createdAt   | `purl:created`           | Date of creation of the list.         |
-| updatedAt   | `purl:modified`          | Last date when the list was modified. |
+| Name        | RDF type                 | Description                              |
+| ----------- | ------------------------ | ---------------------------------------- |
+| name        | `rdfs:label`             | List name.                               |
+| createdAt   | `purl:created`           | Date of creation of the list.            |
+| updatedAt   | `purl:modified`          | Last date when the list was modified.    |
+| taskUrls    | `lifecycle:task`         | Urls to tasks contained within the list. |
 
 ### Workspace
 
 A Workspace is a Solid container that contains both Tasks and Lists. Tasks contained directly under a Workspace are considered to be within the inbox "virtual List".
 
-This class has the same properties as List.
+This class has the same properties as List (except taskUrls and the tasks relationship).
 
 ## Architecture
 

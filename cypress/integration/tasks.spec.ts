@@ -11,7 +11,9 @@ describe('Tasks', () => {
     it('Creates tasks', () => {
         const name = Faker.lorem.sentence();
 
-        cy.createWorkspace(Faker.lorem.sentence());
+        let workspaceUrl: string;
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => workspaceUrl = workspace.url);
 
         cy.spyEngine();
 
@@ -21,19 +23,77 @@ describe('Tasks', () => {
 
         cy.engineSpiesExpectations({
             create: method => expect(method).to.have.been.calledWith(
-                Cypress.sinon.match.string,
+                workspaceUrl,
                 {
                     '@id': Cypress.sinon.match.any,
                     '@type': [
                         { '@id': 'http://purl.org/vocab/lifecycle/schema#Task' },
-                        { '@id': 'https://www.w3.org/ns/prov#Activity' },
                         { '@id': 'http://www.w3.org/ns/ldp#Resource' },
                     ],
-                    'http://purl.org/vocab/lifecycle/schema#name': name,
+                    'http://www.w3.org/2000/01/rdf-schema#label': name,
                     'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 Cypress.sinon.match.string,
+            ),
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                workspaceUrl,
+                {
+                    'http://purl.org/vocab/lifecycle/schema#task': {
+                        '@id': Cypress.sinon.match.string,
+                    },
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                [],
+            ),
+        });
+    });
+
+    it('Creates a second task', () => {
+        const name = Faker.lorem.sentence();
+
+        let workspaceUrl: string;
+        let taskUrl: string;
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            workspaceUrl = workspace.url;
+
+            cy.createTask(workspace.inbox, Faker.lorem.sentence()).then(task => taskUrl = task.url);
+        });
+
+        cy.spyEngine();
+
+        cy.get('input[type="text"]').type(name).type('{enter}');
+
+        cy.contains('.task-item', name).should('be.visible');
+
+        cy.engineSpiesExpectations({
+            create: method => expect(method).to.have.been.calledWith(
+                workspaceUrl,
+                {
+                    '@id': Cypress.sinon.match.any,
+                    '@type': [
+                        { '@id': 'http://purl.org/vocab/lifecycle/schema#Task' },
+                        { '@id': 'http://www.w3.org/ns/ldp#Resource' },
+                    ],
+                    'http://www.w3.org/2000/01/rdf-schema#label': name,
+                    'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                Cypress.sinon.match.string,
+            ),
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                workspaceUrl,
+                {
+                    'http://purl.org/vocab/lifecycle/schema#task': [
+                        { '@id': taskUrl },
+                        { '@id': Cypress.sinon.match.string },
+                    ],
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                [],
             ),
         });
     });
@@ -83,7 +143,7 @@ describe('Tasks', () => {
                 taskUrl,
                 {
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
-                    'http://purl.org/net/provenance/ns#completedAt': Cypress.sinon.match.any,
+                    'http://www.w3.org/2002/12/cal/ical#completed': Cypress.sinon.match.any,
                 },
                 [],
             ),
@@ -124,7 +184,7 @@ describe('Tasks', () => {
                 Cypress.sinon.match.string,
                 taskUrl,
                 { 'http://purl.org/dc/terms/modified': Cypress.sinon.match.any },
-                ['http://purl.org/net/provenance/ns#completedAt'],
+                ['http://www.w3.org/2002/12/cal/ical#completed'],
             ),
         });
     });
@@ -166,7 +226,7 @@ describe('Tasks', () => {
                 Cypress.sinon.match.string,
                 taskUrl,
                 {
-                    'http://purl.org/vocab/lifecycle/schema#name': newName,
+                    'http://www.w3.org/2000/01/rdf-schema#label': newName,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 [],
@@ -209,7 +269,7 @@ describe('Tasks', () => {
                 Cypress.sinon.match.string,
                 taskUrl,
                 {
-                    'http://purl.org/dc/terms/description': description,
+                    'http://www.w3.org/2000/01/rdf-schema#comment': description,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 [],
@@ -286,7 +346,7 @@ describe('Tasks', () => {
                 Cypress.sinon.match.string,
                 taskUrl,
                 {
-                    'http://purl.org/dc/terms/date': Cypress.sinon.match.any,
+                    'http://www.w3.org/2002/12/cal/ical#due': Cypress.sinon.match.any,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 [],

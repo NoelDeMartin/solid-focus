@@ -48,11 +48,7 @@ window.Runtime = {
     },
 
     async createTask(list: List, name: string): Promise<Task> {
-        const task = new Task({ name });
-
-        await task.save(list.url);
-
-        list.setRelationModels('tasks', [...list.tasks || [], task]);
+        const task = await list.createTask({ name });
 
         return task;
     },

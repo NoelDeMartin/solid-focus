@@ -41,13 +41,8 @@ export default Vue.extend({
     methods: {
         async create() {
             if (this.name) {
-                const list = (this.$workspaces.active as Workspace).activeList;
-                const task = new Task({ name: this.name });
-
                 // TODO handle async errors
-                task.save(list.url);
-
-                list.setRelationModels('tasks', [...list.tasks || [], task]);
+                this.$workspaces.active!.activeList.createTask({ name: this.name });
 
                 this.name = '';
             }

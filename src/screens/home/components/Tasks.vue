@@ -49,7 +49,7 @@ export default Vue.extend({
     },
     computed: {
         tasks(): Task[] {
-            return (this.$workspaces.active as Workspace).activeList.tasks || [];
+            return this.$workspaces.active!.activeList.tasks || [];
         },
         pendingTasks(): Task[] {
             return this.tasks.filter((task: Task) => !task.completed);

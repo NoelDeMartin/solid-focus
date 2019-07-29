@@ -30,10 +30,14 @@ describe('Workspaces', () => {
                         { '@id': 'http://www.w3.org/ns/ldp#Resource' },
                         { '@id': 'http://www.w3.org/ns/ldp#Container' },
                     ],
-                    'http://purl.org/vocab/lifecycle/schema#name': name,
+                    'http://www.w3.org/2000/01/rdf-schema#label': name,
                     'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
+                Cypress.sinon.match.string,
+            ),
+            readOne: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
                 Cypress.sinon.match.string,
             ),
         });
@@ -69,7 +73,7 @@ describe('Workspaces', () => {
                 Cypress.sinon.match.string,
                 workspaceUrl,
                 {
-                    'http://purl.org/vocab/lifecycle/schema#name': newName,
+                    'http://www.w3.org/2000/01/rdf-schema#label': newName,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 [],
@@ -140,7 +144,7 @@ describe('Workspaces', () => {
                         { '@id': 'http://www.w3.org/ns/ldp#Resource' },
                         { '@id': 'http://www.w3.org/ns/ldp#Container' },
                     ],
-                    'http://purl.org/vocab/lifecycle/schema#name': name,
+                    'http://www.w3.org/2000/01/rdf-schema#label': name,
                     'http://purl.org/dc/terms/created': Cypress.sinon.match.any,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
@@ -180,7 +184,7 @@ describe('Workspaces', () => {
                 Cypress.sinon.match.string,
                 listUrl,
                 {
-                    'http://purl.org/vocab/lifecycle/schema#name': newName,
+                    'http://www.w3.org/2000/01/rdf-schema#label': newName,
                     'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
                 },
                 [],

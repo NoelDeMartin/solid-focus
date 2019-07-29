@@ -1,4 +1,4 @@
-import { FieldType, MultiModelRelation, SingleModelRelation } from 'soukai';
+import { FieldType, MultiModelRelation, SingleModelRelation, Attributes } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
 import Task from '@/models/soukai/Task';
@@ -15,7 +15,16 @@ export default class List extends SolidModel {
     public static rdfsClasses = ['lifecycle:TaskGroup'];
 
     public static fields = {
-        name: FieldType.String,
+        name: {
+            type: FieldType.String,
+            rdfProperty: 'rdfs:label',
+            required: true,
+        },
+        taskUrls: {
+            type: FieldType.Array,
+            rdfProperty: 'lifecycle:task',
+            items: { type: FieldType.Key },
+        },
     };
 
     public name!: string;
@@ -39,7 +48,22 @@ export default class List extends SolidModel {
     }
 
     public tasksRelationship(): MultiModelRelation {
-        return this.contains(Task);
+        return this.hasMany(Task, 'taskUrls');
+    }
+
+    public async createTask(attributes: Attributes): Promise<Task> {
+        // TODO implement this.tasksRelationship().create(attributes); in soukai
+
+        const task = new Task(attributes);
+
+        if (this.isRelationLoaded('tasks')) {
+            this.setRelationModels('tasks', [...this.tasks || [], task]);
+        }
+
+        await task.save(this.url);
+        await this.update({ taskUrls: [...this.taskUrls, task.url] });
+
+        return task;
     }
 
 }
