@@ -51,6 +51,13 @@ export default class Auth extends Service {
     public async logout(): Promise<void> {
         if (this.loggedIn) {
             if (this.user instanceof OfflineUser) {
+                if (!await this.app.$ui.confirm(
+                    'Logging out from offline mode will delete all your data, are you sure you want to proceed?',
+                    'Logout',
+                )) {
+                    return;
+                }
+
                 Storage.remove('user');
             } else if (this.user instanceof SolidUser) {
                 await SolidAuthClient.logout();

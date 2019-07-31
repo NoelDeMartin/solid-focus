@@ -7,6 +7,7 @@ import Arr from '@/utils/Arr';
 import UUIDGenerator from '@/utils/UUIDGenerator';
 
 import Alert from '@/dialogs/Alert.vue';
+import Confirm from '@/dialogs/Confirm.vue';
 import Loading from '@/dialogs/Loading.vue';
 
 import Styles, { StyleVariables } from '@/styles/variables';
@@ -93,6 +94,13 @@ export default class UI extends Service {
             message: typeof error === 'string'
                 ? error
                 : error.message || 'Unknown Error',
+        });
+    }
+
+    public confirm(message: string, confirmLabel?: string): Promise<boolean> {
+        return this.openDialog(Confirm, {
+            message,
+            confirmLabel,
         });
     }
 
