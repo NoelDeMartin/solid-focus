@@ -1,3 +1,14 @@
+# v0.2.0
+
+- Improved UX.
+- Implemented the ability to edit and delete Workspaces, Lists and Tasks.
+- Added Task scheduling and descriptions.
+- Added markdown support for task names and descriptions.
+- Added tasks sidepanel.
+- Added [soukai](https://soukai.js.org/) dependency to manage data persistence.
+- Improved documentation (including a schema of the RDF ontologies that have been used).
+- Refactored [data schema](https://github.com/NoelDeMartin/solid-focus/tree/v0.2.0/docs#data-schema).
+
 # v0.1.1
 
 - Improved UX.
