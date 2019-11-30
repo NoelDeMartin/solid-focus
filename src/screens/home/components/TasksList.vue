@@ -45,7 +45,7 @@ export default Vue.extend({
                     return 1;
                 }
 
-                return 0;
+                return b.createdAt.getTime() - a.createdAt.getTime();
             });
         },
     },
