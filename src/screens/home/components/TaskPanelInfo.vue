@@ -43,6 +43,13 @@
                 <div v-html="$marked(task.description || 'No description')" />
             </div>
         </div>
+
+
+        <v-spacer />
+
+        <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">
+            <v-icon>chevron_right</v-icon>
+        </v-btn>
     </div>
 </template>
 
