@@ -51,9 +51,26 @@ describe('Authentication', () => {
         cy.start();
 
         cy.get('input[placeholder="Solid POD"]').type(domain);
-        cy.contains('Login').click();
+        cy.contains('Login with Solid').click();
 
         cy.contains('#app-navigation-drawer', name).should('be.visible');
+    });
+
+    it('Gives a warning when logging out offline', () => {
+        cy.start();
+
+        cy.contains('Login Offline').click();
+
+        cy.get('#app-navigation-drawer button[title="Show actions menu"]').click();
+        cy.contains('Logout').click();
+
+        cy.contains('.v-dialog', 'Logging out from offline mode will delete all your data')
+          .should('be.visible');
+
+        cy.contains('.v-dialog button', 'Logout').click();
+
+        cy.contains('Login Offline').should('be.visible');
+        cy.contains('Login with Solid').should('be.visible');
     });
 
 });

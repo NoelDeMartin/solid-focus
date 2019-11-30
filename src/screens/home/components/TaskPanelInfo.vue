@@ -1,7 +1,32 @@
 <template>
     <div class="task-panel flex flex-col flex-grow">
         <div class="p-4 overflow-y-auto">
-            <h2 v-html="renderedName" />
+            <h2 v-if="false" v-html="renderedName" />
+
+            <div v-else class="flex justify-between items-start">
+                <h2 v-html="renderedName" />
+
+                <v-menu bottom left>
+                    <v-btn
+                        slot="activator"
+                        title="Show actions menu"
+                        icon
+                    >
+                        <v-icon>more_vert</v-icon>
+                    </v-btn>
+
+                    <v-list>
+                        <v-list-tile @click="edit">
+                            <v-icon class="mr-2">edit</v-icon>
+                            <v-list-tile-title>Edit</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile @click="remove">
+                            <v-icon class="mr-2">delete</v-icon>
+                            <v-list-tile-title>Remove</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+            </div>
             <p
                 :class="{
                     'text-red': task.dueAt && !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
@@ -17,19 +42,6 @@
                 <v-icon class="self-start mr-2">description</v-icon>
                 <div v-html="$marked(task.description || 'No description')" />
             </div>
-        </div>
-
-        <v-spacer />
-
-        <div class="flex flex-row-reverse justify-between align-end">
-            <v-btn flat @click="edit">
-                Edit
-                <v-icon class="ml-2">edit</v-icon>
-            </v-btn>
-
-            <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">
-                <v-icon>chevron_right</v-icon>
-            </v-btn>
         </div>
     </div>
 </template>
@@ -67,6 +79,12 @@ export default Vue.extend({
     methods: {
         edit() {
             this.$tasks.setEditing(true);
+        },
+        remove() {
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveTask.vue'),
+                { task: this.task },
+            );
         },
     },
 });

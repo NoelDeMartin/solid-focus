@@ -234,9 +234,8 @@ describe('Tasks', () => {
         cy.contains('.task-item', oldName)
           .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Edit')
-          .click();
+        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
+        cy.contains('Edit').click();
 
         cy.get('#app-navigation-sidepanel')
           .find('textarea')
@@ -279,9 +278,8 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Edit')
-          .click();
+        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
+        cy.contains('Edit').click();
 
         cy.get('[placeholder="Description"]')
           .type(description);
@@ -317,9 +315,8 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Edit')
-          .click();
+        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
+        cy.contains('Edit').click();
 
         cy.get('[placeholder="Description"]')
           .type('Descriptions also support markdown. Look at this list:')
@@ -353,9 +350,8 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Edit')
-          .click();
+        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
+        cy.contains('Edit').click();
 
         cy.get('[placeholder="Due date"]')
           .click();
@@ -398,13 +394,8 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Edit')
-          .click();
-
-        cy.get('#app-navigation-sidepanel')
-          .find('button[title="Remove task"]')
-          .click();
+        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
+        cy.contains('Remove').click();
 
         cy.contains('Delete').click();
 

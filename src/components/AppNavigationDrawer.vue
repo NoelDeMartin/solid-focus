@@ -85,7 +85,7 @@
                         <v-menu bottom left>
                             <v-btn
                                 slot="activator"
-                                title="Show options"
+                                title="Show actions menu"
                                 dark
                                 icon
                             >
