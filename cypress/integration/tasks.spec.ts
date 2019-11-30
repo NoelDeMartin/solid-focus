@@ -1,5 +1,7 @@
 import Faker from 'faker';
 
+import TestingEngine from '@cy/support/engines/TestingEngine';
+
 describe('Tasks', () => {
 
     beforeEach(() => {
@@ -96,6 +98,34 @@ describe('Tasks', () => {
                 [],
             ),
         });
+    });
+
+    it('Shows a progress circle when saving a task takes too long', () => {
+        cy.createWorkspace(Faker.lorem.sentence());
+
+        cy.get<TestingEngine>('@soukaiEngine')
+          .then(engine => engine.setDelay(8000));
+
+        cy.get('input')
+          .type(Faker.lorem.sentence())
+          .type('{enter}');
+
+        cy.get('.task-item .v-progress-circular').should('be.visible');
+    });
+
+    it('Shows error messages', () => {
+        const errorMessage = Faker.lorem.sentence();
+
+        cy.createWorkspace(Faker.lorem.sentence());
+
+        cy.get<TestingEngine>('@soukaiEngine')
+          .then(engine => engine.setError(new Error(errorMessage)));
+
+        cy.get('input')
+          .type(Faker.lorem.sentence())
+          .type('{enter}');
+
+        cy.contains('.v-dialog', errorMessage).should('be.visible');
     });
 
     it('Supports markdown for task names', () => {

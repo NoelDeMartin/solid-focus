@@ -1,9 +1,11 @@
-import Soukai, { InMemoryEngine, Engine } from 'soukai';
+import Soukai, { Engine } from 'soukai';
 
 import List from '@/models/soukai/List';
 import OfflineUser from '@/models/users/OfflineUser';
 import Task from '@/models/soukai/Task';
 import Workspace from '@/models/soukai/Workspace';
+
+import TestingEngine from './engines/TestingEngine';
 
 const getRuntime = () => cy.window().its('Runtime').then(runtime => runtime!);
 
@@ -22,7 +24,7 @@ const customCommands = {
             const Soukai: Soukai = runtime.require('soukai').default;
 
             const user = new OfflineUser('Cypress');
-            const engine = new InMemoryEngine();
+            const engine = new TestingEngine;
 
             Soukai.useEngine(engine);
 

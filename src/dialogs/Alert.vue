@@ -1,5 +1,5 @@
 <template>
-    <DialogBase :dialog="dialog">
+    <DialogBase :dialog="dialog" :title="title" :header-color="type">
         <v-card-text class="text-xl">
             {{ message }}
         </v-card-text>
@@ -27,6 +27,10 @@ export default Vue.extend({
         dialog: {
             type: Object as () => Dialog,
             required: true,
+        },
+        title: {
+            type: String,
+            default: null,
         },
         message: {
             type: String,

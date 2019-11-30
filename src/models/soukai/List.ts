@@ -4,6 +4,8 @@ import { SolidModel } from 'soukai-solid';
 import Task from '@/models/soukai/Task';
 import Workspace from '@/models/soukai/Workspace';
 
+import AsyncOperation from '@/utils/AsyncOperation';
+
 export default class List extends SolidModel {
 
     public static ldpContainer = true;
@@ -55,15 +57,31 @@ export default class List extends SolidModel {
         // TODO implement this.tasksRelationship().create(attributes); in soukai
 
         const task = new Task(attributes);
+        const operation = new AsyncOperation(task.updatesListener);
 
-        if (this.isRelationLoaded('tasks')) {
-            this.setRelationModels('tasks', [...this.tasks || [], task]);
+        try {
+            operation.start();
+
+            if (this.isRelationLoaded('tasks')) {
+                this.setRelationModels('tasks', [...this.tasks || [], task]);
+            }
+
+            await task.save(this.url);
+            await this.update({ taskUrls: [...this.taskUrls, task.url] });
+
+            operation.complete();
+
+            return task;
+        } catch (error) {
+            const index = (this.tasks || []).indexOf(task);
+
+            if (index !== -1)
+                this.setRelationModels('tasks', [...this.tasks!].splice(index, 1));
+
+            operation.fail();
+
+            throw error;
         }
-
-        await task.save(this.url);
-        await this.update({ taskUrls: [...this.taskUrls, task.url] });
-
-        return task;
     }
 
 }

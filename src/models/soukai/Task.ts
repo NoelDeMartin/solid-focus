@@ -1,6 +1,8 @@
 import { FieldType } from 'soukai';
 import { SolidModel } from 'soukai-solid';
 
+import { Listener as AsyncOperationListener } from '@/utils/AsyncOperation';
+
 export default class Task extends SolidModel {
 
     public static rdfContexts = {
@@ -30,8 +32,17 @@ export default class Task extends SolidModel {
         },
     };
 
+    public saving: boolean = false;
+
     get completed(): boolean {
         return !!this.completedAt;
+    }
+
+    get updatesListener(): AsyncOperationListener {
+        return {
+            onDelayed: () => this.saving = true,
+            onCompleted: () => this.saving = false,
+        };
     }
 
     public toggle(): void {

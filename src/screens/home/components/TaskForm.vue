@@ -40,12 +40,23 @@ export default Vue.extend({
     },
     methods: {
         async create() {
-            if (this.name) {
-                // TODO handle async errors
-                this.$workspaces.active!.activeList.createTask({ name: this.name });
+            if (!this.name)
+                return;
 
-                this.name = '';
+            try {
+                const activeList = this.$workspaces.active!.activeList;
+
+                await activeList.createTask(this.consumeInput());
+            } catch (error) {
+                this.$ui.showError(error);
             }
+        },
+        consumeInput() {
+            const name = this.name;
+
+            this.name = '';
+
+            return { name };
         },
     },
 });

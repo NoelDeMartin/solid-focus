@@ -4,17 +4,32 @@
             'pending': !task.completed,
             'completed': task.completed,
             'bg-grey-lighter': $tasks.active === task,
+            'cursor-pointer': !task.saving,
         }"
-        class="task-item cursor-pointer"
+        class="task-item"
     >
         <v-list-tile-action class="flex-no-shrink">
             <v-checkbox
+                v-if="!task.saving"
                 :input-value="task.completed"
                 color="primary"
                 @change="toggle"
             />
+            <v-progress-circular
+                v-else
+                :color="$ui.styles.colors.jade"
+                :indeterminate="true"
+                :size="24"
+                :width="3"
+                style="margin-right: 8px"
+            />
         </v-list-tile-action>
-        <v-list-tile-content class="flex flex-row align-center flex-grow" @click="focus">
+
+        <v-list-tile-content
+            :class="{ 'opacity-50': task.saving }"
+            class="flex flex-row align-center flex-grow"
+            @click="focus"
+        >
             <span class="truncate w-full" v-html="renderedName" />
         </v-list-tile-content>
 
@@ -64,6 +79,9 @@ export default Vue.extend({
     },
     methods: {
         focus() {
+            if (this.task.saving)
+                return;
+
             this.$tasks.setActive(this.task);
         },
         toggle() {

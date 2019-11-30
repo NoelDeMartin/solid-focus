@@ -12,7 +12,7 @@
             :class="{ 'flex flex-col': fullscreen }"
             class="dialog-base"
         >
-            <v-toolbar v-if="title" dark color="primary">
+            <v-toolbar v-if="title" :color="headerColor" dark>
                 <v-btn icon dark @click="close">
                     <v-icon>close</v-icon>
                 </v-btn>
@@ -40,13 +40,17 @@ import { Dialog } from '@/services/UI';
 
 export default Vue.extend({
     props: {
+        dialog: {
+            type: Object as () => Dialog,
+            required: true,
+        },
         title: {
             type: String,
             default: null,
         },
-        dialog: {
-            type: Object as () => Dialog,
-            required: true,
+        headerColor: {
+            type: String,
+            default: 'primary',
         },
         color: {
             type: String,
