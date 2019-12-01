@@ -35,8 +35,9 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import { Attributes } from 'soukai';
+import { SolidEngine } from 'soukai-solid';
 import { ValidationRule } from 'vuetify';
+import Soukai, { Attributes } from 'soukai';
 
 import { Dialog } from '@/services/UI';
 
@@ -139,6 +140,13 @@ export default Vue.extend({
                 list.setRelationModels('workspace', workspace);
 
                 await list.save(workspace.url);
+
+                // TODO handle this in soukai-solid instead
+                if (!(Soukai.engine instanceof SolidEngine)) {
+                    await workspace.update({
+                        resourceUrls: [...workspace.resourceUrls, list.url],
+                    });
+                }
 
                 operation.complete();
             } catch (error) {

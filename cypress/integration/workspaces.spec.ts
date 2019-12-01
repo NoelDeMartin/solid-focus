@@ -150,6 +150,17 @@ describe('Workspaces', () => {
                 },
                 Cypress.sinon.match.string,
             ),
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                workspaceUrl,
+                {
+                    'http://www.w3.org/ns/ldp#contains': {
+                        '@id': Cypress.sinon.match.string,
+                    },
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                },
+                [],
+            ),
         });
     });
 
