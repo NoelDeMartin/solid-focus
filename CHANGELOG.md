@@ -1,3 +1,11 @@
+# v0.2.1
+
+- Added loading states for operations taking more than 1 second to complete.
+- Handled network errors.
+- Implemented some small UI tweaks.
+- Fixed bugs:
+    - [gh-7](https://github.com/NoelDeMartin/solid-focus/issues/7) Lists creation is broken in Offline mode
+
 # v0.2.0
 
 - Improved UX.
