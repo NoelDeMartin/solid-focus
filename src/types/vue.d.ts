@@ -9,6 +9,7 @@ import UI from '@/services/UI';
 import Workspaces from '@/services/Workspaces';
 
 declare module 'vue/types/vue' {
+
     interface Vue {
         $dayjs: typeof dayjs;
         $marked: typeof marked;
@@ -19,4 +20,9 @@ declare module 'vue/types/vue' {
         $ui: UI;
         $workspaces: Workspaces;
     }
+
+    interface VueConstructor<V extends Vue = Vue> {
+        instance: Vue;
+    }
+
 }

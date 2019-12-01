@@ -14,6 +14,7 @@ import Styles, { StyleVariables } from '@/styles/variables';
 
 interface State {
     dialogs: Dialog[];
+    snackbar: Snackbar | null;
     navigationDrawerOpen: boolean;
 }
 
@@ -30,6 +31,11 @@ export interface Dialog {
 
     reject(...args: any[]): void,
     resolve(...args: any[]): void,
+}
+
+export interface Snackbar {
+    message: string;
+    loading?: boolean;
 }
 
 export default class UI extends Service {
@@ -56,6 +62,10 @@ export default class UI extends Service {
 
     public get dialogs(): Dialog[] {
         return this.app.$store.state.ui.dialogs;
+    }
+
+    public get snackbar(): Snackbar | null {
+        return this.app.$store.state.ui.snackbar;
     }
 
     public get toolbarHeight(): number {
@@ -162,6 +172,14 @@ export default class UI extends Service {
         }
     }
 
+    public showSnackbar(snackbar: Snackbar): void {
+        this.app.$store.commit('setSnackbar', snackbar);
+    }
+
+    public hideSnackbar(): void {
+        this.app.$store.commit('setSnackbar', null);
+    }
+
     public setNavigationDrawerOpen(open: boolean): void {
         this.app.$store.commit('setNavigationDrawerOpen', open);
     }
@@ -174,6 +192,7 @@ export default class UI extends Service {
         store.registerModule('ui', {
             state: {
                 dialogs: [],
+                snackbar: null,
                 navigationDrawerOpen: false,
             },
             mutations: {
@@ -187,6 +206,9 @@ export default class UI extends Service {
                             break;
                         }
                     }
+                },
+                setSnackbar(state: State, snackbar: Snackbar | null) {
+                    state.snackbar = snackbar;
                 },
                 setNavigationDrawerOpen(state: State, open: boolean) {
                     state.navigationDrawerOpen = open;

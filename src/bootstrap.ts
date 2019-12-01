@@ -8,21 +8,20 @@ import bootServices from '@/services';
 
 Vue.config.productionTip = false;
 
-export const instance = new Vue({
+Vue.instance = new Vue({
     ...plugins,
     render: h => h(App),
 });
 
 export async function start(): Promise<void> {
-    await bootServices(instance)
+    await bootServices(Vue.instance)
         .catch(error => error)
         .then(error => {
-            instance.$mount('#app');
-
-            if (error) {
-                instance.$ui.showError(error);
-            }
+            Vue.instance.$mount('#app');
 
             document.body.removeAttribute('loading');
+
+            if (error)
+                Vue.instance.$ui.showError(error);
         });
 }

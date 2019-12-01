@@ -52,6 +52,8 @@ import Vue from 'vue';
 
 import Task from '@/models/soukai/Task';
 
+import AsyncOperation from '@/utils/AsyncOperation';
+
 export default Vue.extend({
     props: {
         task: {
@@ -87,10 +89,24 @@ export default Vue.extend({
         toggle() {
             // Allow the checkbox to be displayed as checked before the animation starts
             this.$nextTick(async () => {
-                this.task.toggle();
+                const operation = new AsyncOperation();
+                const completedAt = this.task.completedAt;
 
-                // TODO handle async errors
-                this.task.save();
+                try {
+                    operation.start();
+
+                    this.task.toggle();
+
+                    await this.task.save();
+
+                    operation.complete();
+                } catch (error) {
+                    operation.fail();
+
+                    this.task.completedAt = completedAt;
+
+                    this.$ui.showError(error);
+                }
             });
         },
     },

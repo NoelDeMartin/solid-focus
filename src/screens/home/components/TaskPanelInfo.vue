@@ -44,7 +44,6 @@
             </div>
         </div>
 
-
         <v-spacer />
 
         <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">

@@ -42,6 +42,7 @@ export default class Task extends SolidModel {
         return {
             onDelayed: () => this.saving = true,
             onCompleted: () => this.saving = false,
+            onFailed: () => this.saving = false,
         };
     }
 

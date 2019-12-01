@@ -1,4 +1,6 @@
-import { start, instance } from './bootstrap';
+import Vue from 'vue';
+
+import { start } from './bootstrap';
 
 import List from '@/models/soukai/List';
 import Task from '@/models/soukai/Task';
@@ -7,7 +9,7 @@ import Workspace from '@/models/soukai/Workspace';
 import EventBus from '@/utils/EventBus';
 
 window.Runtime = {
-    instance,
+    instance: Vue.instance,
     start,
 
     eventBus: EventBus,

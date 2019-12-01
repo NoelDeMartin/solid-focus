@@ -100,7 +100,7 @@ describe('Tasks', () => {
         });
     });
 
-    it('Shows a progress circle when saving a task takes too long', () => {
+    it('Shows a progress circle when creating a task takes too long', () => {
         cy.createWorkspace(Faker.lorem.sentence());
 
         cy.get<TestingEngine>('@soukaiEngine')
@@ -152,7 +152,6 @@ describe('Tasks', () => {
         cy.spyEngine();
 
         cy.contains('.task-item', name)
-          .parent()
           .find('.v-input--checkbox')
           .click();
 
@@ -202,7 +201,6 @@ describe('Tasks', () => {
         cy.contains('button', 'Hide completed')
           .next('.v-list')
           .contains('.task-item', name)
-          .parent()
           .find('.v-input--checkbox')
           .click();
 
@@ -217,6 +215,36 @@ describe('Tasks', () => {
                 ['http://www.w3.org/2002/12/cal/ical#completed'],
             ),
         });
+    });
+
+    it('Shows a snackbar when updating a task takes too long', () => {
+        const names = [
+            Faker.lorem.sentence(),
+            Faker.lorem.sentence(),
+        ];
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            for (const name of names) {
+                cy.createTask(workspace.inbox, name);
+            }
+        });
+
+        cy.get<TestingEngine>('@soukaiEngine')
+          .then(engine => engine.setDelay(8000));
+
+        for (const name of names) {
+            cy.contains('.task-item', name)
+              .find('.v-input--checkbox')
+              .click();
+
+            cy.wait(500);
+        }
+
+        cy.contains('.v-snack', 'Saving changes...');
+
+        for (let count = 2; count <= names.length; count++) {
+            cy.contains('.v-snack', `Saving ${count} changes...`).should('be.visible');
+        }
     });
 
     it('Edits task names', () => {

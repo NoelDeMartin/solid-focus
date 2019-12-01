@@ -56,9 +56,9 @@ export default class TestingEngine implements Engine {
     }
 
     private async executeModifications(): Promise<void> {
-        this.throwError();
-
         await this.waitForDelay();
+
+        this.throwError();
     }
 
     private throwError(): void {

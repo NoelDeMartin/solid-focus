@@ -10,6 +10,23 @@
             <Home v-if="$auth.loggedIn" />
             <Login v-else />
         </AppNavigation>
+        <v-snackbar
+            :value="$ui.snackbar"
+            :timeout="0"
+            :bottom="true"
+            class="m-2"
+        >
+            <div v-if="$ui.snackbar" class="flex items-center justify-start">
+                <v-progress-circular
+                    v-if="$ui.snackbar.loading"
+                    :indeterminate="true"
+                    :size="24"
+                    :width="2"
+                    class="mr-4"
+                />
+                {{ $ui.snackbar.message }}
+            </div>
+        </v-snackbar>
         <component
             v-for="dialog of $ui.dialogs"
             v-bind="dialog.props"
