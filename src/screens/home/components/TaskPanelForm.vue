@@ -51,6 +51,8 @@ import Task from '@/models/soukai/Task';
 
 import DatePickerInput from '@/components/DatePickerInput.vue';
 
+import AsyncOperation from '@/utils/AsyncOperation';
+
 interface Data {
     name: string,
     description: string,
@@ -83,15 +85,36 @@ export default Vue.extend({
         this.updateValues();
     },
     methods: {
-        save() {
-            // TODO handle async errors
-            this.task.update({
-                name: this.name,
-                description: this.description || undefined,
-                dueAt: this.dueAt || undefined,
-            });
+        async save() {
+            const operation = new AsyncOperation();
+            const originalAttributes: any = {
+                name: this.task.name,
+                description: this.task.description,
+                dueAt: this.task.dueAt,
+            };
 
             this.$tasks.setEditing(false);
+
+            try {
+                operation.start();
+
+                await this.task.update({
+                    name: this.name,
+                    description: this.description || undefined,
+                    dueAt: this.dueAt || undefined,
+                });
+
+                operation.complete();
+            } catch (error) {
+                operation.fail();
+
+                // TODO implement this.task.setAttributes(originalAttributes); in soukai
+                for (const attribute in originalAttributes) {
+                    this.task.setAttribute(attribute, originalAttributes[attribute]);
+                }
+
+                this.$ui.showError(error);
+            }
         },
         cancel() {
             this.$tasks.setEditing(false);
