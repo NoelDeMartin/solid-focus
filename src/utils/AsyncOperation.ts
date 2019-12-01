@@ -2,32 +2,41 @@ import Vue from 'vue';
 
 class DefaultListener implements Listener {
 
-    private ongoingOperations: number = 0;
+    private static ongoingDelayedOperations: number = 0;
+
+    private delayed: boolean = false;
 
     public onDelayed(): void {
-        this.ongoingOperations++;
+        DefaultListener.ongoingDelayedOperations++;
+        this.delayed = true;
         this.updateSnackbar();
     }
 
     public onCompleted(): void {
-        this.ongoingOperations--;
+        if (!this.delayed)
+            return;
+
+        DefaultListener.ongoingDelayedOperations--;
         this.updateSnackbar();
     }
 
     public onFailed(): void {
-        this.ongoingOperations--;
+        if (!this.delayed)
+            return;
+
+        DefaultListener.ongoingDelayedOperations--;
         this.updateSnackbar();
     }
 
     private updateSnackbar(): void {
-        if (this.ongoingOperations === 1)
+        if (DefaultListener.ongoingDelayedOperations === 1)
             Vue.instance.$ui.showSnackbar({
                 message: 'Saving changes...',
                 loading: true,
             });
-        else if (this.ongoingOperations > 0)
+        else if (DefaultListener.ongoingDelayedOperations > 0)
             Vue.instance.$ui.showSnackbar({
-                message: `Saving ${this.ongoingOperations} changes...`,
+                message: `Saving ${DefaultListener.ongoingDelayedOperations} changes...`,
                 loading: true,
             });
         else
@@ -47,13 +56,11 @@ export default class AsyncOperation {
 
     public static DEFAULT_EXPECTED_DURATION = 1000;
 
-    private static DEFAULT_LISTENER: Listener = new DefaultListener();
-
     private listener: Listener;
     private delayTimeout?: NodeJS.Timeout;
 
     public constructor(listener?: Listener) {
-        this.listener = listener || AsyncOperation.DEFAULT_LISTENER;
+        this.listener = listener || new DefaultListener;
     }
 
     public start(expectedDuration?: number): void {

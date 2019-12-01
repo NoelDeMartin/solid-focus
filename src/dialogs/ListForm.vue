@@ -35,6 +35,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import { Attributes } from 'soukai';
 import { ValidationRule } from 'vuetify';
 
 import { Dialog } from '@/services/UI';
@@ -44,6 +45,7 @@ import Workspace from '@/models/soukai/Workspace';
 
 import DialogForm from '@/dialogs/DialogForm.vue';
 
+import AsyncOperation from '@/utils/AsyncOperation';
 import Validations from '@/utils/Validations';
 
 interface Data {
@@ -94,23 +96,64 @@ export default Vue.extend({
         submit() {
             const attributes = { name: this.name };
 
-            if (this.list) {
-                // TODO handle async errors
-                this.list.update(attributes);
-            } else {
-                const workspace = this.$workspaces.active as Workspace;
-                const list = new List(attributes);
+            if (this.list)
+                this.updateList(attributes, { name: this.list.name });
+            else
+                this.createList(attributes);
 
-                // TODO handle async errors
-                list.save(workspace.url);
-                list.setRelationModels('tasks', []);
-                list.setRelationModels('workspace', workspace);
+            this.$ui.completeDialog(this.dialog.id);
+        },
+        async updateList(attributes: Attributes, originalAttributes: Attributes) {
+            const operation = new AsyncOperation;
+
+            try {
+                operation.start();
+
+                await this.list.update(attributes);
+
+                operation.complete();
+            } catch (error) {
+                operation.fail();
+
+                // TODO implement this.list.setAttributes(originalAttributes); in soukai
+                for (const attribute in originalAttributes) {
+                    this.list.setAttribute(attribute, originalAttributes[attribute]);
+                }
+
+                this.$ui.showError(error);
+            }
+        },
+        async createList(attributes: Attributes) {
+            const workspace = this.$workspaces.active as Workspace;
+            const list = new List(attributes);
+            const originalList = workspace.activeList;
+            const operation = new AsyncOperation;
+
+            try {
+                operation.start();
 
                 workspace.setRelationModels('lists', [...workspace.lists!, list]);
                 workspace.setActiveList(list);
-            }
 
-            this.$ui.completeDialog(this.dialog.id);
+                list.setRelationModels('tasks', []);
+                list.setRelationModels('workspace', workspace);
+
+                await list.save(workspace.url);
+
+                operation.complete();
+            } catch (error) {
+                operation.fail();
+
+                const index = workspace.lists!.indexOf(list);
+                const lists = [...workspace.lists!];
+
+                lists.splice(index, 1);
+
+                workspace.setActiveList(originalList);
+                workspace.setRelationModels('lists', lists);
+
+                this.$ui.showError(error);
+            }
         },
         remove() {
             this.$ui.completeDialog(this.dialog.id);

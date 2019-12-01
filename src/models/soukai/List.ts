@@ -73,12 +73,17 @@ export default class List extends SolidModel {
 
             return task;
         } catch (error) {
+            operation.fail();
+
             const index = (this.tasks || []).indexOf(task);
 
-            if (index !== -1)
-                this.setRelationModels('tasks', [...this.tasks!].splice(index, 1));
+            if (index !== -1) {
+                const tasks = [...this.tasks!];
 
-            operation.fail();
+                tasks.splice(index, 1);
+
+                this.setRelationModels('tasks', tasks);
+            }
 
             throw error;
         }

@@ -3,7 +3,7 @@
         :dialog="dialog"
         :title="title"
         :submit-label="submitLabel"
-        @completed="createWorkspace"
+        @completed="submit"
     >
         <v-select
             v-if="!workspace && storages.length > 1"
@@ -42,6 +42,7 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import { Attributes } from 'soukai';
 import { ValidationRule } from 'vuetify';
 
 import SolidUser from '@/models/users/SolidUser';
@@ -52,6 +53,7 @@ import { Dialog } from '@/services/UI';
 
 import DialogForm from '@/dialogs/DialogForm.vue';
 
+import AsyncOperation from '@/utils/AsyncOperation';
 import Validations from '@/utils/Validations';
 
 interface Data {
@@ -107,23 +109,57 @@ export default Vue.extend({
         this.$nextTick((this.$refs.name as any).focus);
     },
     methods: {
-        createWorkspace() {
+        async submit() {
             const attributes = { name: this.name };
 
-            if (this.workspace) {
-                // TODO handle async errors
-                this.workspace.update(attributes);
-            } else {
-                const workspace = new Workspace(attributes);
-
-                // TODO handle async errors
-                workspace.save(this.storage);
-                workspace.setRelationModels('lists', []);
-
-                this.$workspaces.add(workspace);
-            }
+            if (this.workspace)
+                this.updateWorkspace(attributes, { name: this.workspace.name });
+            else
+                this.createWorkspace(attributes);
 
             this.$ui.completeDialog(this.dialog.id);
+        },
+        async updateWorkspace(attributes: Attributes, originalAttributes: Attributes) {
+            const operation = new AsyncOperation;
+
+            try {
+                operation.start();
+
+                await this.workspace.update(attributes);
+
+                operation.complete();
+            } catch (error) {
+                operation.fail();
+
+                // TODO implement this.workspace.setAttributes(originalAttributes); in soukai
+                for (const attribute in originalAttributes) {
+                    this.workspace.setAttribute(attribute, originalAttributes[attribute]);
+                }
+
+                this.$ui.showError(error);
+            }
+        },
+        async createWorkspace(attributes: Attributes) {
+            const workspace = new Workspace(attributes);
+            const operation = new AsyncOperation;
+
+            try {
+                operation.start();
+
+                this.$workspaces.add(workspace);
+
+                workspace.setRelationModels('lists', []);
+
+                await workspace.save(this.storage);
+
+                operation.complete();
+            } catch (error) {
+                operation.fail();
+
+                this.$workspaces.remove(workspace);
+
+                this.$ui.showError(error);
+            }
         },
         remove() {
             this.$ui.completeDialog(this.dialog.id);
