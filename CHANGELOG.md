@@ -1,3 +1,7 @@
+# v0.2.2
+
+- Updated dependencies.
+
 # v0.2.1
 
 - Added loading states for operations taking more than 1 second to complete.
