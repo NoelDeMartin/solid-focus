@@ -7,7 +7,7 @@
                 editing: $tasks.editing,
             }"
             :frozen="!$tasks.active"
-            class="h-full flex flex-col"
+            class="h-full flex flex-col overflow-y-auto"
         >
             <v-toolbar v-if="$ui.mobile" color="primary" dark>
                 <v-btn icon @click="close">

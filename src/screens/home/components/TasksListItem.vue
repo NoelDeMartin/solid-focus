@@ -33,6 +33,10 @@
             <span class="truncate w-full" v-html="renderedName" />
         </v-list-tile-content>
 
+        <v-list-tile-action v-if="task.description">
+            <v-icon small color="grey" class="opacity-75">description</v-icon>
+        </v-list-tile-action>
+
         <v-list-tile-action
             v-if="task.dueAt"
             :class="{
