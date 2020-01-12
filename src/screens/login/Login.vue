@@ -31,9 +31,7 @@
                     Login with Solid
                 </v-btn>
             </div>
-            <p v-if="prefix === 'http://'" class="text-red-dark text-sm">
-                <strong>Attention!</strong> Using http:// is not secure, use at your own risk.
-            </p>
+            <p v-if="errorMessage" class="text-red-dark text-sm" v-html="errorMessage" />
             <span class="flex w-full my-2 justify-center">
                 or
             </span>
@@ -41,23 +39,53 @@
                 <v-btn color="primary" @click="loginOffline">Login Offline</v-btn>
             </div>
         </v-form>
+        <AppInfo tag="footer" class="absolute pin-r pin-b p-4" />
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
+import AppInfo from '@/components/AppInfo.vue';
+
 export default Vue.extend({
+    components: {
+        AppInfo,
+    },
     data() {
         return {
             prefix: 'https://',
             idp: '',
+            solidLoginAttempted: false,
         };
+    },
+    computed: {
+        errorMessage() {
+            if (this.solidLoginAttempted && !this.idp)
+                return '<strong>Attention!</strong> This field should not be left empty to login with Solid.';
+
+            if (this.prefix === 'http://')
+                return '<strong>Attention!</strong> Using http:// is not secure, use at your own risk.';
+        },
     },
     methods: {
         loginWithSolid() {
+            this.solidLoginAttempted = true;
+
+            if (!this.idp)
+                return;
+
             this.$ui.wrapAsyncOperation(
-                this.$auth.loginWithSolid(this.prefix + this.idp),
+                async () => {
+                    try {
+                        await this.$auth.loginWithSolid(this.prefix + this.idp);
+                    } catch (error) {
+                        throw new Error(
+                            'Login with Solid failed, make sure that you introduced the correct ' +
+                            'Solid POD url and the POD server is running',
+                        );
+                    }
+                },
                 'Logging in...',
             );
         },

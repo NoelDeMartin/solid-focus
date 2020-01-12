@@ -155,13 +155,14 @@ export default class UI extends Service {
     }
 
     public async wrapAsyncOperation(
-        operation: Promise<any>,
+        operation: Promise<any> | (() => Promise<any>),
         message: string | null = null
     ): Promise<any> {
         this.showLoading(message);
 
         try {
-            const result = await operation;
+            const promise = typeof operation === 'function' ? operation() : operation;
+            const result = await promise;
 
             this.hideLoading();
 
