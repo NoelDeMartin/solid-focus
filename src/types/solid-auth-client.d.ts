@@ -30,6 +30,8 @@ declare module 'solid-auth-client' {
 
         public trackSession(callback: (session?: Session) => void): Promise<void>;
 
+        public stopTrackSession(callback: (session?: Session) => void): Promise<void>;
+
         public logout(storage?: AsyncStorage): Promise<void>;
     }
 

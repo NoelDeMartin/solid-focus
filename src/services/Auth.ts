@@ -24,6 +24,8 @@ interface HasUser {
 
 export default class Auth extends Service {
 
+    private solidAuthListener?: (session?: Session) => Promise<void>;
+
     public get loggedIn(): boolean {
         return !!this.storage.user;
     }
@@ -45,7 +47,10 @@ export default class Auth extends Service {
     }
 
     public async loginWithSolid(idp: string): Promise<void> {
-        await SolidAuthClient.login(idp);
+        const result = await SolidAuthClient.login(idp);
+
+        if (result === null)
+            throw new Error('Could not log in with Solid');
     }
 
     public async logout(): Promise<void> {
@@ -77,12 +82,12 @@ export default class Auth extends Service {
         await super.init();
 
         const user = Storage.get('user');
-        const onSolidSessionUpdated = this.onSolidSessionUpdated.bind(this);
+        this.solidAuthListener = this.onSolidSessionUpdated.bind(this);
 
         try {
-            await SolidAuthClient.currentSession().then(onSolidSessionUpdated);
+            await SolidAuthClient.currentSession().then(session => this.onSolidSessionUpdated(session));
 
-            SolidAuthClient.trackSession(onSolidSessionUpdated);
+            SolidAuthClient.trackSession(this.solidAuthListener);
         } catch (error) {
             // TODO handle session expiration properly instead of communicating
             // this like an error
@@ -102,7 +107,11 @@ export default class Auth extends Service {
     public async destroy(): Promise<void> {
         await super.destroy();
 
-        // TODO stop tracking user session (not implemented in solid-auth-client)
+        if (this.solidAuthListener) {
+            SolidAuthClient.stopTrackSession(this.solidAuthListener);
+
+            delete this.solidAuthListener;
+        }
     }
 
     protected async registerStoreModule(store: Store<State>): Promise<void> {
