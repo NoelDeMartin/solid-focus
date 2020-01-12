@@ -73,7 +73,7 @@ export default class List extends SolidModel {
 
             return task;
         } catch (error) {
-            operation.fail();
+            operation.fail(error);
 
             const index = (this.tasks || []).indexOf(task);
 

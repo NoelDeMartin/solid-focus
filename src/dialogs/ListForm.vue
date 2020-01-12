@@ -114,14 +114,12 @@ export default Vue.extend({
 
                 operation.complete();
             } catch (error) {
-                operation.fail();
+                operation.fail(error);
 
                 // TODO implement this.list.setAttributes(originalAttributes); in soukai
                 for (const attribute in originalAttributes) {
                     this.list.setAttribute(attribute, originalAttributes[attribute]);
                 }
-
-                this.$ui.showError(error);
             }
         },
         async createList(attributes: Attributes) {
@@ -150,7 +148,7 @@ export default Vue.extend({
 
                 operation.complete();
             } catch (error) {
-                operation.fail();
+                operation.fail(error);
 
                 const index = workspace.lists!.indexOf(list);
                 const lists = [...workspace.lists!];
@@ -159,8 +157,6 @@ export default Vue.extend({
 
                 workspace.setActiveList(originalList);
                 workspace.setRelationModels('lists', lists);
-
-                this.$ui.showError(error);
             }
         },
         remove() {

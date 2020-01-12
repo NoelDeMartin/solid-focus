@@ -22,6 +22,10 @@ export default class Task extends SolidModel {
             type: FieldType.String,
             rdfProperty: 'rdfs:comment',
         },
+        priority: {
+            type: FieldType.Number,
+            rdfProperty: 'cal:priority',
+        },
         dueAt: {
             type: FieldType.Date,
             rdfProperty: 'cal:due',
@@ -38,6 +42,10 @@ export default class Task extends SolidModel {
         return !!this.completedAt;
     }
 
+    get starred(): boolean {
+        return !!this.priority && this.priority > 0;
+    }
+
     get updatesListener(): AsyncOperationListener {
         return {
             onDelayed: () => this.saving = true,
@@ -46,12 +54,16 @@ export default class Task extends SolidModel {
         };
     }
 
-    public toggle(): void {
-        if (this.completed) {
-            delete this.completedAt;
-        } else {
-            this.completedAt = new Date;
-        }
+    public toggleCompleted(): void {
+        this.completed
+            ? delete this.completedAt
+            : this.completedAt = new Date;
+    }
+
+    public toggleStarred(): void {
+        this.starred
+            ? delete this.priority
+            : this.priority = 1;
     }
 
 }

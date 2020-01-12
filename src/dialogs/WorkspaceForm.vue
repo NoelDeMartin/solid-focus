@@ -129,14 +129,12 @@ export default Vue.extend({
 
                 operation.complete();
             } catch (error) {
-                operation.fail();
+                operation.fail(error);
 
                 // TODO implement this.workspace.setAttributes(originalAttributes); in soukai
                 for (const attribute in originalAttributes) {
                     this.workspace.setAttribute(attribute, originalAttributes[attribute]);
                 }
-
-                this.$ui.showError(error);
             }
         },
         async createWorkspace(attributes: Attributes) {
@@ -154,11 +152,9 @@ export default Vue.extend({
 
                 operation.complete();
             } catch (error) {
-                operation.fail();
+                operation.fail(error);
 
                 this.$workspaces.remove(workspace);
-
-                this.$ui.showError(error);
             }
         },
         remove() {

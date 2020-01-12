@@ -106,14 +106,12 @@ export default Vue.extend({
 
                 operation.complete();
             } catch (error) {
-                operation.fail();
+                operation.fail(error);
 
                 // TODO implement this.task.setAttributes(originalAttributes); in soukai
                 for (const attribute in originalAttributes) {
                     this.task.setAttribute(attribute, originalAttributes[attribute]);
                 }
-
-                this.$ui.showError(error);
             }
         },
         cancel() {

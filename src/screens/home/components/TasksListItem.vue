@@ -13,7 +13,7 @@
                 v-if="!task.saving"
                 :input-value="task.completed"
                 color="primary"
-                @change="toggle"
+                @change="toggleCompleted"
             />
             <v-progress-circular
                 v-else
@@ -43,6 +43,19 @@
             @click="focus"
         >
             {{ renderedDueAt }}
+        </v-list-tile-action>
+
+        <v-list-tile-action class="ml-2">
+            <v-btn
+                :class="{ 'opacity-50': !task.starred }"
+                :color="task.starred ? 'primary' : 'grey'"
+                icon
+                flat
+                @click="toggleStarred"
+            >
+                <v-icon v-if="task.starred">star</v-icon>
+                <v-icon v-else>star_outline</v-icon>
+            </v-btn>
         </v-list-tile-action>
     </v-list-tile>
 </template>
@@ -86,28 +99,40 @@ export default Vue.extend({
 
             this.$tasks.setActive(this.task);
         },
-        toggle() {
+        async toggleCompleted() {
             // Allow the checkbox to be displayed as checked before the animation starts
-            this.$nextTick(async () => {
-                const operation = new AsyncOperation();
-                const completedAt = this.task.completedAt;
+            await this.$nextTick();
 
-                try {
-                    operation.start();
+            await this.updateTask(
+                task => task.toggleCompleted(),
+                ['completedAt'],
+            );
+        },
+        async toggleStarred() {
+            await this.updateTask(
+                task => task.toggleStarred(),
+                ['priority'],
+            );
+        },
+        async updateTask(update: (task: Task) => void, affectedAttributes: string[] = []) {
+            const operation = new AsyncOperation();
+            const initialAttributes = affectedAttributes.map(attribute => this.task.getAttribute(attribute));
 
-                    this.task.toggle();
+            try {
+                operation.start();
 
-                    await this.task.save();
+                update(this.task);
 
-                    operation.complete();
-                } catch (error) {
-                    operation.fail();
+                await this.task.save();
 
-                    this.task.completedAt = completedAt;
+                operation.complete();
+            } catch (error) {
+                operation.fail(error);
 
-                    this.$ui.showError(error);
-                }
-            });
+                affectedAttributes.forEach((attribute, index) => {
+                    this.task.setAttribute(attribute, initialAttributes[index]);
+                });
+            }
         },
     },
 });

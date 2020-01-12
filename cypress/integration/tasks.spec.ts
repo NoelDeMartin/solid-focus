@@ -140,7 +140,7 @@ describe('Tasks', () => {
         cy.contains('.task-item code', 'markdown').should('be.visible');
     });
 
-    it('Checks tasks', () => {
+    it('Completes tasks', () => {
         const name = Faker.lorem.sentence();
 
         let taskUrl: string;
@@ -179,7 +179,7 @@ describe('Tasks', () => {
         });
     });
 
-    it('Unchecks tasks', () => {
+    it('Uncompletes tasks', () => {
         const name = Faker.lorem.sentence();
 
         let taskUrl: string;
@@ -188,7 +188,7 @@ describe('Tasks', () => {
             cy.createTask(workspace.inbox, name).then(task => {
                 taskUrl = task.url;
 
-                task.toggle();
+                task.toggleCompleted();
                 task.save();
             });
         });
@@ -213,6 +213,76 @@ describe('Tasks', () => {
                 taskUrl,
                 { 'http://purl.org/dc/terms/modified': Cypress.sinon.match.any },
                 ['http://www.w3.org/2002/12/cal/ical#completed'],
+            ),
+        });
+    });
+
+    it('Stars tasks', () => {
+        const name = Faker.lorem.sentence();
+
+        let taskUrl: string;
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name).then(task => taskUrl = task.url);
+        });
+
+        cy.spyEngine();
+
+        cy.contains('.task-item', name)
+          .find('.v-btn')
+          .click();
+
+        cy.contains('.task-item', name)
+          .contains('.v-icon', 'star')
+          .should('be.visible');
+
+        cy.contains('.task-item', name)
+          .contains('.v-icon', 'star_outline')
+          .should('not.exist');
+
+        cy.engineSpiesExpectations({
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                taskUrl,
+                {
+                    'http://purl.org/dc/terms/modified': Cypress.sinon.match.any,
+                    'http://www.w3.org/2002/12/cal/ical#priority': 1,
+                },
+                [],
+            ),
+        });
+    });
+
+    it('Unstars tasks', () => {
+        const name = Faker.lorem.sentence();
+
+        let taskUrl: string;
+
+        cy.createWorkspace(Faker.lorem.sentence()).then(workspace => {
+            cy.createTask(workspace.inbox, name).then(task => {
+                taskUrl = task.url;
+
+                task.toggleStarred();
+                task.save();
+            });
+        });
+
+        cy.spyEngine();
+
+        cy.contains('.task-item', name)
+          .find('.v-btn')
+          .click();
+
+        cy.contains('.task-item', name)
+          .contains('.v-icon', 'star_outline')
+          .should('be.visible');
+
+        cy.engineSpiesExpectations({
+            update: method => expect(method).to.have.been.calledWith(
+                Cypress.sinon.match.string,
+                taskUrl,
+                { 'http://purl.org/dc/terms/modified': Cypress.sinon.match.any },
+                ['http://www.w3.org/2002/12/cal/ical#priority'],
             ),
         });
     });

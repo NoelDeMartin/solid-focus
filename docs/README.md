@@ -33,13 +33,13 @@ In order to understand the basic functionalities, you should at least be familia
 
 Data is modeled using 3 classes: Task, List and Workspace. When using Solid authentication, the definitions below use the following prefixes:
 
-| Prefix     | Url                                     |
-| ---------- | --------------------------------------- |
-| ldp        | http://www.w3.org/ns/ldp#               |
-| rdfs       | http://www.w3.org/2000/01/rdf-schema#   |
-| lifecycle  | http://purl.org/vocab/lifecycle/schema# |
-| cal        | http://www.w3.org/2002/12/cal/ical#     |
-| purl       | http://purl.org/dc/terms/               |
+| Prefix     | Url                                     | Documentation                          |
+| ---------- | --------------------------------------- | -------------------------------------- |
+| ldp        | http://www.w3.org/ns/ldp#               | https://www.w3.org/ns/ldp              |
+| rdfs       | http://www.w3.org/2000/01/rdf-schema#   | https://www.w3.org/TR/rdf-schema       |
+| lifecycle  | http://purl.org/vocab/lifecycle/schema# | http://purl.org/vocab/lifecycle/schema |
+| cal        | http://www.w3.org/2002/12/cal/ical#     | https://www.w3.org/TR/rdfcal           |
+| purl       | http://purl.org/dc/terms/               | http://purl.org/dc/terms               |
 
 ![Data schema](Classes.jpg)
 
@@ -56,6 +56,7 @@ Properties:
 | ----------- | ------------------------ | ------------------------------------- |
 | name        | `rdfs:label`             | Task name.                            |
 | description | `rdfs:comment`           | Task description.                     |
+| priority    | `cal:priority`           | Task Priority, will be 1 for starred tasks and missing for non-starred. |
 | dueAt       | `cal:due`                | Scheduled date to complete the task.  |
 | completedAt | `cal:completed`          | Date of completion of the task. If the task hasn't been completed, this property will be missing. |
 | createdAt   | `purl:created`           | Date of creation of the task.         |

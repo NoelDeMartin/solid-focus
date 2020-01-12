@@ -20,12 +20,15 @@ class DefaultListener implements Listener {
         this.updateSnackbar();
     }
 
-    public onFailed(): void {
+    public onFailed(error?: any): void {
         if (!this.delayed)
             return;
 
         DefaultListener.ongoingDelayedOperations--;
         this.updateSnackbar();
+
+        if (error)
+            Vue.instance.$ui.showError(error);
     }
 
     private updateSnackbar(): void {
@@ -49,7 +52,7 @@ export interface Listener {
     onStarted?(): void;
     onDelayed?(): void;
     onCompleted?(): void;
-    onFailed?(): void;
+    onFailed?(error?: any): void;
 }
 
 export default class AsyncOperation {
@@ -78,10 +81,10 @@ export default class AsyncOperation {
         this.emit('onCompleted');
     }
 
-    public fail(): void {
+    public fail(error?: any): void {
         this.clearDelayTimeout();
 
-        this.emit('onFailed');
+        this.emit('onFailed', error);
     }
 
     private clearDelayTimeout() {
@@ -92,9 +95,9 @@ export default class AsyncOperation {
         delete this.delayTimeout;
     }
 
-    private emit(event: keyof Listener): void {
+    private emit(event: keyof Listener, ...args: any[]): void {
         if (event in this.listener)
-            (this.listener[event] as any)();
+            (this.listener[event] as any)(...args);
     }
 
 }
