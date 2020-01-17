@@ -11,7 +11,7 @@ describe('Authentication', () => {
     });
 
     it('Logs in offline', () => {
-        cy.start();
+        cy.start({ useRealEngines: true });
 
         cy.contains('Login Offline').click();
 
@@ -48,7 +48,7 @@ describe('Authentication', () => {
                   `));
             });
 
-        cy.start();
+        cy.start({ useRealEngines: true });
 
         cy.get('input[placeholder="Solid POD"]').type(domain);
         cy.contains('Login with Solid').click();
@@ -57,7 +57,7 @@ describe('Authentication', () => {
     });
 
     it('Gives a warning when logging out offline', () => {
-        cy.start();
+        cy.start({ useRealEngines: true });
 
         cy.contains('Login Offline').click();
 

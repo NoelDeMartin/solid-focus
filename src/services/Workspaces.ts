@@ -6,6 +6,7 @@ import User from '@/models/users/User';
 import Workspace from '@/models/soukai/Workspace';
 
 import EventBus from '@/utils/EventBus';
+import Storage from '@/utils/Storage';
 
 interface State {
     activeWorkspace: Workspace | null;
@@ -26,21 +27,26 @@ export default class Workspaces extends Service {
         return this.storage.workspaces;
     }
 
-    public async setActive(workspace: Workspace): Promise<void> {
+    public async setActive(workspace: Workspace | null): Promise<void> {
         this.app.$store.commit('setActiveWorkspace', workspace);
+
+        if (workspace)
+            Storage.set('activeWorkspaceId', workspace.id);
+        else
+            Storage.remove('activeWorkspaceId');
     }
 
     public add(workspace: Workspace, activate: boolean = true): void {
         this.app.$store.commit('addWorkspace', workspace);
 
-        if (activate) {
-            this.app.$store.commit('setActiveWorkspace', workspace);
-        }
+        if (activate)
+            this.setActive(workspace);
     }
 
     public remove(workspace: Workspace): void {
         this.app.$store.commit('removeWorkspace', workspace);
-        this.app.$store.commit('setActiveWorkspace', this.all.length > 0 ? this.all[0] : null);
+
+        this.setActive(this.all.length > 0 ? this.all[0] : null);
     }
 
     protected get storage(): State {
@@ -94,6 +100,10 @@ export default class Workspaces extends Service {
 
     protected async load(user: User): Promise<void> {
         const workspaces: Workspace[] = [];
+        const activeWorkspaceId = Storage.get('activeWorkspaceId');
+        const activeListId = Storage.get('activeListId');
+
+        let activeWorkspace;
 
         for (const storage of user.storages) {
             workspaces.push(
@@ -101,20 +111,13 @@ export default class Workspaces extends Service {
             );
         }
 
-        const activeWorkspace = workspaces.length > 0 ? workspaces[0] : null;
+        activeWorkspace = workspaces.find(workspace => workspace.id === activeWorkspaceId);
 
-        if (activeWorkspace && !activeWorkspace.isRelationLoaded('lists')) {
-            await activeWorkspace.loadRelation('lists');
+        if (!activeWorkspace && workspaces.length > 0)
+            activeWorkspace = workspaces[0];
 
-            // TODO this could be done automatically in Soukai
-            for (const list of activeWorkspace.lists!) {
-                list.setRelationModels('workspace', activeWorkspace);
-            }
-        }
-
-        if (activeWorkspace && !activeWorkspace.activeList.isRelationLoaded('tasks')) {
-            await activeWorkspace.activeList.loadRelation('tasks');
-        }
+        if (activeWorkspace)
+            await this.loadWorkspace(activeWorkspace, activeListId);
 
         this.app.$store.commit('setWorkspaces', workspaces);
         this.app.$store.commit('setActiveWorkspace', activeWorkspace);
@@ -123,6 +126,27 @@ export default class Workspaces extends Service {
     protected async unload(): Promise<void> {
         this.app.$store.commit('setWorkspaces', []);
         this.app.$store.commit('setActiveWorkspace', null);
+
+        Storage.remove('activeWorkspaceId');
+        Storage.remove('activeListId');
     }
 
+    private async loadWorkspace(workspace: Workspace, activeListId: string): Promise<void> {
+        if (!workspace.isRelationLoaded('lists')) {
+            await workspace.loadRelation('lists');
+
+            // TODO this could be done automatically in Soukai
+            for (const list of workspace.lists!) {
+                list.setRelationModels('workspace', workspace);
+            }
+        }
+
+        workspace.setActiveList(
+            workspace.lists!.find(list => list.id === activeListId) ||
+            workspace.activeList,
+        );
+
+        if (workspace && !workspace.activeList.isRelationLoaded('tasks'))
+            await workspace.activeList.loadRelation('tasks');
+    }
 }

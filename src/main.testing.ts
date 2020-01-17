@@ -39,6 +39,9 @@ window.Runtime = {
         const list = new List({ name });
 
         await list.save(workspace.url);
+        await workspace.update({
+            resourceUrls: [...workspace.resourceUrls, list.url],
+        });
 
         list.setRelationModels('tasks', []);
         list.setRelationModels('workspace', workspace);

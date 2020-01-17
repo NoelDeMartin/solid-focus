@@ -1,4 +1,4 @@
-import { Engine, InMemoryEngine, EngineAttributes, Filters, Documents } from 'soukai';
+import { Engine, EngineAttributes, Filters, Documents } from 'soukai';
 
 import Clock from '@/utils/Clock';
 
@@ -8,8 +8,8 @@ export default class TestingEngine implements Engine {
     private error?: Error;
     private delay?: number;
 
-    constructor() {
-        this.engine = new InMemoryEngine;
+    constructor(engine: Engine) {
+        this.engine = engine;
     }
 
     public setError(error: Error): void {

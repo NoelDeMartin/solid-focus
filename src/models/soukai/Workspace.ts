@@ -4,6 +4,7 @@ import { SolidModel } from 'soukai-solid';
 import List from '@/models/soukai/List';
 
 import { decorate } from '@/utils/decorators';
+import Storage from '@/utils/Storage';
 
 export default class Workspace extends SolidModel {
 
@@ -33,6 +34,8 @@ export default class Workspace extends SolidModel {
 
     public setActiveList(list: List): void {
         this.activeList = list;
+
+        Storage.set('activeListId', list.id);
     }
 
     public listsRelationship(): MultiModelRelation {
@@ -47,7 +50,7 @@ export default class Workspace extends SolidModel {
 
             list.setRelationModels('tasks', []);
 
-            this.setInbox(list, false);
+            this.setInbox(list);
         }
 
         return model;
@@ -60,7 +63,7 @@ export default class Workspace extends SolidModel {
 
         list.setRelationModels('tasks', []);
 
-        this.setInbox(list, true);
+        this.setInbox(list);
 
         if (this.exists()) {
             this.updateInbox();
@@ -70,11 +73,10 @@ export default class Workspace extends SolidModel {
     private async updateInbox(): Promise<void> {
         const list = await List.find<List>(this.getAttribute('url'));
 
-        this.setInbox(list!, false);
+        this.setInbox(list!);
     }
 
-    private async setInbox(list: List, activate: boolean): Promise<void> {
-        const activateInbox = activate || this.inbox === this.activeList;
+    private setInbox(list: List): void {
         const inbox = decorate(list, {
             getters: {
                 name: () => 'Inbox',
@@ -84,15 +86,11 @@ export default class Workspace extends SolidModel {
         inbox.editable = false;
         inbox.setRelationModels('workspace', this);
 
-        if (activateInbox && !inbox.isRelationLoaded('tasks')) {
-            await inbox.loadRelation('tasks');
+        if (!this.activeList || this.activeList === this.inbox) {
+            this.activeList = inbox;
         }
 
         this.inbox = inbox;
-
-        if (activateInbox) {
-            this.activeList = this.inbox;
-        }
     }
 
 }
