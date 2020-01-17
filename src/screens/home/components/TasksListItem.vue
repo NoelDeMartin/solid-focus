@@ -107,36 +107,18 @@ export default Vue.extend({
             // Allow the checkbox to be displayed as checked before the animation starts
             await this.$nextTick();
 
-            await this.updateTask(
+            await this.$ui.updateModel(
+                this.task,
                 task => task.toggleCompleted(),
-                ['completedAt'],
-            );
-        },
-        async toggleStarred() {
-            await this.updateTask(
-                task => task.toggleStarred(),
                 ['priority'],
             );
         },
-        async updateTask(update: (task: Task) => void, affectedAttributes: string[] = []) {
-            const operation = new AsyncOperation();
-            const initialAttributes = affectedAttributes.map(attribute => this.task.getAttribute(attribute));
-
-            try {
-                operation.start();
-
-                update(this.task);
-
-                await this.task.save();
-
-                operation.complete();
-            } catch (error) {
-                operation.fail(error);
-
-                affectedAttributes.forEach((attribute, index) => {
-                    this.task.setAttribute(attribute, initialAttributes[index]);
-                });
-            }
+        async toggleStarred() {
+            await this.$ui.updateModel(
+                this.task,
+                task => task.toggleStarred(),
+                ['priority'],
+            );
         },
     },
 });

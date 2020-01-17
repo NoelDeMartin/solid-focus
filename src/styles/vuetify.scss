@@ -28,19 +28,6 @@ html {
     display: inline-flex !important;
 }
 
-// Allow tile actions to be hidden if not hovered in non-mobile layouts
-.layout-desktop, .layout-tablet {
-
-    .v-list__tile__action.reveal-on-hover {
-        display: none;
-    }
-
-    .v-list__tile:hover .v-list__tile__action.reveal-on-hover {
-        display: flex;
-    }
-
-}
-
 // Input append button
 .v-btn.text-field-append {
     margin-left: 0;

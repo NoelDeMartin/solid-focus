@@ -1,7 +1,7 @@
 <template>
     <DialogBase :dialog="dialog">
         <v-card-text class="text-xl">
-            Are you sure that you want to remove the task <strong>{{ task.name }}</strong>?
+            Are you sure that you want to delete the task <strong>{{ task.name }}</strong>?
         </v-card-text>
         <template v-slot:actions>
             <v-spacer />

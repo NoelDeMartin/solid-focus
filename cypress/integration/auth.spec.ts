@@ -61,7 +61,7 @@ describe('Authentication', () => {
 
         cy.contains('Login Offline').click();
 
-        cy.get('#app-navigation-drawer button[title="Show actions menu"]').click();
+        cy.get('#app-navigation-drawer button[title="Open actions menu"]').click();
         cy.contains('Logout').click();
 
         cy.contains('.v-dialog', 'Logging out from offline mode will delete all your data')

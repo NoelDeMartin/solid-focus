@@ -1,9 +1,11 @@
 import { Component, AsyncComponent } from 'vue';
+import { SolidModel } from 'soukai-solid';
 import { Store } from 'vuex';
 
 import Service from '@/services/Service';
 
 import Arr from '@/utils/Arr';
+import AsyncOperation from '@/utils/AsyncOperation';
 import UUIDGenerator from '@/utils/UUIDGenerator';
 
 import Alert from '@/dialogs/Alert.vue';
@@ -152,6 +154,30 @@ export default class UI extends Service {
         }
 
         this.app.$store.commit('removeDialog', id);
+    }
+
+    async updateModel<Model extends SolidModel>(
+        model: Model,
+        update: (model: Model) => Promise<void> | void,
+        affectedAttributes: string[] = [],
+    ): Promise<void> {
+        const operation = new AsyncOperation();
+        const initialAttributes = affectedAttributes.map(attribute => model.getAttribute(attribute));
+
+        try {
+            operation.start();
+
+            await update(model);
+            await model.save();
+
+            operation.complete();
+        } catch (error) {
+            operation.fail(error);
+
+            affectedAttributes.forEach((attribute, index) => {
+                model.setAttribute(attribute, initialAttributes[index]);
+            });
+        }
     }
 
     public async wrapAsyncOperation(

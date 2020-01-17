@@ -1,63 +1,90 @@
 <template>
     <div class="task-panel flex flex-col flex-grow">
-        <div class="p-4 overflow-y-auto">
-            <h2 v-if="false" v-html="renderedName" />
+        <div class="flex flex-col p-4 overflow-y-auto">
+            <div class="flex flex-no-grow justify-between items-start">
+                <ClickableArea class="p-2 -mt-2 -ml-1 flex-grow text-left" @click="edit('name')">
+                    <h2 v-html="renderedName" />
+                </ClickableArea>
 
-            <div v-else class="flex justify-between items-start">
-                <h2 v-html="renderedName" />
-
-                <v-menu bottom left>
-                    <v-btn
-                        slot="activator"
-                        title="Show actions menu"
-                        icon
-                    >
-                        <v-icon>more_vert</v-icon>
-                    </v-btn>
-
-                    <v-list>
-                        <v-list-tile @click="edit">
-                            <v-icon class="mr-2">edit</v-icon>
-                            <v-list-tile-title>Edit</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-tile @click="remove">
-                            <v-icon class="mr-2">delete</v-icon>
-                            <v-list-tile-title>Remove</v-list-tile-title>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
+                <v-btn
+                    :class="{ 'opacity-50': !task.starred }"
+                    :color="task.starred ? 'primary' : 'grey'"
+                    class="-mt-1 -mr-1"
+                    icon
+                    flat
+                    @click="toggleStarred"
+                >
+                    <v-icon v-if="task.starred">star</v-icon>
+                    <v-icon v-else>star_outline</v-icon>
+                </v-btn>
             </div>
-            <p
+
+            <ClickableArea
                 :class="{
                     'text-red': task.dueAt && !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
                     'text-blue': task.dueAt && !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
                 }"
-                class="flex text-base mt-2 text-right items-center"
+                class="p-2 text-left flex flex-no-grow text-base items-center"
+                @click="edit('dueAt')"
             >
                 <v-icon class="mr-2">event</v-icon>
                 <span v-if="task.dueAt">{{ renderedDueAt }}</span>
                 <span v-else>No due date</span>
-            </p>
-            <div class="flex text-base mt-2">
-                <v-icon class="self-start mr-2">description</v-icon>
+            </ClickableArea>
+
+            <div v-if="task.description" class="group description flex flex-no-grow text-base p-2 relative">
+                <v-icon class="flex flex-no-grow self-start mr-2 group-hover:hidden">description</v-icon>
+                <v-btn
+                    class="hidden group-hover:flex"
+                    icon
+                    flat
+                    @click="edit('description')"
+                >
+                    <v-icon>edit</v-icon>
+                </v-btn>
                 <div v-html="$marked(task.description || 'No description')" />
             </div>
+
+            <ClickableArea v-else class="p-2 flex flex-no-grow text-base text-left" @click="edit('description')">
+                <v-icon class="self-start mr-2">description</v-icon>
+                <div v-html="$marked(task.description || 'No description')" />
+            </ClickableArea>
         </div>
 
         <v-spacer />
 
-        <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">
-            <v-icon>chevron_right</v-icon>
-        </v-btn>
+        <div class="flex flex-no-grow justify-between items-center">
+            <v-btn :class="{ hidden: $ui.mobile }" icon @click="$emit('close')">
+                <v-icon>chevron_right</v-icon>
+            </v-btn>
+
+            <span :class="{ 'mb-2': $ui.mobile }" class="text-sm flex-grow text-center opacity-75">
+                Created on {{ $dayjs(task.createdAt).format('MMMM DD, YYYY') }}
+            </span>
+
+            <v-btn
+                :class="{ hidden: $ui.mobile }"
+                title="Delete task"
+                icon
+                @click="remove"
+            >
+                <v-icon>delete</v-icon>
+            </v-btn>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
+import ClickableArea from '@/components/ClickableArea.vue';
+import EventBus from '@/utils/EventBus';
 import Task from '@/models/soukai/Task';
 
 export default Vue.extend({
+    components: {
+        ClickableArea,
+    },
     props: {
         task: {
             type: Object as () => Task,
@@ -83,8 +110,19 @@ export default Vue.extend({
         },
     },
     methods: {
-        edit() {
+        async edit(field: string) {
             this.$tasks.setEditing(true);
+
+            await this.$nextTick();
+
+            EventBus.emit('focus', field);
+        },
+        async toggleStarred() {
+            await this.$ui.updateModel(
+                this.task,
+                task => task.toggleStarred(),
+                ['priority'],
+            );
         },
         remove() {
             this.$ui.openDialog(
@@ -99,12 +137,14 @@ export default Vue.extend({
 <style lang="scss">
 .task-panel {
 
-    .description p:last-child {
-        margin-bottom: 0;
+    .description button {
+        margin-left: -6px;
+        margin-right: 2px;
+        margin-top: -6px;
     }
 
-    .actions .v-btn__content {
-        justify-content: flex-end;
+    button p:last-child {
+        margin-bottom: 0;
     }
 
 }

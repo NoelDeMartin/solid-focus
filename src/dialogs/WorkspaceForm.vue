@@ -24,11 +24,11 @@
         <template v-slot:secondary-actions v-if="workspace">
             <v-btn v-if="$ui.mobile" flat @click="remove">
                 <v-icon class="mr-1">delete</v-icon>
-                Remove
+                Delete
             </v-btn>
             <v-btn
                 v-else
-                title="Remove workspace"
+                title="Delete workspace"
                 flat
                 icon
                 @click="remove"

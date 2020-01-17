@@ -61,6 +61,9 @@ export default Vue.extend({
         },
     },
     methods: {
+        focus() {
+            this.openDialog();
+        },
         updateStringValue(date: string | null) {
             if (date === null) {
                 this.$emit('input', null);

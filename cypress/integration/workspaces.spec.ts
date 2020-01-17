@@ -53,14 +53,10 @@ describe('Workspaces', () => {
 
         cy.spyEngine();
 
-        cy.get('#app-navigation-drawer [title="Manage workspaces"]')
+        cy.get('#app-navigation-drawer [title="Open actions menu"]')
           .click();
 
-        cy.contains('.v-menu__content .v-list__tile', name)
-          .children('.v-list__tile__action')
-          .then($el => $el.removeClass('reveal-on-hover'))
-          .children('button[title="Edit workspace"]')
-          .click();
+        cy.contains('Edit workspace').click();
 
         cy.get('.v-dialog').within(() => {
             cy.get('input').clear().type(newName).type('{enter}');
@@ -90,17 +86,13 @@ describe('Workspaces', () => {
 
         cy.spyEngine();
 
-        cy.get('#app-navigation-drawer [title="Manage workspaces"]')
-          .click();
+        cy.get('#app-navigation-drawer [title="Open actions menu"]')
+        .click();
 
-        cy.contains('.v-menu__content .v-list__tile', name)
-          .children('.v-list__tile__action')
-          .then($el => $el.removeClass('reveal-on-hover'))
-          .children('button[title="Edit workspace"]')
-          .click();
+        cy.contains('Edit workspace').click();
 
         cy.get('.v-dialog')
-          .find('button[title="Remove workspace"]')
+          .find('button[title="Delete workspace"]')
           .click();
 
         cy.contains('Delete').click();
@@ -176,13 +168,10 @@ describe('Workspaces', () => {
 
         cy.spyEngine();
 
-        cy.contains('#app-navigation-drawer .v-list__tile', name)
-          .children('.v-list__tile__action')
-          .then($el => $el.removeClass('reveal-on-hover'));
-
-        cy.contains('#app-navigation-drawer .v-list__tile', name)
-          .get('button[title="Edit list"]')
+        cy.get('#app-navigation-toolbar [title="Open actions menu"]')
           .click();
+
+        cy.contains('Edit list').click();
 
         cy.get('.v-dialog').within(() => {
             cy.get('input').clear().type(newName).type('{enter}');
@@ -214,16 +203,13 @@ describe('Workspaces', () => {
 
         cy.spyEngine();
 
-        cy.contains('#app-navigation-drawer .v-list__tile', name)
-          .children('.v-list__tile__action')
-          .then($el => $el.removeClass('reveal-on-hover'));
-
-        cy.contains('#app-navigation-drawer .v-list__tile', name)
-          .get('button[title="Edit list"]')
+        cy.get('#app-navigation-toolbar [title="Open actions menu"]')
           .click();
 
+        cy.contains('Edit list').click();
+
         cy.get('.v-dialog')
-          .find('button[title="Remove list"]')
+          .find('button[title="Delete list"]')
           .click();
 
         cy.contains('Delete').click();

@@ -2,6 +2,7 @@
     <div class="flex flex-col flex-grow">
         <div class="m-4">
             <v-textarea
+                ref="name"
                 v-model="name"
                 :hide-details="true"
                 :rows="1"
@@ -13,6 +14,7 @@
 
         <div class="mx-4">
             <DatePickerInput
+                ref="dueAt"
                 v-model="dueAt"
                 placeholder="Due date"
             />
@@ -20,6 +22,7 @@
 
         <div class="mx-4 mb-4">
             <v-textarea
+                ref="description"
                 v-model="description"
                 :hide-details="true"
                 :rows="1"
@@ -52,6 +55,7 @@ import Task from '@/models/soukai/Task';
 import DatePickerInput from '@/components/DatePickerInput.vue';
 
 import AsyncOperation from '@/utils/AsyncOperation';
+import EventBus from '@/utils/EventBus';
 
 interface Data {
     name: string,
@@ -76,6 +80,11 @@ export default Vue.extend({
             dueAt: null,
         };
     },
+    computed: {
+        focusEventListener(): Function {
+            return (field: string) => (this.$refs[field] as any).focus();
+        },
+    },
     watch: {
         task() {
             this.updateValues();
@@ -83,6 +92,10 @@ export default Vue.extend({
     },
     created() {
         this.updateValues();
+        EventBus.on('focus', this.focusEventListener);
+    },
+    destroyed() {
+        EventBus.off('focus', this.focusEventListener);
     },
     methods: {
         async save() {

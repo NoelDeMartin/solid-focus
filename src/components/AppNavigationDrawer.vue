@@ -53,6 +53,7 @@
                                     <v-list-tile
                                         v-for="(workspace, i) in $workspaces.all"
                                         :key="i"
+                                        class="group"
                                         @click="activateWorkspace(workspace)"
                                     >
                                         <v-list-tile-title>
@@ -63,7 +64,7 @@
                                                 {{ workspace.name }}
                                             </span>
                                         </v-list-tile-title>
-                                        <v-list-tile-action class="reveal-on-hover justify-end">
+                                        <v-list-tile-action class="hidden justify-end group-hover:flex">
                                             <v-btn
                                                 title="Edit workspace"
                                                 icon
@@ -85,7 +86,7 @@
                         <v-menu bottom left>
                             <v-btn
                                 slot="activator"
-                                title="Show actions menu"
+                                title="Open actions menu"
                                 dark
                                 icon
                             >
@@ -93,7 +94,12 @@
                             </v-btn>
 
                             <v-list>
+                                <v-list-tile @click="editWorkspace($workspaces.active)">
+                                    <v-icon class="mr-2">edit</v-icon>
+                                    <v-list-tile-title>Edit workspace</v-list-tile-title>
+                                </v-list-tile>
                                 <v-list-tile @click="$auth.logout()">
+                                    <v-icon class="mr-2">logout</v-icon>
                                     <v-list-tile-title>Logout</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
@@ -110,13 +116,14 @@
                 <v-list-tile
                     v-for="(list, i) in lists"
                     :key="i"
+                    class="group"
                     @click="activateList(list)"
                 >
                     <v-list-tile-title>
                         <strong v-if="$workspaces.active.activeList === list">{{ list.name }}</strong>
                         <span v-else>{{ list.name }}</span>
                     </v-list-tile-title>
-                    <v-list-tile-action v-if="list.editable" class="reveal-on-hover justify-end">
+                    <v-list-tile-action v-if="list.editable" class="hidden justify-end group-hover:flex">
                         <v-btn
                             title="Edit list"
                             icon

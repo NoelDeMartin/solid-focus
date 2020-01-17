@@ -332,12 +332,10 @@ describe('Tasks', () => {
         cy.contains('.task-item', oldName)
           .click();
 
-        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
-        cy.contains('Edit').click();
+        cy.contains('#app-navigation-sidepanel button', oldName)
+          .click();
 
-        cy.get('#app-navigation-sidepanel')
-          .find('textarea')
-          .first()
+        cy.get(':focus')
           .clear()
           .type(newName);
 
@@ -376,10 +374,10 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
-        cy.contains('Edit').click();
+        cy.contains('#app-navigation-sidepanel button', 'No description')
+          .click();
 
-        cy.get('[placeholder="Description"]')
+        cy.get(':focus')
           .type(description);
 
         cy.get('#app-navigation-sidepanel')
@@ -413,10 +411,10 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
-        cy.contains('Edit').click();
+        cy.contains('#app-navigation-sidepanel button', 'No description')
+          .click();
 
-        cy.get('[placeholder="Description"]')
+        cy.get(':focus')
           .type('Descriptions also support markdown. Look at this list:')
           .type('{enter}')
           .type('- Item 1')
@@ -448,10 +446,7 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
-        cy.contains('Edit').click();
-
-        cy.get('[placeholder="Due date"]')
+        cy.contains('#app-navigation-sidepanel button', 'No due date')
           .click();
 
         cy.get('.v-btn.accent')
@@ -492,8 +487,7 @@ describe('Tasks', () => {
         cy.contains('.task-item', name)
           .click();
 
-        cy.get('#app-navigation-sidepanel button[title="Show actions menu"]').click();
-        cy.contains('Remove').click();
+        cy.get('#app-navigation-sidepanel button[title="Delete task"]').click();
 
         cy.contains('Delete').click();
 

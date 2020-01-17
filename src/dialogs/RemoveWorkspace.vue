@@ -1,8 +1,8 @@
 <template>
     <DialogBase :dialog="dialog">
         <v-card-text class="text-xl">
-            Are you sure that you want to remove the workspace <strong>{{ workspace.name }}</strong>? All
-            tasks and lists will also be removed.
+            Are you sure that you want to delete the workspace <strong>{{ workspace.name }}</strong>? All
+            tasks and lists will also be deleted.
         </v-card-text>
         <template v-slot:actions>
             <v-spacer />

@@ -17,6 +17,30 @@
                 <v-toolbar-title>
                     Task details
                 </v-toolbar-title>
+
+                <v-spacer />
+
+                <v-menu>
+                    <v-btn
+                        slot="activator"
+                        title="Open actions menu"
+                        dark
+                        icon
+                    >
+                        <v-icon>more_vert</v-icon>
+                    </v-btn>
+
+                    <v-list>
+                        <v-list-tile @click="edit">
+                            <v-icon class="mr-2">edit</v-icon>
+                            <v-list-tile-title>Edit task</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile @click="remove">
+                            <v-icon class="mr-2">delete</v-icon>
+                            <v-list-tile-title>Delete task</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
             </v-toolbar>
 
             <TaskPanelForm v-if="editing" :task="task" />
@@ -55,6 +79,15 @@ export default Vue.extend({
     methods: {
         close() {
             this.$tasks.setActive(null, false);
+        },
+        edit() {
+            this.$tasks.setEditing(true);
+        },
+        remove() {
+            this.$ui.openDialog(
+                () => import('@/dialogs/RemoveTask.vue'),
+                { task: this.$tasks.active },
+            );
         },
     },
 });

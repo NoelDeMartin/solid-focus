@@ -1,3 +1,16 @@
 .transition-all {
     transition: all .3s;
 }
+
+// Fix broken tailwind group-hovers
+.group:hover {
+
+    .group-hover\:flex {
+        display: flex !important;
+    }
+
+    .group-hover\:hidden {
+        display: none !important;
+    }
+
+}
