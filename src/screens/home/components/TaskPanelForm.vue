@@ -9,6 +9,7 @@
                 placeholder="Title"
                 class="p-0 m-0 ml-1"
                 auto-grow
+                @keydown.enter="save"
             />
         </div>
 
@@ -99,33 +100,17 @@ export default Vue.extend({
     },
     methods: {
         async save() {
-            const operation = new AsyncOperation();
-            const originalAttributes: any = {
-                name: this.task.name,
-                description: this.task.description,
-                dueAt: this.task.dueAt,
-            };
-
             this.$tasks.setEditing(false);
 
-            try {
-                operation.start();
-
-                await this.task.update({
+            await this.$ui.updateModel(
+                this.task,
+                task => task.update({
                     name: this.name,
                     description: this.description || undefined,
                     dueAt: this.dueAt || undefined,
-                });
-
-                operation.complete();
-            } catch (error) {
-                operation.fail(error);
-
-                // TODO implement this.task.setAttributes(originalAttributes); in soukai
-                for (const attribute in originalAttributes) {
-                    this.task.setAttribute(attribute, originalAttributes[attribute]);
-                }
-            }
+                }),
+                ['name', 'description', 'dueAt'],
+            );
         },
         cancel() {
             this.$tasks.setEditing(false);

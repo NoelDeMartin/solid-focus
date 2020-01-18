@@ -158,7 +158,7 @@ export default class UI extends Service {
 
     async updateModel<Model extends SolidModel>(
         model: Model,
-        update: (model: Model) => Promise<void> | void,
+        update: (model: Model) => Promise<any> | any,
         affectedAttributes: string[] = [],
     ): Promise<void> {
         const operation = new AsyncOperation();
@@ -174,6 +174,7 @@ export default class UI extends Service {
         } catch (error) {
             operation.fail(error);
 
+            // TODO implement this.task.setAttributes(originalAttributes); in soukai
             affectedAttributes.forEach((attribute, index) => {
                 model.setAttribute(attribute, initialAttributes[index]);
             });

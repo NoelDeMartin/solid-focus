@@ -1,28 +1,14 @@
 <template>
-    <v-dialog
-        v-model="showDialog"
-        :width="290"
-        lazy
-        full-width
-    >
-        <template v-slot:activator="{}">
-            <v-text-field
-                :value="renderedValue"
-                :placeholder="placeholder"
-                prepend-icon="event"
-                class="p-0"
-                readonly
-                clearable
-                @input="updateStringValue"
-                @click="openDialog"
-            />
-        </template>
-        <v-date-picker
-            :value="stringValue"
-            scrollable
-            @input="updateStringValue"
-        />
-    </v-dialog>
+    <v-text-field
+        :value="renderedValue"
+        :placeholder="placeholder"
+        prepend-icon="event"
+        class="p-0"
+        readonly
+        clearable
+        @input="updateStringValue"
+        @click="openDialog"
+    />
 </template>
 
 <script lang="ts">
@@ -30,7 +16,6 @@ import Vue from 'vue';
 
 interface Data {
     date: string | null,
-    showDialog: boolean,
 }
 
 export default Vue.extend({
@@ -44,14 +29,7 @@ export default Vue.extend({
             default: null,
         },
     },
-    data: (): Data => ({
-        date: null,
-        showDialog: false,
-    }),
     computed: {
-        stringValue(): string | null {
-            return this.value ? this.value.toISOString().substr(0, 10) : null;
-        },
         renderedValue(): string | null {
             if (this.value === null) {
                 return null;
@@ -65,20 +43,22 @@ export default Vue.extend({
             this.openDialog();
         },
         updateStringValue(date: string | null) {
-            if (date === null) {
-                this.$emit('input', null);
+            if (date !== null)
                 return;
-            }
 
-            this.$emit('input', this.parseDate(date));
-            this.showDialog = false;
+            this.$emit('input', null);
         },
-        openDialog() {
-            if (!this.value) {
-                this.$emit('input', new Date());
-            }
+        async openDialog() {
+            try {
+                const date = await this.$ui.openDialog(
+                    () => import('@/dialogs/DatePicker.vue'),
+                    { date: this.value },
+                );
 
-            this.showDialog = true;
+                this.$emit('input', date);
+            } catch (error) {
+                // dialog cancelled, nothing to do here
+            }
         },
         parseDate(date: string): Date {
             return new Date(Date.parse(date));

@@ -337,11 +337,8 @@ describe('Tasks', () => {
 
         cy.get(':focus')
           .clear()
-          .type(newName);
-
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Save')
-          .click();
+          .type(newName)
+          .type('{enter}');
 
         cy.contains('.task-item', newName)
           .should('be.visible');
@@ -449,11 +446,7 @@ describe('Tasks', () => {
         cy.contains('#app-navigation-sidepanel button', 'No due date')
           .click();
 
-        cy.get('.v-btn.accent')
-          .click();
-
-        cy.get('#app-navigation-sidepanel')
-          .contains('button', 'Save')
+        cy.get('.v-picker .v-btn--outline')
           .click();
 
         cy.contains('.task-item', name)

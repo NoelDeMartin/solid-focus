@@ -19,18 +19,29 @@
                 </v-btn>
             </div>
 
-            <ClickableArea
-                :class="{
-                    'text-red': task.dueAt && !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
-                    'text-blue': task.dueAt && !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
-                }"
-                class="p-2 text-left flex flex-no-grow text-base items-center"
-                @click="edit('dueAt')"
-            >
-                <v-icon class="mr-2">event</v-icon>
-                <span v-if="task.dueAt">{{ renderedDueAt }}</span>
-                <span v-else>No due date</span>
-            </ClickableArea>
+            <div class="group flex flex-no-grow">
+                <ClickableArea
+                    :class="{
+                        'text-red': task.dueAt && !task.completed && $dayjs(task.dueAt).isBefore($dayjs(), 'day'),
+                        'text-blue': task.dueAt && !task.completed && $dayjs(task.dueAt).isSame($dayjs(), 'day'),
+                    }"
+                    class="p-2 text-left flex flex-grow text-base items-center"
+                    @click="editDueAt"
+                >
+                    <v-icon class="mr-2">event</v-icon>
+                    <span v-if="task.dueAt">{{ renderedDueAt }}</span>
+                    <span v-else>No due date</span>
+                </ClickableArea>
+                <v-btn
+                    v-if="task.dueAt"
+                    class="hidden m-0 group-hover:flex"
+                    icon
+                    flat
+                    @click="updateDueAt(null)"
+                >
+                    <v-icon>close</v-icon>
+                </v-btn>
+            </div>
 
             <div v-if="task.description" class="group description flex flex-no-grow text-base p-2 relative">
                 <v-icon class="flex flex-no-grow self-start mr-2 group-hover:hidden">description</v-icon>
@@ -110,6 +121,25 @@ export default Vue.extend({
         },
     },
     methods: {
+        async editDueAt() {
+            try {
+                const date = await this.$ui.openDialog(
+                    () => import('@/dialogs/DatePicker.vue'),
+                    { date: this.task.dueAt },
+                );
+
+                await this.updateDueAt(date);
+            } catch (error) {
+                // dialog cancelled, nothing to do here
+            }
+        },
+        async updateDueAt(date: Date | null) {
+            await this.$ui.updateModel(
+                this.task,
+                task => task.update({ dueAt: date }),
+                ['dueAt'],
+            );
+        },
         async edit(field: string) {
             this.$tasks.setEditing(true);
 
