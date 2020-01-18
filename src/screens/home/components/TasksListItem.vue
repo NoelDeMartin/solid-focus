@@ -80,7 +80,7 @@ export default Vue.extend({
     },
     computed: {
         renderedName(): string {
-            const html = this.$marked(this.task.name || '');
+            const html = this.$options.filters!.markdown(this.task.name);
 
             // Strip surrounding p tag
             return html.substring(3, html.length - 5);
@@ -97,8 +97,11 @@ export default Vue.extend({
         },
     },
     methods: {
-        focus() {
+        focus({ target }: Event) {
             if (this.task.saving)
+                return;
+
+            if (target instanceof HTMLAnchorElement && target.getAttribute('target') === '_blank')
                 return;
 
             this.$tasks.setActive(this.task);

@@ -53,12 +53,12 @@
                 >
                     <v-icon>edit</v-icon>
                 </v-btn>
-                <div v-html="$marked(task.description || 'No description')" />
+                <div v-html="$options.filters.markdown(task.description || 'No description')" />
             </div>
 
             <ClickableArea v-else class="p-2 flex flex-no-grow text-base text-left" @click="edit('description')">
                 <v-icon class="self-start mr-2">description</v-icon>
-                <div v-html="$marked(task.description || 'No description')" />
+                <div v-html="$options.filters.markdown(task.description || 'No description')" />
             </ClickableArea>
         </div>
 
@@ -104,7 +104,7 @@ export default Vue.extend({
     },
     computed: {
         renderedName(): string {
-            const html = this.$marked(this.task.name || '');
+            const html = this.$options.filters!.markdown(this.task.name || '');
 
             // Strip surrounding p tag
             return html.substring(3, html.length - 5);

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import marked from 'marked';
 
 import Auth from '@/services/Auth';
 import Config from '@/services/Config';
@@ -12,7 +11,6 @@ declare module 'vue/types/vue' {
 
     interface Vue {
         $dayjs: typeof dayjs;
-        $marked: typeof marked;
         $auth: Auth;
         $config: Config;
         $services: Service[];

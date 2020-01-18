@@ -6,6 +6,8 @@ import plugins from '@/plugins';
 
 import bootServices from '@/services';
 
+import '@/filters';
+
 Vue.config.productionTip = false;
 
 Vue.instance = new Vue({

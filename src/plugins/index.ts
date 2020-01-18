@@ -1,5 +1,4 @@
 import '@/plugins/dayjs';
-import '@/plugins/marked';
 import '@/plugins/portal';
 import '@/plugins/registerServiceWorker';
 import '@/plugins/soukai';
