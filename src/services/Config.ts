@@ -15,7 +15,7 @@ export default class Config extends Service {
 
         this.environment = process.env.NODE_ENV as string;
 
-        this.version = process.env.VUE_APP_VERSION + (this.isDevelopment ? '-dev' : '');
+        this.version = process.env.VUE_APP_VERSION + (this.isDevelopment ? '-next' : '');
     }
 
 }
