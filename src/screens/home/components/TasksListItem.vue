@@ -30,12 +30,18 @@
             class="flex flex-row align-center flex-grow"
             @click="focus"
         >
-            <span class="truncate w-full" v-html="renderedName" />
+            <div class="flex">
+                <span class="truncate" v-html="renderedName" />
+                <v-icon
+                    v-if="task.description"
+                    small
+                    color="grey"
+                    class="ml-1 opacity-75"
+                >
+                    description
+                </v-icon>
+            </div>
         </v-list-tile-content>
-
-        <v-list-tile-action v-if="task.description">
-            <v-icon small color="grey" class="opacity-75">description</v-icon>
-        </v-list-tile-action>
 
         <v-list-tile-action
             v-if="task.dueAt"
@@ -49,7 +55,7 @@
             {{ renderedDueAt }}
         </v-list-tile-action>
 
-        <v-list-tile-action class="ml-2">
+        <v-list-tile-action class="ml-2 flex-no-shrink">
             <v-btn
                 :class="{ 'opacity-50': !task.starred }"
                 :color="task.starred ? 'primary' : 'grey'"
