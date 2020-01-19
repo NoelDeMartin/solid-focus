@@ -19,7 +19,7 @@
 
         <v-spacer />
 
-        <v-menu v-if="$workspaces.active.activeList.editable" bottom left>
+        <v-menu v-if="!$workspaces.empty && $workspaces.active.activeList.editable" bottom left>
             <v-btn
                 slot="activator"
                 title="Open actions menu"

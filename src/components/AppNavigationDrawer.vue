@@ -94,7 +94,7 @@
                             </v-btn>
 
                             <v-list>
-                                <v-list-tile @click="editWorkspace($workspaces.active)">
+                                <v-list-tile v-if="!$workspaces.empty" @click="editWorkspace($workspaces.active)">
                                     <v-icon class="mr-2">edit</v-icon>
                                     <v-list-tile-title>Edit workspace</v-list-tile-title>
                                 </v-list-tile>
