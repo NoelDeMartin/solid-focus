@@ -1,3 +1,10 @@
+# v0.2.3
+
+- Added hability to star tasks (using `cal:priority` rdf property).
+- Implemented remembering last active workspaces and lists (using localStorage).
+- Improved UX to edit tasks, lists and workspaces.
+- [gh-8](https://github.com/NoelDeMartin/solid-focus/issues/8) Improved info on login screen.
+
 # v0.2.2
 
 - Updated dependencies.
