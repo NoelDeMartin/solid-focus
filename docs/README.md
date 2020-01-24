@@ -123,3 +123,4 @@ I have been journaling during the  development process, you can read about the e
 
 - [Implementing a Task Manager using Solid](https://noeldemartin.com/tasks/implementing-a-task-manager-using-solid)
 - [Improving Solid Focus Task Manager](https://noeldemartin.com/tasks/improving-solid-focus-task-manager)
+- [Working on Solid Focus Task Manager](https://noeldemartin.com/tasks/working-on-solid-focus-task-manager)
