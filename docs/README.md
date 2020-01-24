@@ -1,12 +1,16 @@
+# Documentation
+
 The application is still under development, which explains the lack of advanced features at the moment. The foundations have been completed recently, so the upcoming changes should be focused in new features.
 
 PRs, issues and comments are welcome :).
 
+## Table of contents
+
 - [Technology](#technology)
 - [Data schema](#data-schema)
 - [Architecture](#architecture)
-- [Testing](#testing)
 - [Development](#development)
+- [Testing](#testing)
 - [Work journal](#work-journal)
 
 -----
@@ -103,19 +107,26 @@ The main modules that make up the application are the following:
 
 - **Components:** Screens and Dialogs are also Vue components, but there are other components that are defined stand-alone to be used as building blocks.
 
-## Testing
-
-There is currently only one unit test implemented, but most of the behaviour is tested with Cypress integration tests.
-
-Integration tests can be run by executing `npm run cy:test`.
-
-It can also be useful for debugging to execute these tests in a browser. In order to do that, you can launch the application with a testing environment running the `npm run test:serve` command and open the Cypress client with `npm run cy:open`.
-
 ## Development
 
 The development of the application is ongoing in the `dev` branch, while the stable version can be found on `master`.
 
+To run the application locally, clone this repository and execute the following commands:
+
+```sh
+npm install
+npm run serve
+```
+
 If you want to try an online deployment of the development version, it can be accessed here:  [https://solid-focus.netlify.com](https://solid-focus.netlify.com)
+
+## Testing
+
+There is currently only one unit test implemented, but most of the behaviour is tested with Cypress with integration tests.
+
+Integration tests can be run by executing `npm run cy:test`.
+
+It can also be useful for debugging to execute these tests in a browser. In order to do that, you can launch the application with a testing environment running the `npm run test:serve` command and open the Cypress client with `npm run cy:open`.
 
 ## Work journal
 
