@@ -1,38 +1,12 @@
 {
-    "extends": "../tsconfig.json",
     "compilerOptions": {
-        "esModuleInterop": false,
-        "types": [
-            "cypress",
-            "faker",
-            "jest",
-            "node",
-            "rdflib",
-            "webpack-env"
-        ],
+        "target": "es5",
+        "lib": ["es5", "dom"],
+        "types": ["cypress", "node"],
         "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "../src/*"
-            ],
-            "@tests/*": [
-                "../tests/*"
-            ],
-            "@cy/*": [
-                "./*"
-            ]
-        },
+            "@cy/*": ["./*"]
+        }
     },
-    "include": [
-        "./**/*.ts",
-        "../src/**/*.ts",
-        "../src/**/*.tsx",
-        "../src/**/*.vue",
-        "../tests/**/*.ts",
-        "../tests/**/*.tsx"
-    ],
-    "exclude": [
-        "node_modules",
-        "../**/*.test.ts"
-    ]
+    "include": ["**/*.ts"]
 }

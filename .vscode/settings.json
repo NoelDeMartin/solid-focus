@@ -1,14 +1,10 @@
 {
-    "emmet.syntaxProfiles": {
-        "vue-html": "html",
-        "vue": "html"
-    },
-    "eslint.validate": [
-        "typescript",
-        "javascript",
-        "vue"
-    ],
-    "files.trimTrailingWhitespace": true,
-    "vsicons.projectDetection.autoReload": true,
-    "workbench.iconTheme": "vscode-icons"
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": ".*",
+                "cmd": "npx prettier-eslint ${file} --write"
+            }
+        ]
+    }
 }

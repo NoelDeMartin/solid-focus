@@ -1,0 +1,1 @@
+import '@aerogel/cypress/support';

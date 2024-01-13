@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: '.nvmrc'
+            - run: npm ci
+            - run: npm run lint
+            - run: npm run build
+            - run: npm run test:ci
+            - run: npm run cy:test-snapshots:ci
+            - name: Upload Cypress screenshots
+              uses: actions/upload-artifact@v3
+              if: ${{ failure() }}
+              with:
+                  name: cypress_screenshots
+                  path: cypress/screenshots
+            - name: Upload Cypress snapshots
+              uses: actions/upload-artifact@v3
+              if: ${{ failure() }}
+              with:
+                  name: cypress_snapshots
+                  path: cypress/snapshots
