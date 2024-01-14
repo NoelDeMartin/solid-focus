@@ -13,6 +13,7 @@ export default defineConfig({
         Components({
             dts: false,
             resolvers: [AerogelResolver(), IconsResolver()],
+            dirs: ['src/components'],
         }),
         I18n({ include: resolve(__dirname, './src/lang/**/*.yaml') }),
         Icons({

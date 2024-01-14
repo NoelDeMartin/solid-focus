@@ -1,3 +1,6 @@
-home:
-  title: Aerogel
-  getStarted: Get started
+onboarding:
+    title: Solid Focus
+    draft_label: Task name
+    draft_placeholder: E.g. learn Japanese
+    submit: Create task
+    workspaceName: Main
