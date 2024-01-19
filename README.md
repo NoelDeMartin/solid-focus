@@ -5,3 +5,5 @@ Task Manager implemented with [Vue](https://vuejs.org/) using the [Solid](https:
 Use it online here: [https://noeldemartin.github.io/solid-focus](https://noeldemartin.github.io/solid-focus)
 
 To learn more about implementation details and development status [read the docs](docs).
+
+To develop, use Node version 10.
