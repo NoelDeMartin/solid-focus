@@ -1,16 +1,16 @@
 import type { BelongsToManyRelation, Relation } from 'soukai';
 
-import Task from '@/models/Task';
+import TasksList from '@/models/TasksList';
 
 import Model from './Workspace.schema';
 
 export default class Workspace extends Model {
 
-    public declare tasks?: Task[];
-    public declare relatedTasks: BelongsToManyRelation<this, Task, typeof Task>;
+    public declare lists?: TasksList[];
+    public declare relatedLists: BelongsToManyRelation<this, TasksList, typeof TasksList>;
 
-    public tasksRelationship(): Relation {
-        return this.belongsToMany(Task);
+    public listsRelationship(): Relation {
+        return this.belongsToMany(TasksList, 'listIds');
     }
 
 }

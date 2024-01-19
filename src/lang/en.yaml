@@ -4,3 +4,6 @@ onboarding:
     draft_placeholder: E.g. learn Japanese
     submit: Create task
     workspaceName: Main
+
+tasks:
+    empty: You don't have any tasks, create a new one!

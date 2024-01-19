@@ -11,7 +11,8 @@ export default defineServiceState({
         workspaces: [] as Workspace[],
     },
     computed: {
-        current: ({ currentWorkspaceId, workspaces }) =>
-            workspaces?.find((workspace) => workspace.id === currentWorkspaceId),
+        current({ currentWorkspaceId, workspaces }) {
+            return workspaces?.find((workspace) => workspace.id === currentWorkspaceId);
+        },
     },
 });

@@ -7,7 +7,9 @@ import Service from './Workspaces.state';
 
 export class WorkspacesService extends Service {
 
-    public open(workspace: Workspace): void {
+    public async open(workspace: Workspace): Promise<void> {
+        await workspace.loadRelationIfUnloaded('lists');
+
         this.currentWorkspaceId = workspace.id;
     }
 
@@ -16,6 +18,8 @@ export class WorkspacesService extends Service {
             service: this,
             property: 'workspaces',
         });
+
+        this.current && (await this.open(this.current));
     }
 
 }

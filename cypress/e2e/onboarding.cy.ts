@@ -12,6 +12,7 @@ describe('Onboarding', () => {
         // Assert
         cy.dontSee('Solid Focus');
         cy.see('Main');
+        cy.see('Inbox (active)');
         cy.see('Start being more focused');
     });
 

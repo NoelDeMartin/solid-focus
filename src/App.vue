@@ -1,7 +1,7 @@
 <template>
     <AGAppLayout class="bg-blue-50">
         <main class="flex flex-grow flex-col items-center justify-center">
-            <AppHome v-if="$workspaces.current" :workspace="$workspaces.current" />
+            <AppMain v-if="$workspaces.current && $tasksLists.current" />
             <AppOnboarding v-else />
         </main>
     </AGAppLayout>

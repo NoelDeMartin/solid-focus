@@ -20,8 +20,9 @@
 <script setup lang="ts">
 import { requiredStringInput, translate, useForm } from '@aerogel/core';
 
-import Workspace from '@/models/Workspace';
 import Task from '@/models/Task';
+import TasksList from '@/models/TasksList';
+import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
 
 const form = useForm({
@@ -30,9 +31,10 @@ const form = useForm({
 
 async function submit(): Promise<void> {
     const task = await Task.create({ name: form.draft });
+    const list = await TasksList.create({ name: 'Inbox', taskIds: [task.id] });
     const workspace = await Workspace.create({
         name: translate('onboarding.workspaceName'),
-        taskIds: [task.id],
+        listIds: [list.id],
     });
 
     Workspaces.open(workspace);
