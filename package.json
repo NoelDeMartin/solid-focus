@@ -19,6 +19,7 @@
     "dependencies": {
         "@aerogel/core": "next",
         "@aerogel/plugin-i18n": "next",
+        "@aerogel/plugin-routing": "0.0.0-next.1415dfbeeb962c022e1bb2abfd77d0237a5d23ad",
         "@aerogel/plugin-soukai": "next",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/utils": "next",

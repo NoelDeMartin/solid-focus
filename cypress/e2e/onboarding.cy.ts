@@ -14,6 +14,7 @@ describe('Onboarding', () => {
         cy.see('Main');
         cy.see('Inbox (active)');
         cy.see('Start being more focused');
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
     });
 
 });

@@ -1,4 +1,5 @@
 import { facade } from '@noeldemartin/utils';
+import { Router } from '@aerogel/plugin-routing';
 import { watchEffect } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
@@ -8,29 +9,28 @@ import Service from './TasksLists.state';
 
 export class TasksListsService extends Service {
 
-    public async open(list: TasksList): Promise<void> {
-        await list.loadRelationIfUnloaded('tasks');
+    public async open(list?: TasksList): Promise<boolean> {
+        list ??= Workspaces.current?.lists?.[0];
 
-        this.currentTasksListId = list.id;
+        if (!list) {
+            return false;
+        }
+
+        await Router.push({
+            name: 'workspace',
+            params: {
+                workspace: Workspaces.current?.slug,
+                list: list !== Workspaces.current?.lists?.[0] ? list.slug : '',
+            },
+        });
+
+        return true;
     }
 
     protected async boot(): Promise<void> {
         await Workspaces.booted;
 
-        this.current && (await this.open(this.current));
-
-        watchEffect(async () => {
-            const lists = Workspaces.current?.lists ?? [];
-            const current = lists.find((list) => list.id === this.currentTasksListId) ?? lists[0] ?? null;
-
-            if (!current) {
-                this.currentTasksListId = null;
-
-                return;
-            }
-
-            await this.open(current);
-        });
+        watchEffect(() => (this.lastVisitedListId = this.current?.id ?? this.lastVisitedListId));
     }
 
 }

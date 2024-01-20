@@ -1,19 +1,21 @@
 import { defineServiceState } from '@aerogel/core';
+import { Router } from '@aerogel/plugin-routing';
 import type { Key } from 'soukai';
 
-import Workspaces from '@/services/Workspaces';
+import type TasksList from '@/models/TasksList';
+import type Workspace from '@/models/Workspace';
 
 export default defineServiceState({
     name: 'tasks-lists',
-    persist: ['currentTasksListId'],
+    persist: ['lastVisitedListId'],
     initialState: {
-        currentTasksListId: null as Key | null,
+        lastVisitedListId: null as Key | null,
     },
     computed: {
-        current({ currentTasksListId }) {
-            const lists = Workspaces.current?.lists ?? [];
+        current() {
+            const routeParams: { workspace?: Workspace; list?: TasksList } = Router.currentRoute.value?.params ?? {};
 
-            return lists.find((list) => list.id === currentTasksListId) ?? null;
+            return routeParams.list ?? routeParams.workspace?.lists?.[0];
         },
     },
 });

@@ -3,7 +3,7 @@
         <ul>
             <li v-for="list of $workspace.lists" :key="list.id">
                 {{ list.name }}
-                <span v-if="$tasksList.id === list.id">(active)</span>
+                <span v-if="$tasksLists.current?.id === list.id">(active)</span>
             </li>
         </ul>
     </nav>

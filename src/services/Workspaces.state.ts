@@ -1,18 +1,17 @@
 import { defineServiceState } from '@aerogel/core';
+import { Router } from '@aerogel/plugin-routing';
 import type { Key } from 'soukai';
 
 import type Workspace from '@/models/Workspace';
 
 export default defineServiceState({
     name: 'workspaces',
-    persist: ['currentWorkspaceId'],
+    persist: ['lastVisitedWorkspaceId'],
     initialState: {
-        currentWorkspaceId: null as Key | null,
-        workspaces: [] as Workspace[],
+        lastVisitedWorkspaceId: null as Key | null,
+        all: [] as Workspace[],
     },
     computed: {
-        current({ currentWorkspaceId, workspaces }) {
-            return workspaces?.find((workspace) => workspace.id === currentWorkspaceId);
-        },
+        current: () => Router.currentRoute.value?.params.workspace as Workspace | null,
     },
 });
