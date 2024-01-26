@@ -1,11 +1,11 @@
-import { lazyRequireProxy } from '@/utils';
+import { required } from '@noeldemartin/utils';
 
 import Workspaces from './Workspaces';
 import TasksLists from './TasksLists';
 
 export const globals = {
-    $workspace: lazyRequireProxy(() => Workspaces.current, 'Current workspace is missing, can\'t use $workspace'),
-    $tasksList: lazyRequireProxy(() => TasksLists.current, 'Current tasks list is missing, can\'t use $tasksList'),
+    $workspace: required(() => Workspaces.current, 'Current workspace is missing, can\'t use $workspace'),
+    $tasksList: required(() => TasksLists.current, 'Current tasks list is missing, can\'t use $tasksList'),
 };
 
 export const services = {

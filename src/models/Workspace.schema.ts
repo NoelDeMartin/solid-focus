@@ -6,6 +6,7 @@ export default defineModelSchema({
         listIds: {
             type: FieldType.Array,
             items: FieldType.Key,
+            required: true,
         },
     },
 });

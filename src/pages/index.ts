@@ -23,10 +23,7 @@ export const routes = defineRoutes([
         name: 'onboarding',
         path: '/',
         component: Onboarding,
-        async beforeEnter() {
-            await Workspaces.booted;
-            await Workspaces.openLastVisited();
-        },
+        beforeEnter: () => Workspaces.open(),
     },
     {
         name: 'workspace',

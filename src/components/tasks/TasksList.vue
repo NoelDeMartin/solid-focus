@@ -1,5 +1,5 @@
 <template>
-    <ul v-if="tasks.length">
+    <ul v-if="tasks.length" class="list-disc pl-4">
         <TasksListItem v-for="task of tasks" :key="task.id" :task="task" />
     </ul>
 

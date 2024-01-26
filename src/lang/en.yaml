@@ -5,5 +5,11 @@ onboarding:
     submit: Create task
     workspaceName: Main
 
+lists:
+    add: Add new
+    promptMessage: How should we call the new list?
+    promptLabel: List name
+
 tasks:
+    add: Add
     empty: You don't have any tasks, create a new one!

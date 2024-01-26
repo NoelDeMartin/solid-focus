@@ -2,7 +2,7 @@ describe('Onboarding', () => {
 
     beforeEach(() => cy.visit('/'));
 
-    it('Creates initial workspace', () => {
+    it('Creates a new workspace', () => {
         // Arrange
         cy.see('Solid Focus');
 
@@ -12,7 +12,9 @@ describe('Onboarding', () => {
         // Assert
         cy.dontSee('Solid Focus');
         cy.see('Main');
-        cy.see('Inbox (active)');
+        cy.see('Inbox', 'li').within(() => {
+            cy.see('(active)');
+        });
         cy.see('Start being more focused');
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
     });

@@ -1,3 +1,4 @@
+import { computedModel } from '@aerogel/plugin-soukai';
 import { defineServiceState } from '@aerogel/core';
 import { Router } from '@aerogel/plugin-routing';
 import type { Key } from 'soukai';
@@ -10,12 +11,15 @@ export default defineServiceState({
     persist: ['lastVisitedListId'],
     initialState: {
         lastVisitedListId: null as Key | null,
-    },
-    computed: {
-        current() {
-            const routeParams: { workspace?: Workspace; list?: TasksList } = Router.currentRoute.value?.params ?? {};
+        current: computedModel(() => {
+            const rawParams: { workspace?: string; list?: string } = Router.currentRoute.value?.rawParams ?? {};
+            const params: { workspace?: Workspace; list?: TasksList } = Router.currentRoute.value?.params ?? {};
 
-            return routeParams.list ?? routeParams.workspace?.lists?.[0];
-        },
+            if (!params.list && rawParams.list) {
+                return null;
+            }
+
+            return params.list ?? params.workspace?.lists?.find((list) => list.slug === 'inbox');
+        }),
     },
 });

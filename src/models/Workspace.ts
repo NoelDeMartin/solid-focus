@@ -1,3 +1,4 @@
+import { Router } from '@aerogel/plugin-routing';
 import { stringToSlug } from '@noeldemartin/utils';
 import type { BelongsToManyRelation, Relation } from 'soukai';
 
@@ -16,6 +17,16 @@ export default class Workspace extends Model {
 
     public listsRelationship(): Relation {
         return this.belongsToMany(TasksList, 'listIds');
+    }
+
+    public async open(list?: TasksList): Promise<void> {
+        await Router.push({
+            name: 'workspace',
+            params: {
+                workspace: this.slug,
+                list: list?.slug ?? '',
+            },
+        });
     }
 
 }

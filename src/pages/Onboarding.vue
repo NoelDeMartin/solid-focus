@@ -23,7 +23,6 @@ import { requiredStringInput, translate, useForm } from '@aerogel/core';
 import Task from '@/models/Task';
 import TasksList from '@/models/TasksList';
 import Workspace from '@/models/Workspace';
-import Workspaces from '@/services/Workspaces';
 
 const form = useForm({
     draft: requiredStringInput(),
@@ -37,6 +36,6 @@ async function submit(): Promise<void> {
         listIds: [list.id],
     });
 
-    Workspaces.open(workspace);
+    await workspace.open();
 }
 </script>

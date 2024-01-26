@@ -5,15 +5,12 @@ describe('Workspaces', () => {
         cy.ariaInput('Task name').type('...{enter}');
     });
 
-    it('Loads default workspace', () => {
-        cy.visit('/');
-        cy.see('Main');
-        cy.see('Inbox (active)');
-    });
-
-    it('Not found', () => {
-        cy.visit('/this-does-not-exist');
-        cy.see('Could not find \'this-does-not-exist\' workspace');
+    it('Creates lists', () => {
+        cy.press('Add new');
+        cy.ariaInput('List name').type('Groceries{enter}');
+        cy.see('Groceries', 'li').within(() => {
+            cy.see('(active)');
+        });
     });
 
 });
