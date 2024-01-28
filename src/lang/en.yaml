@@ -18,4 +18,7 @@ lists:
 
 tasks:
     add: Add
+    label: Task name
     empty: You don't have any tasks, create a new one!
+    showCompleted: Show completed
+    hideCompleted: Hide completed

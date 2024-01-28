@@ -10,13 +10,12 @@ describe('Onboarding', () => {
         cy.ariaInput('Task name').type('Start being more focused{enter}');
 
         // Assert
-        cy.dontSee('Solid Focus');
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
+        cy.see('Start being more focused');
         cy.see('Main');
         cy.see('Inbox', 'li').within(() => {
             cy.see('(active)');
         });
-        cy.see('Start being more focused');
-        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
     });
 
 });

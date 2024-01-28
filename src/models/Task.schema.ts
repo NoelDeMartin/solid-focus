@@ -6,5 +6,6 @@ export default defineModelSchema({
             type: FieldType.String,
             required: true,
         },
+        completedAt: FieldType.Date,
     },
 });

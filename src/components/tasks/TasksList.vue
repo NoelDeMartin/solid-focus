@@ -1,9 +1,10 @@
 <template>
-    <ul v-if="tasks.length" class="list-disc pl-4">
-        <TasksListItem v-for="task of tasks" :key="task.id" :task="task" />
-    </ul>
-
-    <AGMarkdown v-else lang-key="tasks.empty" />
+    <div>
+        <ul v-if="tasks.length">
+            <TasksListItem v-for="task of tasks" :key="task.id" :task="task" />
+        </ul>
+        <AGMarkdown v-else lang-key="tasks.empty" />
+    </div>
 </template>
 
 <script setup lang="ts">
