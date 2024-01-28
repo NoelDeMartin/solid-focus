@@ -5,6 +5,12 @@ onboarding:
     submit: Create task
     workspaceName: Main
 
+workspaces:
+    select: Select workspace
+    add: Add new
+    promptMessage: How should we call the new workspace?
+    promptLabel: Workspace name
+
 lists:
     add: Add new
     promptMessage: How should we call the new list?
