@@ -6,8 +6,8 @@ jobs:
     ci:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
             - run: npm ci
@@ -16,13 +16,13 @@ jobs:
             - run: npm run test:ci
             - run: npm run cy:test-snapshots:ci
             - name: Upload Cypress screenshots
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               if: ${{ failure() }}
               with:
                   name: cypress_screenshots
                   path: cypress/screenshots
             - name: Upload Cypress snapshots
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               if: ${{ failure() }}
               with:
                   name: cypress_snapshots
