@@ -1,5 +1,8 @@
 <template>
-    <div class="bg-gray-300 px-4 py-6">
+    <div class="flex gap-2 bg-gray-300 px-4 py-6">
+        <AGButton color="clear" :aria-label="$t('cloud.open')" @click="$ui.openModal(CloudStatusModal)">
+            <i-zondicons-cloud class="h-6 w-6" />
+        </AGButton>
         <AGSelect
             :model-value="selectedOption"
             :options="options"
@@ -16,6 +19,7 @@ import { UI, translate } from '@aerogel/core';
 import type { ArrayItem } from '@noeldemartin/utils';
 import type { RefValue } from '@aerogel/plugin-soukai';
 
+import CloudStatusModal from '@/components/modals/CloudStatusModal.vue';
 import TasksList from '@/models/TasksList';
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
@@ -29,7 +33,7 @@ const options = computed(() => [
     } as const,
 ]);
 const selectedOption = computed(
-    () => options.value.find((option) => option.id === Workspaces.current?.id) ?? options.value[0],
+    () => options.value.find((option) => option.id === Workspaces.current?.url) ?? options.value[0],
 );
 
 async function changeWorkspace(option: ArrayItem<RefValue<typeof options>>) {
@@ -55,7 +59,7 @@ async function createWorkspace(): Promise<void> {
     const list = await TasksList.create({ name: 'Inbox' });
     const workspace = await Workspace.create({
         name,
-        listIds: [list.id],
+        listUrls: [list.url],
     });
 
     await workspace.open();

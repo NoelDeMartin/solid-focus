@@ -2,11 +2,11 @@
     <div class="min-w-56 px-4">
         <nav class="py-6">
             <ul class="list-disc pl-8">
-                <li v-for="list of $workspace.lists" :key="list.id">
+                <li v-for="list of $workspace.lists" :key="list.url">
                     <AGLink route="workspace" :route-params="{ workspace: $workspace.slug, list: list.slug }">
                         {{ list.name }}
                     </AGLink>
-                    <span v-if="$tasksLists.current?.id === list.id" class="ml-1">(active)</span>
+                    <span v-if="$tasksLists.current?.url === list.url" class="ml-1">(active)</span>
                 </li>
             </ul>
         </nav>

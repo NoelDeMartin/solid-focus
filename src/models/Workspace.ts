@@ -16,7 +16,7 @@ export default class Workspace extends Model {
     }
 
     public listsRelationship(): Relation {
-        return this.belongsToMany(TasksList, 'listIds');
+        return this.belongsToMany(TasksList, 'listUrls');
     }
 
     public async open(list?: TasksList): Promise<void> {

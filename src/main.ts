@@ -1,6 +1,8 @@
 import i18n from '@aerogel/plugin-i18n';
-import soukai from '@aerogel/plugin-soukai';
+import offlineFirst from '@aerogel/plugin-offline-first';
 import routing from '@aerogel/plugin-routing';
+import solid from '@aerogel/plugin-solid';
+import soukai from '@aerogel/plugin-soukai';
 import { bootstrap } from '@aerogel/core';
 
 import './assets/css/styles.css';
@@ -14,6 +16,8 @@ bootstrap(App, {
         i18n({ messages: import.meta.glob('@/lang/*.yaml') }),
         soukai({ models: import.meta.glob(['@/models/*', '!**/*.test.ts'], { eager: true }) }),
         routing({ routes, bindings }),
+        solid(),
+        offlineFirst(),
     ],
     install(app) {
         Object.assign(app.config.globalProperties, globals);

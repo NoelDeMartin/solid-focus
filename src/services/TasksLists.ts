@@ -10,7 +10,7 @@ export class TasksListsService extends Service {
     protected async boot(): Promise<void> {
         await Workspaces.booted;
 
-        watchEffect(() => (this.lastVisitedListId = this.current?.id ?? this.lastVisitedListId));
+        watchEffect(() => (this.lastVisitedListUrl = this.current?.url ?? this.lastVisitedListUrl));
     }
 
 }

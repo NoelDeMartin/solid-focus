@@ -4,5 +4,6 @@
 // If you want to use it, just uncomment these lines:
 // import './navigation.cy';
 // import './onboarding.cy';
+// import './solid.cy';
 // import './tasks.cy';
 // import './workspaces.cy';

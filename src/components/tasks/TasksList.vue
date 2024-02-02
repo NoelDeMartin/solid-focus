@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul v-if="tasks.length">
-            <TasksListItem v-for="task of tasks" :key="task.id" :task="task" />
+            <TasksListItem v-for="task of tasks" :key="task.url" :task="task" />
         </ul>
         <AGMarkdown v-else lang-key="tasks.empty" />
     </div>

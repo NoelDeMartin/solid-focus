@@ -30,10 +30,10 @@ const form = useForm({
 
 async function submit(): Promise<void> {
     const task = await Task.create({ name: form.draft });
-    const list = await TasksList.create({ name: 'Inbox', taskIds: [task.id] });
+    const list = await TasksList.create({ name: 'Inbox', taskUrls: [task.url] });
     const workspace = await Workspace.create({
         name: translate('onboarding.workspaceName'),
-        listIds: [list.id],
+        listUrls: [list.url],
     });
 
     await workspace.open();

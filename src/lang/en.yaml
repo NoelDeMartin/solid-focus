@@ -5,6 +5,12 @@ onboarding:
     submit: Create task
     workspaceName: Main
 
+cloud:
+    open: View sync status
+    setup_info: Your data is only stored locally, do you want to upload it to the cloud?
+    setup_confirm: Back up in Cloud
+    setup_dismiss: not now
+
 workspaces:
     select: Select workspace
     add: Add new

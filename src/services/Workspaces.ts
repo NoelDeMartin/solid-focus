@@ -11,9 +11,9 @@ import Service from './Workspaces.state';
 export class WorkspacesService extends Service {
 
     public async open(): Promise<void> {
-        const workspace = this.all.find((model) => model.id === this.lastVisitedWorkspaceId) ?? this.all[0];
+        const workspace = this.all.find((model) => model.url === this.lastVisitedWorkspaceUrl) ?? this.all[0];
         const lists = await workspace?.loadRelationIfUnloaded<TasksList[]>('lists');
-        const list = lists?.find((model) => model.id === TasksLists.lastVisitedListId);
+        const list = lists?.find((model) => model.url === TasksLists.lastVisitedListUrl);
 
         await workspace?.open(list);
     }
@@ -24,7 +24,7 @@ export class WorkspacesService extends Service {
             property: 'all',
         });
 
-        watchEffect(() => (this.lastVisitedWorkspaceId = this.current?.id ?? this.lastVisitedWorkspaceId));
+        watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
     }
 
 }

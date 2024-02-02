@@ -1,5 +1,6 @@
 <template>
-    <div v-if="$workspaces.current?.isRelationLoaded('lists')" class="flex w-full flex-grow">
+    <WorkspaceCloudSetup v-if="$cloud.setupPending" />
+    <div v-else-if="$workspaces.current?.isRelationLoaded('lists')" class="flex w-full flex-grow">
         <WorkspaceSidebar />
         <WorkspaceContent class="flex-1" />
     </div>
