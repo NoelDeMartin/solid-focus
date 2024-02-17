@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { Cloud } from '@aerogel/plugin-offline-first';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { ref } from 'vue';
 import { requiredStringInput, useForm } from '@aerogel/core';
@@ -47,10 +48,8 @@ async function createTask() {
         return;
     }
 
-    const task = await Task.create({ name });
+    const task = await tasksList.relatedTasks.create({ name, status: Task.STATUS_POTENTIAL });
 
-    tasksList.relatedTasks.attach(task);
-
-    await tasksList.save();
+    await Cloud.syncIfOnline(task);
 }
 </script>

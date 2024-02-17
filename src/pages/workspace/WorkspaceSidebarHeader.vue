@@ -1,7 +1,15 @@
 <template>
     <div class="flex gap-2 bg-gray-300 px-4 py-6">
         <AGButton color="clear" :aria-label="$t('cloud.open')" @click="$ui.openModal(CloudStatusModal)">
-            <i-zondicons-cloud class="h-6 w-6" />
+            <div class="relative h-8 w-8">
+                <i-zondicons-cloud class="absolute inset-0 h-full w-full" />
+                <div class="absolute inset-0 flex items-center justify-center text-white">
+                    <i-zondicons-refresh v-if="$cloud.syncing" class="h-3 w-3 animate-spin" />
+                    <i-zondicons-close v-else-if="!$solid.hasLoggedIn() && $cloud.disconnected" class="h-3 w-3" />
+                    <i-zondicons-checkmark v-else class="h-3 w-3" />
+                </div>
+                <span class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>
+            </div>
         </AGButton>
         <AGSelect
             :model-value="selectedOption"

@@ -1,15 +1,23 @@
 onboarding:
     title: Solid Focus
-    draft_label: Task name
-    draft_placeholder: E.g. learn Japanese
-    submit: Create task
+    draftTask_label: Task name
+    draftTask_placeholder: E.g. learn Japanese
+    draftWorkspace_label: Workspace name
+    draftWorkspace_placeholder: E.g. Shopping
+    submitTask: Create task
+    submitWorkspace: Create workspace
     workspaceName: Main
 
 cloud:
     open: View sync status
+    sync: Synchronize
     setup_info: Your data is only stored locally, do you want to upload it to the cloud?
     setup_confirm: Back up in Cloud
     setup_dismiss: not now
+    status:
+        disconnected: Disconnected
+        online: Online
+        syncing: Syncing
 
 workspaces:
     select: Select workspace
@@ -18,6 +26,7 @@ workspaces:
     promptLabel: Workspace name
 
 lists:
+    inbox: Inbox
     add: Add new
     promptMessage: How should we call the new list?
     promptLabel: List name

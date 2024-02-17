@@ -8,5 +8,9 @@
                 {{ $t('cloud.setup_confirm') }}
             </AGButton>
         </div>
+
+        <AGButton v-if="$cloud.online" class="mt-4" @click="$cloud.sync()">
+            {{ $t('cloud.sync') }}
+        </AGButton>
     </AGModal>
 </template>

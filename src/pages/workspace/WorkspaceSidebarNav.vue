@@ -2,6 +2,12 @@
     <div class="min-w-56 px-4">
         <nav class="py-6">
             <ul class="list-disc pl-8">
+                <li>
+                    <AGLink route="workspace" :route-params="{ workspace: $workspace.slug }">
+                        {{ $t('lists.inbox') }}
+                    </AGLink>
+                    <span v-if="$tasksLists.current?.url === $workspace.url" class="ml-1">(active)</span>
+                </li>
                 <li v-for="list of $workspace.lists" :key="list.url">
                     <AGLink route="workspace" :route-params="{ workspace: $workspace.slug, list: list.slug }">
                         {{ list.name }}
@@ -17,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
+import { Cloud } from '@aerogel/plugin-offline-first';
 import { UI, translate } from '@aerogel/core';
 
-import TasksList from '@/models/TasksList';
 import Workspaces from '@/services/Workspaces';
 
 async function createList() {
@@ -33,11 +39,11 @@ async function createList() {
         return;
     }
 
-    const list = await TasksList.create({ name });
+    const list = await workspace.relatedLists.create({ name });
 
-    workspace.relatedLists.attach(list);
+    list.relatedWorkspace.related = workspace;
 
-    await workspace.save();
     await workspace.open(list);
+    await Cloud.syncIfOnline(list);
 }
 </script>

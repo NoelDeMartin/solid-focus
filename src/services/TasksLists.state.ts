@@ -9,7 +9,7 @@ import type Workspace from '@/models/Workspace';
 export default defineServiceState({
     name: 'tasks-lists',
     persist: ['lastVisitedListUrl'],
-    initialState: {
+    initialState: () => ({
         current: computedModel(() => {
             const rawParams: { workspace?: string; list?: string } = Router.currentRoute.value?.rawParams ?? {};
             const params: { workspace?: Workspace; list?: TasksList } = Router.currentRoute.value?.params ?? {};
@@ -18,8 +18,8 @@ export default defineServiceState({
                 return null;
             }
 
-            return params.list ?? params.workspace?.lists?.find((list) => list.slug === 'inbox');
+            return params.list ?? params.workspace;
         }),
         lastVisitedListUrl: null as Key | null,
-    },
+    }),
 });

@@ -1,22 +1,16 @@
 import { Router } from '@aerogel/plugin-routing';
-import { stringToSlug } from '@noeldemartin/utils';
-import type { BelongsToManyRelation, Relation } from 'soukai';
+import type { Relation } from 'soukai';
+import type { SolidContainsRelation } from 'soukai-solid';
 
 import TasksList from '@/models/TasksList';
 
-import Model from './Workspace.schema';
-
-export default class Workspace extends Model {
+export default class Workspace extends TasksList {
 
     public declare lists?: TasksList[];
-    public declare relatedLists: BelongsToManyRelation<this, TasksList, typeof TasksList>;
-
-    public get slug(): string | undefined {
-        return this.name && stringToSlug(this.name);
-    }
+    public declare relatedLists: SolidContainsRelation<this, TasksList, typeof TasksList>;
 
     public listsRelationship(): Relation {
-        return this.belongsToMany(TasksList, 'listUrls');
+        return this.contains(TasksList);
     }
 
     public async open(list?: TasksList): Promise<void> {

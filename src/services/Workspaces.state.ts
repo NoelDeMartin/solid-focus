@@ -9,7 +9,7 @@ import type Workspace from '@/models/Workspace';
 export default defineServiceState({
     name: 'workspaces',
     persist: ['lastVisitedWorkspaceUrl'],
-    initialState: {
+    initialState: () => ({
         all: shallowRef([] as Workspace[]),
         current: computedModel(() => {
             const routeParams: { workspace?: Workspace } = Router.currentRoute.value?.params ?? {};
@@ -17,5 +17,5 @@ export default defineServiceState({
             return routeParams.workspace;
         }),
         lastVisitedWorkspaceUrl: null as Key | null,
-    },
+    }),
 });

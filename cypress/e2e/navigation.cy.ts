@@ -88,7 +88,7 @@ describe('Navigation', () => {
         cy.press('Inbox');
 
         // Open Inbox - Assert
-        cy.url().should('equal', `${Cypress.config('baseUrl')}/main/inbox`);
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
         cy.see('Inbox', 'li').within(() => {
             cy.see('(active)');
         });
