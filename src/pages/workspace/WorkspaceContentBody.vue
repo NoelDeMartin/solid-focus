@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { arrayGroupBy } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { ref } from 'vue';
@@ -31,7 +32,6 @@ import { requiredStringInput, useForm } from '@aerogel/core';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
-import { arrayGroupBy } from '@noeldemartin/utils';
 
 const form = useForm({ draft: requiredStringInput() });
 const showCompleted = ref(false);

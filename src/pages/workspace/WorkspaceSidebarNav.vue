@@ -41,8 +41,6 @@ async function createList() {
 
     const list = await workspace.relatedLists.create({ name });
 
-    list.relatedWorkspace.related = workspace;
-
     await workspace.open(list);
     await Cloud.syncIfOnline(list);
 }
