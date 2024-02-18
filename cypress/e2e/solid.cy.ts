@@ -18,10 +18,9 @@ describe('Solid', () => {
         cy.solidLogin();
         cy.ariaInput('Workspace name').type('Main{enter}');
         cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.waitSync();
 
         // Assert
-        cy.see('Syncing');
-        cy.dontSee('Syncing');
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
         cy.see('Main');
         cy.see('Cook Ramen');
