@@ -1,8 +1,14 @@
+import { podUrl, webId } from '@aerogel/cypress';
+import { uuid } from '@noeldemartin/utils';
+
 describe('Onboarding', () => {
 
-    beforeEach(() => cy.visit('/'));
+    beforeEach(() => {
+        cy.solidReset();
+        cy.visit('/');
+    });
 
-    it('Creates a new workspace', () => {
+    it('Starts offline', () => {
         // Arrange
         cy.see('Solid Focus');
 
@@ -16,6 +22,86 @@ describe('Onboarding', () => {
         cy.see('Inbox', 'li').within(() => {
             cy.see('(active)');
         });
+    });
+
+    it('Signs up', () => {
+        // Arrange
+        cy.intercept('PUT', podUrl('/main/')).as('createContainer');
+        cy.intercept('PATCH', podUrl('/main/.meta')).as('createContainerMeta');
+        cy.intercept('PATCH', podUrl('/main/*')).as('createTask');
+
+        // Act
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.waitSync();
+
+        // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
+        cy.see('Main');
+        cy.see('Cook Ramen');
+        cy.see('Inbox', 'li').within(() => {
+            cy.see('(active)');
+        });
+
+        cy.reload();
+        cy.see('Main');
+        cy.see('Cook Ramen');
+        cy.see('Inbox', 'li').within(() => {
+            cy.see('(active)');
+        });
+
+        cy.get('@createContainer.all').should('have.length', 1);
+        cy.get('@createContainerMeta.all').should('have.length', 1);
+        cy.get('@createTask.all').should('have.length', 1);
+
+        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', { url: podUrl('/main/'), name: 'Main' }).then(
+            (sparql) => {
+                cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
+                cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
+            },
+        );
+
+        cy.fixtureWithReplacements('sparql/create-task.sparql', { name: 'Cook Ramen' }).then((sparql) => {
+            cy.get('@createTask').its('response.statusCode').should('eq', 201);
+            cy.get('@createTask').its('request.body').should('be.sparql', sparql);
+        });
+    });
+
+    it('Logs in', () => {
+        // Arrange
+        cy.solidCreateContainer('/work/', 'Work');
+        cy.solidCreateContainer('/household/', 'Household');
+        cy.solidCreateContainer('/household/groceries/', 'Groceries');
+        cy.solidCreateDocument('/settings/privateTypeIndex', 'turtle/type-index.ttl');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            resourceHash: uuid(),
+            containerUrl: podUrl('/work/'),
+        });
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            resourceHash: uuid(),
+            containerUrl: podUrl('/household/'),
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+        cy.solidCreateDocument('/household/tomatoes', 'turtle/task.ttl', { name: 'Tomatoes' });
+
+        // Act
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Assert
+        cy.see('Syncing');
+
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/household`);
+        cy.see('Household');
+        cy.see('Tomatoes');
+        cy.see('Groceries');
+        cy.see('Inbox', 'li').within(() => {
+            cy.see('(active)');
+        });
+
+        cy.press('Household');
+        cy.see('Work');
     });
 
 });

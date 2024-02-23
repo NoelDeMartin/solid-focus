@@ -3,22 +3,9 @@
         <h1 class="text-2xl font-semibold">
             {{ $t('onboarding.title') }}
         </h1>
-        <AGForm
-            v-if="!$solid.isLoggedIn()"
-            class="mt-4 flex"
-            :form="form"
-            @submit="$ui.loading(submit())"
-        >
-            <AGInput
-                v-initial-focus
-                name="draft"
-                :placeholder="$t('onboarding.draftTask_placeholder')"
-                :aria-label="$t('onboarding.draftTask_label')"
-            />
-            <AGButton submit>
-                {{ $t('onboarding.submitTask') }}
-            </AGButton>
-        </AGForm>
+        <span v-if="$cloud.syncing">
+            {{ $t('cloud.status.syncing') }}
+        </span>
         <AGForm
             v-else
             class="mt-4 flex"
@@ -28,11 +15,11 @@
             <AGInput
                 v-initial-focus
                 name="draft"
-                :placeholder="$t('onboarding.draftWorkspace_placeholder')"
-                :aria-label="$t('onboarding.draftWorkspace_label')"
+                :placeholder="$t('onboarding.draft_placeholder')"
+                :aria-label="$t('onboarding.draft_label')"
             />
             <AGButton submit>
-                {{ $t('onboarding.submitWorkspace') }}
+                {{ $t('onboarding.submit') }}
             </AGButton>
         </AGForm>
         <AGSolidStatus class="mt-6" />
@@ -41,40 +28,21 @@
 
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { requiredStringInput, translate, useForm } from '@aerogel/core';
-import { Solid } from '@aerogel/plugin-solid';
+import { requiredStringInput, translate, useEvent, useForm } from '@aerogel/core';
 
 import Task from '@/models/Task';
 import Workspace from '@/models/Workspace';
+import Workspaces from '@/services/Workspaces';
 
-const form = useForm({
-    draft: requiredStringInput(),
-});
-
-async function createLocalWorkspace(): Promise<Workspace> {
-    const workspace = await Workspace.create({ name: translate('onboarding.workspaceName') });
-
-    await workspace.relatedTasks.create({
-        name: form.draft,
-        status: Task.STATUS_POTENTIAL,
-    });
-
-    return workspace;
-}
-
-async function createCloudWorkspace(): Promise<Workspace> {
-    await Cloud.setup();
-
-    const workspace = await Workspace.create({ name: form.draft });
-
-    await Cloud.sync();
-
-    return workspace;
-}
+const form = useForm({ draft: requiredStringInput() });
 
 async function submit(): Promise<void> {
-    const workspace = Solid.isLoggedIn() ? await createCloudWorkspace() : await createLocalWorkspace();
+    const workspace = await Workspace.create({ name: translate('onboarding.workspaceName') });
 
+    await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
+    await Cloud.syncIfOnline();
     await workspace.open();
 }
+
+useEvent('cloud:sync-completed', () => Workspaces.open());
 </script>

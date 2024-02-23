@@ -1,5 +1,5 @@
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { facade } from '@noeldemartin/utils';
+import { arraySorted, facade } from '@noeldemartin/utils';
 import { Solid } from '@aerogel/plugin-solid';
 import { trackModelCollection } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
@@ -29,10 +29,14 @@ export class WorkspacesService extends Service {
             getLocalModels: () => this.all,
         });
 
-        Cloud.whenReady(() => (Workspace.collection = Solid.requireUser().storageUrls[0]));
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
+        Cloud.whenReady(() => (Workspace.collection = Solid.requireUser().storageUrls[0]));
 
-        await trackModelCollection(Workspace, { service: this, property: 'all' });
+        await trackModelCollection(Workspace, {
+            service: this,
+            property: 'all',
+            transform: (workspaces) => arraySorted(workspaces, 'name'),
+        });
     }
 
 }

@@ -1,11 +1,8 @@
 onboarding:
     title: Solid Focus
-    draftTask_label: Task name
-    draftTask_placeholder: E.g. learn Japanese
-    draftWorkspace_label: Workspace name
-    draftWorkspace_placeholder: E.g. Shopping
-    submitTask: Create task
-    submitWorkspace: Create workspace
+    draft_label: Task name
+    draft_placeholder: E.g. learn Japanese
+    submit: Create task
     workspaceName: Main
 
 cloud:

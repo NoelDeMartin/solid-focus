@@ -19,12 +19,12 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.a68f133e2c9a1ae9ba84b4e2e42df909289e5fba",
+        "@aerogel/core": "0.0.0-next.1b61957a0c0f6958afd331b96ea598d420cab7d7",
         "@aerogel/plugin-i18n": "next",
-        "@aerogel/plugin-offline-first": "0.0.0-next.069137955d02b238812e5c87fcd7cbb0737c6798",
+        "@aerogel/plugin-offline-first": "0.0.0-next.1b61957a0c0f6958afd331b96ea598d420cab7d7",
         "@aerogel/plugin-routing": "0.0.0-next.a68f133e2c9a1ae9ba84b4e2e42df909289e5fba",
         "@aerogel/plugin-solid": "0.0.1-next.a68f133e2c9a1ae9ba84b4e2e42df909289e5fba",
-        "@aerogel/plugin-soukai": "next",
+        "@aerogel/plugin-soukai": "0.0.0-next.1b61957a0c0f6958afd331b96ea598d420cab7d7",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "0.4.0-next.852c9f9e65275fc2a2e67a9750784fb43a0fd64b",
         "@noeldemartin/utils": "0.5.1-next.49cc6c9b4a20930cbf922a949135981791acc5c3",
