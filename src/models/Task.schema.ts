@@ -3,7 +3,13 @@ import { defineSolidModelSchema } from 'soukai-solid';
 
 export default defineSolidModelSchema({
     rdfContext: 'https://schema.org/',
+    rdfContexts: {
+        schema: 'https://schema.org/',
+        tasks: 'https://vocab.noeldemartin.com/tasks/',
+    },
     rdfsClass: 'Action',
+    history: true,
+    tombstone: false,
     fields: {
         name: {
             type: FieldType.String,
@@ -13,6 +19,9 @@ export default defineSolidModelSchema({
             rdfProperty: 'actionStatus',
             type: FieldType.Key,
         },
-        completedAt: FieldType.Date,
+        completedAt: {
+            rdfProperty: 'tasks:completedAt',
+            type: FieldType.Date,
+        },
     },
 });
