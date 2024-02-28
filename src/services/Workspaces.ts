@@ -27,16 +27,16 @@ export class WorkspacesService extends Service {
             modelClass: Workspace,
             registerFor: Task,
             getLocalModels: () => this.all,
+            getRemoteCollection: () => Solid.requireUser().storageUrls[0],
         });
-
-        watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
-        Cloud.whenReady(() => (Workspace.collection = Solid.requireUser().storageUrls[0]));
 
         await trackModelCollection(Workspace, {
             service: this,
             property: 'all',
             transform: (workspaces) => arraySorted(workspaces, 'name'),
         });
+
+        watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
     }
 
 }
