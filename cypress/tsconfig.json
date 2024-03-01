@@ -5,8 +5,9 @@
         "types": ["cypress", "node"],
         "baseUrl": ".",
         "paths": {
+            "@/*": ["../src/*"],
             "@cy/*": ["./*"]
         }
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts", "../src/**/*.ts"]
 }

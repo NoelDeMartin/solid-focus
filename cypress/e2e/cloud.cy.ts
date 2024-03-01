@@ -45,11 +45,9 @@ describe('Cloud', () => {
         cy.dontSee('Loading...');
 
         // Assert
-        cy.see('Main');
+        cy.seeActiveWorkspace('Main');
         cy.see('Onboarding task');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveList('Inbox');
 
         cy.get('@createContainer.all').should('have.length', 1);
         cy.get('@createContainerMeta.all').should('have.length', 1);

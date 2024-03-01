@@ -17,10 +17,8 @@ describe('Workspaces', () => {
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/study`);
-        cy.see('Study');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveWorkspace('Study');
+        cy.seeActiveList('Inbox');
     });
 
     it('Creates lists', () => {
@@ -30,9 +28,7 @@ describe('Workspaces', () => {
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main/groceries`);
-        cy.see('Groceries', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveList('Groceries');
     });
 
 });

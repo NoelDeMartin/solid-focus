@@ -15,16 +15,16 @@
         "lint": "noeldemartin-lint src cypress",
         "test": "vitest --run",
         "test:ci": "vitest --run --reporter verbose",
-        "test:serve-app": "vite --port 5001",
+        "test:serve-app": "vite --port 5001 --mode testing",
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
+        "@aerogel/core": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
         "@aerogel/plugin-i18n": "next",
         "@aerogel/plugin-offline-first": "0.0.0-next.14440321a8fca29854f4507d74ff7e167da291b6",
         "@aerogel/plugin-routing": "0.0.0-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
         "@aerogel/plugin-solid": "0.0.1-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
-        "@aerogel/plugin-soukai": "0.0.0-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
+        "@aerogel/plugin-soukai": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "0.4.0-next.852c9f9e65275fc2a2e67a9750784fb43a0fd64b",
         "@noeldemartin/utils": "0.5.1-next.49cc6c9b4a20930cbf922a949135981791acc5c3",
@@ -39,7 +39,7 @@
     },
     "devDependencies": {
         "@aerogel/cli": "next",
-        "@aerogel/cypress": "next",
+        "@aerogel/cypress": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
         "@aerogel/vite": "next",
         "@iconify/json": "^2.2.134",
         "@noeldemartin/eslint-config-vue": "next",

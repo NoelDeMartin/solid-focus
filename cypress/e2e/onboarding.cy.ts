@@ -18,10 +18,8 @@ describe('Onboarding', () => {
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
         cy.see('Start being more focused');
-        cy.see('Main');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveWorkspace('Main');
+        cy.seeActiveList('Inbox');
     });
 
     it('Signs up', () => {
@@ -38,18 +36,14 @@ describe('Onboarding', () => {
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
-        cy.see('Main');
+        cy.seeActiveWorkspace('Main');
         cy.see('Cook Ramen');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveList('Inbox');
 
         cy.reload();
-        cy.see('Main');
+        cy.seeActiveWorkspace('Main');
         cy.see('Cook Ramen');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
+        cy.seeActiveList('Inbox');
 
         cy.get('@createContainer.all').should('have.length', 1);
         cy.get('@createContainerMeta.all').should('have.length', 1);
@@ -93,12 +87,10 @@ describe('Onboarding', () => {
         cy.see('Syncing');
 
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household`);
-        cy.see('Household');
+        cy.seeActiveWorkspace('Household');
+        cy.seeActiveList('Inbox');
         cy.see('Tomatoes');
         cy.see('Groceries');
-        cy.see('Inbox', 'li').within(() => {
-            cy.see('(active)');
-        });
 
         cy.press('Household');
         cy.see('Work');
