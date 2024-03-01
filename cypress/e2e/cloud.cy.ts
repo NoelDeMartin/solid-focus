@@ -28,7 +28,7 @@ describe('Cloud', () => {
         });
     });
 
-    it('Migrates local data', () => {
+    it('Migrates simple local data', () => {
         // Arrange
         cy.intercept('PUT', podUrl('/main/')).as('createContainer');
         cy.intercept('PATCH', podUrl('/main/.meta')).as('createContainerMeta');
@@ -64,6 +64,46 @@ describe('Cloud', () => {
             cy.get('@createTask').its('response.statusCode').should('eq', 201);
             cy.get('@createTask').its('request.body').should('be.sparql', sparql);
         });
+    });
+
+    it('Migrates complex local data', () => {
+        // Arrange
+        cy.intercept('PUT', podUrl('/main/')).as('createMainContainer');
+        cy.intercept('PUT', podUrl('/household/')).as('createHouseholdContainer');
+        cy.intercept('PUT', podUrl('/household/groceries/')).as('createGroceriesContainer');
+        cy.intercept('PUT', podUrl('/household/recipes/')).as('createRecipesContainer');
+        cy.intercept('PUT', podUrl('/japanese/')).as('createJapaneseContainer');
+        cy.intercept('PUT', podUrl('/japanese/manga/')).as('createMangaContainer');
+        cy.intercept('PATCH', podUrl('/main/*')).as('createMainTask');
+        cy.intercept('PATCH', podUrl('/household/*')).as('createHouseholdTask');
+        cy.intercept('PATCH', podUrl('/household/groceries/*')).as('createGroceriesTask');
+        cy.intercept('PATCH', podUrl('/household/recipes/*')).as('createRecipesTask');
+        cy.intercept('PATCH', podUrl('/japanese/*')).as('createJapaneseTask');
+        cy.intercept('PATCH', podUrl('/japanese/manga/*')).as('createMangaTask');
+
+        cy.createStubs();
+        cy.ariaLabel('View sync status').click();
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Act
+        cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.press('Back up');
+        cy.dontSee('Loading...', { timeout: 30000 });
+
+        // Assert
+        cy.get('@createMainContainer.all').should('have.length', 1);
+        cy.get('@createHouseholdContainer.all').should('have.length', 1);
+        cy.get('@createGroceriesContainer.all').should('have.length', 1);
+        cy.get('@createRecipesContainer.all').should('have.length', 1);
+        cy.get('@createJapaneseContainer.all').should('have.length', 1);
+        cy.get('@createMangaContainer.all').should('have.length', 1);
+        cy.get('@createMainTask.all').should('have.length', 4);
+        cy.get('@createHouseholdTask.all').should('have.length', 2);
+        cy.get('@createGroceriesTask.all').should('have.length', 3);
+        cy.get('@createRecipesTask.all').should('have.length', 3);
+        cy.get('@createJapaneseTask.all').should('have.length', 3);
+        cy.get('@createMangaTask.all').should('have.length', 2);
     });
 
     it('Postpones migrating local data', () => {

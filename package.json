@@ -21,7 +21,7 @@
     "dependencies": {
         "@aerogel/core": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
         "@aerogel/plugin-i18n": "next",
-        "@aerogel/plugin-offline-first": "0.0.0-next.14440321a8fca29854f4507d74ff7e167da291b6",
+        "@aerogel/plugin-offline-first": "0.0.0-next.4ce47051c802a9d4e5e5f0e01007c1bb2dfe0f4f",
         "@aerogel/plugin-routing": "0.0.0-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
         "@aerogel/plugin-solid": "0.0.1-next.824cf5311c4335d119158f507dad094ed4f4f0b6",
         "@aerogel/plugin-soukai": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
@@ -39,7 +39,7 @@
     },
     "devDependencies": {
         "@aerogel/cli": "next",
-        "@aerogel/cypress": "0.0.0-next.669133ce9c5f0eeaff1b63c4e2962e90129cfc1a",
+        "@aerogel/cypress": "0.0.0-next.4ce47051c802a9d4e5e5f0e01007c1bb2dfe0f4f",
         "@aerogel/vite": "next",
         "@iconify/json": "^2.2.134",
         "@noeldemartin/eslint-config-vue": "next",
