@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
+import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed } from 'vue';
 import { UI, translate } from '@aerogel/core';
 import type { ArrayItem } from '@noeldemartin/utils';
 import type { RefValue } from '@aerogel/plugin-soukai';
 
 import CloudStatusModal from '@/components/modals/CloudStatusModal.vue';
-import TasksList from '@/models/TasksList';
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
 
@@ -64,12 +64,9 @@ async function createWorkspace(): Promise<void> {
         return;
     }
 
-    const list = await TasksList.create({ name: 'Inbox' });
-    const workspace = await Workspace.create({
-        name,
-        listUrls: [list.url],
-    });
+    const workspace = await Workspace.create({ name });
 
     await workspace.open();
+    await Cloud.syncIfOnline(workspace);
 }
 </script>

@@ -28,6 +28,37 @@ describe('Cloud', () => {
         });
     });
 
+    it('Syncs new workspaces and lists', () => {
+        // Arrange
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.ariaInput('Task name').type('Sync updates{enter}');
+        cy.dontSee('Loading...');
+
+        cy.intercept('PUT', podUrl('/work/')).as('createWorkContainer');
+        cy.intercept('PATCH', podUrl('/work/.meta')).as('createWorkContainerMeta');
+        cy.intercept('PUT', podUrl('/work/learning/')).as('createLearningContainer');
+        cy.intercept('PATCH', podUrl('/work/learning/.meta')).as('createLearningContainerMeta');
+
+        // Act
+        cy.ariaLabel('Select workspace').within(() => {
+            cy.get('button').click();
+        });
+        cy.press('Add new', 'li');
+        cy.ariaInput('Workspace name').type('Work{enter}');
+        cy.waitSync();
+
+        cy.press('Add new');
+        cy.ariaInput('List name').type('Learning{enter}');
+        cy.waitSync();
+
+        // Assert
+        cy.get('@createWorkContainer.all').should('have.length', 1);
+        cy.get('@createWorkContainerMeta.all').should('have.length', 1);
+        cy.get('@createLearningContainer.all').should('have.length', 1);
+        cy.get('@createLearningContainerMeta.all').should('have.length', 1);
+    });
+
     it('Migrates simple local data', () => {
         // Arrange
         cy.intercept('PUT', podUrl('/main/')).as('createContainer');
