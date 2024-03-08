@@ -1,10 +1,8 @@
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { arraySorted, facade } from '@noeldemartin/utils';
-import { Solid } from '@aerogel/plugin-solid';
 import { trackModelCollection } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
-import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
@@ -23,13 +21,7 @@ export class WorkspacesService extends Service {
 
     protected async boot(): Promise<void> {
         await Cloud.booted;
-        await Cloud.registerHandler({
-            modelClass: Workspace,
-            registerFor: Task,
-            getLocalModels: () => this.all,
-            getRemoteCollection: () => Solid.requireUser().storageUrls[0],
-        });
-
+        await Cloud.register(Workspace);
         await trackModelCollection(Workspace, {
             service: this,
             property: 'all',
