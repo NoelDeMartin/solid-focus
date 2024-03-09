@@ -1,6 +1,6 @@
 INSERT DATA {
-    <#{{resourceHash}}>
+    <#{{ resourceHash ?? uuid() }}>
         a <http://www.w3.org/ns/solid/terms#TypeRegistration> ;
         <http://www.w3.org/ns/solid/terms#forClass> <https://schema.org/Action> ;
-        <http://www.w3.org/ns/solid/terms#instanceContainer> <{{containerUrl}}> .
+        <http://www.w3.org/ns/solid/terms#instanceContainer> <{{ containerUrl }}> .
 }

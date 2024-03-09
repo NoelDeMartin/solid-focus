@@ -67,13 +67,11 @@ describe('Onboarding', () => {
         cy.solidCreateContainer('/work/', 'Work');
         cy.solidCreateContainer('/household/', 'Household');
         cy.solidCreateContainer('/household/groceries/', 'Groceries');
-        cy.solidCreateDocument('/settings/privateTypeIndex', 'turtle/type-index.ttl');
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
         cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
-            resourceHash: uuid(),
             containerUrl: podUrl('/work/'),
         });
         cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
-            resourceHash: uuid(),
             containerUrl: podUrl('/household/'),
         });
         cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');

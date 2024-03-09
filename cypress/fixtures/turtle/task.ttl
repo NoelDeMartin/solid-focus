@@ -5,10 +5,10 @@
 <#it>
     a schema:Action ;
     schema:actionStatus schema:PotentialActionStatus ;
-    schema:name "{{name}}" .
+    schema:name "{{ name }}" .
 
 <#it-metadata>
     a crdt:Metadata ;
     crdt:resource <#it> ;
-    crdt:createdAt "2024-02-19T18:27:11.876Z"^^xsd:dateTime ;
-    crdt:updatedAt "2024-02-19T18:27:11.876Z"^^xsd:dateTime .
+    crdt:createdAt "{{ now() }}"^^xsd:dateTime ;
+    crdt:updatedAt "{{ now() }}"^^xsd:dateTime .
