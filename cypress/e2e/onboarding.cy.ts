@@ -1,5 +1,4 @@
 import { podUrl, webId } from '@aerogel/cypress';
-import { uuid } from '@noeldemartin/utils';
 
 describe('Onboarding', () => {
 
