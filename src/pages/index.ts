@@ -4,7 +4,7 @@ import Workspaces from '@/services/Workspaces';
 import type TasksList from '@/models/TasksList';
 import type WorkspaceModel from '@/models/Workspace';
 
-import Onboarding from './Onboarding.vue';
+import Landing from './landing/Landing.vue';
 import Workspace from './workspace/Workspace.vue';
 
 export const bindings = defineRouteBindings({
@@ -20,9 +20,9 @@ export const bindings = defineRouteBindings({
 
 export const routes = defineRoutes([
     {
-        name: 'onboarding',
+        name: 'landing',
         path: '/',
-        component: Onboarding,
+        component: Landing,
         beforeEnter: () => Workspaces.open(),
     },
     {

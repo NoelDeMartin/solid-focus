@@ -4,6 +4,7 @@ describe('Workspaces', () => {
         cy.visit('/');
 
         // Initialize workspace
+        cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
     });
 

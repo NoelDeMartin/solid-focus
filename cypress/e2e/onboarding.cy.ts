@@ -9,9 +9,10 @@ describe('Onboarding', () => {
 
     it('Starts offline', () => {
         // Arrange
-        cy.see('Solid Focus');
+        cy.see('Forget with confidence');
 
         // Act
+        cy.press('Get started');
         cy.ariaInput('Task name').type('Start being more focused{enter}');
 
         // Assert
@@ -28,6 +29,7 @@ describe('Onboarding', () => {
         cy.intercept('PATCH', podUrl('/main/*')).as('createTask');
 
         // Act
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Cook Ramen{enter}');
@@ -77,6 +79,7 @@ describe('Onboarding', () => {
         cy.solidCreateDocument('/household/tomatoes', 'turtle/task.ttl', { name: 'Tomatoes' });
 
         // Act
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 

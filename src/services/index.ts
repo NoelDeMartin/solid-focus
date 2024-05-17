@@ -1,7 +1,8 @@
 import { required } from '@noeldemartin/utils';
 
-import Workspaces from './Workspaces';
+import Focus from './Focus';
 import TasksLists from './TasksLists';
+import Workspaces from './Workspaces';
 
 export const globals = {
     $workspace: required(() => Workspaces.current, 'Current workspace is missing, can\'t use $workspace'),
@@ -9,8 +10,9 @@ export const globals = {
 };
 
 export const services = {
-    $workspaces: Workspaces,
+    $focus: Focus,
     $tasksLists: TasksLists,
+    $workspaces: Workspaces,
 };
 
 export type AppGlobals = typeof globals;

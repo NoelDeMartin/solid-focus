@@ -9,6 +9,7 @@ describe('Cloud', () => {
 
     it('Syncs updated tasks', () => {
         // Arrange
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Sync updates{enter}');
@@ -30,6 +31,7 @@ describe('Cloud', () => {
 
     it('Syncs new workspaces and lists', () => {
         // Arrange
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Sync updates{enter}');
@@ -65,6 +67,7 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/main/.meta')).as('createContainerMeta');
         cy.intercept('PATCH', podUrl('/main/*')).as('createTask');
 
+        cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
         cy.ariaLabel('View sync status').click();
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
@@ -139,6 +142,7 @@ describe('Cloud', () => {
 
     it('Postpones migrating local data', () => {
         // Arrange
+        cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
         cy.ariaLabel('View sync status').click();
         cy.ariaInput('Login url').type(`${webId()}{enter}`);

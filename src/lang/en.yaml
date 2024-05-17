@@ -1,9 +1,61 @@
-onboarding:
-    title: Solid Focus
-    draft_label: Task name
-    draft_placeholder: E.g. learn Japanese
-    submit: Create task
-    workspaceName: Main
+landing:
+    title: Focus
+    tagline: Forget with confidence
+    description: |
+        Hundreds of ideas. Countless chores. A never-ending list of things to do.<br>
+        Forget all of that. Write it down, and **focus** on what matters.
+    featuresPrompt: Wait a second, is this just another Task Manager?
+    featuresIntro: "Well... yes, and no. Here's what's different about Focus:"
+    workspacesTitle: Workspaces
+    workspacesDescription: |
+        Different parts of your life deserve **their own place**.
+
+        Use workspaces to put tasks where they belong, and avoid thinking about groceries when you're working on that side project.
+    localFirstTitle: No Internet? No Problem!
+    localFirstDescription: |
+        Focus is [local-first](https://www.inkandswitch.com/local-first/), so you can stop worrying about that fickle internet connection in the subway.
+
+        It is also completely private. **You don't even need an account to get started!**
+    pwaTitle: Built for the web, not appstores
+    pwaDescription: |
+        Focus is a [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
+        crafted with an adaptive design. **It will look great in any of your devices.**
+    solidTitle: Own your data
+    solidDescription: |
+        Thanks to open standards like the [Solid Protocol](https://solidproject.org), you decide where your data lives.
+
+        Your apps should work together, **say goodbye to vendor lock-in!**
+    a11yTitle: Made for everyone
+    a11yDescription: |
+        **Accessibility** and **localization** have been taken into account since the beginning.
+
+        You can also look under the hood because it's [Open Source](https://github.com/NoelDeMartin/solid-focus).
+    more: and more...
+    moreMarkdown: '[Markdown](https://www.markdownguide.org/getting-started/) support'
+    moreScratchpad: Notes scratchpad
+    moreDeadlines: Task deadlines
+    moreStarred: Starred tasks
+    moreSearch: Global search
+    moreCommands: Command palette
+    callout: Just give it a try, and see for yourself.
+    getStarted:
+        cta: Get started
+        intro: |
+            Are you ready to start being more focused?
+
+            Let's start, create a task for the first thing you want to get done:
+        label: Task name
+        placeholder: E.g. learn Japanese
+        submit: Create task
+        workspaceName: Main
+        back: nevermind
+    logIn:
+        cta: Log in
+        intro: Welcome back!
+        label: Login url
+        placeholder: https://me.solidcommunity.net
+        submit: Log In
+        back: cancel
 
 cloud:
     open: View sync status
@@ -15,6 +67,10 @@ cloud:
         disconnected: Disconnected
         online: Online
         syncing: Syncing
+
+footer:
+    about: about
+    source: source
 
 workspaces:
     select: Select workspace

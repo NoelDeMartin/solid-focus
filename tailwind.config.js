@@ -7,4 +7,9 @@ module.exports = {
         './node_modules/@aerogel/plugin-solid/dist/**/*.js',
     ],
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    theme: {
+        fontFamily: {
+            onest: '"Onest", sans-serif',
+        },
+    },
 };
