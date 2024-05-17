@@ -152,7 +152,7 @@ import { useScrollY, useWindowDimensions } from '@/utils/composables';
 import { FORM_ANIMATION_DURATION, heroicEntrance, scrollToHero } from './animations';
 import type { IScrollTransition } from './components/ScrollTransition';
 import type { LandingContext } from './landing';
-import type { Styles } from './utils/animations';
+import type { Styles } from './animations';
 
 const { featuresScrollY, showingForm, showingCallout } = injectOrFail<LandingContext>('landing');
 const $headerLogo = ref<HTMLElement>();

@@ -23,6 +23,8 @@ function element($element: ElementRef): HTMLElement | undefined {
     return '$el' in $element.value ? $element.value.$el : $element.value;
 }
 
+export type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>;
+
 export const FORM_ANIMATION_DURATION = 1200;
 
 export async function scrollToHero(): Promise<void> {
