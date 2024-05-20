@@ -6,6 +6,7 @@ describe('Workspaces', () => {
         // Initialize workspace
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
+        cy.ariaLabel('Show lists').click();
     });
 
     it('Creates workspaces', () => {
@@ -24,7 +25,7 @@ describe('Workspaces', () => {
 
     it('Creates lists', () => {
         // Act
-        cy.press('Add new');
+        cy.press('New list');
         cy.ariaInput('List name').type('Groceries{enter}');
 
         // Assert

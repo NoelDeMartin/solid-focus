@@ -11,5 +11,10 @@ module.exports = {
         fontFamily: {
             onest: '"Onest", sans-serif',
         },
+        extend: {
+            boxShadow: {
+                panel: '0 0 15px -3px rgb(0 0 0 / 0.1), 0 0 6px -4px rgb(0 0 0 / 0.1)',
+            },
+        },
     },
 };

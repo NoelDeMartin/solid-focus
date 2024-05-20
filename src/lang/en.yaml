@@ -75,18 +75,22 @@ footer:
 workspaces:
     select: Select workspace
     add: Add new
+    openSidebar: Show lists
+    hideSidebar: Hide lists
     promptMessage: How should we call the new workspace?
     promptLabel: Workspace name
 
 lists:
     inbox: Inbox
-    add: Add new
+    add: New list
     promptMessage: How should we call the new list?
     promptLabel: List name
 
 tasks:
     add: Add
     label: Task name
+    complete: Complete task
+    undo: Undo task
     empty: You don't have any tasks, create a new one!
     showCompleted: Show completed
     hideCompleted: Hide completed

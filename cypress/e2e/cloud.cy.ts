@@ -18,7 +18,7 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/main/*')).as('updateTask');
 
         // Act
-        cy.press('Sync updates');
+        cy.ariaInput('Complete task', { description: 'Sync updates' }).click();
 
         // Assert
         cy.get('@updateTask.all').should('have.length', 1);
@@ -43,6 +43,7 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/work/learning/.meta')).as('createLearningContainerMeta');
 
         // Act
+        cy.ariaLabel('Show lists').click();
         cy.ariaLabel('Select workspace').within(() => {
             cy.get('button').click();
         });
@@ -50,7 +51,7 @@ describe('Cloud', () => {
         cy.ariaInput('Workspace name').type('Work{enter}');
         cy.waitSync();
 
-        cy.press('Add new');
+        cy.press('New list');
         cy.ariaInput('List name').type('Learning{enter}');
         cy.waitSync();
 
@@ -79,6 +80,7 @@ describe('Cloud', () => {
         cy.dontSee('Loading...');
 
         // Assert
+        cy.ariaLabel('Show lists').click();
         cy.seeActiveWorkspace('Main');
         cy.see('Onboarding task');
         cy.seeActiveList('Inbox');

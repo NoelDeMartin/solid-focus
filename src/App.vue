@@ -1,5 +1,5 @@
 <template>
-    <AGAppLayout class="bg-blue-50">
+    <AGAppLayout>
         <main class="flex flex-grow flex-col items-center justify-center">
             <RouterView />
         </main>

@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-6">
+    <div class="px-4 py-6" @click="hideActiveTask($event)">
         <AGForm
             v-initial-focus
             :form="form"
@@ -32,11 +32,20 @@ import { requiredStringInput, useForm } from '@aerogel/core';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
+import Workspaces from '@/services/Workspaces';
 
 const form = useForm({ draft: requiredStringInput() });
 const showCompleted = ref(false);
 const tasks = computedModels(Task, () =>
-    arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.isCompleted() ? 'completed' : 'pending')));
+    arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
+
+function hideActiveTask(event: Event) {
+    if (event.target instanceof HTMLElement && event.target.dataset.task) {
+        return;
+    }
+
+    Workspaces.hideActiveTask();
+}
 
 async function createTask() {
     const name = form.draft.trim();

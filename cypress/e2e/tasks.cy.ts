@@ -31,7 +31,7 @@ describe('Tasks', () => {
         cy.see('Eat Ramen');
 
         // Act
-        cy.press('Cook Ramen');
+        cy.ariaInput('Complete task', { description: 'Cook Ramen' }).click();
 
         // Assert
         cy.dontSee('Cook Ramen');
@@ -45,12 +45,12 @@ describe('Tasks', () => {
         cy.see('Cook Ramen');
         cy.ariaInput('Task name').type('Eat Ramen{enter}');
         cy.see('Eat Ramen');
-        cy.press('Cook Ramen');
-        cy.press('Eat Ramen');
+        cy.ariaInput('Complete task', { description: 'Cook Ramen' }).click();
+        cy.ariaInput('Complete task', { description: 'Eat Ramen' }).click();
         cy.press('Show completed');
 
         // Act
-        cy.press('Cook Ramen');
+        cy.ariaInput('Undo task', { description: 'Cook Ramen' }).click();
         cy.press('Hide completed');
 
         // Assert

@@ -53,7 +53,7 @@
                         </p>
                         <AGMarkdown
                             lang-key="landing.description"
-                            class="mt-4 rounded bg-blue-50/75 px-1 text-lg leading-8 text-gray-600"
+                            class="mt-4 rounded bg-white/75 px-1 text-lg leading-8 text-gray-600"
                             singleline
                         />
                     </ScrollTransition>

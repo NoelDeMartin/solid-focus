@@ -17,6 +17,13 @@ export default class TasksList extends SolidContainer {
         return this.url.slice(this.workspace?.url.length || this.static().collection.length, -1);
     }
 
+    public get routeAttributes(): { route: string; routeParams: Object } {
+        return {
+            route: 'workspace',
+            routeParams: { workspace: this.workspace?.slug, list: this.slug },
+        };
+    }
+
     public workspaceRelationship(): Relation {
         return this.isContainedBy(requireBootedModel<typeof Workspace>('Workspace'));
     }

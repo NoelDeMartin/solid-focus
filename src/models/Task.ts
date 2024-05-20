@@ -8,12 +8,12 @@ export default class Task extends Model {
     public static readonly STATUS_COMPLETED = 'https://schema.org/CompletedActionStatus';
     public static readonly STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
 
-    public isCompleted(): boolean {
+    public get completed(): boolean {
         return this.status === Task.STATUS_COMPLETED;
     }
 
     public async toggle(): Promise<void> {
-        if (this.isCompleted()) {
+        if (this.completed) {
             await this.updateAndSync({
                 status: Task.STATUS_POTENTIAL,
                 completedAt: null,

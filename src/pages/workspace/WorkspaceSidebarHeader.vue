@@ -1,16 +1,5 @@
 <template>
-    <div class="flex gap-2 bg-gray-300 px-4 py-6">
-        <AGButton color="clear" :aria-label="$t('cloud.open')" @click="$ui.openModal(CloudStatusModal)">
-            <div class="relative h-8 w-8">
-                <i-zondicons-cloud class="absolute inset-0 h-full w-full" />
-                <div class="absolute inset-0 flex items-center justify-center text-white">
-                    <i-zondicons-refresh v-if="$cloud.syncing" class="h-3 w-3 animate-spin" />
-                    <i-zondicons-close v-else-if="!$solid.hasLoggedIn() && $cloud.disconnected" class="h-3 w-3" />
-                    <i-zondicons-checkmark v-else class="h-3 w-3" />
-                </div>
-                <span class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>
-            </div>
-        </AGButton>
+    <div class="flex gap-2 px-4 py-6">
         <AGSelect
             :model-value="selectedOption"
             :options="options"
@@ -28,7 +17,6 @@ import { UI, translate } from '@aerogel/core';
 import type { ArrayItem } from '@noeldemartin/utils';
 import type { RefValue } from '@aerogel/plugin-soukai';
 
-import CloudStatusModal from '@/components/modals/CloudStatusModal.vue';
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
 

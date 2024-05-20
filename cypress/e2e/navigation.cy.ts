@@ -4,6 +4,7 @@ describe('Navigation', () => {
         cy.visit('/');
         cy.createStubs();
         cy.clearLocalStorage();
+        cy.ariaLabel('Show lists').click();
     });
 
     it('Navigates across workspaces and lists', () => {
@@ -43,6 +44,7 @@ describe('Navigation', () => {
     it('Opens the default workspace', () => {
         // Act
         cy.visit('/');
+        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household`);
@@ -53,10 +55,12 @@ describe('Navigation', () => {
     it('Opens the last visited workspace', () => {
         // Arrange
         cy.visit('/household/groceries');
+        cy.ariaLabel('Show lists').click();
         cy.seeActiveWorkspace('Groceries');
 
         // Act
         cy.visit('/');
+        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household/groceries`);
@@ -67,6 +71,7 @@ describe('Navigation', () => {
     it('Opens lists', () => {
         // Act
         cy.visit('/household/groceries');
+        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.seeActiveList('Groceries');

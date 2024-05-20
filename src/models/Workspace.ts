@@ -9,6 +9,13 @@ export default class Workspace extends TasksList {
     public declare lists?: TasksList[];
     public declare relatedLists: SolidContainsRelation<this, TasksList, typeof TasksList>;
 
+    public get routeAttributes(): { route: string; routeParams: Object } {
+        return {
+            route: 'workspace',
+            routeParams: { workspace: this.slug },
+        };
+    }
+
     public listsRelationship(): Relation {
         return this.contains(TasksList);
     }

@@ -1,25 +1,14 @@
 <template>
-    <div class="min-w-56 px-4">
-        <nav class="py-6">
-            <ul class="list-disc pl-8">
-                <li>
-                    <AGLink route="workspace" :route-params="{ workspace: $workspace.slug }">
-                        {{ $t('lists.inbox') }}
-                    </AGLink>
-                    <span v-if="$tasksLists.current?.url === $workspace.url" class="ml-1">(active)</span>
-                </li>
-                <li v-for="list of $workspace.lists" :key="list.url">
-                    <AGLink route="workspace" :route-params="{ workspace: $workspace.slug, list: list.slug }">
-                        {{ list.name }}
-                    </AGLink>
-                    <span v-if="$tasksLists.current?.url === list.url" class="ml-1">(active)</span>
-                </li>
-            </ul>
-        </nav>
-        <AGButton class="w-full" @click="createList()">
-            {{ $t('lists.add') }}
-        </AGButton>
-    </div>
+    <nav>
+        <ul>
+            <WorkspaceSidebarNavItem :list="$workspace" />
+            <WorkspaceSidebarNavItem v-for="list of $workspace.lists" :key="list.url" :list="list" />
+        </ul>
+    </nav>
+    <button type="button" class="mx-auto mt-6 flex w-fit space-x-1 self-center" @click="createList()">
+        <i-material-symbols-add-circle-rounded class="h-4 w-4" />
+        <span>{{ $t('lists.add') }}</span>
+    </button>
 </template>
 
 <script setup lang="ts">

@@ -1,10 +1,12 @@
 <template>
-    <div v-if="$tasksLists.current?.isRelationLoaded('tasks')">
-        <WorkspaceContentHeader />
-        <WorkspaceContentBody />
+    <div class="flex w-full max-w-screen-xl flex-col">
+        <template v-if="$tasksLists.current?.isRelationLoaded('tasks')">
+            <WorkspaceContentHeader />
+            <WorkspaceContentBody class="flex-1" />
+        </template>
+        <WorkspaceContentLoading v-else-if="$tasksLists.current" />
+        <WorkspaceContentMissing v-else />
     </div>
-    <WorkspaceContentLoading v-else-if="$tasksLists.current" />
-    <WorkspaceContentMissing v-else />
 </template>
 
 <script setup lang="ts">

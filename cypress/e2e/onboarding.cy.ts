@@ -14,6 +14,7 @@ describe('Onboarding', () => {
         // Act
         cy.press('Get started');
         cy.ariaInput('Task name').type('Start being more focused{enter}');
+        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
@@ -34,6 +35,7 @@ describe('Onboarding', () => {
         cy.solidLogin();
         cy.ariaInput('Task name').type('Cook Ramen{enter}');
         cy.waitSync();
+        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
@@ -42,6 +44,7 @@ describe('Onboarding', () => {
         cy.seeActiveList('Inbox');
 
         cy.reload();
+        cy.ariaLabel('Show lists').click();
         cy.seeActiveWorkspace('Main');
         cy.see('Cook Ramen');
         cy.seeActiveList('Inbox');
@@ -85,6 +88,7 @@ describe('Onboarding', () => {
 
         // Assert
         cy.see('Syncing');
+        cy.ariaLabel('Show lists').click();
 
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household`);
         cy.seeActiveWorkspace('Household');

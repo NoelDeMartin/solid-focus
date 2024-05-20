@@ -1,7 +1,5 @@
 export function seeActiveList(name: string): void {
-    cy.see(name, 'li').within(() => {
-        cy.see('(active)');
-    });
+    cy.see(name, 'li[aria-current="page"]');
 }
 
 export function seeActiveWorkspace(name: string): void {

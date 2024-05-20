@@ -5,11 +5,24 @@ import { watchEffect } from 'vue';
 
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
+import type Task from '@/models/Task';
 import type TasksList from '@/models/TasksList';
 
 import Service from './Workspaces.state';
 
 export class WorkspacesService extends Service {
+
+    public toggleSidebar(): void {
+        this.showSidebar = !this.showSidebar;
+    }
+
+    public showTask(task: Task): void {
+        this.activeTask = task;
+    }
+
+    public hideActiveTask(): void {
+        this.activeTask = null;
+    }
 
     public async open(): Promise<void> {
         const workspace = this.all.find((model) => model.url === this.lastVisitedWorkspaceUrl) ?? this.all[0];
