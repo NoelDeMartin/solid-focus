@@ -34,7 +34,7 @@
         "@tailwindcss/typography": "^0.5.9",
         "popmotion": "^11.0.5",
         "soukai": "0.5.2-next.ce96ff93551c4c8cdeec8026b38efaaa2fafaf8b",
-        "soukai-solid": "0.5.2-next.775fe87cd4ca14edcd991ac805fdecf34c4e51e4",
+        "soukai-solid": "0.5.2-next.10cb7b99bd6c4c4abfa24e87265a39d4c60dc982",
         "tailwindcss": "^3.3.2",
         "vue": "^3.3.0",
         "vue-i18n": "9.3.0-beta.19"

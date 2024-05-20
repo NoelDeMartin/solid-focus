@@ -164,4 +164,40 @@ describe('Cloud', () => {
         cy.see('Onboarding task');
     });
 
+    it('Creates lists with unicode characters', () => {
+        // Arrange
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Ideally, we'd test task names with unicode characters as well, but the following causes an
+        // issue in CSS using in-memory storage.
+        // See https://github.com/CommunitySolidServer/CommunitySolidServer/issues/1907
+        // cy.ariaInput('Task name').type('行くぞ{enter}'); // TODO this causes 401 response :/
+        cy.ariaInput('Task name').type('Testing{enter}');
+
+        cy.waitSync();
+        cy.ariaLabel('Show lists').click();
+
+        cy.intercept('PUT', podUrl('/main/*')).as('createContainer');
+
+        // Act
+        cy.press('New list');
+
+        cy.ariaInput('List name').type('勉強{enter}');
+        cy.waitSync();
+        cy.reload();
+        cy.ariaLabel('View sync status').click();
+        cy.press('Reconnect');
+        cy.solidAuthorize();
+        cy.waitSync();
+        cy.ariaLabel('Show lists').click();
+        cy.seeActiveWorkspace('勉強');
+
+        // Assert
+        cy.get('@createContainer.all').should('have.length', 1);
+
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main/${encodeURIComponent('勉強')}`);
+    });
+
 });
