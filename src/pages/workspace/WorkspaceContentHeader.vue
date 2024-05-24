@@ -28,5 +28,5 @@
 </template>
 
 <script setup lang="ts">
-import CloudStatusModal from '@/components/modals/CloudStatusModal.vue';
+import CloudStatusModal from './modals/CloudStatusModal.vue';
 </script>
