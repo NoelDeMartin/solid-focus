@@ -1,16 +1,6 @@
 <template>
     <div class="px-4 py-6" @click="hideActiveTask($event)">
-        <AGForm
-            v-initial-focus
-            :form="form"
-            class="flex"
-            @submit="createTask()"
-        >
-            <AGInput name="draft" :label="$t('tasks.label')" />
-            <AGButton submit>
-                {{ $t('tasks.add') }}
-            </AGButton>
-        </AGForm>
+        <TaskForm @submit="createTask" />
 
         <TasksList :tasks="tasks.pending ?? []" class="mt-4" />
 
@@ -28,13 +18,11 @@ import { arrayGroupBy } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { ref } from 'vue';
-import { requiredStringInput, useForm } from '@aerogel/core';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 
-const form = useForm({ draft: requiredStringInput() });
 const showCompleted = ref(false);
 const tasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
@@ -47,13 +35,10 @@ function hideActiveTask(event: Event) {
     Workspaces.hideActiveTask();
 }
 
-async function createTask() {
-    const name = form.draft.trim();
+async function createTask(name: string) {
     const tasksList = TasksLists.current;
 
-    form.reset();
-
-    if (!name || !tasksList) {
+    if (!tasksList) {
         return;
     }
 

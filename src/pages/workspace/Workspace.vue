@@ -1,4 +1,5 @@
 <template>
+    <div class="h-1 w-full bg-[--primary-500]" />
     <WorkspaceCloudSetup v-if="$cloud.setupPending" />
     <div v-else-if="$workspaces.current?.isRelationLoaded('lists')" class="flex w-full flex-grow">
         <WorkspaceSidebar />
@@ -10,16 +11,34 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
 
-watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
-</script>
+const workspaceColors = ref({
+    50: '#fef2f2',
+    100: '#fee2e2',
+    200: '#fecaca',
+    300: '#fca5a5',
+    400: '#f87171',
+    500: '#ef4444',
+    600: '#dc2626',
+    700: '#b91c1c',
+    800: '#991b1b',
+    900: '#7f1d1d',
+    950: '#450a0a',
+});
 
-<style>
-:root {
-    --primary: #3b82f6;
-    --primary-100: #dbeafe;
-}
-</style>
+watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
+watchEffect((onCleanup) => {
+    Object.entries(workspaceColors.value).forEach(([name, value]) => {
+        document.body.style.setProperty(`--primary-${name}`, value);
+    });
+
+    onCleanup(() => {
+        Object.keys(workspaceColors.value).forEach((name) => {
+            document.body.style.removeProperty(`--primary-${name}`);
+        });
+    });
+});
+</script>

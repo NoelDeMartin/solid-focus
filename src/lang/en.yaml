@@ -87,10 +87,13 @@ lists:
     promptLabel: List name
 
 tasks:
-    add: Add
-    label: Task name
+    inputDescription: Press "+" to add a new task
+    inputLabel: Task name
+    inputPlaceholder: What are you doing next?
+    inputClear: Discard
+    inputSubmit: Add
     complete: Complete task
     undo: Undo task
-    empty: You don't have any tasks, create a new one!
+    empty: You don't have any tasks, add a new one!
     showCompleted: Show completed
     hideCompleted: Hide completed
