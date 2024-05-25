@@ -1,0 +1,15 @@
+.clickable-target {
+    position: relative;
+}
+
+.clickable-target::after {
+    --clickable-size: 44px;
+    --clickable-inset-by: min(0px, calc((100% - var(--clickable-size)) / 2));
+
+    content: '';
+    position: absolute;
+    top: var(--clickable-inset-by);
+    left: var(--clickable-inset-by);
+    right: var(--clickable-inset-by);
+    bottom: var(--clickable-inset-by);
+}

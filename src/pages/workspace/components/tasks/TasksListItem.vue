@@ -1,7 +1,6 @@
 <template>
     <li
-        data-task="true"
-        class="relative isolate flex items-center gap-2 rounded-lg p-2.5 text-base"
+        class="relative isolate flex items-center gap-2 rounded-lg px-2.5 text-base"
         :class="{ 'line-through': task.completed }"
     >
         <button
@@ -13,17 +12,20 @@
             }"
             :aria-label="$t('tasks.selectA11y', { name: task.name })"
             :title="$t('tasks.selectTitle')"
-            @click="$workspaces.showTask(task)"
+            @click="$workspaces.activeTask?.is(task) ? $workspaces.hideActiveTask() : $workspaces.showTask(task)"
         />
         <input
             type="checkbox"
-            class="z-10 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
+            class="clickable-target z-10 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
             :checked="task.completed"
             :aria-label="task.completed ? $t('tasks.undo') : $t('tasks.complete')"
             :aria-describedby="ariaId"
             @change="task.toggle()"
         >
-        <div class="relative z-10 truncate pr-2">
+        <div
+            class="relative z-10 overflow-y-auto truncate py-2.5 pr-2"
+            :class="{ 'pointer-events-none': editing === false }"
+        >
             <AGMarkdown
                 v-if="!editing"
                 :id="ariaId"
@@ -56,16 +58,17 @@ import { ref, watchEffect } from 'vue';
 import { requiredObjectProp } from '@aerogel/core';
 import { uuid } from '@noeldemartin/utils';
 
+import { watchKeyboardShortcut } from '@/utils/composables';
 import type Task from '@/models/Task';
 
 const props = defineProps({ task: requiredObjectProp<Task>() });
 const $input = ref<HTMLElement>();
 const ariaId = `task-${uuid()}`;
-const editing = ref<{ initial: string } | null>(null);
+const editing = ref<string | false | null>(null);
 const draft = ref(props.task.name);
 
 function startEditing() {
-    editing.value = { initial: props.task.name };
+    editing.value = props.task.name;
 }
 
 function stopEditing() {
@@ -74,7 +77,7 @@ function stopEditing() {
     }
 
     if (draft.value.trim().length === 0) {
-        draft.value = editing.value.initial;
+        draft.value = editing.value;
         props.task.setAttribute('name', draft.value);
     }
 
@@ -84,4 +87,20 @@ function stopEditing() {
 }
 
 watchEffect(() => (draft.value = props.task.name));
+watchKeyboardShortcut('Control', {
+    start() {
+        if (editing.value) {
+            $input.value?.blur();
+        }
+
+        editing.value = false;
+    },
+    end() {
+        if (editing.value !== false) {
+            return;
+        }
+
+        editing.value = null;
+    },
+});
 </script>

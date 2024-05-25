@@ -66,12 +66,14 @@ export function bindWorkspaceColors(colors: Ref<Record<string, string>>): WatchS
 export function useDomEvent<Event extends keyof DocumentEventMap>(
     type: Event,
     listener: (this: Document, event: DocumentEventMap[Event], stop: () => void) => unknown,
-): void {
+): () => void {
     const nativeListener = (event: DocumentEventMap[Event]) => listener.call(document, event, stop);
     const stop = () => document.removeEventListener(type, nativeListener);
 
     onMounted(() => document.addEventListener(type, nativeListener));
     onUnmounted(() => stop());
+
+    return stop;
 }
 
 export function useElementScrollY(
@@ -102,6 +104,19 @@ export function useScrollY(): Readonly<Ref<number>> {
     });
 }
 
+export function useWindowEvent<Event extends keyof WindowEventMap>(
+    type: Event,
+    listener: (event: WindowEventMap[Event], stop: () => void) => unknown,
+): () => void {
+    const nativeListener = (event: WindowEventMap[Event]) => listener.call(document, event, stop);
+    const stop = () => window.removeEventListener(type, nativeListener);
+
+    onMounted(() => window.addEventListener(type, nativeListener));
+    onUnmounted(() => stop());
+
+    return stop;
+}
+
 export function useWindowDimensions(): Readonly<Ref<{ width: number; height: number }>> {
     return customRef((track, trigger) => {
         useDomEvent('resize', () => trigger());
@@ -120,4 +135,16 @@ export function useWindowDimensions(): Readonly<Ref<{ width: number; height: num
             set: () => console.warn('window dimensions ref was not set (it is immutable).'),
         };
     });
+}
+
+export function watchKeyboardShortcut(
+    shortcut: string,
+    listeners: Partial<{ start(): unknown; end(): unknown }>,
+): () => void {
+    const stops = [
+        useWindowEvent('keydown', (e) => e.key === shortcut && listeners.start?.()),
+        useWindowEvent('keyup', (e) => e.key === shortcut && listeners.end?.()),
+    ];
+
+    return () => stops.forEach((stop) => stop());
 }

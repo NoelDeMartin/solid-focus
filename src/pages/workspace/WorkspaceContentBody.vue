@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4" @click="hideActiveTask($event)">
+    <div class="px-4">
         <TaskForm @submit="createTask" />
         <TasksList :tasks="tasks.pending ?? []" class="mt-4" />
 
@@ -29,19 +29,10 @@ import { ref } from 'vue';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
-import Workspaces from '@/services/Workspaces';
 
 const showCompleted = ref(false);
 const tasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
-
-function hideActiveTask(event: Event) {
-    if (event.target instanceof HTMLElement && event.target.closest('[data-task]')) {
-        return;
-    }
-
-    Workspaces.hideActiveTask();
-}
 
 async function createTask(name: string) {
     const tasksList = TasksLists.current;
