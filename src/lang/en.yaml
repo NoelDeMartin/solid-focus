@@ -92,8 +92,11 @@ tasks:
     inputPlaceholder: What are you doing next?
     inputClear: Discard
     inputSubmit: Add
+    selectA11y: Select task ":name"
+    selectTitle: Select task
     complete: Complete task
     undo: Undo task
     empty: You don't have any tasks, add a new one!
+    completed: Completed
     showCompleted: Show completed
     hideCompleted: Hide completed

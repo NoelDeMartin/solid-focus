@@ -19,11 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computedModel } from '@aerogel/plugin-soukai';
+import { ref } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
 
 const rootSize = ref<ElementSize>();
-const task = computed(() => Workspaces.activeTask);
+const task = computedModel(() => Workspaces.activeTask);
 </script>

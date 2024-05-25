@@ -12,8 +12,17 @@
 
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
+import { objectProp, requiredObjectProp } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
+import { bindWorkspaceColors } from '@/utils/composables';
+import type Workspace from '@/models/Workspace';
+import type TasksList from '@/models/TasksList';
+
+defineProps({
+    workspace: requiredObjectProp<Workspace>(),
+    list: objectProp<TasksList>(),
+});
 
 const workspaceColors = ref({
     50: '#fef2f2',
@@ -30,15 +39,5 @@ const workspaceColors = ref({
 });
 
 watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
-watchEffect((onCleanup) => {
-    Object.entries(workspaceColors.value).forEach(([name, value]) => {
-        document.body.style.setProperty(`--primary-${name}`, value);
-    });
-
-    onCleanup(() => {
-        Object.keys(workspaceColors.value).forEach((name) => {
-            document.body.style.removeProperty(`--primary-${name}`);
-        });
-    });
-});
+bindWorkspaceColors(workspaceColors);
 </script>

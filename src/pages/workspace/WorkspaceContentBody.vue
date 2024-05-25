@@ -1,13 +1,21 @@
 <template>
-    <div class="px-4 py-6" @click="hideActiveTask($event)">
+    <div class="px-4" @click="hideActiveTask($event)">
         <TaskForm @submit="createTask" />
-
         <TasksList :tasks="tasks.pending ?? []" class="mt-4" />
 
         <div v-if="tasks.completed?.length" class="mt-4">
-            <AGButton @click="showCompleted = !showCompleted">
-                {{ showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted') }}
-            </AGButton>
+            <button
+                type="button"
+                class="ml-1 flex items-center justify-center rounded-xl py-2 pl-1 pr-2 font-medium uppercase tracking-wider hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
+                :aria-label="showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
+                @click="showCompleted = !showCompleted"
+            >
+                <i-zondicons-cheveron-right
+                    class="h-6 w-6 transition-transform"
+                    :class="{ 'rotate-90': showCompleted }"
+                />
+                <span>{{ $t('tasks.completed') }}</span>
+            </button>
             <TasksList v-if="showCompleted" :tasks="tasks.completed" class="mt-4" />
         </div>
     </div>
@@ -28,7 +36,7 @@ const tasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
 
 function hideActiveTask(event: Event) {
-    if (event.target instanceof HTMLElement && event.target.dataset.task) {
+    if (event.target instanceof HTMLElement && event.target.closest('[data-task]')) {
         return;
     }
 

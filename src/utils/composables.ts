@@ -49,6 +49,20 @@ export function bindRefs<T>(source: Ref<T>, target: Ref<T>): WatchStopHandle {
     return watchEffect(() => (target.value = source.value));
 }
 
+export function bindWorkspaceColors(colors: Ref<Record<string, string>>): WatchStopHandle {
+    return watchEffect((onCleanup) => {
+        Object.entries(colors.value).forEach(([name, value]) => {
+            document.body.style.setProperty(`--primary-${name}`, value);
+        });
+
+        onCleanup(() => {
+            Object.keys(colors.value).forEach((name) => {
+                document.body.style.removeProperty(`--primary-${name}`);
+            });
+        });
+    });
+}
+
 export function useDomEvent<Event extends keyof DocumentEventMap>(
     type: Event,
     listener: (this: Document, event: DocumentEventMap[Event], stop: () => void) => unknown,
