@@ -2,7 +2,7 @@
     <div v-if="$tasksLists.current" class="flex items-center space-x-2 px-4 py-6">
         <button
             type="button"
-            :aria-label="$workspaces.showSidebar ? $t('workspaces.hideSidebar') : $t('workspaces.openSidebar')"
+            :aria-label="$workspaces.sidebar ? $t('workspaces.hideSidebar') : $t('workspaces.openSidebar')"
             @click="$workspaces.toggleSidebar()"
         >
             <i-tabler-layout-sidebar-filled class="h-6 w-6" />

@@ -12,8 +12,8 @@ export default defineServiceState({
     persist: ['lastVisitedWorkspaceUrl'],
     initialState: () => ({
         all: shallowRef([] as Workspace[]),
-        showSidebar: false,
-        activeTask: null as Task | null,
+        task: null as Task | null,
+        sidebar: false,
         current: computedModel(() => {
             const routeParams: { workspace?: Workspace } = Router.currentRoute.value?.params ?? {};
 

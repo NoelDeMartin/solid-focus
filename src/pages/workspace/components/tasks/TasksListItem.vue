@@ -7,12 +7,12 @@
             type="button"
             class="absolute inset-0 h-full w-full rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--primary-500]"
             :class="{
-                'bg-[--primary-100]': $workspaces.activeTask?.is(task),
-                'hover:bg-gray-100': !$workspaces.activeTask?.is(task),
+                'bg-[--primary-100]': $workspaces.task?.is(task),
+                'hover:bg-gray-100': !$workspaces.task?.is(task),
             }"
             :aria-label="$t('tasks.selectA11y', { name: task.name })"
             :title="$t('tasks.selectTitle')"
-            @click="$workspaces.activeTask?.is(task) ? $workspaces.hideActiveTask() : $workspaces.showTask(task)"
+            @click="$workspaces.task?.is(task) ? $workspaces.select(null) : $workspaces.select(task)"
         />
         <input
             type="checkbox"
@@ -24,7 +24,7 @@
         >
         <div
             class="relative z-10 overflow-y-auto truncate py-2.5 pr-2"
-            :class="{ 'pointer-events-none': editing === false }"
+            :class="{ 'pointer-events-none': disableEditing }"
         >
             <AGMarkdown
                 v-if="!editing"
@@ -55,16 +55,18 @@
 
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
-import { requiredObjectProp } from '@aerogel/core';
+import { booleanProp, requiredObjectProp } from '@aerogel/core';
 import { uuid } from '@noeldemartin/utils';
 
-import { watchKeyboardShortcut } from '@/utils/composables';
 import type Task from '@/models/Task';
 
-const props = defineProps({ task: requiredObjectProp<Task>() });
+const props = defineProps({
+    task: requiredObjectProp<Task>(),
+    disableEditing: booleanProp(),
+});
 const $input = ref<HTMLElement>();
 const ariaId = `task-${uuid()}`;
-const editing = ref<string | false | null>(null);
+const editing = ref<string | null>(null);
 const draft = ref(props.task.name);
 
 function startEditing() {
@@ -87,20 +89,11 @@ function stopEditing() {
 }
 
 watchEffect(() => (draft.value = props.task.name));
-watchKeyboardShortcut('Control', {
-    start() {
-        if (editing.value) {
-            $input.value?.blur();
-        }
+watchEffect(() => {
+    if (!props.disableEditing || !editing.value) {
+        return;
+    }
 
-        editing.value = false;
-    },
-    end() {
-        if (editing.value !== false) {
-            return;
-        }
-
-        editing.value = null;
-    },
+    $input.value?.blur();
 });
 </script>

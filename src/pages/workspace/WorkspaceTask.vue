@@ -26,5 +26,5 @@ import type { ElementSize } from '@aerogel/core';
 import Workspaces from '@/services/Workspaces';
 
 const rootSize = ref<ElementSize>();
-const task = computedModel(() => Workspaces.activeTask);
+const task = computedModel(() => Workspaces.task);
 </script>

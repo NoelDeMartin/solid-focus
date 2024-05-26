@@ -139,11 +139,12 @@ export function useWindowDimensions(): Readonly<Ref<{ width: number; height: num
 
 export function watchKeyboardShortcut(
     shortcut: string,
-    listeners: Partial<{ start(): unknown; end(): unknown }>,
+    listeners: Partial<{ start(): unknown; end(): unknown }> | (() => unknown),
 ): () => void {
+    const shortcutListeners = typeof listeners === 'function' ? { start: listeners } : listeners;
     const stops = [
-        useWindowEvent('keydown', (e) => e.key === shortcut && listeners.start?.()),
-        useWindowEvent('keyup', (e) => e.key === shortcut && listeners.end?.()),
+        useWindowEvent('keydown', (e) => e.key === shortcut && shortcutListeners.start?.()),
+        useWindowEvent('keyup', (e) => e.key === shortcut && shortcutListeners.end?.()),
     ];
 
     return () => stops.forEach((stop) => stop());

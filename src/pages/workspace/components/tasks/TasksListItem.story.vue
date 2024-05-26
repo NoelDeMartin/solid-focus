@@ -17,8 +17,8 @@
             <TasksListItem :task="completedTask" class=":hover" />
         </Variant>
 
-        <Variant title="Active">
-            <TasksListItem :task="activeTask" />
+        <Variant title="Selected">
+            <TasksListItem :task="selectedTask" />
         </Variant>
     </Story>
 </template>
@@ -34,12 +34,12 @@ const [color, colorOptions] = useWorkspaceColor();
 const name = ref('You should **definitely** watch *Love Exposure*');
 const task = computed(() => new Task({ url: 'default', name: name.value, status: Task.STATUS_POTENTIAL }));
 const pendingTask = computed(() => new Task({ url: 'pending', name: name.value, status: Task.STATUS_POTENTIAL }));
-const activeTask = computed(() => new Task({ url: 'active', name: name.value, status: Task.STATUS_POTENTIAL }));
+const selectedTask = computed(() => new Task({ url: 'selected', name: name.value, status: Task.STATUS_POTENTIAL }));
 const completedTask = computed(
     () => new Task({ url: 'completed', name: name.value, status: Task.STATUS_COMPLETED, completedAt: new Date() }),
 );
 
-watchEffect(() => Workspaces.showTask(activeTask.value));
+watchEffect(() => Workspaces.select(selectedTask.value));
 </script>
 
 <style>

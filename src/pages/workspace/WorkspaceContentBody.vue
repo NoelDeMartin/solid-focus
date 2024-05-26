@@ -1,8 +1,7 @@
 <template>
     <div class="px-4">
         <TaskForm @submit="createTask" />
-        <TasksList :tasks="tasks.pending ?? []" class="mt-4" />
-
+        <TasksList :tasks="tasks.pending ?? []" :disable-editing="disableEditing" class="mt-4" />
         <div v-if="tasks.completed?.length" class="mt-4">
             <button
                 type="button"
@@ -16,7 +15,12 @@
                 />
                 <span>{{ $t('tasks.completed') }}</span>
             </button>
-            <TasksList v-if="showCompleted" :tasks="tasks.completed" class="mt-4" />
+            <TasksList
+                v-if="showCompleted"
+                :tasks="tasks.completed"
+                :disable-editing="disableEditing"
+                class="mt-4"
+            />
         </div>
     </div>
 </template>
@@ -29,8 +33,11 @@ import { ref } from 'vue';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
+import Workspaces from '@/services/Workspaces';
+import { watchKeyboardShortcut } from '@/utils/composables';
 
 const showCompleted = ref(false);
+const disableEditing = ref(false);
 const tasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
 
@@ -45,4 +52,35 @@ async function createTask(name: string) {
 
     await Cloud.syncIfOnline(task);
 }
+
+function changeTask(delta: 1 | -1) {
+    const tasksList = tasks.value.pending?.concat(showCompleted.value ? tasks.value.completed ?? [] : []) ?? [];
+    const select = (task?: Task) => task && Workspaces.select(task);
+
+    if (!Workspaces.task) {
+        select(delta > 0 ? tasksList[0] : tasksList.slice(-1)[0]);
+
+        return;
+    }
+
+    for (let index = 0; index < tasksList.length; index++) {
+        const task = tasksList[index] as Task;
+
+        if (!Workspaces.task.is(task)) {
+            continue;
+        }
+
+        select(tasksList[index + delta]);
+
+        return;
+    }
+}
+
+watchKeyboardShortcut('Control', {
+    start: () => (disableEditing.value = true),
+    end: () => (disableEditing.value = false),
+});
+watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
+watchKeyboardShortcut('ArrowDown', () => changeTask(1));
+watchKeyboardShortcut('Escape', () => Workspaces.select(null));
 </script>

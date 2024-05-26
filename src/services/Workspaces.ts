@@ -13,15 +13,11 @@ import Service from './Workspaces.state';
 export class WorkspacesService extends Service {
 
     public toggleSidebar(): void {
-        this.showSidebar = !this.showSidebar;
+        this.sidebar = !this.sidebar;
     }
 
-    public showTask(task: Task): void {
-        this.activeTask = task;
-    }
-
-    public hideActiveTask(): void {
-        this.activeTask = null;
+    public select(task: Task | null): void {
+        this.task = task;
     }
 
     public async open(): Promise<void> {

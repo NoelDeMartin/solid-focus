@@ -4,14 +4,14 @@
             v-measure="(size: ElementSize) => rootSize = size"
             class="fixed bottom-0 left-0 top-0 flex min-w-56 flex-col shadow-panel transition-transform will-change-transform"
             :class="{
-                'translate-x-0': $workspaces.showSidebar,
-                '-translate-x-full': !$workspaces.showSidebar,
+                'translate-x-0': $workspaces.sidebar,
+                '-translate-x-full': !$workspaces.sidebar,
             }"
         >
             <WorkspaceSidebarHeader />
             <WorkspaceSidebarNav />
         </div>
-        <div class="transition-[width]" :style="`width: ${$workspaces.showSidebar ? rootSize?.width : 0}px;`" />
+        <div class="transition-[width]" :style="`width: ${$workspaces.sidebar ? rootSize?.width : 0}px;`" />
     </div>
 </template>
 
