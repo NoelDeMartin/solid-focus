@@ -1,5 +1,5 @@
 <template>
-    <Story :layout="{ type: 'grid' }">
+    <Story group="tasks" :layout="{ type: 'grid' }">
         <Variant title="Playground">
             <TasksListItem :task="task" />
 

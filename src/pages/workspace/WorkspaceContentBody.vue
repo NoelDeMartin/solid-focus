@@ -3,9 +3,9 @@
         <TaskForm @submit="createTask" />
         <TasksList :tasks="tasks.pending ?? []" :disable-editing="disableEditing" class="mt-4" />
         <div v-if="tasks.completed?.length" class="mt-4">
-            <button
-                type="button"
-                class="ml-1 flex items-center justify-center rounded-xl py-2 pl-1 pr-2 font-medium uppercase tracking-wider hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
+            <TextButton
+                color="clear"
+                class="ml-1 rounded-lg pl-1 pr-2 font-medium uppercase tracking-wider"
                 :aria-label="showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
                 @click="showCompleted = !showCompleted"
             >
@@ -14,7 +14,7 @@
                     :class="{ 'rotate-90': showCompleted }"
                 />
                 <span>{{ $t('tasks.completed') }}</span>
-            </button>
+            </TextButton>
             <TasksList
                 v-if="showCompleted"
                 :tasks="tasks.completed"

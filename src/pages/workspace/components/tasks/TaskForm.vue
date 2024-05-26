@@ -24,25 +24,24 @@
                 class="pointer-events-none px-5 py-4 text-gray-500 group-focus-within:opacity-0"
                 :class="{ 'opacity-0': form.draft }"
             />
-            <button
-                type="button"
+            <IconButton
                 tabindex="-1"
-                class="absolute right-1 top-1/2 h-11 w-11 -translate-y-1/2 items-center justify-center rounded-lg hover:bg-gray-100 group-focus-within:flex"
+                class="absolute right-1 top-1/2 h-11 w-11 -translate-y-1/2 rounded-lg group-focus-within:flex"
                 :class="{ flex: form.draft, hidden: !form.draft }"
                 :aria-label="$t('tasks.inputClear')"
                 @click="form.reset(), blur()"
             >
                 <i-zondicons-close class="h-4 w-4" />
-            </button>
+            </IconButton>
         </AGHeadlessInput>
 
-        <AGHeadlessButton
+        <TextButton
             submit
-            class="w-16 items-center justify-center rounded-xl bg-[--primary-600] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[--primary-500] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--primary-600] group-focus-within:flex"
+            class="w-16 text-sm font-semibold group-focus-within:flex"
             :class="[submitClass, { flex: form.draft, hidden: !form.draft }]"
         >
             {{ $t('tasks.inputSubmit') }}
-        </AGHeadlessButton>
+        </TextButton>
     </AGForm>
 </template>
 
