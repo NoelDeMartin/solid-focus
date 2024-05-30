@@ -108,3 +108,6 @@ task:
     editDescription: Edit description
     save: Save
     cancel: Cancel
+    close: Close
+    remove: Remove
+    confirmRemove: Are you sure you want to delete this task?

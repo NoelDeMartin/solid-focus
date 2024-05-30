@@ -52,15 +52,32 @@
                     </TextButton>
                 </div>
                 <div class="flex-1" />
-                <span class="self-center text-sm text-gray-500">
-                    {{
-                        $t('tasks.created', {
-                            date: task.createdAt.toLocaleDateString(undefined, {
-                                dateStyle: 'medium',
-                            }),
-                        })
-                    }}
-                </span>
+                <div class="flex items-center justify-between">
+                    <IconButton
+                        :aria-label="$t('task.close')"
+                        :title="$t('task.close')"
+                        @click="$workspaces.select(null)"
+                    >
+                        <i-zondicons-cheveron-right class="h-5 w-5" />
+                    </IconButton>
+                    <span class="self-center text-sm text-gray-500">
+                        {{
+                            $t('tasks.created', {
+                                date: task.createdAt.toLocaleDateString(undefined, {
+                                    dateStyle: 'medium',
+                                }),
+                            })
+                        }}
+                    </span>
+                    <IconButton
+                        class="text-gray-500"
+                        :aria-label="$t('task.remove')"
+                        :title="$t('tasks.remove')"
+                        @click="remove()"
+                    >
+                        <i-zondicons-trash class="h-5 w-5" />
+                    </IconButton>
+                </div>
             </AGForm>
         </aside>
         <div class="transition-[width]" :style="`width: ${task ? rootSize?.width : 0}px;`" />
@@ -69,7 +86,7 @@
 
 <script setup lang="ts">
 import { computedModel } from '@aerogel/plugin-soukai';
-import { requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import { UI, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { ref } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
@@ -106,5 +123,13 @@ async function save() {
         name: form.name.trim(),
         description: form.description?.trim() || null,
     });
+}
+
+async function remove() {
+    if (!task.value || !(await UI.confirm(translate('task.confirmRemove')))) {
+        return;
+    }
+
+    await task.value.delete();
 }
 </script>

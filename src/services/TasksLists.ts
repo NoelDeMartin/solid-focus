@@ -1,6 +1,7 @@
 import { facade } from '@noeldemartin/utils';
 import { watchEffect } from 'vue';
 
+import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
 
 import Service from './TasksLists.state';
@@ -11,6 +12,14 @@ export class TasksListsService extends Service {
         await Workspaces.booted;
 
         watchEffect(() => (this.lastVisitedListUrl = this.current?.url ?? this.lastVisitedListUrl));
+
+        Task.on('deleted', (deletedTask) => {
+            if (!this.current?.tasks) {
+                return;
+            }
+
+            this.current.tasks = this.current.tasks.filter((relatedTask) => !relatedTask.is(deletedTask));
+        });
     }
 
 }

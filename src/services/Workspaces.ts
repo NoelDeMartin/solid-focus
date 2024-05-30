@@ -3,9 +3,9 @@ import { arraySorted, facade } from '@noeldemartin/utils';
 import { trackModelCollection } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
+import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
-import type Task from '@/models/Task';
 import type TasksList from '@/models/TasksList';
 
 import Service from './Workspaces.state';
@@ -38,6 +38,14 @@ export class WorkspacesService extends Service {
         });
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
+
+        Task.on('deleted', (deletedTask) => {
+            if (!this.task || !this.task.is(deletedTask)) {
+                return;
+            }
+
+            this.select(null);
+        });
     }
 
 }

@@ -75,4 +75,18 @@ describe('Tasks', () => {
         cy.see('Cook Ramen');
     });
 
+    it('Removes tasks', () => {
+        // Arrange
+        cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.see('Cook Ramen');
+
+        // Act
+        cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
+        cy.ariaLabel('Remove').click();
+        cy.press('Ok');
+
+        // Assert
+        cy.dontSee('Cook Ramen');
+    });
+
 });
