@@ -1,6 +1,6 @@
 <template>
     <div class="px-4">
-        <TaskForm @submit="createTask" />
+        <TaskCreateForm @submit="createTask" />
         <TasksList :tasks="tasks.pending ?? []" :disable-editing="disableEditing" class="mt-4" />
         <div v-if="tasks.completed?.length" class="mt-4">
             <TextButton

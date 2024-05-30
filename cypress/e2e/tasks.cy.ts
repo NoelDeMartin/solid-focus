@@ -23,6 +23,23 @@ describe('Tasks', () => {
         cy.see('Eat Ramen', 'li');
     });
 
+    it('Updates tasks', () => {
+        // Arrange
+        cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.see('Cook Ramen');
+
+        // Act
+        cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
+        cy.ariaLabel('Edit name').click();
+        cy.get(':focus').type('!');
+        cy.get('[name="description"]').type('Ramen is good for your soul.');
+        cy.press('Save');
+
+        // Assert
+        cy.see('Cook Ramen!', { srOnly: true });
+        cy.see('Ramen is good for your soul.', { srOnly: true });
+    });
+
     it('Completes tasks', () => {
         // Arrange
         cy.ariaInput('Task name').type('Cook Ramen{enter}');

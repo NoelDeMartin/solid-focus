@@ -11,6 +11,10 @@ export default defineConfig({
                 title: 'Buttons',
             },
             {
+                id: 'forms',
+                title: 'Forms',
+            },
+            {
                 id: 'tasks',
                 title: 'Tasks',
             },

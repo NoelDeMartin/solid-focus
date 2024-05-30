@@ -1,7 +1,7 @@
 <template>
     <Story group="tasks" :layout="{ type: 'grid' }">
         <Variant title="Playground">
-            <TaskForm />
+            <TaskCreateForm />
 
             <template #controls>
                 <HstSelect v-model="color" title="Color" :options="colorOptions" />
@@ -9,27 +9,27 @@
         </Variant>
 
         <Variant title="Default">
-            <TaskForm />
+            <TaskCreateForm />
         </Variant>
 
         <Variant title="Hover">
-            <TaskForm class=":hover" />
+            <TaskCreateForm class=":hover" />
         </Variant>
 
         <Variant title="Filled">
-            <TaskForm value="My new task" />
+            <TaskCreateForm value="My new task" />
         </Variant>
 
         <Variant title="Filled Hover">
-            <TaskForm value="My new task" input-class=":hover" />
+            <TaskCreateForm value="My new task" input-class=":hover" />
         </Variant>
 
         <Variant title="Input Focus">
-            <TaskForm input-class=":focus" class=":focus-within" />
+            <TaskCreateForm input-class=":focus" class=":focus-within" />
         </Variant>
 
         <Variant title="Submit Focus">
-            <TaskForm submit-class=":focus :focus-visible" class=":focus-within" />
+            <TaskCreateForm submit-class=":focus :focus-visible" class=":focus-within" />
         </Variant>
     </Story>
 </template>
@@ -41,7 +41,7 @@ const [color, colorOptions] = useWorkspaceColor();
 </script>
 
 <style>
-.story-taskform {
+.story-taskcreateform {
     grid-template-columns: 750px !important;
 }
 </style>

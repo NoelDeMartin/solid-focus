@@ -13,6 +13,7 @@ export default defineSolidModelSchema({
             type: FieldType.String,
             required: true,
         },
+        description: FieldType.String,
         status: {
             rdfProperty: 'actionStatus',
             type: FieldType.Key,
