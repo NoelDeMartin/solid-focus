@@ -22,78 +22,29 @@
             :aria-describedby="ariaId"
             @change="task.toggle()"
         >
-        <div
-            class="relative z-10 overflow-y-auto truncate py-2.5 pr-2"
-            :class="{ 'pointer-events-none': disableEditing }"
+        <EditableContent
+            class="overflow-y-auto truncate py-2.5 pr-2"
+            content-class="whitespace-pre"
+            :disabled="disableEditing"
+            :text="task.name"
+            @update="task.setAttribute('name', $event)"
+            @save="task.save()"
         >
-            <AGMarkdown
-                v-if="!editing"
-                :id="ariaId"
-                :text="task.name"
-                inline
-                class="whitespace-pre"
-            />
-            <span v-else class="invisible whitespace-pre">
-                {{ draft }}
-            </span>
-            <form @submit.prevent="$input?.blur()">
-                <input
-                    ref="$input"
-                    v-model="draft"
-                    type="text"
-                    tabindex="-1"
-                    class="absolute inset-0 h-full w-full border-0 bg-transparent p-0 focus:ring-0"
-                    :class="{ 'opacity-0': !editing }"
-                    @keyup="task.setAttribute('name', draft)"
-                    @focus="startEditing()"
-                    @blur="stopEditing()"
-                >
-            </form>
-        </div>
+            <AGMarkdown :id="ariaId" :text="task.name" inline />
+        </EditableContent>
     </li>
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
 import { booleanProp, requiredObjectProp } from '@aerogel/core';
 import { uuid } from '@noeldemartin/utils';
 
 import type Task from '@/models/Task';
 
-const props = defineProps({
+defineProps({
     task: requiredObjectProp<Task>(),
     disableEditing: booleanProp(),
 });
-const $input = ref<HTMLElement>();
+
 const ariaId = `task-${uuid()}`;
-const editing = ref<string | null>(null);
-const draft = ref(props.task.name);
-
-function startEditing() {
-    editing.value = props.task.name;
-}
-
-function stopEditing() {
-    if (!editing.value) {
-        return;
-    }
-
-    if (draft.value.trim().length === 0) {
-        draft.value = editing.value;
-        props.task.setAttribute('name', draft.value);
-    }
-
-    editing.value = null;
-
-    props.task.save();
-}
-
-watchEffect(() => (draft.value = props.task.name));
-watchEffect(() => {
-    if (!props.disableEditing || !editing.value) {
-        return;
-    }
-
-    $input.value?.blur();
-});
 </script>
