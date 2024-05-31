@@ -18,6 +18,10 @@ export default defineSolidModelSchema({
             rdfProperty: 'actionStatus',
             type: FieldType.Key,
         },
+        important: {
+            rdfProperty: 'tasks:important',
+            type: FieldType.Boolean,
+        },
         completedAt: {
             rdfProperty: 'tasks:completedAt',
             type: FieldType.Date,

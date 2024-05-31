@@ -1,6 +1,6 @@
 <template>
     <li
-        class="relative isolate flex items-center gap-2 rounded-lg px-2.5 text-base"
+        class="relative isolate flex items-center rounded-lg px-2.5 text-base"
         :class="{ 'line-through': task.completed }"
     >
         <button
@@ -16,14 +16,14 @@
         />
         <input
             type="checkbox"
-            class="clickable-target z-10 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
+            class="clickable-target z-10 mr-2 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
             :checked="task.completed"
             :aria-label="task.completed ? $t('tasks.undo') : $t('tasks.complete')"
             :aria-describedby="ariaId"
             @change="task.toggle()"
         >
         <EditableContent
-            class="overflow-y-auto truncate py-2.5 pr-2"
+            class="overflow-y-auto truncate py-2.5 pr-1"
             content-class="whitespace-pre"
             :disabled="disableEditing"
             :text="task.name"
@@ -31,7 +31,11 @@
             @save="task.save()"
         >
             <AGMarkdown :id="ariaId" :text="task.name" inline />
+            <span v-if="task.important" class="sr-only">
+                {{ $t('tasks.important') }}
+            </span>
         </EditableContent>
+        <i-material-symbols-star-rounded v-if="task.important" class="z-10 h-6 w-6 text-[--primary-500]" />
     </li>
 </template>
 

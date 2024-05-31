@@ -40,6 +40,25 @@ describe('Tasks', () => {
         cy.see('Ramen is good for your soul.', { srOnly: true });
     });
 
+    it('Toggles important tasks', () => {
+        // Arrange
+        cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.see('Cook Ramen');
+
+        // Act
+        cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
+        cy.ariaLabel('Make important').click();
+
+        // Assert
+        cy.see('Cook Ramen (Important)');
+
+        // Act
+        cy.ariaLabel('Remove important').click();
+
+        // Assert
+        cy.dontSee('Cook Ramen (Important)');
+    });
+
     it('Completes tasks', () => {
         // Arrange
         cy.ariaInput('Task name').type('Cook Ramen{enter}');

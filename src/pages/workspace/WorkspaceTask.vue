@@ -15,6 +15,9 @@
                 @submit="save()"
             >
                 <AGMarkdown :text="task.name" class="sr-only" as="h2" />
+                <span class="sr-only">{{
+                    task.important ? $t('task.importantA11y') : $t('task.notImportantA11y')
+                }}</span>
                 <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
                 <TextButton
                     v-if="!editing"
@@ -42,6 +45,18 @@
                     </TextButton>
                     <TaskDescriptionInput v-else name="description" input-class="max-w-80 text-base py-2 px-3" />
                 </div>
+
+                <TextButton
+                    color="clear"
+                    class="mt-2 self-start"
+                    :title="task.important ? $t('task.removeImportant') : $t('task.makeImportant')"
+                    :aria-label="task.important ? $t('task.removeImportant') : $t('task.makeImportant')"
+                    @click="toggleImportant()"
+                >
+                    <i-material-symbols-star-rounded v-if="important" class="h-6 w-6 text-[--primary-500]" />
+                    <i-material-symbols-star-outline-rounded v-else class="h-6 w-6 text-[--primary-500]" />
+                    <span class="ml-1">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
+                </TextButton>
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-2 self-end">
                     <TextButton submit>
@@ -86,8 +101,8 @@
 
 <script setup lang="ts">
 import { computedModel } from '@aerogel/plugin-soukai';
-import { UI, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
-import { ref } from 'vue';
+import { UI, booleanInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
+import { computed, ref } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
@@ -96,9 +111,11 @@ const rootSize = ref<ElementSize>();
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
+    important: booleanInput(),
 });
 const editing = ref(false);
 const task = computedModel(() => Workspaces.task);
+const important = computed(() => (editing.value ? form.important : task.value?.important));
 
 function startEditing(field: string) {
     if (!task.value) {
@@ -107,9 +124,24 @@ function startEditing(field: string) {
 
     form.name = task.value.name;
     form.description = task.value.description ?? '';
+    form.important = !!task.value.important;
     editing.value = true;
 
     form.focus(field);
+}
+
+async function toggleImportant() {
+    if (!task.value) {
+        return;
+    }
+
+    if (editing.value) {
+        form.important = !form.important;
+
+        return;
+    }
+
+    await task.value.update({ important: !task.value.important });
 }
 
 async function save() {
@@ -122,6 +154,7 @@ async function save() {
     await task.value.update({
         name: form.name.trim(),
         description: form.description?.trim() || null,
+        important: form.important,
     });
 }
 
