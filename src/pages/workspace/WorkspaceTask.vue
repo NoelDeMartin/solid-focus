@@ -19,6 +19,7 @@
                     task.important ? $t('task.importantA11y') : $t('task.notImportantA11y')
                 }}</span>
                 <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
+
                 <TextButton
                     v-if="!editing"
                     color="clear"
@@ -30,6 +31,7 @@
                     <AGMarkdown :text="task.name" inline class="text-lg font-semibold" />
                 </TextButton>
                 <TextInput v-else name="name" input-class="max-w-80 text-lg font-semibold py-2 px-3" />
+
                 <div class="mt-2 w-full">
                     <TextButton
                         v-if="!editing"
@@ -45,6 +47,21 @@
                     </TextButton>
                     <TaskDescriptionInput v-else name="description" input-class="max-w-80 text-base py-2 px-3" />
                 </div>
+
+                <TextButton
+                    v-if="!editing"
+                    color="clear"
+                    class="mt-2 self-start"
+                    :title="$t('task.editDueDate')"
+                    :aria-label="$t('task.editDueDate')"
+                    @click="startEditing('dueDate')"
+                >
+                    <i-material-symbols-calendar-clock-rounded class="h-6 w-6 text-gray-500" />
+                    <span class="ml-1">
+                        {{ renderedDueDate ? $t('task.due', { date: renderedDueDate }) : $t('task.notDue') }}
+                    </span>
+                </TextButton>
+                <DateInput v-else name="dueDate" class="mt-2" />
 
                 <TextButton
                     color="clear"
@@ -77,17 +94,15 @@
                     </IconButton>
                     <span class="self-center text-sm text-gray-500">
                         {{
-                            $t('tasks.created', {
-                                date: task.createdAt.toLocaleDateString(undefined, {
-                                    dateStyle: 'medium',
-                                }),
+                            $t('task.created', {
+                                date: renderedCreatedAt,
                             })
                         }}
                     </span>
                     <IconButton
                         class="text-gray-500"
                         :aria-label="$t('task.remove')"
-                        :title="$t('tasks.remove')"
+                        :title="$t('task.remove')"
                         @click="remove()"
                     >
                         <i-zondicons-trash class="h-5 w-5" />
@@ -101,7 +116,7 @@
 
 <script setup lang="ts">
 import { computedModel } from '@aerogel/plugin-soukai';
-import { UI, booleanInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
+import { UI, booleanInput, dateInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { computed, ref } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
@@ -111,11 +126,20 @@ const rootSize = ref<ElementSize>();
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
+    dueDate: dateInput(),
     important: booleanInput(),
 });
 const editing = ref(false);
 const task = computedModel(() => Workspaces.task);
 const important = computed(() => (editing.value ? form.important : task.value?.important));
+const renderedCreatedAt = computed(() =>
+    task.value?.createdAt.toLocaleDateString(undefined, {
+        dateStyle: 'medium',
+    }));
+const renderedDueDate = computed(() =>
+    task.value?.dueDate?.toLocaleDateString(undefined, {
+        dateStyle: 'medium',
+    }));
 
 function startEditing(field: string) {
     if (!task.value) {
@@ -124,7 +148,8 @@ function startEditing(field: string) {
 
     form.name = task.value.name;
     form.description = task.value.description ?? '';
-    form.important = !!task.value.important;
+    form.important = task.value.important ?? false;
+    form.dueDate = task.value.dueDate ?? null;
     editing.value = true;
 
     form.focus(field);
@@ -154,6 +179,7 @@ async function save() {
     await task.value.update({
         name: form.name.trim(),
         description: form.description?.trim() || null,
+        dueDate: form.dueDate,
         important: form.important,
     });
 }

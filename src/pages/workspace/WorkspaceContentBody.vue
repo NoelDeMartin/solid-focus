@@ -1,8 +1,8 @@
 <template>
     <div class="px-4">
         <TaskCreateForm @submit="createTask" />
-        <TasksList :tasks="tasks.pending ?? []" :disable-editing="disableEditing" class="mt-4" />
-        <div v-if="tasks.completed?.length" class="mt-4">
+        <TasksList :tasks="tasks.pending" :disable-editing="disableEditing" class="mt-4" />
+        <div v-if="tasks.completed.length" class="mt-4">
             <TextButton
                 color="clear"
                 class="ml-1 rounded-lg pl-1 pr-2 font-medium uppercase tracking-wider"
@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { arrayGroupBy } from '@noeldemartin/utils';
+import { arrayGroupBy, compare } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
+import { computed, ref } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
-import { ref } from 'vue';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
@@ -38,8 +38,20 @@ import { watchKeyboardShortcut } from '@/utils/composables';
 
 const showCompleted = ref(false);
 const disableEditing = ref(false);
-const tasks = computedModels(Task, () =>
+const groupedTasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
+const tasks = computed(() => ({
+    pending: groupedTasks.value.pending?.toSorted(compareTasks) ?? [],
+    completed: groupedTasks.value.completed?.toSorted(compareTasks) ?? [],
+}));
+
+function compareTasks(a: Task, b: Task): number {
+    const importantComparison = compare(b.important, a.important);
+    const dueDateComparison = !a.dueDate || !b.dueDate ? compare(b.dueDate, a.dueDate) : compare(a.dueDate, b.dueDate);
+    const dateComparison = a.completed ? compare(b.completedAt, a.completedAt) : compare(a.createdAt, b.createdAt);
+
+    return [importantComparison, dueDateComparison, dateComparison].find((result) => result !== 0) ?? 0;
+}
 
 async function createTask(name: string) {
     const tasksList = TasksLists.current;
@@ -54,7 +66,7 @@ async function createTask(name: string) {
 }
 
 function changeTask(delta: 1 | -1) {
-    const tasksList = tasks.value.pending?.concat(showCompleted.value ? tasks.value.completed ?? [] : []) ?? [];
+    const tasksList = tasks.value.pending.concat(showCompleted.value ? tasks.value.completed : []);
     const select = (task?: Task) => task && Workspaces.select(task);
 
     if (!Workspaces.task) {

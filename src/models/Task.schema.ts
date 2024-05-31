@@ -22,6 +22,10 @@ export default defineSolidModelSchema({
             rdfProperty: 'tasks:important',
             type: FieldType.Boolean,
         },
+        dueDate: {
+            rdfProperty: 'tasks:dueDate',
+            type: FieldType.Date,
+        },
         completedAt: {
             rdfProperty: 'tasks:completedAt',
             type: FieldType.Date,

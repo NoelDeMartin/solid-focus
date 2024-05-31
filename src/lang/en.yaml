@@ -101,20 +101,28 @@ tasks:
     completed: Completed
     showCompleted: Show completed
     hideCompleted: Hide completed
-    created: Created on {date}
 
 task:
     emptyDescription: No description
     editName: Edit name
     editDescription: Edit description
+    editDueDate: Edit due date
     save: Save
     cancel: Cancel
     close: Close
+    created: Created on {date}
     remove: Remove
     confirmRemove: Are you sure you want to delete this task?
+    due: Due on {date}
+    notDue: No due date
     important: Important
     notImportant: Not important
     importantA11y: This task is marked as important
     notImportantA11y: This task is not marked as important
     makeImportant: Make important
     removeImportant: Remove important
+
+time:
+    yesterday: Yesterday
+    today: Today
+    tomorrow: Tomorrow

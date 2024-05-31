@@ -2,16 +2,7 @@
     <AGHeadlessInput ref="$input" v-bind="inputProps" :class="className">
         <AGHeadlessInputLabel class="block text-sm font-medium leading-6 text-gray-900" />
         <div :class="$input?.label && 'mt-2'">
-            <div class="relative">
-                <div :class="renderedFillerClass">
-                    {{ $input?.value }}&nbsp;
-                </div>
-                <AGHeadlessInputTextArea
-                    v-bind="attrs"
-                    :class="renderedInputClass"
-                    @keydown.enter.prevent="form?.submit()"
-                />
-            </div>
+            <AGHeadlessInputInput type="date" v-bind="attrs" :class="renderedInputClass" />
             <AGHeadlessInputDescription />
             <AGHeadlessInputError class="mt-1 text-sm text-red-600" />
         </div>
@@ -20,9 +11,9 @@
 
 <script setup lang="ts">
 import { componentRef, extractInputProps, stringProp, useInputAttrs, useInputProps } from '@aerogel/core';
-import { computed, inject } from 'vue';
 import { twMerge } from 'tailwind-merge';
-import type { Form, IAGHeadlessInput } from '@aerogel/core';
+import { computed } from 'vue';
+import type { IAGHeadlessInput } from '@aerogel/core';
 
 defineOptions({ inheritAttrs: false });
 
@@ -30,15 +21,13 @@ const props = defineProps({
     ...useInputProps(),
     inputClass: stringProp(''),
 });
-const form = inject<Form | null>('form', null);
 const inputProps = extractInputProps(props);
 const $input = componentRef<IAGHeadlessInput>();
 const [attrs, className] = useInputAttrs();
-const renderedFillerClass = computed(() => twMerge('invisible whitespace-pre-wrap px-2 py-1.5', props.inputClass));
 const renderedInputClass = computed(() =>
     twMerge(
         [
-            'absolute inset-0 block h-full w-full resize-none rounded-md border-0 px-2 py-1.5',
+            'w-full rounded-md border-0 px-2 py-1.5',
             'text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',
             'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
         ].join(' '),

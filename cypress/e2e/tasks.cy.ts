@@ -45,18 +45,51 @@ describe('Tasks', () => {
         cy.ariaInput('Task name').type('Cook Ramen{enter}');
         cy.see('Cook Ramen');
 
-        // Act
+        // Act - Make important
         cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
         cy.ariaLabel('Make important').click();
 
-        // Assert
+        // Assert - Make important
         cy.see('Cook Ramen (Important)');
 
-        // Act
+        // Act - Remove important
         cy.ariaLabel('Remove important').click();
 
-        // Assert
+        // Assert - Remove important
         cy.dontSee('Cook Ramen (Important)');
+    });
+
+    it('Edits due dates', () => {
+        // Arrange
+        cy.ariaInput('Task name').type('Cook Ramen{enter}');
+        cy.see('Cook Ramen');
+
+        // Act - Set due date
+        cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
+        cy.ariaLabel('Edit due date').click();
+        cy.get(':focus').then((element) => {
+            const input = element[0] as HTMLInputElement;
+
+            input.valueAsDate = new Date();
+            input.dispatchEvent(new Event('input'));
+        });
+        cy.press('Save');
+
+        // Assert - Set due date
+        cy.see('Today');
+
+        // Act - Remove due date
+        cy.ariaLabel('Edit due date').click();
+        cy.get(':focus').then((element) => {
+            const input = element[0] as HTMLInputElement;
+
+            input.value = '';
+            input.dispatchEvent(new Event('input'));
+        });
+        cy.press('Save');
+
+        // Assert - Remove due date
+        cy.dontSee('Today');
     });
 
     it('Completes tasks', () => {
