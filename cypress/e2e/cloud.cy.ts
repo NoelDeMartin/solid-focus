@@ -70,7 +70,8 @@ describe('Cloud', () => {
 
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
-        cy.ariaLabel('View sync status').click();
+        cy.ariaLabel('Open settings').click();
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 
@@ -118,7 +119,8 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/japanese/manga/*')).as('createMangaTask');
 
         cy.createStubs();
-        cy.ariaLabel('View sync status').click();
+        cy.ariaLabel('Open settings').click();
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 
@@ -146,7 +148,8 @@ describe('Cloud', () => {
         // Arrange
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
-        cy.ariaLabel('View sync status').click();
+        cy.ariaLabel('Open settings').click();
+        cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 
@@ -157,7 +160,7 @@ describe('Cloud', () => {
         // Assert
         cy.dontSee('Your data is only stored locally, do you want to upload it to the cloud?');
         cy.see('Onboarding task');
-        cy.ariaLabel('View sync status').click();
+        cy.ariaLabel('Open account status').click();
         cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
 
         cy.reload();
@@ -187,7 +190,7 @@ describe('Cloud', () => {
         cy.ariaInput('List name').type('勉強{enter}');
         cy.waitSync();
         cy.reload();
-        cy.ariaLabel('View sync status').click();
+        cy.ariaLabel('Open account status').click();
         cy.press('Reconnect');
         cy.solidAuthorize();
         cy.waitSync();

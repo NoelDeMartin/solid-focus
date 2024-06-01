@@ -5,6 +5,7 @@ import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import { defineConfig } from 'vitest/config';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers';
 import { resolve } from 'path';
 
 export default defineConfig({
@@ -14,7 +15,7 @@ export default defineConfig({
         Components({
             deep: true,
             dts: false,
-            resolvers: [AerogelResolver(), IconsResolver({ customCollections: ['app'] })],
+            resolvers: [HeadlessUiResolver(), AerogelResolver(), IconsResolver({ customCollections: ['app'] })],
             dirs: ['src/components', 'src/pages'],
         }),
         I18n({ strictMessage: false, include: resolve(__dirname, './src/lang/**/*.yaml') }),

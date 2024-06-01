@@ -58,7 +58,6 @@ landing:
         back: cancel
 
 cloud:
-    open: View sync status
     sync: Synchronize
     setup_info: Your data is only stored locally, do you want to upload it to the cloud?
     setup_confirm: Back up in Cloud
@@ -85,6 +84,11 @@ lists:
     add: New list
     promptMessage: How should we call the new list?
     promptLabel: List name
+
+user:
+    settings: Open settings
+    account: Open account status
+    logIn: Log in
 
 tasks:
     inputDescription: Press "+" to add a new task
