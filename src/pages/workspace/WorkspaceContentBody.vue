@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { arrayGroupBy, compare } from '@noeldemartin/utils';
+import { arrayGroupBy, arraySorted, compare } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed, ref } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
@@ -41,8 +41,8 @@ const disableEditing = ref(false);
 const groupedTasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
 const tasks = computed(() => ({
-    pending: groupedTasks.value.pending?.toSorted(compareTasks) ?? [],
-    completed: groupedTasks.value.completed?.toSorted(compareTasks) ?? [],
+    pending: arraySorted(groupedTasks.value.pending ?? [], compareTasks),
+    completed: arraySorted(groupedTasks.value.completed ?? [], compareTasks),
 }));
 
 function compareTasks(a: Task, b: Task): number {
