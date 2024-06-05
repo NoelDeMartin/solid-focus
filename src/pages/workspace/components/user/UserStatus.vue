@@ -16,8 +16,13 @@
             <span class="text-sm font-semibold tracking-wider text-gray-500" aria-hidden="true">
                 {{ userInitials }}
             </span>
+            <div
+                v-if="$cloud.syncing"
+                class="absolute -inset-1 animate-spin rounded-full border-2 border-[currentColor_transparent] text-green-500"
+            />
         </button>
         <div
+            v-if="!$cloud.syncing"
             class="pointer-events-none absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white"
             :class="cloudStatusClass"
         >

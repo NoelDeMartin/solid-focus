@@ -1,5 +1,5 @@
 <template>
-    <div class="group flex gap-2 px-4 pb-2 pt-4">
+    <div class="group flex gap-2 px-4 pt-4">
         <SelectInput
             :model-value="$workspaces.current"
             :label="$t('workspaces.select')"

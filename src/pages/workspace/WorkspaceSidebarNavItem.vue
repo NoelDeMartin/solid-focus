@@ -1,19 +1,17 @@
 <template>
-    <li
-        class="group relative"
-        :class="isActive && 'bg-[var(--primary-100)] text-[--primary-900]'"
-        :aria-current="isActive && 'page'"
-    >
-        <AGHeadlessButton
-            class="block px-6 py-4 hover:no-underline focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[--primary-700]"
-            :class="{
-                'font-semibold hover:bg-[--primary-200]': isActive,
-                'hover:bg-gray-100': !isActive,
-            }"
-            v-bind="list.routeAttributes"
-        >
-            {{ $listName(list) }}
-        </AGHeadlessButton>
+    <li class="group relative" :aria-current="isActive && 'page'">
+        <div class="px-2 py-0.5">
+            <AGHeadlessButton
+                class="block rounded-lg px-4 py-3 hover:no-underline focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[--primary-700]"
+                :class="{
+                    'bg-[var(--primary-100)] font-semibold text-[--primary-900] hover:bg-[--primary-200]': isActive,
+                    'hover:bg-gray-100': !isActive,
+                }"
+                v-bind="list.routeAttributes"
+            >
+                {{ $listName(list) }}
+            </AGHeadlessButton>
+        </div>
         <div
             v-if="editable"
             class="pointer-events-none absolute right-0 top-1/2 mr-1 -translate-y-1/2 overflow-hidden p-1"
