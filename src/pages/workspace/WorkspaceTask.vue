@@ -75,11 +75,11 @@
                     <span class="ml-1">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
                 </TextButton>
 
-                <div v-if="editing" class="mt-4 flex flex-row-reverse gap-2 self-end">
+                <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
                     <TextButton submit>
                         {{ $t('task.save') }}
                     </TextButton>
-                    <TextButton color="clear" @click="editing = false">
+                    <TextButton color="secondary" @click="editing = false">
                         {{ $t('task.cancel') }}
                     </TextButton>
                 </div>

@@ -17,14 +17,16 @@
                 {{ userInitials }}
             </span>
         </button>
-        <div class="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white" :class="cloudStatusClass">
+        <div
+            class="pointer-events-none absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white"
+            :class="cloudStatusClass"
+        >
             <span class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
 
@@ -40,8 +42,12 @@ const userInitials = computed(() => {
         .slice(0, 3);
 });
 const cloudStatusClass = computed(() => {
-    if (!Solid.hasLoggedIn() && Cloud.disconnected) {
+    if (Solid.error) {
         return 'bg-red-500';
+    }
+
+    if (!Solid.isLoggedIn()) {
+        return 'bg-yellow-500';
     }
 
     return 'bg-green-500';

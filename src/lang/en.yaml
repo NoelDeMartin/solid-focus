@@ -73,17 +73,22 @@ footer:
 
 workspaces:
     select: Select workspace
-    add: Add new
+    edit: Edit workspace
+    add: New workspace
+    name: Name
+    createMessage: How should we call the new workspace?
+    updateMessage: Edit workspace
     openSidebar: Show lists
     hideSidebar: Hide lists
-    promptMessage: How should we call the new workspace?
-    promptLabel: Workspace name
 
 lists:
     inbox: Inbox
     add: New list
-    promptMessage: How should we call the new list?
-    promptLabel: List name
+    edit: Edit list
+    editA11y: Edit {name} list
+    name: Name
+    createMessage: How should we call the new list?
+    updateMessage: Edit list
 
 user:
     settings: Open settings

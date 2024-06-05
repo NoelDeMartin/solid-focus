@@ -7,8 +7,9 @@ export function seeActiveWorkspace(name: string): void {
 }
 
 export function switchWorkspace(name: string): void {
-    cy.ariaLabel('Select workspace').within(() => {
-        cy.get('button').click();
+    cy.contains('.group', 'Select workspace').within(() => {
+        cy.get('button[aria-haspopup]').click();
     });
-    cy.press(name, 'li');
+
+    cy.contains(name).click();
 }

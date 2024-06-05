@@ -20,6 +20,10 @@
                 :aria-describedby="ariaId"
                 @change="task.toggle()"
             >
+            <i-material-symbols-star-rounded
+                v-if="task.important"
+                class="!pointer-events-none h-6 w-6 text-[--primary-500]"
+            />
             <EditableContent
                 class="overflow-y-auto truncate py-2.5 pr-1"
                 content-class="whitespace-pre"
@@ -33,9 +37,10 @@
                     {{ $t('tasks.important') }}
                 </span>
             </EditableContent>
-            <i-material-symbols-star-rounded
-                v-if="task.important"
-                class="!pointer-events-none h-6 w-6 text-[--primary-500]"
+
+            <i-material-symbols-description-rounded
+                v-if="task.description"
+                class="!pointer-events-none h-5 w-5 text-gray-400"
             />
             <div class="flex-1" />
             <span v-if="renderedDueDate" class="!pointer-events-none" :class="{ 'text-red-600': isPast }">

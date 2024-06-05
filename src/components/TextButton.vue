@@ -19,7 +19,7 @@ const baseClasses = 'clickable-target flex items-center justify-center rounded-x
 const colorClasses = computed(() => {
     switch (props.color) {
         case Colors.Secondary:
-            return '';
+            return 'ring-1 ring-inset ring-gray-300 hover:bg-gray-50';
         case Colors.Clear:
             return 'hover:bg-gray-100 focus-visible:outline-gray-700';
         case Colors.Danger:

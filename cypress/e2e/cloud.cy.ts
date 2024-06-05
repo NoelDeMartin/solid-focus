@@ -44,15 +44,12 @@ describe('Cloud', () => {
 
         // Act
         cy.ariaLabel('Show lists').click();
-        cy.ariaLabel('Select workspace').within(() => {
-            cy.get('button').click();
-        });
-        cy.press('Add new', 'li');
-        cy.ariaInput('Workspace name').type('Work{enter}');
+        cy.switchWorkspace('New workspace');
+        cy.ariaInput('Name').type('Work{enter}');
         cy.waitSync();
 
         cy.press('New list');
-        cy.ariaInput('List name').type('Learning{enter}');
+        cy.ariaInput('Name').type('Learning{enter}');
         cy.waitSync();
 
         // Assert
@@ -187,7 +184,7 @@ describe('Cloud', () => {
         // Act
         cy.press('New list');
 
-        cy.ariaInput('List name').type('勉強{enter}');
+        cy.ariaInput('Name').type('勉強{enter}');
         cy.waitSync();
         cy.reload();
         cy.ariaLabel('Open account status').click();

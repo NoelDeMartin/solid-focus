@@ -11,11 +11,8 @@ describe('Workspaces', () => {
 
     it('Creates workspaces', () => {
         // Act
-        cy.ariaLabel('Select workspace').within(() => {
-            cy.get('button').click();
-        });
-        cy.press('Add new', 'li');
-        cy.ariaInput('Workspace name').type('Study{enter}');
+        cy.switchWorkspace('New workspace');
+        cy.ariaInput('Name').type('Study{enter}');
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/study`);
@@ -23,14 +20,40 @@ describe('Workspaces', () => {
         cy.seeActiveList('Inbox');
     });
 
+    it('Edits workspaces', () => {
+        // Act
+        cy.ariaLabel('Edit workspace').click({ force: true });
+        cy.ariaInput('Name').clear().type('Work{enter}');
+
+        // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
+        cy.seeActiveWorkspace('Work');
+        cy.dontSee('Main');
+    });
+
     it('Creates lists', () => {
         // Act
         cy.press('New list');
-        cy.ariaInput('List name').type('Groceries{enter}');
+        cy.ariaInput('Name').type('Groceries{enter}');
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main/groceries`);
         cy.seeActiveList('Groceries');
+    });
+
+    it('Edits lists', () => {
+        // Arrange
+        cy.press('New list');
+        cy.ariaInput('Name').type('Groceries{enter}');
+
+        // Act
+        cy.ariaLabel('Edit Groceries list').click({ force: true });
+        cy.ariaInput('Name').clear().type('Learning{enter}');
+
+        // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main/groceries`);
+        cy.seeActiveList('Learning');
+        cy.dontSee('Groceries');
     });
 
 });
