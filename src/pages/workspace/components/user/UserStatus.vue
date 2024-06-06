@@ -22,9 +22,8 @@
             />
         </button>
         <div
-            v-if="!$cloud.syncing"
             class="pointer-events-none absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white"
-            :class="cloudStatusClass"
+            :class="[cloudStatusClass, $cloud.syncing && 'sr-only']"
         >
             <span class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>
         </div>
