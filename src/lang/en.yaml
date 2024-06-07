@@ -45,7 +45,6 @@ landing:
 
             Let's start, create a task for the first thing you want to get done:
         label: Task name
-        placeholder: E.g. learn Japanese
         submit: Create task
         workspaceName: Main
         back: nevermind
@@ -105,8 +104,11 @@ tasks:
     selectTitle: Select task
     important: (Important)
     complete: Complete task
+    placeholder: E.g. learn Japanese
+    startTitle: Ready to grow
+    startMessage: The soil is ready, plant your ideas here and they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be so flowery!
+    empty: Congratulations, you've completed all your tasks! Time for a break?
     undo: Undo task
-    empty: You don't have any tasks, add a new one!
     completed: Completed
     showCompleted: Show completed
     hideCompleted: Hide completed

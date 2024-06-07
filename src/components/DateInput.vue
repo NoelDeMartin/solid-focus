@@ -27,7 +27,7 @@ const [attrs, className] = useInputAttrs();
 const renderedInputClass = computed(() =>
     twMerge(
         [
-            'w-full rounded-md border-0 px-2 py-1.5',
+            'w-full rounded-lg border-0 px-2 py-1.5',
             'text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',
             'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
         ].join(' '),

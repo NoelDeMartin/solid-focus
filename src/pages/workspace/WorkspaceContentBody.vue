@@ -1,11 +1,18 @@
 <template>
     <div class="px-4">
-        <TaskCreateForm @submit="createTask" />
-        <TasksList :tasks="tasks.pending" :disable-editing="disableEditing" class="mt-4" />
+        <TasksForm v-if="$tasksList.tasks?.length" @submit="createTask($event)" />
+        <TasksList
+            v-if="tasks.pending.length"
+            :tasks="tasks.pending"
+            :disable-editing="disableEditing"
+            class="mt-4"
+        />
+        <TasksStart v-else-if="!$tasksList.tasks?.length" @create="createTask($event)" />
+        <TasksEmpty v-else-if="!showCompleted" />
         <div v-if="tasks.completed.length" class="mt-4">
             <TextButton
                 color="clear"
-                class="ml-1 rounded-lg pl-1 pr-2 font-medium uppercase tracking-wider"
+                class="ml-1 pl-1 pr-2 font-medium uppercase tracking-wider"
                 :aria-label="showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
                 @click="showCompleted = !showCompleted"
             >

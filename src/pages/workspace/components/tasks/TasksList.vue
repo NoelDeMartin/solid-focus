@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul v-if="tasks.length" class="flex flex-col gap-0.5">
+        <ul class="flex flex-col gap-0.5">
             <TasksListItem
                 v-for="task of tasks"
                 :key="task.url"
@@ -8,7 +8,6 @@
                 :disable-editing="disableEditing"
             />
         </ul>
-        <AGMarkdown v-else lang-key="tasks.empty" />
     </div>
 </template>
 

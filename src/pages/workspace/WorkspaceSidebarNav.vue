@@ -12,7 +12,7 @@
     </nav>
     <TextButton color="clear" class="group ml-2 mt-1.5 self-start text-gray-700" @click="createList()">
         <i-material-symbols-add-circle-rounded class="mr-1 h-6 w-6" />
-        <div v-measure class="overflow-hidden">
+        <div class="overflow-hidden">
             <span class="block -translate-x-full transition-all group-hover:translate-x-0 group-focus:translate-x-0">
                 {{ $t('lists.add') }}
             </span>

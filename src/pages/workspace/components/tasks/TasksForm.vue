@@ -1,7 +1,7 @@
 <template>
     <AGForm
         v-initial-focus
-        class="group relative flex gap-4 rounded-xl"
+        class="group relative flex gap-4 rounded-lg"
         :class="{
             'bg-gray-100 focus-within:bg-transparent hover:bg-gray-200 focus-within:hover:bg-transparent': !form.draft,
         }"
@@ -16,7 +16,7 @@
         >
             <AGHeadlessInputLabel class="sr-only" />
             <AGHeadlessInputInput
-                class="absolute inset-0 h-full w-full rounded-xl border-gray-200 pl-6 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100"
+                class="absolute inset-0 h-full w-full rounded-lg border-gray-200 pl-6 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100"
                 :class="[inputClass, { 'opacity-100': form.draft }]"
                 :placeholder="$t('tasks.inputPlaceholder')"
             />

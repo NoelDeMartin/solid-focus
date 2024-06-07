@@ -11,7 +11,7 @@
                 <TextInput name="name" :label="$t('workspaces.name')" class="w-80 max-w-[80vw] flex-1" />
                 <SelectInput name="color">
                     <SelectInputLabel>{{ $t('workspaces.color') }}</SelectInputLabel>
-                    <TextButton :as="SelectInputButton" color="clear" class="-ml-3 mt-2">
+                    <TextButton :as="SelectInputButton" color="clear" class="-ml-3 mt-2 h-10">
                         <div class="h-4 w-4 rounded-full bg-[--primary-500]" />
                         <i-zondicons-cheveron-down class="ml-0.5 h-5 w-5" />
                     </TextButton>

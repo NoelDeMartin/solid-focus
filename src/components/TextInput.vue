@@ -36,12 +36,12 @@ const form = inject<Form | null>('form', null);
 const inputProps = extractInputProps(props);
 const $input = componentRef<IAGHeadlessInput>();
 const [attrs, className] = useInputAttrs();
-const renderedFillerClass = computed(() => twMerge('invisible whitespace-pre-wrap px-2 py-1.5', props.inputClass));
+const renderedFillerClass = computed(() => twMerge('invisible whitespace-pre-wrap', props.inputClass));
 const renderedInputClass = computed(() =>
     twMerge(
         [
             props.multiline ? 'absolute inset-0 block h-full resize-none' : '',
-            'w-full rounded-md border-0 px-2 py-1.5',
+            'w-full rounded-lg border-0',
             'text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',
             'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
         ].join(' '),

@@ -15,7 +15,7 @@ const props = defineProps({
     disabled: booleanProp(),
 });
 
-const baseClasses = 'clickable-target flex items-center justify-center rounded-xl px-3 py-2 focus-visible:outline';
+const baseClasses = 'clickable-target flex items-center justify-center rounded-lg px-3 py-2 focus-visible:outline';
 const colorClasses = computed(() => {
     switch (props.color) {
         case Colors.Secondary:

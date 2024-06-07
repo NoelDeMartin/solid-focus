@@ -33,7 +33,7 @@ const renderedFillerClass = computed(() => twMerge('invisible whitespace-pre-wra
 const renderedInputClass = computed(() =>
     twMerge(
         [
-            'absolute inset-0 block h-full w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm',
+            'absolute inset-0 block h-full w-full rounded-lg border-0 py-1.5 text-gray-900 shadow-sm',
             'resize-none ring-1 ring-inset ring-gray-300',
             'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
         ].join(' '),
