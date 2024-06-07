@@ -1,12 +1,13 @@
 import { requireBootedModel } from 'soukai';
-import { SolidContainer } from 'soukai-solid';
 import type { Relation } from 'soukai';
 import type { SolidContainsRelation, SolidIsContainedByRelation } from 'soukai-solid';
 
 import Task from '@/models/Task';
 import type Workspace from '@/models/Workspace';
 
-export default class TasksList extends SolidContainer {
+import Model from './TasksList.schema';
+
+export default class TasksList extends Model {
 
     public declare workspace?: Workspace;
     public declare relatedWorkspace: SolidIsContainedByRelation<this, Workspace, typeof Workspace>;

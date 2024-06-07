@@ -1,9 +1,10 @@
-import { defineSolidModelSchema } from 'soukai-solid';
+import { defineSolidContainerSchema } from 'soukai-solid';
 import { FieldType } from 'soukai';
 
 import TasksList from '@/models/TasksList';
+import { tasksListFields } from '@/models/TasksList.schema';
 
-export default defineSolidModelSchema(TasksList, {
+export default defineSolidContainerSchema(TasksList, {
     rdfContexts: {
         tasks: 'https://vocab.noeldemartin.com/tasks/',
     },
@@ -12,6 +13,6 @@ export default defineSolidModelSchema(TasksList, {
             type: FieldType.String,
             rdfProperty: 'tasks:color',
         },
-        ...TasksList.fields,
+        ...tasksListFields,
     },
 });
