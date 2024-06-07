@@ -8,7 +8,7 @@
             <template #controls>
                 <HstText v-model="content" title="Content" />
                 <HstSelect v-model="color" title="Color" :options="colorOptions" />
-                <HstSelect v-model="workspaceColor" title="Workspace Color" :options="workspaceColorOptions" />
+                <HstSelect v-model="themeColor" title="Theme Color" :options="themeColorOptions" />
             </template>
         </Variant>
 
@@ -59,12 +59,12 @@ import { invert } from '@noeldemartin/utils';
 import { ref } from 'vue';
 import type { Color } from '@aerogel/core';
 
-import { useWorkspaceColor } from '@/utils/histoire';
+import { useThemeColor } from '@/utils/histoire';
 
 const content = ref('Click me!');
 const color = ref<Color>(Colors.Primary);
 const colorOptions = invert(Colors);
-const [workspaceColor, workspaceColorOptions] = useWorkspaceColor();
+const [themeColor, themeColorOptions] = useThemeColor();
 </script>
 
 <style>

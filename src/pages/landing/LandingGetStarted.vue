@@ -50,7 +50,10 @@ import Workspace from '@/models/Workspace';
 const form = useForm({ draft: requiredStringInput() });
 
 async function submit(): Promise<void> {
-    const workspace = await Workspace.create({ name: translate('landing.getStarted.workspaceName') });
+    const workspace = await Workspace.create({
+        name: translate('landing.getStarted.workspaceName'),
+        color: 'sky',
+    });
 
     await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
     await Cloud.syncIfOnline();

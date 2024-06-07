@@ -2,7 +2,7 @@
     <div class="flex-1">
         <div
             v-measure="(size: ElementSize) => rootSize = size"
-            class="fixed bottom-0 left-0 top-0 z-10 flex min-w-64 flex-col shadow-panel transition-transform will-change-transform"
+            class="fixed bottom-0 left-0 top-1 z-10 flex min-w-64 flex-col border-r transition-transform will-change-transform"
             :class="{
                 'translate-x-0': $workspaces.sidebar,
                 '-translate-x-full': !$workspaces.sidebar,

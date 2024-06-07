@@ -4,7 +4,7 @@
             <TaskCreateForm />
 
             <template #controls>
-                <HstSelect v-model="color" title="Color" :options="colorOptions" />
+                <HstSelect v-model="themeColor" title="Theme Color" :options="themeColorOptions" />
             </template>
         </Variant>
 
@@ -35,9 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import { useWorkspaceColor } from '@/utils/histoire';
+import { useThemeColor } from '@/utils/histoire';
 
-const [color, colorOptions] = useWorkspaceColor();
+const [themeColor, themeColorOptions] = useThemeColor();
 </script>
 
 <style>

@@ -1,18 +1,17 @@
-import { arrayRandomItem } from '@noeldemartin/utils';
 import { Router } from '@aerogel/plugin-routing';
 import type { Relation } from 'soukai';
 import type { SolidContainsRelation } from 'soukai-solid';
 
 import TasksList from '@/models/TasksList';
-import { WorkspaceColors } from '@/utils/colors';
-import type { WorkspaceColor } from '@/utils/colors';
+import { THEME_COLORS } from '@/utils/colors';
+import type { ThemeColor } from '@/utils/colors';
 
-export default class Workspace extends TasksList {
+import Model from './Workspace.schema';
+
+export default class Workspace extends Model {
 
     public declare lists?: TasksList[];
     public declare relatedLists: SolidContainsRelation<this, TasksList, typeof TasksList>;
-
-    private _color: WorkspaceColor | null = null;
 
     public get routeAttributes(): { route: string; routeParams: Object } {
         return {
@@ -21,8 +20,8 @@ export default class Workspace extends TasksList {
         };
     }
 
-    public get color(): WorkspaceColor {
-        return (this._color ??= arrayRandomItem(Object.values(WorkspaceColors)) as WorkspaceColor);
+    public get themeColor(): ThemeColor {
+        return this.color && this.color in THEME_COLORS ? (this.color as ThemeColor) : 'sky';
     }
 
     public listsRelationship(): Relation {

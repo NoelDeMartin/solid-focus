@@ -15,8 +15,7 @@ import { computed, watchEffect } from 'vue';
 import { objectProp, requiredObjectProp } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
-import { bindWorkspaceColors } from '@/utils/composables';
-import { WORKSPACE_COLOR_VALUES, WorkspaceColors } from '@/utils/colors';
+import { THEME_COLORS, bindThemeColors } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
 
@@ -25,8 +24,8 @@ defineProps({
     list: objectProp<TasksList>(),
 });
 
-const workspaceColors = computed(() => WORKSPACE_COLOR_VALUES[Workspaces.current?.color ?? WorkspaceColors.Blue]);
+const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeColor ?? 'sky']);
 
 watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
-bindWorkspaceColors(workspaceColors);
+bindThemeColors(workspaceColors);
 </script>

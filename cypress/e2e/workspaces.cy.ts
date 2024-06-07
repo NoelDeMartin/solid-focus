@@ -22,7 +22,7 @@ describe('Workspaces', () => {
 
     it('Edits workspaces', () => {
         // Act
-        cy.ariaLabel('Edit workspace').click({ force: true });
+        cy.ariaLabel('Workspace settings').click({ force: true });
         cy.ariaInput('Name').clear().type('Work{enter}');
 
         // Assert

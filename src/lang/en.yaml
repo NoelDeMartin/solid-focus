@@ -73,11 +73,11 @@ footer:
 
 workspaces:
     select: Select workspace
-    edit: Edit workspace
+    edit: Workspace settings
     add: New workspace
     name: Name
-    createMessage: How should we call the new workspace?
-    updateMessage: Edit workspace
+    color: Color
+    description: Workspaces can help you manage different parts of your life. Avoid thinking about groceries when you're working on that side project!
     openSidebar: Show lists
     hideSidebar: Hide lists
 
@@ -116,9 +116,6 @@ task:
     editName: Edit name
     editDescription: Edit description
     editDueDate: Edit due date
-    save: Save
-    cancel: Cancel
-    close: Close
     created: Created on {date}
     remove: Remove
     confirmRemove: Are you sure you want to delete this task?
@@ -135,3 +132,9 @@ time:
     yesterday: Yesterday
     today: Today
     tomorrow: Tomorrow
+
+ui:
+    create: Create
+    save: Save
+    cancel: Cancel
+    close: Close

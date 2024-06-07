@@ -8,7 +8,7 @@
                 <HstCheckbox v-model="description" title="Description" />
                 <HstCheckbox v-model="important" title="Important" />
                 <HstSelect v-model="dueDate" title="Due date" :options="dueDateOptions" />
-                <HstSelect v-model="color" title="Color" :options="colorOptions" />
+                <HstSelect v-model="themeColor" title="Theme Color" :options="themeColorOptions" />
             </template>
         </Variant>
 
@@ -31,7 +31,7 @@ import { computed, ref, watchEffect } from 'vue';
 
 import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
-import { useWorkspaceColor } from '@/utils/histoire';
+import { useThemeColor } from '@/utils/histoire';
 import { invert } from '@noeldemartin/utils';
 
 const DueDates = {
@@ -54,7 +54,7 @@ const DUE_DATES: Record<DueDate, Date | null> = {
 
 type DueDate = (typeof DueDates)[keyof typeof DueDates];
 
-const [color, colorOptions] = useWorkspaceColor();
+const [themeColor, themeColorOptions] = useThemeColor();
 const name = ref('You should **definitely** watch *Love Exposure*');
 const description = ref(true);
 const important = ref(true);

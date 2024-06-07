@@ -30,7 +30,12 @@
                 >
                     <AGMarkdown :text="task.name" inline class="text-lg font-semibold" />
                 </TextButton>
-                <TextInput v-else name="name" input-class="max-w-80 text-lg font-semibold py-2 px-3" />
+                <TextInput
+                    v-else
+                    multiline
+                    name="name"
+                    input-class="max-w-80 text-lg font-semibold py-2 px-3"
+                />
 
                 <div class="mt-2 w-full">
                     <TextButton
@@ -77,19 +82,15 @@
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
                     <TextButton submit>
-                        {{ $t('task.save') }}
+                        {{ $t('ui.save') }}
                     </TextButton>
                     <TextButton color="secondary" @click="editing = false">
-                        {{ $t('task.cancel') }}
+                        {{ $t('ui.cancel') }}
                     </TextButton>
                 </div>
                 <div class="flex-1" />
                 <div class="flex items-center justify-between">
-                    <IconButton
-                        :aria-label="$t('task.close')"
-                        :title="$t('task.close')"
-                        @click="$workspaces.select(null)"
-                    >
+                    <IconButton :aria-label="$t('ui.close')" :title="$t('ui.close')" @click="$workspaces.select(null)">
                         <i-zondicons-cheveron-right class="h-5 w-5" />
                     </IconButton>
                     <span class="self-center text-sm text-gray-500">
