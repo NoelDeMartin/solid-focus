@@ -73,7 +73,7 @@ describe('Cloud', () => {
         cy.solidLogin();
 
         // Act
-        cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.see('All your eggs are in the same basket');
         cy.press('Back up');
         cy.dontSee('Loading...');
 
@@ -122,7 +122,7 @@ describe('Cloud', () => {
         cy.solidLogin();
 
         // Act
-        cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.see('All your eggs are in the same basket');
         cy.press('Back up');
         cy.dontSee('Loading...', { timeout: 30000 });
 
@@ -151,17 +151,17 @@ describe('Cloud', () => {
         cy.solidLogin();
 
         // Act
-        cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
-        cy.press('not now');
+        cy.see('All your eggs are in the same basket');
+        cy.press('not yet');
 
         // Assert
-        cy.dontSee('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.dontSee('All your eggs are in the same basket');
         cy.see('Onboarding task');
         cy.ariaLabel('Open account status').click();
         cy.see('Your data is not backed up yet');
 
         cy.reload();
-        cy.dontSee('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.dontSee('All your eggs are in the same basket');
         cy.see('Onboarding task');
     });
 
