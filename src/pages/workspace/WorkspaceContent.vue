@@ -4,8 +4,8 @@
             <WorkspaceContentHeader />
             <WorkspaceContentBody class="flex-1" />
         </template>
-        <WorkspaceContentLoading v-else-if="$tasksLists.current" />
-        <WorkspaceContentMissing v-else />
+        <WorkspaceLoading v-else-if="$tasksLists.current" />
+        <WorkspaceNotFound v-else lang-key="lists.notFound" :lang-params="{ list: $route.params.list }" />
     </div>
 </template>
 

@@ -26,7 +26,7 @@
         "@aerogel/plugin-i18n": "0.0.0-next.464f8d4bc58710df35b52ea396ccd8c40b73c664",
         "@aerogel/plugin-offline-first": "0.0.0-next.9f9564ab9f8da05f60d7868db361edbc5601ee39",
         "@aerogel/plugin-routing": "next",
-        "@aerogel/plugin-solid": "0.0.1-next.9f9564ab9f8da05f60d7868db361edbc5601ee39",
+        "@aerogel/plugin-solid": "0.0.1-next.73d70336b0cf4417d777c5ba96037344f5726eef",
         "@aerogel/plugin-soukai": "0.0.0-next.71f28064caa2ea968f0e99396b672de218176260",
         "@headlessui/vue": "^1.7.22",
         "@intlify/unplugin-vue-i18n": "^0.12.2",

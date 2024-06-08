@@ -107,7 +107,7 @@ describe('Navigation', () => {
         cy.visit('/this-does-not-exist');
 
         // Assert
-        cy.see('Could not find \'this-does-not-exist\' workspace');
+        cy.see('Couldn\'t find this-does-not-exist workspace');
     });
 
     it('Shows missing lists notice', () => {
@@ -115,7 +115,7 @@ describe('Navigation', () => {
         cy.visit('/main/this-does-not-exist');
 
         // Assert
-        cy.see('Could not find \'this-does-not-exist\' list');
+        cy.see('Couldn\'t find this-does-not-exist list');
     });
 
 });

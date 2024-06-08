@@ -4,7 +4,7 @@
             <AGSolidUserAvatar class="mr-2 h-16 w-16" />
             <div class="flex flex-col">
                 <span class="font-semibold">{{ $solid.user?.name }}</span>
-                <AGLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-extralight text-gray-600">
+                <AGLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-light text-gray-500">
                     {{ $solid.user?.webId }}
                 </AGLink>
             </div>
@@ -69,7 +69,7 @@
             </TextButton>
             <TextButton v-else>
                 <i-ic-sharp-cloud-upload class="h-5 w-5" />
-                <span class="ml-1">{{ $t('cloud.setup') }}</span>
+                <span class="ml-1">{{ $t('cloud.setup.submit') }}</span>
             </TextButton>
             <TextButton color="secondary" @click="$solid.logout()">
                 <i-material-symbols-logout-rounded class="h-5 w-5" />

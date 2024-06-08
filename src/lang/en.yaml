@@ -60,9 +60,11 @@ cloud:
     sync: Synchronize
     reconnect: Reconnect
     logOut: Log out
-    setup: Back up now
-    setup_info: Your data is only stored locally, do you want to upload it to the cloud?
-    setup_dismiss: not now
+    setup:
+        title: All your eggs are in the same basket
+        message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
+        dismiss: not yet
+        submit: Back up now
     info:
         setup: Your data is not backed up yet.
         changes: 'Everything is up to date. | There is one local change. | There are {n} local changes.'
@@ -89,6 +91,7 @@ workspaces:
     description: Workspaces can help you manage different parts of your life. Avoid thinking about groceries when you're working on that side project!
     openSidebar: Show lists
     hideSidebar: Hide lists
+    notFound: Couldn't find `{workspace}` workspace
 
 lists:
     inbox: Inbox
@@ -98,6 +101,7 @@ lists:
     name: Name
     createMessage: How should we call the new list?
     updateMessage: Edit list
+    notFound: Couldn't find `{list}` list
 
 user:
     settings: Open settings
