@@ -158,9 +158,10 @@ describe('Cloud', () => {
         cy.dontSee('Your data is only stored locally, do you want to upload it to the cloud?');
         cy.see('Onboarding task');
         cy.ariaLabel('Open account status').click();
-        cy.see('Your data is only stored locally, do you want to upload it to the cloud?');
+        cy.see('Your data is not backed up yet');
 
         cy.reload();
+        cy.dontSee('Your data is only stored locally, do you want to upload it to the cloud?');
         cy.see('Onboarding task');
     });
 

@@ -12,7 +12,7 @@
                     class="relative overflow-hidden rounded-xl bg-white p-4 text-left shadow-xl"
                 >
                     <IconButton
-                        v-if="cancellable"
+                        v-if="cancellable && !closeHidden"
                         class="absolute right-1 top-3"
                         :title="$t('ui.close')"
                         :aria-label="$t('ui.close')"
@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { extractModalProps, mixedProp, useModalExpose, useModalProps } from '@aerogel/core';
+import { booleanProp, extractModalProps, mixedProp, useModalExpose, useModalProps } from '@aerogel/core';
 import type { IAGHeadlessModal } from '@aerogel/core';
 
 import type { IFloatingModal } from './FloatingModal';
@@ -47,6 +47,7 @@ import type { IFloatingModal } from './FloatingModal';
 const props = defineProps({
     ...useModalProps(),
     subtitle: mixedProp(),
+    closeHidden: booleanProp(),
 });
 const $modal = ref<IAGHeadlessModal>();
 const $panel = ref<{ $el?: HTMLElement }>();

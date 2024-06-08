@@ -1,6 +1,6 @@
 <template>
     <div class="h-1 w-full bg-[--primary-500]" />
-    <WorkspaceCloudSetup v-if="$cloud.setupPending" />
+    <WorkspaceCloudSetup v-if="$solid.isLoggedIn() && !$cloud.ready && !$cloud.setupDismissed" />
     <div v-else-if="$workspaces.current?.isRelationLoaded('lists')" class="flex w-full flex-grow">
         <WorkspaceSidebar />
         <WorkspaceContent />

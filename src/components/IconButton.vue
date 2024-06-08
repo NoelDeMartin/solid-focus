@@ -16,7 +16,7 @@ const props = defineProps({
 
 const baseClasses = [
     'clickable-target p-3 flex items-center justify-center rounded-full',
-    'hover:bg-gray-100',
+    'hover:bg-black/5',
     'focus-visible:outline focus-visible:outline-gray-700',
 ].join(' ');
 const variantClasses = computed(() => {

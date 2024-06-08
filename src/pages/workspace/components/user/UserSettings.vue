@@ -13,7 +13,7 @@
                         active ? 'bg-[--primary-500] text-white' : 'text-gray-900',
                         'group flex w-full items-center rounded-lg px-2 py-2 text-sm',
                     ]"
-                    @click="$ui.openModal(CloudStatusModal)"
+                    @click="$ui.openModal(CloudLoginModal)"
                 >
                     {{ $t('user.logIn') }}
                 </button>
@@ -25,5 +25,5 @@
 <script setup lang="ts">
 import { MenuButton } from '@headlessui/vue';
 
-import CloudStatusModal from '../../modals/CloudStatusModal.vue';
+import CloudLoginModal from '../../modals/CloudLoginModal.vue';
 </script>

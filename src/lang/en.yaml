@@ -58,13 +58,23 @@ landing:
 
 cloud:
     sync: Synchronize
+    reconnect: Reconnect
+    logOut: Log out
+    setup: Back up now
     setup_info: Your data is only stored locally, do you want to upload it to the cloud?
-    setup_confirm: Back up in Cloud
     setup_dismiss: not now
+    info:
+        setup: Your data is not backed up yet.
+        changes: 'Everything is up to date. | There is one local change. | There are {n} local changes.'
+        syncing: Synchronizing...
+        reconnecting: Reconnecting...
+        disconnected: You are disconnected from your account, all the changes you make will remain in your device.
+        error: There has been an error connecting.
     status:
         disconnected: Disconnected
         online: Online
         syncing: Syncing
+        dirty: There are local changes
 
 footer:
     about: about
@@ -106,7 +116,7 @@ tasks:
     complete: Complete task
     placeholder: E.g. learn Japanese
     startTitle: Ready to grow
-    startMessage: The soil is ready, plant your ideas here and they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be so flowery!
+    startMessage: The soil is ready, plant your ideas here so they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be as flowery!
     empty: Congratulations, you've completed all your tasks! Time for a break?
     undo: Undo task
     completed: Completed
@@ -140,3 +150,4 @@ ui:
     save: Save
     cancel: Cancel
     close: Close
+    viewDetails: View details
