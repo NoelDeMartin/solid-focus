@@ -96,11 +96,9 @@ workspaces:
 lists:
     inbox: Inbox
     add: New list
-    edit: Edit list
-    editA11y: Edit {name} list
+    edit: List settings
+    editA11y: '{name} list settings'
     name: Name
-    createMessage: How should we call the new list?
-    updateMessage: Edit list
     notFound: Couldn't find `{list}` list
 
 user:
@@ -133,8 +131,6 @@ task:
     editDescription: Edit description
     editDueDate: Edit due date
     created: Created on {date}
-    remove: Remove
-    confirmRemove: Are you sure you want to delete this task?
     due: Due on {date}
     notDue: No due date
     important: Important
@@ -143,6 +139,9 @@ task:
     notImportantA11y: This task is not marked as important
     makeImportant: Make important
     removeImportant: Remove important
+    delete:
+        title: Delete task
+        message: This will delete your task <code>{task}</code>.
 
 time:
     yesterday: Yesterday
@@ -155,3 +154,4 @@ ui:
     cancel: Cancel
     close: Close
     viewDetails: View details
+    delete: Delete

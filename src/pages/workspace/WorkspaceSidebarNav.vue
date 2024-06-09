@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computedModels } from '@aerogel/plugin-soukai';
-import { UI, translate } from '@aerogel/core';
+import { Colors, UI, translate } from '@aerogel/core';
 
 import TasksList from '@/models/TasksList';
 import Workspaces from '@/services/Workspaces';
@@ -31,8 +31,10 @@ import Workspaces from '@/services/Workspaces';
 const lists = computedModels(TasksList, () => Workspaces.current?.lists ?? []);
 
 async function createList() {
-    const name = await UI.prompt(translate('lists.createMessage'), {
+    const name = await UI.prompt(translate('lists.add'), {
         label: translate('lists.name'),
+        acceptText: translate('ui.create'),
+        cancelColor: Colors.Secondary,
     });
 
     if (!name || !Workspaces.current) {

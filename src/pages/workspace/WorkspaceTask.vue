@@ -102,9 +102,9 @@
                     </span>
                     <IconButton
                         class="text-gray-500"
-                        :aria-label="$t('task.remove')"
-                        :title="$t('task.remove')"
-                        @click="remove()"
+                        :aria-label="$t('ui.delete')"
+                        :title="$t('ui.delete')"
+                        @click="deleteTask()"
                     >
                         <i-zondicons-trash class="h-5 w-5" />
                     </IconButton>
@@ -116,8 +116,17 @@
 </template>
 
 <script setup lang="ts">
+import {
+    Colors,
+    UI,
+    booleanInput,
+    dateInput,
+    requiredStringInput,
+    stringInput,
+    translate,
+    useForm,
+} from '@aerogel/core';
 import { computedModel } from '@aerogel/plugin-soukai';
-import { UI, booleanInput, dateInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { computed, ref } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
@@ -185,8 +194,19 @@ async function save() {
     });
 }
 
-async function remove() {
-    if (!task.value || !(await UI.confirm(translate('task.confirmRemove')))) {
+async function deleteTask() {
+    if (
+        !task.value ||
+        !(await UI.confirm(
+            translate('task.delete.title'),
+            translate('task.delete.message', { task: task.value.name }),
+            {
+                acceptText: translate('ui.delete'),
+                acceptColor: Colors.Danger,
+                cancelColor: Colors.Secondary,
+            },
+        ))
+    ) {
         return;
     }
 

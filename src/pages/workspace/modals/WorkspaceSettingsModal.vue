@@ -42,10 +42,10 @@ import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed, watchEffect } from 'vue';
 import { componentRef, objectProp, requiredStringInput, useForm } from '@aerogel/core';
 
-import SelectInputButton from '@/components/SelectInputButton.vue';
+import SelectInputButton from '@/components/forms/SelectInputButton.vue';
 import Workspace from '@/models/Workspace';
 import { THEME_COLORS } from '@/utils/colors';
-import type { IFloatingModal } from '@/components/FloatingModal';
+import type { IFloatingModal } from '@/components/modals/FloatingModal';
 import type { ThemeColor } from '@/utils/colors';
 
 const $modal = componentRef<IFloatingModal>();

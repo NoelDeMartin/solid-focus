@@ -22,7 +22,7 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.9f9564ab9f8da05f60d7868db361edbc5601ee39",
+        "@aerogel/core": "0.0.0-next.7eac6e53dcf9fe93d7abdc4bc97e5ce69970efa7",
         "@aerogel/plugin-i18n": "0.0.0-next.464f8d4bc58710df35b52ea396ccd8c40b73c664",
         "@aerogel/plugin-offline-first": "0.0.0-next.9f9564ab9f8da05f60d7868db361edbc5601ee39",
         "@aerogel/plugin-routing": "next",

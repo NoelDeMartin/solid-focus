@@ -4,8 +4,10 @@ import { defineSetupAerogel } from '@aerogel/histoire';
 import { WorkspacesService } from '@/services/Workspaces';
 
 import './assets/css/styles.css';
+import { components } from './components';
 
 export const setupVue3 = defineSetupAerogel({
+    components,
     solid: true,
     models: import.meta.glob(['@/models/*', '!**/*.test.ts'], { eager: true }),
     messages: import.meta.glob('@/lang/*.yaml'),

@@ -23,7 +23,11 @@ const colorClasses = computed(() => {
         case Colors.Clear:
             return 'hover:bg-gray-100 focus-visible:outline-gray-700';
         case Colors.Danger:
-            return '';
+            return [
+                'bg-red-600 text-white shadow-sm',
+                'hover:bg-red-500',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600',
+            ].join(' ');
         case Colors.Primary:
         default:
             return [

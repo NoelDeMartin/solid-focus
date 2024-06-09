@@ -47,7 +47,7 @@ describe('Workspaces', () => {
         cy.ariaInput('Name').type('Groceries{enter}');
 
         // Act
-        cy.ariaLabel('Edit Groceries list').click({ force: true });
+        cy.ariaLabel('Groceries list settings').click({ force: true });
         cy.ariaInput('Name').clear().type('Learning{enter}');
 
         // Assert

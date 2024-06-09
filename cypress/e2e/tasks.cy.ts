@@ -134,8 +134,9 @@ describe('Tasks', () => {
 
         // Act
         cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
-        cy.ariaLabel('Remove').click();
-        cy.press('Ok');
+        cy.ariaLabel('Delete').click();
+        cy.see('This will delete your task Cook Ramen');
+        cy.press('Delete');
 
         // Assert
         cy.dontSee('Cook Ramen');

@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { UI } from '@aerogel/core';
 
-import SelectInputButton from '@/components/SelectInputButton.vue';
+import SelectInputButton from '@/components/forms/SelectInputButton.vue';
 import { THEME_COLORS } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
 

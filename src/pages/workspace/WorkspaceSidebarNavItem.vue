@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { UI, booleanProp, requiredObjectProp, translate } from '@aerogel/core';
+import { Colors, UI, booleanProp, requiredObjectProp, translate } from '@aerogel/core';
 
 import TasksLists from '@/services/TasksLists';
 import type TasksList from '@/models/TasksList';
@@ -44,9 +44,11 @@ const props = defineProps({
 const isActive = computed(() => props.list.url === TasksLists.current?.url);
 
 async function editList(): Promise<void> {
-    const name = await UI.prompt(translate('lists.updateMessage'), {
+    const name = await UI.prompt(translate('lists.edit'), {
         label: translate('lists.name'),
         defaultValue: props.list.name,
+        acceptText: translate('ui.save'),
+        cancelColor: Colors.Secondary,
     });
 
     if (!name) {
