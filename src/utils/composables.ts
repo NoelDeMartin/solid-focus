@@ -128,9 +128,25 @@ export function watchKeyboardShortcut(
     listeners: Partial<{ start(): unknown; end(): unknown }> | (() => unknown),
 ): () => void {
     const shortcutListeners = typeof listeners === 'function' ? { start: listeners } : listeners;
+    const consume = (event: KeyboardEvent) => {
+        if (event.key !== shortcut) {
+            return false;
+        }
+
+        const activeElementTagName = document.querySelector(':focus')?.tagName.toLowerCase();
+
+        if (activeElementTagName === 'input' || activeElementTagName === 'textarea') {
+            return false;
+        }
+
+        event.preventDefault();
+
+        return true;
+    };
+
     const stops = [
-        useWindowEvent('keydown', (e) => e.key === shortcut && shortcutListeners.start?.()),
-        useWindowEvent('keyup', (e) => e.key === shortcut && shortcutListeners.end?.()),
+        useWindowEvent('keydown', (event) => consume(event) && shortcutListeners.start?.()),
+        useWindowEvent('keyup', (event) => consume(event) && shortcutListeners.end?.()),
     ];
 
     return () => stops.forEach((stop) => stop());

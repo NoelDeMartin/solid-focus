@@ -11,7 +11,25 @@
             {{ $listName($tasksList) }}
         </h1>
         <div class="flex-grow" />
+        <IconButton
+            :aria-label="$t('workspace.search')"
+            :title="$t('workspace.search')"
+            class="mr-2"
+            @click="$ui.openModal(WorkspaceSearchModal)"
+        >
+            <i-zondicons-search class="h-5 w-5" />
+        </IconButton>
         <UserStatus v-if="$solid.hasLoggedIn()" />
         <UserSettings v-else />
     </div>
 </template>
+
+<script setup lang="ts">
+import { UI } from '@aerogel/core';
+
+import { watchKeyboardShortcut } from '@/utils/composables';
+
+import WorkspaceSearchModal from './modals/WorkspaceSearchModal.vue';
+
+watchKeyboardShortcut('s', () => UI.openModal(WorkspaceSearchModal));
+</script>

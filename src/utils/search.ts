@@ -1,0 +1,93 @@
+import { arraySorted, compare } from '@noeldemartin/utils';
+import { computed, onMounted, ref } from 'vue';
+import type { ComputedRef, Ref } from 'vue';
+
+import Workspaces from '@/services/Workspaces';
+import { globals } from '@/services';
+import type Task from '@/models/Task';
+import type TasksList from '@/models/TasksList';
+import type Workspace from '@/models/Workspace';
+
+async function indexList(workspace: Workspace, list: TasksList, results: Ref<SearchResult[]>): Promise<void> {
+    results.value.push({
+        url: list.url,
+        searchableText: globals.$listName(list)?.toLowerCase().replace(/\s+/g, '') ?? '',
+        workspace,
+        list,
+    });
+
+    const tasks = await list.loadRelationIfUnloaded<Task[]>('tasks');
+
+    for (const task of tasks) {
+        results.value.push({
+            url: task.url,
+            searchableText: task.name.toLowerCase().replace(/\s+/g, ''),
+            workspace,
+            list,
+            task,
+        });
+    }
+}
+
+async function indexWorkspace(workspace: Workspace, results: Ref<SearchResult[]>): Promise<void> {
+    results.value.push({
+        url: workspace.url,
+        searchableText: workspace.name?.toLowerCase().replace(/\s+/g, '') ?? '',
+        workspace,
+    });
+}
+
+function compareResults(a: SearchResult, b: SearchResult): number {
+    const listComparison = compare(!a.list, !b.list);
+    const taskComparison = compare(!a.task, !b.task);
+    const completedComparison = compare(a.task?.completed, b.task?.completed);
+    const nameComparison = compare(
+        a.task?.name ?? (a.list ? globals.$listName(a.list) : a.workspace.name),
+        b.task?.name ?? (b.list ? globals.$listName(b.list) : b.workspace.name),
+    );
+
+    return [taskComparison, listComparison, completedComparison, nameComparison].find((result) => result !== 0) ?? 0;
+}
+
+export interface SearchResult {
+    url: string;
+    searchableText: string;
+    task?: Task;
+    list?: TasksList;
+    workspace: Workspace;
+}
+
+export function useSearch(query: Ref<string>): ComputedRef<SearchResult[]> {
+    const results = ref([]) as Ref<SearchResult[]>;
+    const filteredResults = computed(() =>
+        arraySorted(
+            query.value === ''
+                ? results.value
+                : results.value.filter((result) =>
+                    result.searchableText.includes(query.value.toLowerCase().replace(/\s+/g, ''))),
+            compareResults,
+        ));
+
+    onMounted(async () => {
+        const currentWorkspace = Workspaces.current;
+
+        if (!currentWorkspace) {
+            return;
+        }
+
+        await Promise.all([
+            indexList(currentWorkspace, currentWorkspace, results),
+            ...(currentWorkspace.lists?.map((list) => indexList(currentWorkspace, list, results)) ?? []),
+        ]);
+
+        for (const workspace of Workspaces.all) {
+            if (workspace === currentWorkspace) {
+                continue;
+            }
+
+            indexWorkspace(workspace, results);
+        }
+    });
+
+    return filteredResults;
+}

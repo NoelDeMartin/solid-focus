@@ -102,6 +102,30 @@ describe('Navigation', () => {
         cy.seeActiveList('Inbox');
     });
 
+    it('Searches across workspaces and lists', () => {
+        // Search workspace
+        cy.ariaLabel('Press \\"s\\" to search').click();
+        cy.get('input[role="combobox"]').type('Japanese{enter}');
+        cy.seeActiveWorkspace('Japanese');
+        cy.seeActiveList('Inbox');
+
+        // Search list
+        cy.ariaLabel('Press \\"s\\" to search').click();
+        cy.get('input[role="combobox"]').type('Manga{enter}');
+        cy.seeActiveWorkspace('Japanese');
+        cy.seeActiveList('Manga');
+
+        // Search completed tasks
+        cy.ariaLabel('Press \\"s\\" to search').click();
+        cy.get('input[role="combobox"]').type('Read Yotsubato{enter}');
+        cy.see('Read Yotsubato', 'h2', { srOnly: true });
+
+        // Search pending tasks
+        cy.ariaLabel('Press \\"s\\" to search').click();
+        cy.get('input[role="combobox"]').type('Learn Heisig Kanji{enter}');
+        cy.see('Learn Heisig Kanji', 'h2', { srOnly: true });
+    });
+
     it('Shows missing workspaces notice', () => {
         // Act
         cy.visit('/this-does-not-exist');

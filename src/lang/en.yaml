@@ -82,6 +82,11 @@ footer:
     about: about
     source: source
 
+workspace:
+    search: Press "s" to search
+    searchPlaceholder: Search tasks, lists, workspaces...
+    searchEmpty: Nothing found.
+
 workspaces:
     select: Select workspace
     edit: Workspace settings

@@ -33,7 +33,7 @@ export default class Workspace extends Model {
             name: 'workspace',
             params: {
                 workspace: this.slug,
-                list: list?.slug ?? '',
+                list: list instanceof Workspace ? '' : list?.slug ?? '',
             },
         });
     }
