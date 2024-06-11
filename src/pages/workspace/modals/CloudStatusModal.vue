@@ -1,5 +1,5 @@
 <template>
-    <FloatingModal close-hidden>
+    <FloatingModal>
         <div class="relative flex items-center rounded-md bg-gray-100 p-4 pr-12">
             <AGSolidUserAvatar class="mr-2 h-16 w-16" />
             <div class="flex flex-col">

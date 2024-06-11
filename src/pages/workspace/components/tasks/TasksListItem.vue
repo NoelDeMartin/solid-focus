@@ -1,5 +1,5 @@
 <template>
-    <li class="relative isolate rounded-lg px-2.5 text-base" :class="{ 'line-through': task.completed }">
+    <li class="relative isolate rounded-lg px-2.5 text-base">
         <button
             type="button"
             class="absolute inset-0 h-full w-full rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--primary-500]"
@@ -27,6 +27,7 @@
             <EditableContent
                 class="overflow-y-auto truncate py-2.5 pr-1"
                 content-class="whitespace-pre"
+                :class="{ 'line-through': task.completed }"
                 :disabled="disableEditing"
                 :text="task.name"
                 @update="task.setAttribute('name', $event)"
@@ -43,7 +44,11 @@
                 class="!pointer-events-none h-5 w-5 text-gray-400"
             />
             <div class="flex-1" />
-            <span v-if="renderedDueDate" class="!pointer-events-none" :class="{ 'text-red-600': isPast }">
+            <span
+                v-if="renderedDueDate"
+                class="!pointer-events-none"
+                :class="{ 'text-red-600': isPast && !task.completed }"
+            >
                 {{ renderedDueDate }}
             </span>
         </div>

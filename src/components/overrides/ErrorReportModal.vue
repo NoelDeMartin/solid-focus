@@ -1,5 +1,5 @@
 <template>
-    <FloatingModal close-hidden>
+    <FloatingModal>
         <div class="flex items-center">
             <AGErrorReportModalTitle
                 class="text-lg font-semibold leading-6 text-gray-900"

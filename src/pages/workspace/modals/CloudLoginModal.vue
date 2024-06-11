@@ -1,5 +1,5 @@
 <template>
-    <FloatingModal close-hidden>
+    <FloatingModal>
         <AGSolidStatus />
     </FloatingModal>
 </template>

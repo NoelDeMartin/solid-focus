@@ -11,16 +11,7 @@
                     ref="$panel"
                     class="relative overflow-hidden rounded-xl bg-white p-4 text-left shadow-xl"
                 >
-                    <IconButton
-                        v-if="cancellable && !closeHidden"
-                        class="absolute right-1 top-3"
-                        :title="$t('ui.close')"
-                        :aria-label="$t('ui.close')"
-                        @click="close()"
-                    >
-                        <i-mdi-close class="h-4 w-4" />
-                    </IconButton>
-                    <AGHeadlessModalTitle v-if="title" class="mr-12 text-lg font-semibold leading-6 text-gray-900">
+                    <AGHeadlessModalTitle v-if="title" class="text-lg font-semibold leading-6 text-gray-900">
                         <AGMarkdown :text="title" inline />
                     </AGHeadlessModalTitle>
                     <AGMarkdown
@@ -39,7 +30,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { booleanProp, extractModalProps, mixedProp, useModalExpose, useModalProps } from '@aerogel/core';
+import { extractModalProps, mixedProp, useModalExpose, useModalProps } from '@aerogel/core';
 import type { IAGHeadlessModal } from '@aerogel/core';
 
 import type { IFloatingModal } from './FloatingModal';
@@ -47,7 +38,6 @@ import type { IFloatingModal } from './FloatingModal';
 const props = defineProps({
     ...useModalProps(),
     subtitle: mixedProp(),
-    closeHidden: booleanProp(),
 });
 const $modal = ref<IAGHeadlessModal>();
 const $panel = ref<{ $el?: HTMLElement }>();

@@ -33,6 +33,13 @@
                                     }"
                                 >
                                     <template v-if="result.task">
+                                        <span class="sr-only">
+                                            {{
+                                                result.task.completed
+                                                    ? $t('workspace.searchCompleted')
+                                                    : $t('workspace.searchPending')
+                                            }},
+                                        </span>
                                         <i-zondicons-checkmark
                                             v-if="result.task.completed"
                                             class="h-5 w-5 flex-shrink-0"
@@ -41,10 +48,12 @@
                                         <AGMarkdown inline :text="result.task.name" class="truncate" />
                                     </template>
                                     <template v-else-if="result.list">
+                                        <span class="sr-only">{{ $t('workspace.searchList') }},</span>
                                         <i-material-symbols-format-list-bulleted class="h-5 w-5 flex-shrink-0" />
                                         <AGMarkdown inline :text="$listName(result.list)" class="truncate" />
                                     </template>
                                     <template v-else>
+                                        <span class="sr-only">{{ $t('workspace.searchWorkspace') }},</span>
                                         <i-mdi-briefcase class="h-5 w-5 flex-shrink-0" />
                                         <AGMarkdown inline :text="result.workspace.name" class="truncate" />
                                     </template>

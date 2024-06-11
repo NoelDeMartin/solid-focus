@@ -86,6 +86,10 @@ workspace:
     search: Press "s" to search
     searchPlaceholder: Search tasks, lists, workspaces...
     searchEmpty: Nothing found.
+    searchPending: Pending task
+    searchCompleted: Completed task
+    searchList: List
+    searchWorkspace: Workspace
 
 workspaces:
     select: Select workspace
@@ -136,6 +140,7 @@ task:
     editDescription: Edit description
     editDueDate: Edit due date
     created: Created on {date}
+    completed: Completed on {date}
     due: Due on {date}
     notDue: No due date
     important: Important

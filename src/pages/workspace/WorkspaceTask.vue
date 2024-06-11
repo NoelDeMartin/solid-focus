@@ -80,6 +80,17 @@
                     <span class="ml-1">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
                 </TextButton>
 
+                <div v-if="renderedCompletedAt" class="mt-2 flex items-center px-3 py-2">
+                    <i-zondicons-checkmark class="h-5 w-5 text-[--primary-500]" />
+                    <span class="ml-1">
+                        {{
+                            $t('task.completed', {
+                                date: renderedCompletedAt,
+                            })
+                        }}
+                    </span>
+                </div>
+
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
                     <TextButton submit>
                         {{ $t('ui.save') }}
@@ -144,6 +155,10 @@ const task = computedModel(() => Workspaces.task);
 const important = computed(() => (editing.value ? form.important : task.value?.important));
 const renderedCreatedAt = computed(() =>
     task.value?.createdAt.toLocaleDateString(undefined, {
+        dateStyle: 'medium',
+    }));
+const renderedCompletedAt = computed(() =>
+    task.value?.completedAt?.toLocaleDateString(undefined, {
         dateStyle: 'medium',
     }));
 const renderedDueDate = computed(() =>

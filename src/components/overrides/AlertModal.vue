@@ -1,5 +1,5 @@
 <template>
-    <FloatingModal :title="title" close-hidden>
+    <FloatingModal :title="title">
         <AGMarkdown :text="message" />
     </FloatingModal>
 </template>

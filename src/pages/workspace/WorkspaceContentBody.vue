@@ -55,7 +55,7 @@ const tasks = computed(() => ({
 function compareTasks(a: Task, b: Task): number {
     const importantComparison = compare(b.important, a.important);
     const dueDateComparison = !a.dueDate || !b.dueDate ? compare(b.dueDate, a.dueDate) : compare(a.dueDate, b.dueDate);
-    const dateComparison = a.completed ? compare(b.completedAt, a.completedAt) : compare(a.createdAt, b.createdAt);
+    const dateComparison = a.completed ? compare(b.completedAt, a.completedAt) : compare(b.createdAt, a.createdAt);
 
     return [importantComparison, dueDateComparison, dateComparison].find((result) => result !== 0) ?? 0;
 }
