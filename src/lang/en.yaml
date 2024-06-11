@@ -82,6 +82,13 @@ footer:
     about: about
     source: source
 
+about:
+    title: About
+    info: |
+        Created and maintained by [Noel De Martin](https://noeldemartin.com).
+
+        This application is open source and contributions are welcome, get the code in [GitHub]({sourceUrl}).
+
 workspace:
     search: Press "s" to search
     searchPlaceholder: Search tasks, lists, workspaces...

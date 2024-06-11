@@ -13,7 +13,7 @@
         <div class="relative z-20 bg-gradient-to-b from-[#dedbd3] to-white pt-28">
             <LandingFeatures />
             <LandingCallout />
-            <LandingFooter />
+            <AppFooter />
         </div>
     </div>
 </template>

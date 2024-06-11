@@ -8,6 +8,7 @@
     </div>
     <WorkspaceLoading v-else-if="$workspaces.current" />
     <WorkspaceNotFound v-else lang-key="workspaces.notFound" :lang-params="{ workspace: $route.params.workspace }" />
+    <AppFooter />
 </template>
 
 <script setup lang="ts">
