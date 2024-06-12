@@ -139,12 +139,13 @@ import { computed, ref, watchEffect } from 'vue';
 import Workspaces from '@/services/Workspaces';
 import type Task from '@/models/Task';
 
-import { hidePanel, showPanel } from './animations';
+import { PanelAnimator } from './animations';
 
 let lastTask: Task | null = null;
 
 const $panel = ref<HTMLElement>();
 const $filler = ref<HTMLElement>();
+const panelAnimator = new PanelAnimator($panel, $filler, 'left');
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
@@ -237,5 +238,5 @@ async function deleteTask() {
     await task.value.delete();
 }
 
-watchEffect(() => (Workspaces.task ? showPanel($panel, $filler, 'right') : hidePanel($panel, $filler, 'right')));
+watchEffect(() => (Workspaces.task ? panelAnimator.show() : panelAnimator.hide()));
 </script>

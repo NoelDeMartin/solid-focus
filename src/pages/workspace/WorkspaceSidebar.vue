@@ -16,10 +16,11 @@ import { ref, watchEffect } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
 
-import { hidePanel, showPanel } from './animations';
+import { PanelAnimator } from './animations';
 
 const $panel = ref<HTMLElement>();
 const $filler = ref<HTMLElement>();
+const panelAnimator = new PanelAnimator($panel, $filler, 'left');
 
-watchEffect(() => (Workspaces.sidebar ? showPanel($panel, $filler, 'left') : hidePanel($panel, $filler, 'left')));
+watchEffect(() => (Workspaces.sidebar ? panelAnimator.show() : panelAnimator.hide()));
 </script>
