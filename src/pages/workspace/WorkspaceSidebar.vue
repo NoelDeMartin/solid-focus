@@ -1,23 +1,25 @@
 <template>
     <div class="flex-1">
         <div
-            v-measure="(size: ElementSize) => rootSize = size"
-            class="fixed bottom-0 left-0 top-1 z-10 flex min-w-64 flex-col border-r transition-transform will-change-transform"
-            :class="{
-                'translate-x-0': $workspaces.sidebar,
-                '-translate-x-full': !$workspaces.sidebar,
-            }"
+            ref="$panel"
+            class="fixed bottom-0 left-0 top-1 z-10 hidden min-w-64 -translate-x-full flex-col border-r will-change-transform"
         >
             <WorkspaceSidebarHeader />
             <WorkspaceSidebarNav />
         </div>
-        <div class="transition-[width]" :style="`width: ${$workspaces.sidebar ? rootSize?.width : 0}px;`" />
+        <div ref="$filler" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { ElementSize } from '@aerogel/core';
+import { ref, watchEffect } from 'vue';
 
-const rootSize = ref<ElementSize>();
+import Workspaces from '@/services/Workspaces';
+
+import { hidePanel, showPanel } from './animations';
+
+const $panel = ref<HTMLElement>();
+const $filler = ref<HTMLElement>();
+
+watchEffect(() => (Workspaces.sidebar ? showPanel($panel, $filler, 'left') : hidePanel($panel, $filler, 'left')));
 </script>

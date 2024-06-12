@@ -1,9 +1,8 @@
 import { animate, easeInOut } from 'popmotion';
-import type { Ref } from 'vue';
 
 import Focus from '@/services/Focus';
-
-type ElementRef = Ref<HTMLElement | { $el: HTMLElement | undefined } | undefined>;
+import { element } from '@/utils/animations';
+import type { ElementRef } from '@/utils/animations';
 
 async function fadeIn($element: ElementRef, options: Partial<KeyframeAnimationOptions> = {}): Promise<void> {
     const animation = element($element)?.animate([{ opacity: 0 }, { opacity: 1 }], {
@@ -13,14 +12,6 @@ async function fadeIn($element: ElementRef, options: Partial<KeyframeAnimationOp
     });
 
     await animation?.finished;
-}
-
-function element($element: ElementRef): HTMLElement | undefined {
-    if (!$element.value) {
-        return;
-    }
-
-    return '$el' in $element.value ? $element.value.$el : $element.value;
 }
 
 export type Styles = Partial<Record<keyof CSSStyleDeclaration, string>>;

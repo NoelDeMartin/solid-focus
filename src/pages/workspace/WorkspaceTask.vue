@@ -1,12 +1,8 @@
 <template>
     <div class="flex-1">
         <aside
-            v-measure="(size: ElementSize) => rootSize = size"
-            class="fixed bottom-0 right-0 top-1 min-w-96 border-l p-8 pb-4 transition-transform will-change-transform"
-            :class="{
-                'translate-x-0': task,
-                'translate-x-full': !task,
-            }"
+            ref="$panel"
+            class="fixed bottom-0 right-0 top-1 hidden min-w-96 border-l p-8 pb-4 will-change-transform"
         >
             <AGForm
                 v-if="task"
@@ -122,7 +118,7 @@
                 </div>
             </AGForm>
         </aside>
-        <div class="transition-[width]" :style="`width: ${task ? rootSize?.width : 0}px;`" />
+        <div ref="$filler" />
     </div>
 </template>
 
@@ -138,12 +134,17 @@ import {
     useForm,
 } from '@aerogel/core';
 import { computedModel } from '@aerogel/plugin-soukai';
-import { computed, ref } from 'vue';
-import type { ElementSize } from '@aerogel/core';
+import { computed, ref, watchEffect } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
+import type Task from '@/models/Task';
 
-const rootSize = ref<ElementSize>();
+import { hidePanel, showPanel } from './animations';
+
+let lastTask: Task | null = null;
+
+const $panel = ref<HTMLElement>();
+const $filler = ref<HTMLElement>();
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
@@ -151,7 +152,15 @@ const form = useForm({
     important: booleanInput(),
 });
 const editing = ref(false);
-const task = computedModel(() => Workspaces.task);
+const task = computedModel(() => {
+    if (!Workspaces.task) {
+        return lastTask;
+    }
+
+    lastTask = Workspaces.task;
+
+    return Workspaces.task;
+});
 const important = computed(() => (editing.value ? form.important : task.value?.important));
 const renderedCreatedAt = computed(() =>
     task.value?.createdAt.toLocaleDateString(undefined, {
@@ -227,4 +236,6 @@ async function deleteTask() {
 
     await task.value.delete();
 }
+
+watchEffect(() => (Workspaces.task ? showPanel($panel, $filler, 'right') : hidePanel($panel, $filler, 'right')));
 </script>
