@@ -141,11 +141,9 @@ import type Task from '@/models/Task';
 
 import { PanelAnimator } from './animations';
 
-let lastTask: Task | null = null;
-
 const $panel = ref<HTMLElement>();
 const $filler = ref<HTMLElement>();
-const panelAnimator = new PanelAnimator($panel, $filler, 'left');
+const panelAnimator = new PanelAnimator($panel, $filler, 'right');
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
@@ -153,15 +151,8 @@ const form = useForm({
     important: booleanInput(),
 });
 const editing = ref(false);
-const task = computedModel(() => {
-    if (!Workspaces.task) {
-        return lastTask;
-    }
-
-    lastTask = Workspaces.task;
-
-    return Workspaces.task;
-});
+const workspaceTask = ref<Task>();
+const task = computedModel(() => workspaceTask.value);
 const important = computed(() => (editing.value ? form.important : task.value?.important));
 const renderedCreatedAt = computed(() =>
     task.value?.createdAt.toLocaleDateString(undefined, {
@@ -238,5 +229,13 @@ async function deleteTask() {
     await task.value.delete();
 }
 
-watchEffect(() => (Workspaces.task ? panelAnimator.show() : panelAnimator.hide()));
+watchEffect(async () => {
+    if (!Workspaces.task) {
+        await panelAnimator.hide();
+    }
+
+    workspaceTask.value = Workspaces.task ?? undefined;
+
+    workspaceTask.value && (await panelAnimator.show());
+});
 </script>

@@ -32,8 +32,9 @@ export const routes = defineRoutes([
         component: Workspace,
         title(params) {
             const { workspace, list } = params as { list?: TasksList; workspace: WorkspaceModel };
+            const pageList = list ?? workspace;
 
-            return listName(list ?? workspace);
+            return pageList && listName(pageList);
         },
     },
 ]);
