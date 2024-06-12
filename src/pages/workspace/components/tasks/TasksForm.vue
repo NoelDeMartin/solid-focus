@@ -9,6 +9,7 @@
         @submit="submit()"
     >
         <AGHeadlessInput
+            ref="$input"
             name="draft"
             :label="$t('tasks.inputLabel')"
             :description="$t('tasks.inputDescription')"
@@ -46,7 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { stringInput, stringProp, useForm } from '@aerogel/core';
+import { componentRef, stringInput, stringProp, useForm } from '@aerogel/core';
+import type { IAGHeadlessInput } from '@aerogel/core';
+
+import type { ITasksForm } from './TasksForm';
 
 const props = defineProps({
     value: stringProp(),
@@ -54,6 +58,7 @@ const props = defineProps({
     submitClass: stringProp(''),
 });
 const emit = defineEmits(['submit']);
+const $input = componentRef<IAGHeadlessInput>();
 const form = useForm({ draft: stringInput(props.value ?? undefined) });
 
 function blur() {
@@ -71,4 +76,6 @@ function submit() {
     form.reset();
     name && emit('submit', name);
 }
+
+defineExpose<ITasksForm>({ focus: () => $input.value?.$el?.focus() });
 </script>

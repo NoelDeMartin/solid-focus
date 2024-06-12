@@ -1,6 +1,6 @@
 <template>
     <div class="px-4">
-        <TasksForm v-if="$tasksList.tasks?.length" @submit="createTask($event)" />
+        <TasksForm v-if="$tasksList.tasks?.length" ref="$tasksForm" @submit="createTask($event)" />
         <TasksList
             v-if="tasks.pending.length"
             :tasks="tasks.pending"
@@ -43,6 +43,9 @@ import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
+import type { ITasksForm } from './components/tasks/TasksForm';
+
+const $tasksForm = ref<ITasksForm>();
 const showCompleted = ref(false);
 const disableEditing = ref(false);
 const groupedTasks = computedModels(Task, () =>
@@ -99,6 +102,7 @@ watchKeyboardShortcut('Control', {
     start: () => (disableEditing.value = true),
     end: () => (disableEditing.value = false),
 });
+watchKeyboardShortcut('+', () => $tasksForm.value?.focus());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
 watchKeyboardShortcut('ArrowDown', () => changeTask(1));
 watchKeyboardShortcut('Escape', () => Workspaces.select(null));
