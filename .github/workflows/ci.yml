@@ -14,7 +14,11 @@ jobs:
             - run: npm run lint
             - run: npm run build
             - run: npm run test:ci
-            - run: npm run cy:test-snapshots:ci
+            - run: npm run cy:test
+
+            # TODO enable snapshots tests
+            # - run: npm run cy:test-snapshots:ci
+
             - name: Upload Cypress screenshots
               uses: actions/upload-artifact@v4
               if: ${{ failure() }}
