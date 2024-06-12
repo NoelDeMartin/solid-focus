@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import type { ComputedRef, Ref } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
-import { globals } from '@/services';
+import { listName } from '@/utils/display';
 import type Task from '@/models/Task';
 import type TasksList from '@/models/TasksList';
 import type Workspace from '@/models/Workspace';
@@ -11,7 +11,7 @@ import type Workspace from '@/models/Workspace';
 async function indexList(workspace: Workspace, list: TasksList, results: Ref<SearchResult[]>): Promise<void> {
     results.value.push({
         url: list.url,
-        searchableText: globals.$listName(list)?.toLowerCase().replace(/\s+/g, '') ?? '',
+        searchableText: listName(list)?.toLowerCase().replace(/\s+/g, '') ?? '',
         workspace,
         list,
     });
@@ -42,8 +42,8 @@ function compareResults(a: SearchResult, b: SearchResult): number {
     const taskComparison = compare(!a.task, !b.task);
     const completedComparison = compare(a.task?.completed, b.task?.completed);
     const nameComparison = compare(
-        a.task?.name ?? (a.list ? globals.$listName(a.list) : a.workspace.name),
-        b.task?.name ?? (b.list ? globals.$listName(b.list) : b.workspace.name),
+        a.task?.name ?? (a.list ? listName(a.list) : a.workspace.name),
+        b.task?.name ?? (b.list ? listName(b.list) : b.workspace.name),
     );
 
     return [taskComparison, listComparison, completedComparison, nameComparison].find((result) => result !== 0) ?? 0;

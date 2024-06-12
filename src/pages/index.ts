@@ -1,6 +1,7 @@
 import { defineRouteBindings, defineRoutes } from '@aerogel/plugin-routing';
 
 import Workspaces from '@/services/Workspaces';
+import { listName } from '@/utils/display';
 import type TasksList from '@/models/TasksList';
 import type WorkspaceModel from '@/models/Workspace';
 
@@ -29,5 +30,10 @@ export const routes = defineRoutes([
         name: 'workspace',
         path: '/:workspace/:list?',
         component: Workspace,
+        title(params) {
+            const { workspace, list } = params as { list?: TasksList; workspace: WorkspaceModel };
+
+            return listName(list ?? workspace);
+        },
     },
 ]);
