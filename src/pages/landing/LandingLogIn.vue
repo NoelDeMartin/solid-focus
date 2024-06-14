@@ -15,6 +15,7 @@
 
             <div class="mt-4 flex flex-col items-center gap-y-2">
                 <TextInput
+                    name="url"
                     :aria-label="$t('landing.logIn.label')"
                     :placeholder="$t('landing.logIn.placeholder')"
                     class="w-96"
