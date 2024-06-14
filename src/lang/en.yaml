@@ -75,6 +75,13 @@ cloud:
         online: Online
         syncing: Syncing
         dirty: There are local changes
+    advanced:
+        title: Advanced options
+        reconnect: Reconnect on startup
+        startupSync: Synchronize on startup
+        polling: Synchronize every {minutes} minutes
+        pollingA11y: Synchronize on a fixed interval
+        pollingMinutes: Synchronization interval (in minutes)
 
 footer:
     about: about

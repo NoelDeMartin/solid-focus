@@ -9,13 +9,13 @@
         >
             <AGSolidUserAvatar class="h-full w-full" />
             <div
-                v-if="$cloud.syncing"
+                v-if="$cloud.syncing || $solid.loginOngoing"
                 class="absolute -inset-1 animate-spin rounded-full border-2 border-[currentColor_transparent] text-green-500"
             />
         </button>
         <div
             class="pointer-events-none absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white"
-            :class="[cloudStatusClass, $cloud.syncing && 'sr-only']"
+            :class="[cloudStatusClass, { 'sr-only': $cloud.syncing || $solid.loginOngoing }]"
         >
             <span v-if="$cloud.dirty && !$cloud.syncing" class="sr-only">{{ $t(`cloud.status.dirty`) }}</span>
             <span v-else class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>

@@ -6,13 +6,18 @@
         <span v-else :class="renderedFillerClass">
             {{ draft }}
         </span>
+        <span v-if="type === 'number'" class="inline-block transition-[width]" :class="editing ? 'w-5' : 'w-0'" />
         <form class="w-full" @submit.prevent="$input?.blur()">
             <input
                 ref="$input"
                 v-model="draft"
-                type="text"
-                tabindex="-1"
-                :class="[renderedInputClass, { 'opacity-0': !editing }]"
+                :tabindex="tabindex ?? undefined"
+                :aria-label="ariaLabel ?? undefined"
+                :type="type"
+                :class="[
+                    renderedInputClass,
+                    { 'opacity-0': !editing, 'appearance-textfield': !editing && type === 'number' },
+                ]"
                 @keyup="$emit('update', draft)"
                 @focus="startEditing()"
                 @blur="stopEditing()"
@@ -28,7 +33,10 @@ import { twMerge } from 'tailwind-merge';
 
 const emit = defineEmits(['update', 'save']);
 const props = defineProps({
+    type: stringProp('text'),
     contentClass: stringProp(),
+    ariaLabel: stringProp(),
+    tabindex: stringProp(),
     text: requiredStringProp(),
     disabled: booleanProp(),
 });
@@ -49,7 +57,7 @@ function stopEditing() {
         return;
     }
 
-    if (draft.value.trim().length === 0) {
+    if (props.type !== 'number' && draft.value.trim().length === 0) {
         draft.value = editing.value;
 
         emit('update', draft.value);

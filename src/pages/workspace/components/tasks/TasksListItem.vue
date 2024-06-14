@@ -26,6 +26,8 @@
             <EditableContent
                 class="overflow-y-auto truncate py-2.5 pr-1"
                 content-class="whitespace-pre"
+                tabindex="-1"
+                :aria-label="$t('task.name')"
                 :class="{ 'line-through': task.completed }"
                 :disabled="disableEditing"
                 :text="task.name"
