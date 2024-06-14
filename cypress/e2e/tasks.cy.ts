@@ -32,7 +32,7 @@ describe('Tasks', () => {
         cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
         cy.ariaLabel('Edit name').click();
         cy.get(':focus').type('!');
-        cy.get('[name="description"]').type('Ramen is good for your soul.');
+        cy.ariaLabel('Description').type('Ramen is good for your soul.');
         cy.press('Save');
 
         // Assert
@@ -100,7 +100,7 @@ describe('Tasks', () => {
         cy.see('Eat Ramen');
 
         // Act
-        cy.ariaInput('Complete task', { description: 'Cook Ramen' }).click();
+        cy.contains('li', 'Cook Ramen').within(() => cy.get('input[type="checkbox"]').click());
 
         // Assert
         cy.dontSee('Cook Ramen');
@@ -114,12 +114,12 @@ describe('Tasks', () => {
         cy.see('Cook Ramen');
         cy.ariaInput('Task name').type('Eat Ramen{enter}');
         cy.see('Eat Ramen');
-        cy.ariaInput('Complete task', { description: 'Cook Ramen' }).click();
-        cy.ariaInput('Complete task', { description: 'Eat Ramen' }).click();
+        cy.contains('li', 'Cook Ramen').within(() => cy.get('input[type="checkbox"]').click());
+        cy.contains('li', 'Eat Ramen').within(() => cy.get('input[type="checkbox"]').click());
         cy.ariaLabel('Show completed').click();
 
         // Act
-        cy.ariaInput('Undo task', { description: 'Cook Ramen' }).click();
+        cy.contains('li', 'Cook Ramen').within(() => cy.get('input[type="checkbox"]').click());
         cy.ariaLabel('Hide completed').click();
 
         // Assert

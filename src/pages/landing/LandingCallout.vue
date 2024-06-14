@@ -6,21 +6,18 @@
             <i-app-logo class="h-full w-full" />
         </div>
 
-        <div class="z-30 mb-16 mt-8 flex items-center justify-center gap-x-6">
-            <button
-                type="button"
-                class="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                @click="$events.emit('landing:get-started')"
-            >
+        <div class="z-30 mb-16 mt-8 flex items-center justify-center gap-x-3">
+            <TextButton class="px-3.5 py-2.5 text-sm font-semibold" @click="$events.emit('landing:get-started')">
                 {{ $t('landing.getStarted.cta') }}
-            </button>
-            <button
-                type="button"
-                class="text-sm font-semibold leading-6 text-gray-900"
+            </TextButton>
+            <TextButton
+                color="clear"
+                class="px-3.5 py-2.5 text-sm font-semibold"
                 @click="$events.emit('landing:log-in')"
             >
-                {{ $t('landing.logIn.cta') }} <span aria-hidden="true">→</span>
-            </button>
+                <span>{{ $t('landing.logIn.cta') }}</span>
+                <i-zondicons-arrow-right class="ml-1.5 h-3 w-3" />
+            </TextButton>
         </div>
     </div>
 </template>

@@ -11,15 +11,15 @@
                 @submit="save()"
             >
                 <AGMarkdown :text="task.name" class="sr-only" as="h2" />
-                <span class="sr-only">{{
-                    task.important ? $t('task.importantA11y') : $t('task.notImportantA11y')
-                }}</span>
+                <span class="sr-only">
+                    {{ task.important ? $t('task.importantA11y') : $t('task.notImportantA11y') }}
+                </span>
                 <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
 
                 <TextButton
                     v-if="!editing"
                     color="clear"
-                    class="max-w-80 justify-start text-start"
+                    class="max-w-80 justify-start whitespace-pre-wrap text-start"
                     :aria-label="$t('task.editName')"
                     :title="$t('task.editName')"
                     @click="startEditing('name')"
@@ -29,6 +29,7 @@
                 <TextInput
                     v-else
                     multiline
+                    :aria-label="$t('task.name')"
                     name="name"
                     input-class="max-w-80 text-lg font-semibold py-2 px-3"
                 />
@@ -46,7 +47,12 @@
                         <AGMarkdown v-if="task.description" :text="task.description" class="text-base" />
                         <AGMarkdown v-else lang-key="task.emptyDescription" class="text-sm text-gray-400" />
                     </TextButton>
-                    <TaskDescriptionInput v-else name="description" input-class="max-w-80 text-base py-2 px-3" />
+                    <TaskDescriptionInput
+                        v-else
+                        :aria-label="$t('task.description')"
+                        name="description"
+                        input-class="max-w-80 text-base py-2 px-3"
+                    />
                 </div>
 
                 <TextButton
@@ -62,7 +68,12 @@
                         {{ renderedDueDate ? $t('task.due', { date: renderedDueDate }) : $t('task.notDue') }}
                     </span>
                 </TextButton>
-                <DateInput v-else name="dueDate" class="mt-2" />
+                <DateInput
+                    v-else
+                    :aria-label="$t('task.dueDate')"
+                    name="dueDate"
+                    class="mt-2"
+                />
 
                 <TextButton
                     color="clear"

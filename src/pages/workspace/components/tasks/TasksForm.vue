@@ -11,13 +11,12 @@
         <AGHeadlessInput
             ref="$input"
             name="draft"
-            :label="$t('tasks.inputLabel')"
             :description="$t('tasks.inputDescription')"
             class="relative flex-1"
         >
-            <AGHeadlessInputLabel class="sr-only" />
             <AGHeadlessInputInput
                 class="absolute inset-0 h-full w-full rounded-lg border-gray-200 pl-6 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100"
+                :aria-label="$t('tasks.inputLabel')"
                 :class="[inputClass, { 'opacity-100': form.draft }]"
                 :placeholder="$t('tasks.inputPlaceholder')"
             />

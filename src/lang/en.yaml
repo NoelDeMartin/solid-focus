@@ -36,21 +36,19 @@ landing:
     moreDeadlines: Task deadlines
     moreStarred: Starred tasks
     moreSearch: Global search
-    moreCommands: Command palette
+    moreKeyboard: Keyboard shortcuts
     callout: Just give it a try, and see for yourself.
     getStarted:
         cta: Get started
-        intro: |
-            Are you ready to start being more focused?
-
-            Let's start, create a task for the first thing you want to get done:
+        title: Get started
+        intro: "Are you ready to start being more focused? Let's start, create a task for the first thing you want to get done:"
         label: Task name
-        submit: Create task
+        submit: Create
         workspaceName: Main
         back: nevermind
     logIn:
         cta: Log in
-        intro: Welcome back!
+        title: Welcome back!
         label: Login url
         placeholder: https://me.solidcommunity.net
         submit: Log In
@@ -131,20 +129,21 @@ tasks:
     selectA11y: Select task "{name}"
     selectTitle: Select task
     important: (Important)
-    complete: Complete task
     placeholder: E.g. learn Japanese
     startTitle: Ready to grow
     startMessage: The soil is ready, plant your ideas here so they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be as flowery!
     empty: Congratulations, you've completed all your tasks! Time for a break?
-    undo: Undo task
     completed: Completed
     showCompleted: Show completed
     hideCompleted: Hide completed
 
 task:
     emptyDescription: No description
+    name: Name
     editName: Edit name
+    description: Description
     editDescription: Edit description
+    dueDate: Due date
     editDueDate: Edit due date
     created: Created on {date}
     completed: Completed on {date}

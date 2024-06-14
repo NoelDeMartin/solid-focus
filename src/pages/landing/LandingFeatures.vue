@@ -98,8 +98,8 @@
                     <AGMarkdown lang-key="landing.moreSearch" class="text-lg" />
                 </li>
                 <li class="flex flex-col items-center gap-y-2 rounded bg-gray-200 p-8">
-                    <i-heroicons-command-line-solid class="h-12 w-12" />
-                    <AGMarkdown lang-key="landing.moreCommands" class="text-lg" />
+                    <i-material-symbols-keyboard class="h-12 w-12" />
+                    <AGMarkdown lang-key="landing.moreKeyboard" class="text-lg" />
                 </li>
             </ul>
         </div>

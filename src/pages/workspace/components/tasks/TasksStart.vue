@@ -8,7 +8,12 @@
         </h2>
         <AGMarkdown lang-key="tasks.startMessage" class="mt-2 text-center font-light text-gray-600" />
         <AGForm :form="form" class="mt-6 flex gap-2" @submit="$emit('create', form.draft.trim())">
-            <TextInput name="draft" :placeholder="$t('tasks.placeholder')" />
+            <TextInput
+                :aria-label="$t('task.name')"
+                name="draft"
+                :placeholder="$t('tasks.placeholder')"
+                class="w-80"
+            />
             <TextButton submit>
                 {{ $t('ui.create') }}
             </TextButton>

@@ -16,8 +16,7 @@
                 type="checkbox"
                 class="clickable-target mr-2 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
                 :checked="task.completed"
-                :aria-label="task.completed ? $t('tasks.undo') : $t('tasks.complete')"
-                :aria-describedby="ariaId"
+                :aria-labelledby="ariaId"
                 @change="task.toggle()"
             >
             <i-material-symbols-star-rounded

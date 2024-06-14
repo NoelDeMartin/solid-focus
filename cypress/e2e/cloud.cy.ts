@@ -18,7 +18,7 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/main/*')).as('updateTask');
 
         // Act
-        cy.ariaInput('Complete task', { description: 'Sync updates' }).click();
+        cy.contains('li', 'Sync updates').within(() => cy.get('input[type="checkbox"]').click());
 
         // Assert
         cy.get('@updateTask.all').should('have.length', 1);

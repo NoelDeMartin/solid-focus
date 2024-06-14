@@ -68,22 +68,22 @@
                         >
                             <div
                                 v-measure="(size: ElementSize) => ctaSize = size"
-                                class="flex items-center justify-center gap-x-6"
+                                class="flex items-center justify-center gap-x-3"
                             >
-                                <button
-                                    type="button"
-                                    class="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                                <TextButton
+                                    class="px-3.5 py-2.5 text-sm font-semibold"
                                     @click="$events.emit('landing:get-started')"
                                 >
                                     {{ $t('landing.getStarted.cta') }}
-                                </button>
-                                <button
-                                    type="button"
-                                    class="text-sm font-semibold leading-6 text-gray-900"
+                                </TextButton>
+                                <TextButton
+                                    color="clear"
+                                    class="px-3.5 py-2.5 text-sm font-semibold"
                                     @click="$events.emit('landing:log-in')"
                                 >
-                                    {{ $t('landing.logIn.cta') }} <span aria-hidden="true">→</span>
-                                </button>
+                                    <span>{{ $t('landing.logIn.cta') }}</span>
+                                    <i-zondicons-arrow-right class="ml-1.5 h-3 w-3" />
+                                </TextButton>
                             </div>
                         </ScrollTransition>
                     </div>
@@ -113,14 +113,13 @@
             class="absolute bottom-0 left-1/2 z-30 -translate-x-1/2"
             :end="windowDimensions.height / 2"
         >
-            <button
-                type="button"
-                class="duration-landing-form transition-opacity"
+            <IconButton
+                class="duration-landing-form animate-bounce p-0 transition-opacity"
                 :class="showingForm ? 'opacity-0' : 'opacity-100'"
                 @click="showFeatures()"
             >
-                <i-zondicons-cheveron-down class="h-12 w-12 animate-bounce" />
-            </button>
+                <i-zondicons-cheveron-down class="h-12 w-12" />
+            </IconButton>
         </ScrollTransition>
     </div>
 
