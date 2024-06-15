@@ -153,6 +153,10 @@ describe('Cloud', () => {
         // Act
         cy.see('All your eggs are in the same basket');
         cy.press('not yet');
+        cy.ariaLabel('Open account status').click();
+        cy.press('Advanced options');
+        cy.press('Reconnect on startup');
+        cy.get('body').type('{esc}');
 
         // Assert
         cy.dontSee('All your eggs are in the same basket');
@@ -188,8 +192,6 @@ describe('Cloud', () => {
         cy.ariaInput('Name').type('勉強{enter}');
         cy.waitSync();
         cy.reload();
-        cy.ariaLabel('Open account status').click();
-        cy.press('Reconnect');
         cy.solidAuthorize();
         cy.waitSync();
         cy.ariaLabel('Show lists').click();
