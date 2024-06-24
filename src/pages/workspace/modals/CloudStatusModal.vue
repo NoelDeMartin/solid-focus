@@ -4,9 +4,9 @@
             <AGSolidUserAvatar class="mr-2 h-16 w-16" />
             <div class="flex flex-col">
                 <span class="font-semibold">{{ $solid.user?.name }}</span>
-                <AGLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-light text-gray-500">
+                <TextLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-light text-gray-500">
                     {{ $solid.user?.webId }}
-                </AGLink>
+                </TextLink>
             </div>
 
             <IconButton class="absolute right-1 top-1">
@@ -27,13 +27,13 @@
                 <i-ion-warning class="mt-0.5 h-6 w-6 self-start text-red-500" />
                 <div>
                     <AGMarkdown :text="errorDescription" />
-                    <AGLink
+                    <TextLink
                         v-if="showErrorDetails"
-                        class="text-sm underline opacity-50 hover:opacity-75"
+                        class="text-sm underline opacity-50 hover:opacity-75 focus-visible:opacity-75"
                         @click="$errors.inspect($solid.error)"
                     >
                         {{ $t('ui.viewDetails') }}
-                    </AGLink>
+                    </TextLink>
                 </div>
             </div>
             <div v-else-if="!$cloud.ready" class="mt-4 flex items-center gap-2">

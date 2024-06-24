@@ -16,12 +16,12 @@
             <div class="mt-4 flex flex-col items-center gap-y-2">
                 <TextInput
                     name="url"
-                    :aria-label="$t('landing.logIn.label')"
-                    :placeholder="$t('landing.logIn.placeholder')"
+                    :aria-label="$t('cloud.logIn.label')"
+                    :placeholder="$t('cloud.logIn.placeholder')"
                     class="w-96"
                 />
                 <TextButton submit class="w-96">
-                    {{ $t('landing.logIn.submit') }}
+                    {{ $t('cloud.logIn.submit') }}
                 </TextButton>
                 <TextButton
                     color="clear"

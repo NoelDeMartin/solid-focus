@@ -49,15 +49,25 @@ landing:
     logIn:
         cta: Log in
         title: Welcome back!
-        label: Login url
-        placeholder: https://me.solidcommunity.net
-        submit: Log In
         back: cancel
 
 cloud:
     sync: Synchronize
     reconnect: Reconnect
     logOut: Log out
+    logIn:
+        title: Connect account
+        info: Log in to your [Solid account](https://solidproject.org) to keep data safe across devices.
+        learnMore: What is Solid?
+        learnMoreMessage: |
+            Solid is a decentralized storage protocol built on top of web standards. If you want to use this app across devices, you can use Solid to keep changes in sync. Even if you use it in a single device, this will also keep your data secure in case your device is lost.
+
+            In any case, Focus works 100% offline and you can connect your Solid POD later on. If you've never heard of Solid and you're just trying things out, you can keep using it without an account.
+
+            [Learn more](https://solidproject.org)
+        label: Login url
+        placeholder: https://me.solidcommunity.net
+        submit: Log In
     setup:
         title: All your eggs are in the same basket
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?

@@ -1,16 +1,16 @@
 <template>
     <footer class="flex w-full items-center justify-center gap-1 p-3 text-sm text-gray-500">
-        <AGLink @click="$ui.openModal(AboutModal)">
+        <TextLink @click="$ui.openModal(AboutModal)">
             {{ $t('footer.about') }}
-        </AGLink>
+        </TextLink>
         <span aria-hidden="true">|</span>
-        <AGLink :url="$app.sourceUrl">
+        <TextLink :url="$app.sourceUrl">
             {{ $t('footer.source') }}
-        </AGLink>
+        </TextLink>
         <span aria-hidden="true">|</span>
-        <AGLink :url="$app.versionUrl">
+        <TextLink :url="$app.versionUrl">
             {{ $app.versionName }}
-        </AGLink>
+        </TextLink>
     </footer>
 </template>
 
