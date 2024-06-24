@@ -11,5 +11,5 @@ export function switchWorkspace(name: string): void {
         cy.get('button[aria-haspopup]').click();
     });
 
-    cy.contains(name).click();
+    cy.contains('li:not(.invisible)', name).click();
 }

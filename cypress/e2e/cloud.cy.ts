@@ -67,8 +67,8 @@ describe('Cloud', () => {
 
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
-        cy.ariaLabel('Open settings').click();
-        cy.press('Log in');
+        cy.ariaLabel('Configuration').click();
+        cy.press('Connect account');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 
@@ -116,8 +116,8 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/japanese/manga/*')).as('createMangaTask');
 
         cy.createStubs();
-        cy.ariaLabel('Open settings').click();
-        cy.press('Log in');
+        cy.ariaLabel('Configuration').click();
+        cy.press('Connect account');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 
@@ -145,8 +145,8 @@ describe('Cloud', () => {
         // Arrange
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
-        cy.ariaLabel('Open settings').click();
-        cy.press('Log in');
+        cy.ariaLabel('Configuration').click();
+        cy.press('Connect account');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
 

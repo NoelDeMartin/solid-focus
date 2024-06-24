@@ -9,7 +9,12 @@
                 </TextLink>
             </div>
 
-            <IconButton class="absolute right-1 top-1">
+            <IconButton
+                class="absolute right-1 top-1"
+                :aria-label="$t('user.settings')"
+                :title="$t('user.settings')"
+                @click="$ui.openModal(UserSettingsModal)"
+            >
                 <i-zondicons-cog class="h-5 w-5" />
             </IconButton>
         </div>
@@ -130,6 +135,8 @@
 import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
 import { translate } from '@aerogel/core';
+
+import UserSettingsModal from './UserSettingsModal.vue';
 
 const pollingText = translate('cloud.advanced.polling', { minutes: '%%separator%%' }).split('%%separator%%');
 const errorDescription = computed(() => {

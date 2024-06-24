@@ -9,13 +9,13 @@
         <AGForm :form="form" class="mt-4 w-full" @submit="submit()">
             <div class="flex gap-4">
                 <TextInput name="name" :label="$t('workspaces.name')" class="w-80 max-w-[80vw] flex-1" />
-                <SelectInput name="color">
+                <SelectInput name="color" as="div">
                     <SelectInputLabel>{{ $t('workspaces.color') }}</SelectInputLabel>
                     <TextButton :as="SelectInputButton" color="clear" class="-ml-3 mt-2 h-10">
                         <div class="h-4 w-4 rounded-full bg-[--primary-500]" />
                         <i-zondicons-cheveron-down class="ml-0.5 h-5 w-5" />
                     </TextButton>
-                    <SelectInputOptions class="right-0 top-full flex">
+                    <SelectInputOptions class="flex" placement="bottom-end">
                         <SelectInputOption v-for="color of colors" :key="color.name" :value="color.name">
                             <div class="p-2">
                                 <div class="h-4 w-4 rounded-full" :style="`background: ${color.values[500]};`" />

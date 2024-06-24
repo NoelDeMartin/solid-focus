@@ -1,13 +1,14 @@
 <template>
-    <AGHeadlessButton :class="renderedClasses" :disabled="disabled">
+    <AGHeadlessButton ref="$root" :class="renderedClasses" :disabled="disabled">
         <slot />
     </AGHeadlessButton>
 </template>
 
 <script setup lang="ts">
-import { Colors, booleanProp, enumProp, removeInteractiveClasses, stringProp } from '@aerogel/core';
+import { Colors, booleanProp, elementRef, enumProp, removeInteractiveClasses, stringProp } from '@aerogel/core';
 import { computed } from 'vue';
 import { twMerge } from 'tailwind-merge';
+import type { HasElement } from '@aerogel/core';
 
 const props = defineProps({
     class: stringProp(''),
@@ -15,6 +16,7 @@ const props = defineProps({
     disabled: booleanProp(),
 });
 
+const $root = elementRef();
 const baseClasses =
     'clickable-target flex items-center justify-center rounded-lg px-3 py-2 whitespace-nowrap focus-visible:outline';
 const colorClasses = computed(() => {
@@ -48,4 +50,6 @@ const variantClasses = computed(() => {
     return `${removeInteractiveClasses(classes)} opacity-50`;
 });
 const renderedClasses = computed(() => twMerge(variantClasses.value, props.class));
+
+defineExpose<HasElement>({ $el: $root });
 </script>

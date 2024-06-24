@@ -14,13 +14,13 @@
         <IconButton
             :aria-label="$t('workspace.search')"
             :title="$t('workspace.search')"
-            class="mr-2"
+            :class="$solid.hasLoggedIn() && 'mr-2'"
             @click="$ui.openModal(WorkspaceSearchModal)"
         >
             <i-zondicons-search class="h-5 w-5" />
         </IconButton>
         <UserStatus v-if="$solid.hasLoggedIn()" />
-        <UserSettings v-else />
+        <UserMenu v-else />
     </div>
 </template>
 

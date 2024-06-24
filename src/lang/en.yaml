@@ -133,9 +133,10 @@ lists:
     notFound: Couldn't find `{list}` list
 
 user:
-    settings: Open settings
+    menu: Configuration
+    settings: Settings
     account: Open account status
-    logIn: Log in
+    logIn: Connect account
 
 tasks:
     inputDescription: Press "+" to add a new task
@@ -175,6 +176,12 @@ task:
     delete:
         title: Delete task
         message: This will delete your task <code>{task}</code>.
+
+settings:
+    title: Settings
+    locale: Language
+    localeDescription: Can't find your language? [You can contribute it!]({url})
+    localDefault: '{locale} (default)'
 
 time:
     yesterday: Yesterday
