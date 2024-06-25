@@ -4,10 +4,10 @@
         <AGForm :form="form" class="mt-2" @submit="close(form.draft)">
             <TextInput name="draft" :placeholder="placeholder" :label="label" />
             <div class="mt-4 flex flex-row-reverse">
-                <TextButton :color="acceptColor" @click="close(true)">
+                <TextButton :color="acceptColor" submit>
                     {{ renderedAcceptText }}
                 </TextButton>
-                <TextButton :color="cancelColor" class="mr-2" @click="close(false)">
+                <TextButton :color="cancelColor" class="mr-2" @click="close()">
                     {{ renderedCancelText }}
                 </TextButton>
             </div>
