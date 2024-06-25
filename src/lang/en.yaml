@@ -181,7 +181,7 @@ settings:
     title: Settings
     locale: Language
     localeDescription: Can't find your language? [You can contribute it!]({url})
-    localDefault: '{locale} (default)'
+    localeDefault: '{locale} (default)'
 
 time:
     yesterday: Yesterday
@@ -195,3 +195,6 @@ ui:
     close: Close
     viewDetails: View details
     delete: Delete
+
+errors:
+    required: This field is required

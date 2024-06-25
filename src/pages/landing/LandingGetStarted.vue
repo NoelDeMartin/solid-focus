@@ -13,14 +13,14 @@
             </h2>
             <AGMarkdown lang-key="landing.getStarted.intro" class="mt-2 text-center font-light text-gray-600" />
 
-            <div class="mt-4 flex justify-center gap-2">
+            <div class="mt-4 flex items-start justify-center gap-2">
                 <TextInput
                     name="draft"
                     class="w-80"
                     :aria-label="$t('landing.getStarted.label')"
                     :placeholder="$t('tasks.placeholder')"
                 />
-                <TextButton submit>
+                <TextButton submit class="h-10">
                     {{ $t('landing.getStarted.submit') }}
                 </TextButton>
             </div>

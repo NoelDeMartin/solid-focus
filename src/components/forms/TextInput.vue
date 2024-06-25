@@ -12,9 +12,17 @@
                     @keydown.enter.prevent="form?.submit()"
                 />
             </div>
-            <AGHeadlessInputInput v-else v-bind="attrs" :class="renderedInputClass" />
+            <div v-else class="relative">
+                <AGHeadlessInputInput v-bind="attrs" :class="renderedInputClass" />
+                <div
+                    v-if="$input?.errors"
+                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                >
+                    <i-zondicons-exclamation-solid class="h-5 w-5 text-red-500" />
+                </div>
+            </div>
             <AGHeadlessInputDescription />
-            <AGHeadlessInputError class="mt-1 text-sm text-red-600" />
+            <AGHeadlessInputError class="mt-1 text-start text-sm text-red-600" />
         </div>
     </AGHeadlessInput>
 </template>
@@ -41,9 +49,11 @@ const renderedInputClass = computed(() =>
     twMerge(
         [
             props.multiline ? 'absolute inset-0 block h-full resize-none' : '',
-            'w-full rounded-lg border-0',
-            'text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',
-            'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
+            $input.value?.errors
+                ? 'ring-red-300 placeholder:text-red-300 focus:ring-red-500'
+                : 'ring-gray-300 placeholder:text-gray-400 focus:ring-[--primary-600]',
+            'w-full rounded-lg border-0 text-base text-gray-900 shadow-sm ring-1 ring-inset',
+            'focus:ring-2 focus:ring-inset',
         ].join(' '),
         props.inputClass,
     ));
