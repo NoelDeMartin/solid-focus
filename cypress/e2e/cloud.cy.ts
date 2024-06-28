@@ -1,4 +1,7 @@
+import { escapeRegexText } from '@noeldemartin/utils';
 import { podUrl, webId } from '@aerogel/cypress';
+
+import type Task from '@/models/Task';
 
 describe('Cloud', () => {
 
@@ -26,6 +29,54 @@ describe('Cloud', () => {
         cy.fixture('sparql/complete-task.sparql').then((sparql) => {
             cy.get('@updateTask').its('response.statusCode').should('eq', 205);
             cy.get('@updateTask').its('request.body').should('be.sparql', sparql);
+        });
+    });
+
+    it('Syncs deleted tasks', () => {
+        // Arrange
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.ariaInput('Task name').type('To delete{enter}');
+        cy.dontSee('Loading...');
+
+        cy.model('Workspace').then(async (Workspace) => {
+            const main = await Workspace.find(podUrl('/main/'));
+            const tasks = await main?.loadRelation<Task[]>('tasks');
+            const task = tasks?.[0];
+
+            if (task) {
+                const turtle = await task.toTurtle();
+
+                cy.wrap(turtle.replace(new RegExp(escapeRegexText(task.url), 'g'), '#it')).as('taskTurtle');
+            }
+        });
+        cy.intercept('PATCH', podUrl('/main/*')).as('updateTask');
+
+        // Act
+        cy.ariaLabel('Select task \\"To delete\\"').click();
+        cy.ariaLabel('Delete').click();
+        cy.press('Delete');
+
+        // Assert
+        cy.get('@taskTurtle').then((taskTurtle) => {
+            cy.get('@updateTask')
+                .its('request.body')
+                .should(
+                    'be.sparql',
+                    `
+                        DELETE DATA { ${taskTurtle} } ;
+                        INSERT DATA {
+                            @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+                            @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+                            <#it-metadata>
+                                a crdt:Tombstone ;
+                                crdt:resource <#it> ;
+                                crdt:deletedAt  "[[.*]]"^^xsd:dateTime .
+                        } .
+                    `,
+                );
         });
     });
 

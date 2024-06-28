@@ -7,7 +7,7 @@
             :disable-editing="disableEditing"
             class="mt-4"
         />
-        <TasksStart v-else-if="!$tasksList.tasks?.length" @create="createTask($event)" />
+        <TasksStart v-else-if="!tasks.completed.length" @create="createTask($event)" />
         <TasksEmpty v-else-if="!showCompleted" />
         <div v-if="tasks.completed.length" class="mt-4">
             <TextButton

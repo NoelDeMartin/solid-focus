@@ -24,10 +24,10 @@
     "dependencies": {
         "@aerogel/core": "0.0.0-next.50c27187b57939cdb3063c8915f48bd4c5f584e2",
         "@aerogel/plugin-i18n": "0.0.0-next.bde642c4a8096c5fc3d5e676c2115da23f4bf1d8",
-        "@aerogel/plugin-offline-first": "0.0.0-next.9e91efc501cd68987d45223eec1e4e749937ca20",
+        "@aerogel/plugin-offline-first": "0.0.0-next.9a0a81787be6efcaf247780702b52653fb880d9a",
         "@aerogel/plugin-routing": "0.0.0-next.d34923f3b144e8f6720e6a9cdadb2cd4fb4ab289",
         "@aerogel/plugin-solid": "0.0.1-next.9e91efc501cd68987d45223eec1e4e749937ca20",
-        "@aerogel/plugin-soukai": "0.0.0-next.71f28064caa2ea968f0e99396b672de218176260",
+        "@aerogel/plugin-soukai": "0.0.0-next.03a6dc871fb902f16ae6ce04bbca1be11fd640a2",
         "@headlessui/vue": "^1.7.22",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "0.4.0-next.852c9f9e65275fc2a2e67a9750784fb43a0fd64b",

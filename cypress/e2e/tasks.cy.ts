@@ -127,7 +127,7 @@ describe('Tasks', () => {
         cy.see('Cook Ramen');
     });
 
-    it('Removes tasks', () => {
+    it('Deletes tasks', () => {
         // Arrange
         cy.ariaInput('Task name').type('Cook Ramen{enter}');
         cy.see('Cook Ramen');

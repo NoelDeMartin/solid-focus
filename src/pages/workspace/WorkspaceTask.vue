@@ -7,7 +7,7 @@
             <AGForm
                 v-if="task"
                 :form="form"
-                class="flex h-full flex-col"
+                class="flex h-full w-full flex-col"
                 @submit="save()"
             >
                 <AGMarkdown :text="task.name" class="sr-only" as="h2" />
@@ -146,9 +146,11 @@ import {
 } from '@aerogel/core';
 import { computedModel } from '@aerogel/plugin-soukai';
 import { computed, ref, watchEffect } from 'vue';
+import { Cloud } from '@aerogel/plugin-offline-first';
+import { useModelEvent } from '@aerogel/plugin-soukai';
 
+import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
-import type Task from '@/models/Task';
 
 import { PanelAnimator } from './animations';
 
@@ -237,16 +239,37 @@ async function deleteTask() {
         return;
     }
 
+    if (Cloud.ready) {
+        await task.value.softDelete();
+        await Cloud.syncIfOnline(task.value);
+
+        return;
+    }
+
     await task.value.delete();
 }
 
-watchEffect(async () => {
-    if (!Workspaces.task) {
-        await panelAnimator.hide();
+useModelEvent(Task, 'updated', async (updatedTask) => {
+    if (updatedTask.url !== workspaceTask.value?.url || !updatedTask.isSoftDeleted()) {
+        return;
     }
 
-    workspaceTask.value = Workspaces.task ?? undefined;
+    await panelAnimator.hide();
 
-    workspaceTask.value && (await panelAnimator.show());
+    workspaceTask.value = undefined;
+});
+
+watchEffect(async () => {
+    if (Workspaces.task && !Workspaces.task.isSoftDeleted()) {
+        workspaceTask.value = Workspaces.task;
+
+        await panelAnimator.show();
+
+        return;
+    }
+
+    await panelAnimator.hide();
+
+    workspaceTask.value = undefined;
 });
 </script>
