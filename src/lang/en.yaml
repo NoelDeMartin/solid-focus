@@ -177,6 +177,11 @@ task:
         title: Delete task
         message: This will delete your task <code>{task}</code>.
 
+notFound:
+    title: Not found
+    goHome: Go home
+    logIn: Need to log in?
+
 settings:
     title: Settings
     locale: Language

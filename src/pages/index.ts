@@ -21,7 +21,7 @@ export const bindings = defineRouteBindings({
 
 export const routes = defineRoutes([
     {
-        name: 'landing',
+        name: 'home',
         path: '/',
         component: Landing,
         beforeEnter: () => Workspaces.open(),
