@@ -1,9 +1,9 @@
 <template>
-    <FloatingModal>
+    <FloatingModal ref="$modal">
         <div class="relative flex items-center rounded-md bg-gray-100 p-4 pr-12">
             <AGSolidUserAvatar class="mr-2 h-16 w-16" />
             <div class="flex flex-col">
-                <span class="font-semibold">{{ $solid.user?.name }}</span>
+                <span class="font-semibold">{{ $solid.user?.name ?? $t('user.anonymous') }}</span>
                 <TextLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-light text-gray-500">
                     {{ $solid.user?.webId }}
                 </TextLink>
@@ -134,10 +134,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
-import { translate } from '@aerogel/core';
+import { componentRef, translate, useEvent } from '@aerogel/core';
+
+import type { IFloatingModal } from '@/components/modals/FloatingModal';
 
 import UserSettingsModal from './UserSettingsModal.vue';
 
+const $modal = componentRef<IFloatingModal>();
 const pollingText = translate('cloud.advanced.polling', { minutes: '%%separator%%' }).split('%%separator%%');
 const errorDescription = computed(() => {
     if (!Solid.error) {
@@ -151,4 +154,6 @@ const errorDescription = computed(() => {
     return translate('cloud.info.error');
 });
 const showErrorDetails = computed(() => Solid.error && typeof Solid.error !== 'string');
+
+useEvent('auth:logout', () => $modal.value?.close());
 </script>

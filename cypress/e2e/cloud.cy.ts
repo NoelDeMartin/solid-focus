@@ -254,4 +254,27 @@ describe('Cloud', () => {
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main/${encodeURIComponent('勉強')}`);
     });
 
+    it('Wipes data on log out', () => {
+        // Arrange.
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.ariaInput('Task name').type('Testing{enter}');
+
+        // Act
+        cy.ariaLabel('Open account status').click();
+        cy.press('Log out');
+        cy.see('Log out from this device?');
+        cy.press('Log out');
+
+        // Assert
+        cy.see('Forget with confidence');
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/`);
+        cy.model('Workspace').then(async (Workspace) => {
+            const workspaces = await Workspace.all();
+
+            cy.wrap(workspaces.length).should('eq', 0);
+        });
+    });
+
 });
