@@ -2,7 +2,7 @@
     <div class="flex-1">
         <aside
             ref="$panel"
-            class="fixed bottom-0 right-0 top-1 hidden min-w-96 border-l p-8 pb-4 will-change-transform"
+            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-8 md:pb-2"
         >
             <AGForm
                 v-if="task"
@@ -16,23 +16,66 @@
                 </span>
                 <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
 
-                <TextButton
-                    v-if="!editing"
-                    color="clear"
-                    class="max-w-80 justify-start whitespace-pre-wrap text-start"
-                    :aria-label="$t('task.editName')"
-                    :title="$t('task.editName')"
-                    @click="startEditing('name')"
-                >
-                    <AGMarkdown :text="task.name" inline class="text-lg font-semibold" />
-                </TextButton>
-                <TextInput
-                    v-else
-                    multiline
-                    :aria-label="$t('task.name')"
-                    name="name"
-                    input-class="max-w-80 text-lg font-semibold py-2 px-3"
-                />
+                <div class="flex gap-1">
+                    <IconButton
+                        v-if="!editing && $ui.mobile"
+                        class="mt-0.5 self-start"
+                        :aria-label="$t('ui.close')"
+                        :title="$t('ui.close')"
+                        @click="$workspaces.select(null)"
+                    >
+                        <i-zondicons-arrow-left class="h-4 w-4" />
+                    </IconButton>
+                    <TextButton
+                        v-if="!editing"
+                        color="clear"
+                        class="w-full justify-start whitespace-pre-wrap text-start md:max-w-80"
+                        :aria-label="$t('task.editName')"
+                        :title="$t('task.editName')"
+                        @click="startEditing('name')"
+                    >
+                        <AGMarkdown :text="task.name" inline class="text-lg font-semibold" />
+                    </TextButton>
+                    <TextInput
+                        v-else
+                        multiline
+                        :aria-label="$t('task.name')"
+                        name="name"
+                        class="w-full"
+                        input-class="md:max-w-80 text-lg font-semibold py-2 px-3"
+                    />
+
+                    <Menu v-if="!editing && $ui.mobile" class="relative z-20" as="div">
+                        <IconButton :as="MenuButton" :title="$t('task.actions')" :aria-label="$t('task.actions')">
+                            <i-zondicons-dots-horizontal-triple class="h-5 w-5" />
+                        </IconButton>
+
+                        <MenuItems
+                            class="absolute right-0 mt-2 w-56 origin-top-right gap-y-0.5 rounded-lg bg-white p-1.5 shadow-lg ring-1 ring-black/5 focus:outline-none"
+                        >
+                            <MenuItem v-slot="{ active }">
+                                <AGHeadlessButton
+                                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm text-gray-900"
+                                    :class="active && 'bg-gray-100'"
+                                    @click="startEditing('name')"
+                                >
+                                    <i-zondicons-edit-pencil class="h-4 w-4" />
+                                    <span class="ml-3">{{ $t('task.edit') }}</span>
+                                </AGHeadlessButton>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }">
+                                <AGHeadlessButton
+                                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm text-gray-900"
+                                    :class="active && 'bg-gray-100'"
+                                    @click="deleteTask()"
+                                >
+                                    <i-zondicons-trash class="h-4 w-4" />
+                                    <span class="ml-3">{{ $t('task.delete.button') }}</span>
+                                </AGHeadlessButton>
+                            </MenuItem>
+                        </MenuItems>
+                    </Menu>
+                </div>
 
                 <div class="mt-2 w-full">
                     <TextButton
@@ -40,7 +83,7 @@
                         color="clear"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="min-h-12 w-full max-w-80 justify-start text-start"
+                        class="min-h-12 w-full justify-start text-start md:max-w-80"
                         :class="{ 'bg-gray-50': !task.description }"
                         @click="startEditing('description')"
                     >
@@ -51,7 +94,8 @@
                         v-else
                         :aria-label="$t('task.description')"
                         name="description"
-                        input-class="max-w-80 text-base py-2 px-3"
+                        class="w-full"
+                        input-class="md:max-w-80 text-base py-2 px-3"
                     />
                 </div>
 
@@ -108,10 +152,15 @@
                 </div>
                 <div class="flex-1" />
                 <div class="flex items-center justify-between">
-                    <IconButton :aria-label="$t('ui.close')" :title="$t('ui.close')" @click="$workspaces.select(null)">
+                    <IconButton
+                        :aria-label="$t('ui.close')"
+                        :title="$t('ui.close')"
+                        class="hidden md:block"
+                        @click="$workspaces.select(null)"
+                    >
                         <i-zondicons-cheveron-right class="h-5 w-5" />
                     </IconButton>
-                    <span class="self-center text-sm text-gray-500">
+                    <span class="w-full text-center text-sm text-gray-500">
                         {{
                             $t('task.created', {
                                 date: renderedCreatedAt,
@@ -119,7 +168,7 @@
                         }}
                     </span>
                     <IconButton
-                        class="text-gray-500"
+                        class="hidden text-gray-500 md:block"
                         :aria-label="$t('ui.delete')"
                         :title="$t('ui.delete')"
                         @click="deleteTask()"
@@ -129,7 +178,7 @@
                 </div>
             </AGForm>
         </aside>
-        <div ref="$filler" />
+        <div ref="$filler" class="hidden md:block" />
     </div>
 </template>
 
@@ -147,6 +196,7 @@ import {
 import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
 import { computed, ref, watchEffect } from 'vue';
 import { Cloud } from '@aerogel/plugin-offline-first';
+import { MenuButton } from '@headlessui/vue';
 
 import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';

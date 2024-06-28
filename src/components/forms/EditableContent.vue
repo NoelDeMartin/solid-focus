@@ -1,5 +1,5 @@
 <template>
-    <div class="relative" :class="{ 'pointer-events-none': disabled && !editing }">
+    <div class="relative" :class="{ '!pointer-events-none': disabled && !editing }">
         <div v-if="!editing" :class="renderedContentClass">
             <slot />
         </div>

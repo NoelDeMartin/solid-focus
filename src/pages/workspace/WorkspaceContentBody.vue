@@ -37,6 +37,7 @@ import { arrayGroupBy, arraySorted, compare } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed, ref } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
+import { UI } from '@aerogel/core';
 
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
@@ -47,7 +48,8 @@ import type { ITasksForm } from './components/tasks/TasksForm';
 
 const $tasksForm = ref<ITasksForm>();
 const showCompleted = ref(false);
-const disableEditing = ref(false);
+const disableEditingWithKeyboard = ref(false);
+const disableEditing = computed(() => UI.mobile || disableEditingWithKeyboard.value);
 const groupedTasks = computedModels(Task, () =>
     arrayGroupBy(TasksLists.current?.tasks ?? [], (task) => (task.completed ? 'completed' : 'pending')));
 const tasks = computed(() => ({
@@ -99,8 +101,8 @@ function changeTask(delta: 1 | -1) {
 }
 
 watchKeyboardShortcut('Control', {
-    start: () => (disableEditing.value = true),
-    end: () => (disableEditing.value = false),
+    start: () => (disableEditingWithKeyboard.value = true),
+    end: () => (disableEditingWithKeyboard.value = false),
 });
 watchKeyboardShortcut('+', () => $tasksForm.value?.focus());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));

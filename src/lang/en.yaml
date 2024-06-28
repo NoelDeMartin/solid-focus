@@ -157,6 +157,8 @@ tasks:
     hideCompleted: Hide completed
 
 task:
+    actions: View actions
+    edit: Edit
     emptyDescription: No description
     name: Name
     editName: Edit name
@@ -175,6 +177,7 @@ task:
     makeImportant: Make important
     removeImportant: Remove important
     delete:
+        button: Delete
         title: Delete task
         message: This will delete your task <code>{task}</code>.
 

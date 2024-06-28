@@ -1,7 +1,7 @@
 <template>
     <div v-if="$workspaces.current && !settingUpCloud" class="h-1 w-full bg-[--primary-500]" />
     <WorkspaceCloudSetup v-if="settingUpCloud" />
-    <div v-else-if="$workspaces.current?.isRelationLoaded('lists')" class="flex w-full flex-grow">
+    <div v-else-if="$workspaces.current?.isRelationLoaded('lists')" class="isolate flex w-full flex-grow">
         <WorkspaceSidebar />
         <WorkspaceContent />
         <WorkspaceTask />
