@@ -144,10 +144,9 @@ import {
     translate,
     useForm,
 } from '@aerogel/core';
-import { computedModel } from '@aerogel/plugin-soukai';
+import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
 import { computed, ref, watchEffect } from 'vue';
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { useModelEvent } from '@aerogel/plugin-soukai';
 
 import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
