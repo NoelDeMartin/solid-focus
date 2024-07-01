@@ -8,6 +8,7 @@
                     'hover:bg-gray-100': !isActive,
                 }"
                 v-bind="list.routeAttributes"
+                @click="$ui.mobile && $workspaces.toggleSidebar()"
             >
                 {{ $listName(list) }}
             </AGHeadlessButton>
@@ -21,7 +22,7 @@
                 :class="isActive && 'hover:bg-[--primary-200]'"
                 :title="$t('lists.edit')"
                 :aria-label="$t('lists.editA11y', { name: list.name })"
-                @click="editList()"
+                @click="list.edit()"
             >
                 <i-ic-baseline-edit class="h-5 w-5" />
             </IconButton>
@@ -30,9 +31,8 @@
 </template>
 
 <script setup lang="ts">
+import { booleanProp, requiredObjectProp } from '@aerogel/core';
 import { computed } from 'vue';
-import { Cloud } from '@aerogel/plugin-offline-first';
-import { Colors, UI, booleanProp, requiredObjectProp, translate } from '@aerogel/core';
 
 import TasksLists from '@/services/TasksLists';
 import type TasksList from '@/models/TasksList';
@@ -42,20 +42,4 @@ const props = defineProps({
     editable: booleanProp(),
 });
 const isActive = computed(() => props.list.url === TasksLists.current?.url);
-
-async function editList(): Promise<void> {
-    const name = await UI.prompt(translate('lists.edit'), {
-        label: translate('lists.name'),
-        defaultValue: props.list.name,
-        acceptText: translate('ui.save'),
-        cancelColor: Colors.Secondary,
-    });
-
-    if (!name) {
-        return;
-    }
-
-    await props.list.update({ name });
-    await Cloud.syncIfOnline(props.list);
-}
 </script>

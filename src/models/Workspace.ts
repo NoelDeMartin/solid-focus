@@ -1,8 +1,10 @@
 import { Router } from '@aerogel/plugin-routing';
+import { UI } from '@aerogel/core';
 import type { Relation } from 'soukai';
 import type { SolidContainsRelation } from 'soukai-solid';
 
 import TasksList from '@/models/TasksList';
+import WorkspaceSettingsModal from '@/pages/workspace/modals/WorkspaceSettingsModal.vue';
 import { THEME_COLORS } from '@/utils/colors';
 import type { ThemeColor } from '@/utils/colors';
 
@@ -36,6 +38,10 @@ export default class Workspace extends Model {
                 list: list instanceof Workspace ? '' : list?.slug ?? '',
             },
         });
+    }
+
+    public async edit(): Promise<void> {
+        await UI.openModal(WorkspaceSettingsModal, { workspace: this });
     }
 
 }

@@ -44,7 +44,21 @@
             </SelectInputOptions>
         </SelectInput>
         <div class="flex-1" />
-        <div class="-mr-4 overflow-hidden p-1 pr-2">
+        <OptionsMenu
+            v-if="$ui.mobile"
+            :options="[
+                {
+                    text: $t('workspaces.edit'),
+                    click: () => $workspace.edit(),
+                },
+                !$tasksList.is($workspace) && { text: $t('lists.edit'), click: () => $tasksList.edit() },
+            ]"
+        >
+            <IconButton :as="OptionsMenuButton" class="-mr-2">
+                <i-zondicons-dots-horizontal-triple class="h-5 w-5" />
+            </IconButton>
+        </OptionsMenu>
+        <div v-else class="-mr-4 overflow-hidden p-1 pr-2">
             <IconButton
                 class="h-10 w-10 translate-x-full rounded-lg p-0 transition-transform focus:translate-x-0 group-hover:translate-x-0"
                 :aria-label="$t('workspaces.edit')"
@@ -60,7 +74,9 @@
 <script setup lang="ts">
 import { UI } from '@aerogel/core';
 
+import OptionsMenuButton from '@/components/popups/OptionsMenuButton.vue';
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
+import Workspaces from '@/services/Workspaces';
 import { THEME_COLORS } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
 
@@ -75,6 +91,12 @@ async function changeWorkspace(option: Workspace | typeof ADD_WORKSPACE) {
         return;
     }
 
-    await option.open();
+    if (UI.mobile) {
+        Workspaces.toggleSidebar();
+    }
+
+    if (!Workspaces.current?.is(option)) {
+        await option.open();
+    }
 }
 </script>

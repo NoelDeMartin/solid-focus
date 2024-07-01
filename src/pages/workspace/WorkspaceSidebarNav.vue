@@ -43,6 +43,10 @@ async function createList() {
 
     const list = await Workspaces.current.relatedLists.create({ name });
 
+    if (UI.mobile) {
+        Workspaces.toggleSidebar();
+    }
+
     await Workspaces.current.open(list);
     await Cloud.syncIfOnline(list);
 }

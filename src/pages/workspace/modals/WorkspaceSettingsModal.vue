@@ -40,10 +40,11 @@
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed, watchEffect } from 'vue';
-import { componentRef, objectProp, requiredStringInput, useForm } from '@aerogel/core';
+import { UI, componentRef, objectProp, requiredStringInput, useForm } from '@aerogel/core';
 
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
 import Workspace from '@/models/Workspace';
+import Workspaces from '@/services/Workspaces';
 import { THEME_COLORS } from '@/utils/colors';
 import type { IFloatingModal } from '@/components/modals/FloatingModal';
 import type { ThemeColor } from '@/utils/colors';
@@ -66,6 +67,10 @@ async function submit(): Promise<void> {
         color: form.color,
     };
     const workspace = await (props.workspace ? props.workspace.update(updates) : Workspace.create(updates));
+
+    if (!props.workspace && UI.mobile) {
+        Workspaces.toggleSidebar();
+    }
 
     await workspace.open();
     await Cloud.syncIfOnline(workspace);

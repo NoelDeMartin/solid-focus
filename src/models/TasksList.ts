@@ -1,3 +1,5 @@
+import { Cloud } from '@aerogel/plugin-offline-first';
+import { Colors, UI, translate } from '@aerogel/core';
 import { requireBootedModel } from 'soukai';
 import type { Relation } from 'soukai';
 import type { SolidContainsRelation, SolidIsContainedByRelation } from 'soukai-solid';
@@ -31,6 +33,22 @@ export default class TasksList extends Model {
 
     public tasksRelationship(): Relation {
         return this.contains(Task);
+    }
+
+    public async edit(): Promise<void> {
+        const name = await UI.prompt(translate('lists.edit'), {
+            label: translate('lists.name'),
+            defaultValue: this.name,
+            acceptText: translate('ui.save'),
+            cancelColor: Colors.Secondary,
+        });
+
+        if (!name) {
+            return;
+        }
+
+        await this.update({ name });
+        await Cloud.syncIfOnline(this);
     }
 
 }

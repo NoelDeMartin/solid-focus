@@ -2,6 +2,7 @@
     <div v-if="$tasksLists.current" class="flex items-center px-4 py-6">
         <IconButton
             class="p-1.5"
+            :title="$workspaces.sidebar ? $t('workspaces.hideSidebar') : $t('workspaces.openSidebar')"
             :aria-label="$workspaces.sidebar ? $t('workspaces.hideSidebar') : $t('workspaces.openSidebar')"
             @click="$workspaces.toggleSidebar()"
         >
