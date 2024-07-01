@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-full max-w-screen-xl flex-col" @click="deselectTask($event)">
+    <div class="flex w-full max-w-screen-xl flex-col overflow-hidden" @click="deselectTask($event)">
         <template v-if="$tasksLists.current?.isRelationLoaded('tasks')">
             <WorkspaceContentHeader />
             <WorkspaceContentBody class="flex-1" />

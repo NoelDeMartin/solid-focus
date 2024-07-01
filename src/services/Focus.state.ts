@@ -5,5 +5,7 @@ export default defineServiceState({
     persist: ['visits'],
     initialState: {
         visits: 0,
+        footerRightPadding: null as number | null,
+        footerLeftPadding: null as number | null,
     },
 });

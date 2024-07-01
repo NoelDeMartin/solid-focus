@@ -166,7 +166,11 @@
                 </div>
             </AGForm>
         </aside>
-        <div ref="$filler" class="hidden md:block" />
+        <div
+            ref="$filler"
+            v-measure.watch="(size: ElementSize) => $ui.desktop && ($focus.footerRightPadding = size.width)"
+            class="hidden md:block"
+        />
     </div>
 </template>
 
@@ -182,10 +186,12 @@ import {
     useForm,
 } from '@aerogel/core';
 import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, watchEffect } from 'vue';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { MenuButton } from '@headlessui/vue';
+import type { ElementSize } from '@aerogel/core';
 
+import Focus from '@/services/Focus';
 import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
 
@@ -309,4 +315,6 @@ watchEffect(async () => {
 
     workspaceTask.value = undefined;
 });
+
+onUnmounted(() => (Focus.footerRightPadding = null));
 </script>

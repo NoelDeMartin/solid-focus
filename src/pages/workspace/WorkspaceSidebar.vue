@@ -18,14 +18,20 @@
                 <WorkspaceSidebarNav />
             </div>
         </div>
-        <div ref="$filler" class="hidden md:block" />
+        <div
+            ref="$filler"
+            v-measure.watch="(size: ElementSize) => $ui.desktop && ($focus.footerLeftPadding = size.width)"
+            class="hidden md:block"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { onUnmounted, ref, watchEffect } from 'vue';
 import { UI } from '@aerogel/core';
+import type { ElementSize } from '@aerogel/core';
 
+import Focus from '@/services/Focus';
 import Workspaces from '@/services/Workspaces';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
@@ -37,4 +43,5 @@ const panelAnimator = new PanelAnimator($panel, $filler, 'left');
 
 watchEffect(() => (Workspaces.sidebar ? panelAnimator.show() : panelAnimator.hide()));
 watchKeyboardShortcut('Escape', () => UI.mobile && Workspaces.sidebar && Workspaces.toggleSidebar());
+onUnmounted(() => (Focus.footerLeftPadding = null));
 </script>
