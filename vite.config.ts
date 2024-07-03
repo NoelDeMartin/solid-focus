@@ -11,7 +11,12 @@ import { resolve } from 'path';
 export default defineConfig({
     publicDir: resolve(__dirname, './src/assets/public/'),
     plugins: [
-        Aerogel({ name: 'Solid Focus' }),
+        Aerogel({
+            name: 'Focus',
+            description: 'Your distraction-free Task Manager',
+            baseUrl: 'https://focus.noeldemartin.com',
+            themeColor: '#0ea5e9',
+        }),
         Components({
             deep: true,
             dts: false,
