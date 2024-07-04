@@ -268,7 +268,7 @@ describe('Cloud', () => {
         cy.press('Log out');
 
         // Assert
-        cy.see('Forget with confidence');
+        cy.see('Hello there');
         cy.url().should('equal', `${Cypress.config('baseUrl')}/`);
         cy.model('Workspace').then(async (Workspace) => {
             const workspaces = await Workspace.all();
