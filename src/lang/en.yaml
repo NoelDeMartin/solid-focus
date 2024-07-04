@@ -207,3 +207,15 @@ ui:
 
 errors:
     required: This field is required
+
+beta:
+    title: Hello there!
+    message: |
+        Thanks for visiting **Focus**. The app is still a Work In Progress, so I don't recommend using it in production. But feel free
+        to play around with it and take it for a spin. Most of the functionality is already in place, but there are still some things
+        I want to do and I can't guarantee that it won't change in the final version.
+
+        Also, please don't share it too widely because I think first impressions are important and I've still got some work to do :).
+
+        You can find more about what is missing, and give some feedback, in the [Beta Feedback](#) issue. If you want to know when this is ready, subscribe
+        to the issue in GitHub to get a notification.

@@ -8,7 +8,7 @@
             class="mt-10"
             @submit="$ui.loading(submit())"
         >
-            <h2 class="mt-6 text-xl font-semibold leading-6 text-gray-900">
+            <h2 class="mt-6 text-center text-xl font-semibold leading-6 text-gray-900">
                 {{ $t('landing.getStarted.title') }}
             </h2>
             <AGMarkdown lang-key="landing.getStarted.intro" class="mt-2 text-center font-light text-gray-600" />
