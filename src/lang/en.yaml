@@ -209,6 +209,7 @@ errors:
     required: This field is required
 
 beta:
+    tag: Beta
     title: Hello there!
     message: |
         Thanks for visiting **Focus**. The app is still a Work In Progress, so I don't recommend using it in production. But feel free

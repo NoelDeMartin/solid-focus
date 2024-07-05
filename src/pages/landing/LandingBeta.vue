@@ -1,6 +1,7 @@
 <template>
     <div class="flex w-full flex-grow flex-col items-center justify-center p-8">
-        <div class="h-24 w-full">
+        <div class="relative aspect-[5/2] h-24">
+            <span class="absolute -right-4 top-5 rotate-12 text-xl font-bold text-red-700">{{ $t('beta.tag') }}</span>
             <i-app-logo class="h-full w-full" />
         </div>
         <div v-if="content === 'initial'">
