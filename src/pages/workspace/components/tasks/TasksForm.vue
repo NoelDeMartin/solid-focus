@@ -1,7 +1,7 @@
 <template>
     <AGForm
         v-initial-focus
-        class="group relative flex gap-4 rounded-lg"
+        class="group relative flex gap-2 rounded-lg md:gap-4"
         :class="{
             'bg-gray-100 focus-within:bg-transparent hover:bg-gray-200 focus-within:hover:bg-transparent': !form.draft,
         }"
@@ -11,17 +11,17 @@
         <AGHeadlessInput
             ref="$input"
             name="draft"
-            :description="$t('tasks.inputDescription')"
+            :description="$ui.mobile ? $t('tasks.mobileInputDescription') : $t('tasks.desktopInputDescription')"
             class="relative flex-1"
         >
             <AGHeadlessInputInput
-                class="absolute inset-0 h-full w-full rounded-lg border-gray-200 pl-6 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100"
+                class="absolute inset-0 h-full w-full rounded-lg border-gray-200 pl-3 pr-10 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100 md:pl-6"
                 :aria-label="$t('tasks.inputLabel')"
                 :class="[inputClass, { 'opacity-100': form.draft }]"
                 :placeholder="$t('tasks.inputPlaceholder')"
             />
             <AGHeadlessInputDescription
-                class="pointer-events-none px-5 py-4 text-gray-500 group-focus-within:opacity-0"
+                class="pointer-events-none px-3 py-2 text-gray-500 group-focus-within:opacity-0 md:px-5 md:py-4"
                 :class="{ 'opacity-0': form.draft }"
             />
             <IconButton

@@ -1,7 +1,7 @@
 <template>
     <FloatingModal :title="$t('settings.title')">
-        <SelectInput v-model="$lang.locale" class="flex items-start" as="div">
-            <div class="mr-36">
+        <SelectInput v-model="$lang.locale" class="flex flex-col items-start md:flex-row" as="div">
+            <div class="md:mr-36">
                 <SelectInputLabel class="text-base font-semibold">
                     {{ $t('settings.locale') }}
                 </SelectInputLabel>
@@ -11,7 +11,7 @@
                     class="mt-1 text-sm text-gray-500"
                 />
             </div>
-            <TextButton :as="SelectInputButton" color="clear" class="-ml-1 text-sm">
+            <TextButton :as="SelectInputButton" color="clear" class="-ml-3 mt-2 md:-ml-1 md:mt-0 md:text-sm">
                 {{ localeName($lang.locale) }}
                 <i-zondicons-cheveron-down class="ml-0.5 h-6 w-6" />
             </TextButton>

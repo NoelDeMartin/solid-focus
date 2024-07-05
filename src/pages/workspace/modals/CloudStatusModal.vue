@@ -1,10 +1,10 @@
 <template>
     <FloatingModal ref="$modal">
         <div class="relative flex items-center rounded-md bg-gray-100 p-4 pr-12">
-            <AGSolidUserAvatar class="mr-2 h-16 w-16" />
-            <div class="flex flex-col">
+            <AGSolidUserAvatar class="mr-2 h-16 w-16 flex-shrink-0" />
+            <div class="flex flex-col overflow-hidden">
                 <span class="font-semibold">{{ $solid.user?.name ?? $t('user.anonymous') }}</span>
-                <TextLink :url="$solid.user?.webId" class="mt-0.5 text-sm font-light text-gray-500">
+                <TextLink :url="$solid.user?.webId" class="mt-0.5 truncate text-sm font-light text-gray-500">
                     {{ $solid.user?.webId }}
                 </TextLink>
             </div>
@@ -21,15 +21,15 @@
 
         <div class="px-2">
             <div v-if="$cloud.syncing" class="mt-4 flex items-center gap-2">
-                <i-zondicons-refresh class="mt-0.5 h-6 w-6 animate-spin self-start text-green-500" />
+                <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />
                 <AGMarkdown lang-key="cloud.info.syncing" />
             </div>
             <div v-else-if="$solid.loginOngoing" class="mt-4 flex items-center gap-2">
-                <i-zondicons-refresh class="mt-0.5 h-6 w-6 animate-spin self-start text-green-500" />
+                <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />
                 <AGMarkdown lang-key="cloud.info.reconnecting" />
             </div>
             <div v-else-if="$solid.error" class="mt-4 flex items-center gap-2">
-                <i-ion-warning class="mt-0.5 h-6 w-6 self-start text-red-500" />
+                <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-red-500" />
                 <div>
                     <AGMarkdown :text="errorDescription" />
                     <TextLink
@@ -42,19 +42,19 @@
                 </div>
             </div>
             <div v-else-if="!$cloud.ready" class="mt-4 flex items-center gap-2">
-                <i-ion-warning class="mt-0.5 h-6 w-6 self-start text-yellow-500" />
+                <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-yellow-500" />
                 <AGMarkdown lang-key="cloud.info.setup" />
             </div>
             <div v-else-if="$cloud.dirty" class="mt-4 flex items-center gap-2">
-                <i-ion-warning class="mt-0.5 h-6 w-6 self-start text-yellow-500" />
+                <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-yellow-500" />
                 <AGMarkdown lang-key="cloud.info.changes" :lang-params="$cloud.localChanges" />
             </div>
             <div v-else-if="$cloud.online" class="mt-4 flex items-center gap-2">
-                <i-zondicons-checkmark-outline class="mt-0.5 h-6 w-6 self-start text-green-500" />
+                <i-zondicons-checkmark-outline class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-green-500" />
                 <AGMarkdown lang-key="cloud.info.changes" :lang-params="0" />
             </div>
             <div v-else class="mt-4 flex items-center gap-2">
-                <i-ion-warning class="mt-0.5 h-6 w-6 self-start text-yellow-500" />
+                <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-yellow-500" />
                 <AGMarkdown lang-key="cloud.info.disconnected" />
             </div>
             <details class="group mt-2 w-fit">

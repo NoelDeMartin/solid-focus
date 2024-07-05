@@ -41,9 +41,9 @@ landing:
     getStarted:
         cta: Get started
         title: Get started
-        intro: "Are you ready to start being more focused? Let's start, create a task for the first thing you want to get done:"
+        intro: 'Are you ready to be more focused? Create a new task with the first thing you want to get done:'
         label: Task name
-        submit: Create
+        submit: Create task
         workspaceName: Main
         back: nevermind
     logIn:
@@ -67,7 +67,7 @@ cloud:
             [Learn more](https://solidproject.org)
         label: Login url
         placeholder: https://me.solidcommunity.net
-        submit: Log In
+        submit: Log in
     setup:
         title: All your eggs are in the same basket
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
@@ -140,7 +140,8 @@ user:
     logIn: Connect account
 
 tasks:
-    inputDescription: Press "+" to add a new task
+    desktopInputDescription: Press "+" to add a new task
+    mobileInputDescription: Add a new task
     inputLabel: Task name
     inputPlaceholder: What are you doing next?
     inputClear: Discard
@@ -148,9 +149,10 @@ tasks:
     selectA11y: Select task "{name}"
     selectTitle: Select task
     important: (Important)
-    placeholder: E.g. learn Japanese
+    placeholder: What will you do next?
     startTitle: Ready to grow
     startMessage: The soil is ready, plant your ideas here so they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be as flowery!
+    startSubmit: Create task
     empty: Congratulations, you've completed all your tasks! Time for a break?
     completed: Completed
     showCompleted: Show completed

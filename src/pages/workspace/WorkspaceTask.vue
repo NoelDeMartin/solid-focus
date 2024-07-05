@@ -2,7 +2,7 @@
     <div class="flex-1">
         <aside
             ref="$panel"
-            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-8 md:pb-2"
+            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
         >
             <AGForm
                 v-if="task"

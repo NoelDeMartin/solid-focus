@@ -8,14 +8,14 @@
             >
                 {{ $t('cloud.logIn.learnMore') }}
             </TextLink>
-            <div class="mt-4 flex items-center gap-2">
+            <div class="mt-4 flex flex-col items-center gap-2 md:flex-row">
                 <TextInput
                     name="url"
                     :aria-label="$t('cloud.logIn.label')"
                     :placeholder="$t('cloud.logIn.placeholder')"
-                    class="w-96"
+                    class="w-96 max-w-full"
                 />
-                <TextButton submit>
+                <TextButton submit class="w-full md:w-auto">
                     {{ $t('cloud.logIn.submit') }}
                 </TextButton>
             </div>

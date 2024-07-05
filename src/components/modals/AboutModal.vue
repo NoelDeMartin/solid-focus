@@ -1,7 +1,7 @@
 <template>
     <FloatingModal>
         <div class="px-2 py-8">
-            <div class="mx-auto aspect-[130/45] w-64">
+            <div class="mx-auto aspect-[5/2] w-64 max-w-[60vw]">
                 <i-app-logo class="h-full w-full" />
             </div>
             <h2 class="sr-only">

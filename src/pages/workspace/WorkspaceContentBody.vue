@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4">
+    <div class="flex flex-col px-4">
         <TasksForm v-if="$tasksList.tasks?.length" ref="$tasksForm" @submit="createTask($event)" />
         <TasksList
             v-if="tasks.pending.length"

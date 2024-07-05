@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-8">
+    <div class="mt-8 max-w-full">
         <AGMarkdown v-if="$solid.loginStale" :text="$td('solid.loginStale', 'This is taking too long...')" />
         <AGMarkdown v-else-if="$solid.loginOngoing" :text="$td('ui.loading', 'Loading...')" />
 
@@ -18,9 +18,9 @@
                     name="url"
                     :aria-label="$t('cloud.logIn.label')"
                     :placeholder="$t('cloud.logIn.placeholder')"
-                    class="w-96"
+                    class="w-96 max-w-full"
                 />
-                <TextButton submit class="w-96">
+                <TextButton submit class="w-full">
                     {{ $t('cloud.logIn.submit') }}
                 </TextButton>
                 <TextButton

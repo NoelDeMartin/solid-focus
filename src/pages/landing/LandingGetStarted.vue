@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-8">
+    <div class="mt-8 max-w-full">
         <AGMarkdown v-if="$cloud.syncing" lang-key="cloud.status.syncing" />
 
         <AGForm
@@ -13,14 +13,14 @@
             </h2>
             <AGMarkdown lang-key="landing.getStarted.intro" class="mt-2 text-center font-light text-gray-600" />
 
-            <div class="mt-4 flex items-start justify-center gap-2">
+            <div class="mt-4 flex flex-col items-start justify-center gap-2 md:flex-row">
                 <TextInput
                     name="draft"
-                    class="w-80"
+                    class="w-80 max-w-full"
                     :aria-label="$t('landing.getStarted.label')"
                     :placeholder="$t('tasks.placeholder')"
                 />
-                <TextButton submit class="h-10">
+                <TextButton submit class="h-10 w-full md:w-auto">
                     {{ $t('landing.getStarted.submit') }}
                 </TextButton>
             </div>

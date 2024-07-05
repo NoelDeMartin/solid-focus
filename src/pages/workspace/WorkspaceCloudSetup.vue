@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center text-center">
+    <div class="flex flex-col items-center p-8 text-center">
         <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
         <h1 class="mt-4 text-3xl font-semibold">
             {{ $t('cloud.setup.title') }}
