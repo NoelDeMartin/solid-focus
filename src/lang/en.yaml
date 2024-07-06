@@ -204,11 +204,14 @@ ui:
     save: Save
     cancel: Cancel
     close: Close
-    viewDetails: View details
     delete: Delete
 
 errors:
     required: This field is required
+    logs: Error logs
+    notice: Something went wrong, but it\'s not your fault. Try again!
+    viewLogs: View error logs
+    viewDetails: View details
 
 beta:
     tag: Beta

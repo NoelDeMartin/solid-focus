@@ -72,7 +72,10 @@ async function submit(): Promise<void> {
         Workspaces.toggleSidebar();
     }
 
-    await workspace.open();
+    if (!Workspaces.current?.is(workspace)) {
+        await workspace.open();
+    }
+
     await Cloud.syncIfOnline(workspace);
 
     $modal.value?.close();

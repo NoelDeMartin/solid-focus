@@ -12,6 +12,7 @@
             {{ $listName($tasksList) }}
         </h1>
         <div class="flex-grow" />
+        <ErrorsMenu v-if="$errors.logs.length > 0" />
         <IconButton
             :aria-label="$t('workspace.search')"
             :title="$t('workspace.search')"

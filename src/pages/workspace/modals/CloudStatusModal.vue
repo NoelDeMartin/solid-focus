@@ -37,7 +37,7 @@
                         class="text-sm underline opacity-50 hover:opacity-75 focus-visible:opacity-75"
                         @click="$errors.inspect($solid.error)"
                     >
-                        {{ $t('ui.viewDetails') }}
+                        {{ $t('errors.viewDetails') }}
                     </TextLink>
                 </div>
             </div>
