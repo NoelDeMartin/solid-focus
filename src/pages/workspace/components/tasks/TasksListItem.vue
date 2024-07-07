@@ -1,5 +1,5 @@
 <template>
-    <li class="relative isolate rounded-lg px-2.5 text-base">
+    <li class="relative isolate rounded-lg px-2.5 text-base" :class="{ 'text-gray-500': task.completed }">
         <button
             type="button"
             class="absolute inset-0 h-full w-full rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--primary-500]"

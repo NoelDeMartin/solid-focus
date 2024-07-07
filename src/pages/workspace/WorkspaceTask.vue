@@ -14,6 +14,15 @@
                 <span class="sr-only">
                     {{ task.important ? $t('task.importantA11y') : $t('task.notImportantA11y') }}
                 </span>
+                <span class="sr-only">
+                    {{
+                        renderedCompletedAt
+                            ? $t('task.completed', {
+                                date: renderedCompletedAt,
+                            })
+                            : $t('task.pendingA11y')
+                    }}
+                </span>
                 <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
 
                 <div class="flex gap-1">
@@ -119,7 +128,14 @@
                     <span class="ml-1">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
                 </TextButton>
 
-                <div v-if="renderedCompletedAt" class="mt-2 flex items-center px-3 py-2">
+                <TextButton
+                    v-if="renderedCompletedAt"
+                    color="clear"
+                    :title="$t('task.removeCompleted.button')"
+                    :aria-label="$t('task.removeCompleted.button')"
+                    class="mt-2 self-start"
+                    @click="removeCompleted()"
+                >
                     <i-zondicons-checkmark class="h-5 w-5 text-[--primary-500]" />
                     <span class="ml-1">
                         {{
@@ -128,7 +144,16 @@
                             })
                         }}
                     </span>
-                </div>
+                </TextButton>
+
+                <TextButton
+                    v-else
+                    color="secondary"
+                    class="mt-2"
+                    @click="task.toggle()"
+                >
+                    <span>{{ $t('task.complete') }}</span>
+                </TextButton>
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
                     <TextButton submit>
@@ -249,6 +274,24 @@ async function toggleImportant() {
     }
 
     await task.value.update({ important: !task.value.important });
+}
+
+async function removeCompleted() {
+    if (!task.value) {
+        return;
+    }
+
+    const confirm = await UI.confirm(
+        translate('task.removeCompleted.title'),
+        translate('task.removeCompleted.message', { task: task.value.name }),
+        { acceptText: translate('task.removeCompleted.accept') },
+    );
+
+    if (!confirm) {
+        return;
+    }
+
+    await task.value.toggle();
 }
 
 async function save() {

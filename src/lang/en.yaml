@@ -170,14 +170,21 @@ task:
     editDueDate: Edit due date
     created: Created on {date}
     completed: Completed on {date}
+    complete: Complete
     due: Due on {date}
     notDue: No due date
     important: Important
     notImportant: Not important
     importantA11y: This task is marked as important
     notImportantA11y: This task is not marked as important
+    pendingA11y: This task has not been completed yet
     makeImportant: Make important
     removeImportant: Remove important
+    removeCompleted:
+        button: Undo task
+        title: Undo task?
+        message: This will move <code>{task}</code> back to the list of pending tasks, and the previous completion date will be lost.
+        accept: Undo task
     delete:
         button: Delete
         title: Delete task

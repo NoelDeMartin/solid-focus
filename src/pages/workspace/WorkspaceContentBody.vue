@@ -8,26 +8,35 @@
             class="mt-4"
         />
         <TasksStart v-else-if="!tasks.completed.length" @create="createTask($event)" />
-        <TasksEmpty v-else-if="!showCompleted" />
+        <TasksEmpty v-else-if="!$focus.showCompleted" />
         <div v-if="tasks.completed.length" class="mt-4">
             <TextButton
                 color="clear"
                 class="ml-1 pl-1 pr-2 font-medium uppercase tracking-wider"
-                :aria-label="showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
-                @click="showCompleted = !showCompleted"
+                :aria-label="$focus.showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
+                @click="$focus.toggleCompleted()"
             >
                 <i-zondicons-cheveron-right
                     class="h-6 w-6 transition-transform"
-                    :class="{ 'rotate-90': showCompleted }"
+                    :class="{ 'rotate-90': $focus.showCompleted }"
                 />
                 <span>{{ $t('tasks.completed') }}</span>
             </TextButton>
-            <TasksList
-                v-if="showCompleted"
-                :tasks="tasks.completed"
-                :disable-editing="disableEditing"
-                class="mt-4"
-            />
+            <Transition
+                enter-from-class="scale-y-0 opacity-0"
+                enter-active-class="origin-top-left transition-[transform,opacity] duration-[500ms]"
+                enter-to-class="scale-y-100 opacity-100"
+                leave-from-class="scale-y-100 opacity-100"
+                leave-active-class="origin-top-left transition-[transform,opacity] duration-[500ms]"
+                leave-to-class="scale-y-0 opacity-0"
+            >
+                <TasksList
+                    v-if="$focus.showCompleted"
+                    :tasks="tasks.completed"
+                    :disable-editing="disableEditing"
+                    class="mt-4"
+                />
+            </Transition>
         </div>
     </div>
 </template>
@@ -39,6 +48,7 @@ import { computed, ref } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { UI } from '@aerogel/core';
 
+import Focus from '@/services/Focus';
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
@@ -47,7 +57,6 @@ import { watchKeyboardShortcut } from '@/utils/composables';
 import type { ITasksForm } from './components/tasks/TasksForm';
 
 const $tasksForm = ref<ITasksForm>();
-const showCompleted = ref(false);
 const disableEditingWithKeyboard = ref(false);
 const disableEditing = computed(() => UI.mobile || disableEditingWithKeyboard.value);
 const groupedTasks = computedModels(Task, () =>
@@ -78,7 +87,7 @@ async function createTask(name: string) {
 }
 
 function changeTask(delta: 1 | -1) {
-    const tasksList = tasks.value.pending.concat(showCompleted.value ? tasks.value.completed : []);
+    const tasksList = tasks.value.pending.concat(Focus.showCompleted ? tasks.value.completed : []);
     const select = (task?: Task) => task && Workspaces.select(task);
 
     if (!Workspaces.task) {
@@ -105,6 +114,7 @@ watchKeyboardShortcut('Control', {
     end: () => (disableEditingWithKeyboard.value = false),
 });
 watchKeyboardShortcut('+', () => $tasksForm.value?.focus());
+watchKeyboardShortcut('c', () => Focus.toggleCompleted());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
 watchKeyboardShortcut('ArrowDown', () => changeTask(1));
 watchKeyboardShortcut('Escape', () => Workspaces.select(null));
