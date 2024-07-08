@@ -19,6 +19,7 @@
                 :aria-label="$t('tasks.inputLabel')"
                 :class="[inputClass, { 'opacity-100': form.draft }]"
                 :placeholder="$t('tasks.inputPlaceholder')"
+                @keydown.esc="$input?.$el?.blur()"
             />
             <AGHeadlessInputDescription
                 class="pointer-events-none px-3 py-2 text-gray-500 group-focus-within:opacity-0 md:px-5 md:py-4"

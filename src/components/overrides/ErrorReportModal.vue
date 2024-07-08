@@ -43,7 +43,7 @@
             </AGErrorReportModalButtons>
         </div>
         <AGMarkdown v-if="report.description" :text="report.description" />
-        <pre class="mt-4 max-h-[80vh] overflow-auto rounded-lg bg-red-50 p-2 text-sm text-red-900" v-text="details" />
+        <pre class="mt-4 max-h-[80vh] !overflow-auto rounded-lg bg-red-50 p-2 text-sm text-red-900" v-text="details" />
     </FloatingModal>
 </template>
 
