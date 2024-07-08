@@ -1,4 +1,4 @@
-import { computed, customRef, onMounted, onUnmounted, watchEffect } from 'vue';
+import { computed, customRef, onMounted, onUnmounted, reactive, readonly, watchEffect } from 'vue';
 import { tap } from '@noeldemartin/utils';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
 
@@ -52,14 +52,27 @@ export function bindRefs<T>(source: Ref<T>, target: Ref<T>): WatchStopHandle {
 export function useDomEvent<Event extends keyof DocumentEventMap>(
     type: Event,
     listener: (this: Document, event: DocumentEventMap[Event], stop: () => void) => unknown,
+    options: AddEventListenerOptions = {},
 ): () => void {
     const nativeListener = (event: DocumentEventMap[Event]) => listener.call(document, event, stop);
     const stop = () => document.removeEventListener(type, nativeListener);
 
-    onMounted(() => document.addEventListener(type, nativeListener));
+    onMounted(() => document.addEventListener(type, nativeListener, options));
     onUnmounted(() => stop());
 
     return stop;
+}
+
+export function useDoubleClick(listener: () => unknown): void {
+    let lastClick = 0;
+
+    useDomEvent('mousedown', () => {
+        if (Date.now() - lastClick < 500) {
+            listener();
+        } else {
+            lastClick = Date.now();
+        }
+    });
 }
 
 export function useElementScrollY(
@@ -75,6 +88,22 @@ export function useElementScrollY(
 
         return $element.value.getBoundingClientRect().y + window.scrollY - (options.scrollMarginTop ?? 0);
     });
+}
+
+export function useMouse(): Readonly<{ x: number | null; y: number | null }> {
+    const mouse = reactive({
+        x: null as number | null,
+        y: null as number | null,
+    });
+
+    useDomEvent('mouseover', (e) => ((mouse.x = e.clientX), (mouse.y = e.clientY)), { once: true });
+    useDomEvent('mousemove', (e) => ((mouse.x = e.clientX), (mouse.y = e.clientY)));
+    useDomEvent(
+        'touchmove',
+        (e) => ((mouse.x = e.changedTouches[0]?.clientX ?? null), (mouse.y = e.changedTouches[0]?.clientY ?? null)),
+    );
+
+    return readonly(mouse);
 }
 
 export function useScrollY(): Readonly<Ref<number>> {

@@ -122,7 +122,7 @@ workspaces:
     description: Workspaces can help you manage different parts of your life. Avoid thinking about groceries when you're working on that side project!
     openSidebar: Show lists
     hideSidebar: Hide lists
-    notFound: Couldn't find `{workspace}` workspace
+    notFound: We couldn't find the `{workspace}` workspace, were you looking for something else?
 
 lists:
     inbox: Inbox
@@ -130,7 +130,7 @@ lists:
     edit: List settings
     editA11y: '{name} list settings'
     name: Name
-    notFound: Couldn't find `{list}` list
+    notFound: We couldn't find the `{list}` list, were you looking for something else?
 
 user:
     anonymous: Anonymous
@@ -191,7 +191,7 @@ task:
         message: This will delete your task <code>{task}</code>.
 
 notFound:
-    title: Not found
+    title: Are you lost?
     goHome: Go home
     logIn: Need to log in?
 
