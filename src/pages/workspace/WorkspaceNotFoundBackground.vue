@@ -8,7 +8,7 @@ import { animate, linear } from 'popmotion';
 
 import { useDomEvent, useDoubleClick, useMouse } from '@/utils/composables';
 
-const MASK_SIZE = Math.min(window.innerWidth, window.innerHeight) * 0.75;
+const MASK_SIZE = Math.min(window.innerWidth, window.innerHeight);
 const MASK_MAX_SCALE = 10;
 
 let animation: { stop(): void } | null = null;
@@ -74,7 +74,7 @@ div {
     background-position: center;
     mask: url('@/assets/img/workspaces/not-found-mask.avif');
     mask-repeat: no-repeat;
-    transition: opacity ease-in 200ms;
+    transition: opacity linear 1s;
     will-change: mask-position, mask-size, opacity;
 }
 </style>
