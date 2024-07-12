@@ -1,6 +1,6 @@
 import { required } from '@noeldemartin/utils';
 
-import { listName } from '@/utils/display';
+import { listName, workspaceName } from '@/utils/display';
 
 import Focus from './Focus';
 import TasksLists from './TasksLists';
@@ -10,6 +10,7 @@ export const globals = {
     $workspace: required(() => Workspaces.current, 'Current workspace is missing, can\'t use $workspace'),
     $tasksList: required(() => TasksLists.current, 'Current tasks list is missing, can\'t use $tasksList'),
     $listName: listName,
+    $workspaceName: workspaceName,
 };
 
 export const services = {

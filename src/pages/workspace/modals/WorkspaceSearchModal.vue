@@ -55,7 +55,7 @@
                                     <template v-else>
                                         <span class="sr-only">{{ $t('workspace.searchWorkspace') }},</span>
                                         <i-mdi-briefcase class="h-5 w-5 flex-shrink-0" />
-                                        <AGMarkdown inline :text="result.workspace.name" class="truncate" />
+                                        <AGMarkdown inline :text="$workspaceName(result.workspace)" class="truncate" />
                                     </template>
                                 </div>
                             </li>

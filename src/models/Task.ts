@@ -33,4 +33,14 @@ export default class Task extends Model {
         await Cloud.syncIfOnline(this);
     }
 
+    protected initializeAttributes(attributes: Attributes, exists: boolean): void {
+        if (exists && !('name' in attributes)) {
+            attributes.name = attributes.description ?? 'Unknown';
+
+            delete attributes.description;
+        }
+
+        super.initializeAttributes(attributes, exists);
+    }
+
 }

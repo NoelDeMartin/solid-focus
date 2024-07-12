@@ -1,5 +1,6 @@
-import { Cloud } from '@aerogel/plugin-offline-first';
 import { arraySorted, facade } from '@noeldemartin/utils';
+import { Cloud } from '@aerogel/plugin-offline-first';
+import { Events } from '@aerogel/core';
 import { trackModelCollection } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
@@ -39,6 +40,7 @@ export class WorkspacesService extends Service {
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
 
+        Events.on('auth:logout', () => (this.lastVisitedWorkspaceUrl = null));
         Task.on('deleted', (deletedTask) => {
             if (!this.task || !this.task.is(deletedTask)) {
                 return;
