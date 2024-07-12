@@ -51,7 +51,7 @@
         "@iconify/json": "^2.2.134",
         "@noeldemartin/eslint-config-vue": "next",
         "@noeldemartin/scripts": "next",
-        "@solid/community-server": "^7.1.0",
+        "@solid/community-server": "~7.0",
         "@total-typescript/ts-reset": "^0.4.2",
         "@types/node": "^20.3.1",
         "autoprefixer": "^10.4.14",
