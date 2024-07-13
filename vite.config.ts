@@ -9,6 +9,7 @@ import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers';
 import { resolve } from 'path';
 
 export default defineConfig({
+    build: { sourcemap: true },
     publicDir: resolve(__dirname, './src/assets/public/'),
     plugins: [
         Aerogel({
