@@ -23,7 +23,7 @@
     },
     "dependencies": {
         "@aerogel/core": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
-        "@aerogel/plugin-i18n": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
+        "@aerogel/plugin-i18n": "0.0.0-next.ee913f442ea0f8f8c64301001984e83797c6b7e3",
         "@aerogel/plugin-offline-first": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
         "@aerogel/plugin-routing": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
         "@aerogel/plugin-solid": "0.0.1-next.8394244dbb20c4fb85b57410d040dc1f49e151d0",
