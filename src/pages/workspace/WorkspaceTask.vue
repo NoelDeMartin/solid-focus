@@ -80,7 +80,7 @@
                         color="clear"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="min-h-12 w-full justify-start text-start md:max-w-80"
+                        class="min-h-12 w-full justify-start whitespace-normal text-start md:max-w-80"
                         :class="{ 'bg-gray-50': !task.description }"
                         @click="startEditing('description')"
                     >
@@ -92,7 +92,7 @@
                         :aria-label="$t('task.description')"
                         name="description"
                         class="w-full"
-                        input-class="md:max-w-80 text-base py-2 px-3"
+                        input-class="md:max-w-80 py-2 px-3"
                     />
                 </div>
 

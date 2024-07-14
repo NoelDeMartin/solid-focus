@@ -29,13 +29,17 @@ const props = defineProps({
 });
 const [attrs] = useInputAttrs();
 const inputProps = extractInputProps(props);
-const renderedFillerClass = computed(() => twMerge('invisible whitespace-pre-wrap px-2 py-1.5', props.inputClass));
+const renderedFillerClass = computed(() =>
+    twMerge('invisible text-base whitespace-pre-wrap px-2 py-1.5', props.inputClass));
 const renderedInputClass = computed(() =>
     twMerge(
         [
-            'absolute inset-0 block h-full w-full rounded-lg border-0 py-1.5 text-gray-900 shadow-sm',
-            'resize-none ring-1 ring-inset ring-gray-300',
-            'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
+            $input.value?.errors
+                ? 'ring-red-300 placeholder:text-red-300 focus:ring-red-500'
+                : 'ring-gray-300 placeholder:text-gray-400 focus:ring-[--primary-600]',
+            'absolute inset-0 block h-full w-full rounded-lg border-0 px-2 py-1.5 text-gray-900 shadow-sm',
+            'text-base resize-none ring-1 ring-inset',
+            'focus:ring-2 focus:ring-inset',
         ].join(' '),
         props.inputClass,
     ));

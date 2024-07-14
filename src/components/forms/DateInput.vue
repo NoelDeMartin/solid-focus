@@ -27,9 +27,12 @@ const [attrs, className] = useInputAttrs();
 const renderedInputClass = computed(() =>
     twMerge(
         [
+            $input.value?.errors
+                ? 'ring-red-300 placeholder:text-red-300 focus:ring-red-500'
+                : 'ring-gray-300 placeholder:text-gray-400 focus:ring-[--primary-600]',
             'w-full rounded-lg border-0 px-2 py-1.5',
-            'text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300',
-            'placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[--primary-600]',
+            'text-base text-gray-900 shadow-sm ring-1 ring-inset',
+            'focus:ring-2 focus:ring-inset',
         ].join(' '),
         props.inputClass,
     ));

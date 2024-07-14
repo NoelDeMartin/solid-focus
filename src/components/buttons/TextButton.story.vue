@@ -13,23 +13,25 @@
         </Variant>
 
         <Variant title="Default">
-            <TextButton> Click me! </TextButton>
+            <TextButton :color="color">
+                {{ content }}
+            </TextButton>
         </Variant>
 
         <Variant title="Hover">
-            <TextButton class=":hover">
-                Click me!
+            <TextButton class=":hover" :color="color">
+                {{ content }}
             </TextButton>
         </Variant>
 
         <Variant title="Focus">
-            <TextButton class=":focus :focus-visible">
-                Click me!
+            <TextButton class=":focus :focus-visible" :color="color">
+                {{ content }}
             </TextButton>
         </Variant>
 
         <Variant title="Disabled">
-            <TextButton disabled>
+            <TextButton disabled :color="color">
                 You can't click me
             </TextButton>
         </Variant>
