@@ -1,2 +1,5 @@
 tasks:
-    inputDescription: Fes servir "+" per afegir una nova tasca
+    desktopInputDescription: Fes servir "+" per afegir una nova tasca
+
+settings:
+    title: Configuració

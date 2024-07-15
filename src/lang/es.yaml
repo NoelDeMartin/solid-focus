@@ -1,2 +1,5 @@
 tasks:
-    inputDescription: Utiliza "+" para añadir una nueva tarea
+    desktopInputDescription: Utiliza "+" para añadir una nueva tarea
+
+settings:
+    title: Configuración
