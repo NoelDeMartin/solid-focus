@@ -63,7 +63,7 @@
                 class="h-10 w-10 translate-x-full rounded-lg p-0 transition-transform focus:translate-x-0 group-hover:translate-x-0"
                 :aria-label="$t('workspaces.edit')"
                 :title="$t('workspaces.edit')"
-                @click="$ui.openModal(WorkspaceSettingsModal, { workspace: $workspaces.current })"
+                @click="$workspace.edit()"
             >
                 <i-ic-baseline-edit class="h-6 w-6" />
             </IconButton>
