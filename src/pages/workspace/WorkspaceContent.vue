@@ -1,11 +1,15 @@
 <template>
     <div class="flex w-full max-w-screen-xl flex-col overflow-hidden" @click="deselectTask($event)">
         <WorkspaceContentHeader />
-        <WorkspaceContentBody class="flex-1" />
+        <WorkspaceContentBody v-if="$tasksList.isRelationLoaded('tasks')" class="flex-1" />
+        <WorkspaceLoading v-else />
     </div>
 </template>
 
 <script setup lang="ts">
+import { watchEffect } from 'vue';
+
+import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 
 function deselectTask(event: MouseEvent) {
@@ -15,4 +19,6 @@ function deselectTask(event: MouseEvent) {
 
     Workspaces.select(null);
 }
+
+watchEffect(() => TasksLists.current?.loadRelationIfUnloaded('tasks'));
 </script>

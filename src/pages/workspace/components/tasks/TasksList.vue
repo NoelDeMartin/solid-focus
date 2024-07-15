@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TransitionGroup
+        <AGTransitionGroup
             tag="ul"
             class="flex flex-col gap-0.5"
             leave-from-class="h-[44px]"
@@ -17,7 +17,7 @@
                 :task="task"
                 :disable-editing="disableEditing"
             />
-        </TransitionGroup>
+        </AGTransitionGroup>
     </div>
 </template>
 

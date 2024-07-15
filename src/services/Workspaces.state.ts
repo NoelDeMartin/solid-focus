@@ -9,7 +9,7 @@ import type Workspace from '@/models/Workspace';
 
 export default defineServiceState({
     name: 'workspaces',
-    persist: ['lastVisitedWorkspaceUrl'],
+    persist: ['lastVisitedWorkspaceUrl', 'sidebar'],
     initialState: () => ({
         all: shallowRef([] as Workspace[]),
         task: null as Task | null,

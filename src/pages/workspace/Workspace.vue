@@ -2,7 +2,7 @@
     <div v-if="$workspaces.current && !settingUpCloud" class="h-1 w-full bg-[--primary-500]" />
     <WorkspaceCloudSetup v-if="settingUpCloud" />
     <div
-        v-else-if="$workspaces.current?.isRelationLoaded('lists') && $tasksLists.current?.isRelationLoaded('tasks')"
+        v-else-if="$workspaces.current?.isRelationLoaded('lists') && $tasksLists.current"
         class="isolate flex w-full flex-grow"
     >
         <WorkspaceSidebar />
@@ -24,7 +24,6 @@ import { computed, watchEffect } from 'vue';
 import { objectProp, requiredObjectProp } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
-import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 import { THEME_COLORS, bindThemeColors } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
@@ -39,6 +38,5 @@ const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeCol
 const settingUpCloud = computed(() => Solid.isLoggedIn() && !Cloud.ready && !Cloud.setupDismissed);
 
 watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
-watchEffect(() => TasksLists.current?.loadRelationIfUnloaded('tasks'));
 bindThemeColors(workspaceColors);
 </script>
