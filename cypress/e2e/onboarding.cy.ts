@@ -45,7 +45,6 @@ describe('Onboarding', () => {
 
         cy.reload();
         cy.solidAuthorize();
-        cy.ariaLabel('Show lists').click();
         cy.seeActiveWorkspace('Main');
         cy.see('Cook Ramen');
         cy.seeActiveList('Inbox');

@@ -60,7 +60,6 @@ describe('Navigation', () => {
 
         // Act
         cy.visit('/');
-        cy.ariaLabel('Show lists').click();
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household/groceries`);

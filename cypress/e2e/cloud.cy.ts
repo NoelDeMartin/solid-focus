@@ -245,7 +245,6 @@ describe('Cloud', () => {
         cy.reload();
         cy.solidAuthorize();
         cy.waitSync();
-        cy.ariaLabel('Show lists').click();
         cy.seeActiveWorkspace('勉強');
 
         // Assert
