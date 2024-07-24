@@ -13,9 +13,9 @@
             @submit="$emit('create', form.draft.trim())"
         >
             <TextInput
-                :aria-label="$t('task.name')"
+                :aria-label="$t('tasks.inputLabel')"
                 name="draft"
-                :placeholder="$t('tasks.placeholder')"
+                :placeholder="$t('tasks.inputPlaceholder')"
                 class="w-80 max-w-full"
             />
             <TextButton submit>

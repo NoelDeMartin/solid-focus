@@ -42,7 +42,6 @@ landing:
         cta: Get started
         title: Get started
         intro: 'Are you ready to be more focused? Create a new task with the first thing you want to get done:'
-        label: Task name
         submit: Create task
         workspaceName: Main
         back: nevermind
@@ -149,7 +148,6 @@ tasks:
     selectA11y: Select task "{name}"
     selectTitle: Select task
     important: (Important)
-    placeholder: What will you do next?
     startTitle: Ready to grow
     startMessage: The soil is ready, plant your ideas here so they can sprout into beautiful trees. Or just write whatever is in your mind, not every task needs to be as flowery!
     startSubmit: Create task

@@ -17,8 +17,8 @@
                 <TextInput
                     name="draft"
                     class="w-80 max-w-full"
-                    :aria-label="$t('landing.getStarted.label')"
-                    :placeholder="$t('tasks.placeholder')"
+                    :aria-label="$t('tasks.inputLabel')"
+                    :placeholder="$t('tasks.inputPlaceholder')"
                 />
                 <TextButton submit class="h-10 w-full md:w-auto">
                     {{ $t('landing.getStarted.submit') }}
