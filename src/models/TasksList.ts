@@ -17,10 +17,6 @@ export default class TasksList extends Model {
     public declare relatedTasks: SolidContainsRelation<this, Task, typeof Task>;
 
     public get slug(): string | undefined {
-        if (this.workspace?.url) {
-            return this.url.slice(this.workspace?.url.length, -1);
-        }
-
         return this.url.slice(this.url.slice(0, -1).lastIndexOf('/') + 1, -1);
     }
 
