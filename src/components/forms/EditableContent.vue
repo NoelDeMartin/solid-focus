@@ -7,7 +7,7 @@
             {{ draft }}
         </span>
         <span v-if="type === 'number'" class="inline-block transition-[width]" :class="editing ? 'w-5' : 'w-0'" />
-        <form class="w-full" @submit.prevent="$input?.blur()">
+        <form class="w-full" :aria-hidden="formAriaHidden" @submit.prevent="$input?.blur()">
             <input
                 ref="$input"
                 v-model="draft"
@@ -36,6 +36,7 @@ const props = defineProps({
     type: stringProp('text'),
     contentClass: stringProp(),
     ariaLabel: stringProp(),
+    formAriaHidden: booleanProp(),
     tabindex: stringProp(),
     text: requiredStringProp(),
     disabled: booleanProp(),
