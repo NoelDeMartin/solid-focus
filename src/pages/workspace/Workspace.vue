@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed, watchEffect } from 'vue';
-import { objectProp, requiredObjectProp } from '@aerogel/core';
+import { objectProp } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
 import Workspaces from '@/services/Workspaces';
@@ -30,7 +30,7 @@ import type Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
 
 defineProps({
-    workspace: requiredObjectProp<Workspace>(),
+    workspace: objectProp<Workspace>(),
     list: objectProp<TasksList>(),
 });
 
