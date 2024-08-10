@@ -3,6 +3,7 @@ import offlineFirst from '@aerogel/plugin-offline-first';
 import routing from '@aerogel/plugin-routing';
 import solid from '@aerogel/plugin-solid';
 import soukai from '@aerogel/plugin-soukai';
+import vivant from '@/vivant/aerogel';
 import { bootstrap } from '@aerogel/core';
 
 import './assets/css/styles.css';
@@ -20,6 +21,7 @@ bootstrap(App, {
         routing({ routes, bindings }),
         solid(),
         offlineFirst(),
+        vivant(),
     ],
     install(app) {
         Object.assign(app.config.globalProperties, globals);

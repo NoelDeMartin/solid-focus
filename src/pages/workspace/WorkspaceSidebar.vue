@@ -35,7 +35,7 @@ import Focus from '@/services/Focus';
 import Workspaces from '@/services/Workspaces';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
-import { PanelAnimator } from './animations';
+import PanelAnimator from './animations/PanelAnimator';
 
 const $panel = ref<HTMLElement>();
 const $filler = ref<HTMLElement>();

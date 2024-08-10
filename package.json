@@ -22,7 +22,7 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.2d501d5a5dfe5863218d65b11ac78ea023da9127",
+        "@aerogel/core": "0.0.0-next.6c539d8e63b397d4bb6c3d61a7f20a4d108b1cdd",
         "@aerogel/plugin-i18n": "0.0.0-next.ee913f442ea0f8f8c64301001984e83797c6b7e3",
         "@aerogel/plugin-offline-first": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
         "@aerogel/plugin-routing": "0.0.0-next.6c02970f90d4e979a72530f1fa0c650785d6538f",
@@ -31,7 +31,7 @@
         "@headlessui/vue": "^1.7.22",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "0.4.0-next.30aceafb9d58f505d02a146d8e81f2e3a041b92f",
-        "@noeldemartin/utils": "0.5.1-next.369ec16c5fa546a6a2e7512501add6b0e5b1a3ac",
+        "@noeldemartin/utils": "0.5.1-next.82707467527729a9fe7c2155959beb4b5ea30b81",
         "@popperjs/core": "^2.11.8",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.9",

@@ -186,7 +186,7 @@ describe('Cloud', () => {
         cy.get('@createMangaContainer.all').should('have.length', 1);
         cy.get('@createMainTask.all').should('have.length', 4);
         cy.get('@createHouseholdTask.all').should('have.length', 2);
-        cy.get('@createGroceriesTask.all').should('have.length', 3);
+        cy.get('@createGroceriesTask.all').should('have.length', 30);
         cy.get('@createRecipesTask.all').should('have.length', 3);
         cy.get('@createJapaneseTask.all').should('have.length', 3);
         cy.get('@createMangaTask.all').should('have.length', 2);

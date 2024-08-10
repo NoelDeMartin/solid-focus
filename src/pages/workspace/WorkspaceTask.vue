@@ -220,7 +220,7 @@ import Focus from '@/services/Focus';
 import Task from '@/models/Task';
 import Workspaces from '@/services/Workspaces';
 
-import { PanelAnimator } from './animations';
+import PanelAnimator from './animations/PanelAnimator';
 
 const $panel = ref<HTMLElement>();
 const $filler = ref<HTMLElement>();

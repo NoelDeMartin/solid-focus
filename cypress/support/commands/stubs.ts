@@ -16,9 +16,38 @@ export function createStubs(open: boolean = true): void {
         await household.relatedTasks.create({ name: 'Clean room' });
         await household.relatedTasks.create({ name: 'Clean Neko\'s litter box' }).then((task) => task.toggle());
 
-        await groceries.relatedTasks.create({ name: 'Chickpeas' });
-        await groceries.relatedTasks.create({ name: 'Tomatoes' });
-        await groceries.relatedTasks.create({ name: 'Nuts' });
+        await groceries.relatedTasks.create({ name: 'Bananas' });
+        await groceries.relatedTasks.create({ name: 'Orange juice' });
+        await groceries.relatedTasks.create({ name: 'Whole grain bread' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh apples and pears' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Baby carrots' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Red and green grapes' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Peanut butter' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Cucumber' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh strawberries' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Almond milk' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Romaine lettuce' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Mixed berries (frozen)' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Broccoli florets' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Whole grain pasta' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh tomatoes' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Rolled oats' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Bell peppers (variety pack)' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh basil leaves' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Canned black beans' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Brown rice' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh oranges and lemons' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Canned tomatoes' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Baby spinach' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Mixed nuts' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Fresh garlic and onions' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Avocado' }).then((task) => task.toggle());
+        await groceries.relatedTasks
+            .create({ name: 'Fresh blueberries and raspberries' })
+            .then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Zucchini and squash' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Whole wheat tortillas' }).then((task) => task.toggle());
+        await groceries.relatedTasks.create({ name: 'Applesauce (unsweetened)' }).then((task) => task.toggle());
 
         await recipes.relatedTasks.create({ name: 'Ramen' });
         await recipes.relatedTasks.create({ name: 'Pizza' }).then((task) => task.toggle());

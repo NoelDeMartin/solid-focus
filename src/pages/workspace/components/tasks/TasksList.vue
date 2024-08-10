@@ -1,13 +1,13 @@
 <template>
     <AGTransitionGroup
         tag="ul"
-        class="flex flex-col gap-0.5"
-        leave-from-class="h-[44px]"
-        leave-active-class="overflow-hidden transition-[height] duration-500"
+        class="flex flex-col"
+        leave-from-class="h-[46px]"
+        leave-active-class="overflow-hidden transition-[height] duration-500 will-change-[height]"
         leave-to-class="h-0"
         enter-from-class="h-0"
-        enter-active-class="overflow-hidden transition-[height] duration-500"
-        enter-to-class="h-[44px]"
+        enter-active-class="overflow-hidden transition-[height] duration-500 will-change-[height]"
+        enter-to-class="h-[46px]"
         move-class="transition-transform duration-500"
     >
         <TasksListItem

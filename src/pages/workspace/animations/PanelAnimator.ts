@@ -1,7 +1,7 @@
 import { element } from '@/utils/animations';
 import type { ElementRef } from '@/utils/animations';
 
-export class PanelAnimator {
+export default class PanelAnimator {
 
     private showing: boolean = false;
     private hiddenTransform: string;

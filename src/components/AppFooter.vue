@@ -3,7 +3,13 @@
         <div class="flex-1">
             <div :style="`width: ${$focus.footerLeftPadding ?? 0}px`" />
         </div>
-        <footer class="flex w-full max-w-screen-xl items-center justify-center gap-1 p-3 text-sm text-gray-500">
+        <AnimatedElement
+            as="footer"
+            class="flex w-full max-w-screen-xl items-center justify-center gap-1 p-3 text-sm text-gray-500"
+            :group="$focus.footerAnimation?.group"
+            :animation="$focus.footerAnimation?.animation"
+            @animate="$focus.footerAnimation?.animate"
+        >
             <TextLink @click="$ui.openModal(AboutModal)">
                 {{ $t('footer.about') }}
             </TextLink>
@@ -15,7 +21,7 @@
             <TextLink :url="$app.versionUrl">
                 {{ $app.versionName }}
             </TextLink>
-        </footer>
+        </AnimatedElement>
         <div class="flex-1">
             <div :style="`width: ${$focus.footerRightPadding ?? 0}px`" />
         </div>

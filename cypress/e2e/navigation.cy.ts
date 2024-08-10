@@ -11,9 +11,8 @@ describe('Navigation', () => {
         cy.press('Groceries');
         cy.seeActiveWorkspace('Household');
         cy.seeActiveList('Groceries');
-        cy.see('Nuts');
-        cy.see('Chickpeas');
-        cy.see('Tomatoes');
+        cy.see('Bananas');
+        cy.see('Orange juice');
 
         cy.press('Recipes');
         cy.seeActiveWorkspace('Household');
