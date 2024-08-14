@@ -1,7 +1,7 @@
 import { arraySorted, facade } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { Events } from '@aerogel/core';
-import { trackModelCollection } from '@aerogel/plugin-soukai';
+import { trackModels } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
 import Task from '@/models/Task';
@@ -31,8 +31,8 @@ export class WorkspacesService extends Service {
 
     protected async boot(): Promise<void> {
         await Cloud.booted;
-        await Cloud.register(Workspace);
-        await trackModelCollection(Workspace, {
+        await Cloud.register(Workspace, { path: '/tasks/' });
+        await trackModels(Workspace, {
             service: this,
             property: 'all',
             transform: (workspaces) => arraySorted(workspaces, 'name'),
@@ -40,7 +40,7 @@ export class WorkspacesService extends Service {
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
 
-        Events.on('auth:logout', () => (this.lastVisitedWorkspaceUrl = null));
+        Events.on('auth:after-logout', () => (this.lastVisitedWorkspaceUrl = null));
         Task.on('deleted', (deletedTask) => {
             if (!this.task || !this.task.is(deletedTask)) {
                 return;

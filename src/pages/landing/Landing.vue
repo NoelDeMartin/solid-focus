@@ -28,7 +28,7 @@ import type { LandingContext } from './landing';
 
 const context: LandingContext = {
     featuresScrollY: ref(0),
-    showingForm: ref(Solid.isLoggedIn()),
+    showingForm: ref(Solid.hasLoggedIn()),
     showingCallout: ref(false),
 };
 const ready = ref(false);

@@ -25,7 +25,7 @@
                 </TextButton>
             </div>
             <TextButton
-                v-if="!$solid.isLoggedIn()"
+                v-if="!$solid.hasLoggedIn()"
                 color="clear"
                 class="mx-auto mt-4 self-center px-3.5 py-2.5 text-sm font-semibold"
                 @click="$events.emit('landing:reset')"

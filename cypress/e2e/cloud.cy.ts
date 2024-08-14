@@ -18,7 +18,7 @@ describe('Cloud', () => {
         cy.ariaInput('Task name').type('Sync updates{enter}');
         cy.dontSee('Loading...');
 
-        cy.intercept('PATCH', podUrl('/main/*')).as('updateTask');
+        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('updateTask');
 
         // Act
         cy.contains('li', 'Sync updates').within(() => cy.get('input[type="checkbox"]').click());
@@ -41,7 +41,7 @@ describe('Cloud', () => {
         cy.dontSee('Loading...');
 
         cy.model('Workspace').then(async (Workspace) => {
-            const main = await Workspace.find(podUrl('/main/'));
+            const main = await Workspace.find(podUrl('/tasks/main/'));
             const tasks = await main?.loadRelation<Task[]>('tasks');
             const task = tasks?.[0];
 
@@ -51,7 +51,7 @@ describe('Cloud', () => {
                 cy.wrap(turtle.replace(new RegExp(escapeRegexText(task.url), 'g'), '#it')).as('taskTurtle');
             }
         });
-        cy.intercept('PATCH', podUrl('/main/*')).as('updateTask');
+        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('updateTask');
 
         // Act
         cy.ariaLabel('Select task \\"To delete\\"').click();
@@ -88,10 +88,10 @@ describe('Cloud', () => {
         cy.ariaInput('Task name').type('Sync updates{enter}');
         cy.dontSee('Loading...');
 
-        cy.intercept('PUT', podUrl('/work/')).as('createWorkContainer');
-        cy.intercept('PATCH', podUrl('/work/.meta')).as('createWorkContainerMeta');
-        cy.intercept('PUT', podUrl('/work/learning/')).as('createLearningContainer');
-        cy.intercept('PATCH', podUrl('/work/learning/.meta')).as('createLearningContainerMeta');
+        cy.intercept('PUT', podUrl('/tasks/work/')).as('createWorkContainer');
+        cy.intercept('PATCH', podUrl('/tasks/work/.meta')).as('createWorkContainerMeta');
+        cy.intercept('PUT', podUrl('/tasks/work/learning/')).as('createLearningContainer');
+        cy.intercept('PATCH', podUrl('/tasks/work/learning/.meta')).as('createLearningContainerMeta');
 
         // Act
         cy.ariaLabel('Show lists').click();
@@ -112,9 +112,9 @@ describe('Cloud', () => {
 
     it('Migrates simple local data', () => {
         // Arrange
-        cy.intercept('PUT', podUrl('/main/')).as('createContainer');
-        cy.intercept('PATCH', podUrl('/main/.meta')).as('createContainerMeta');
-        cy.intercept('PATCH', podUrl('/main/*')).as('createTask');
+        cy.intercept('PUT', podUrl('/tasks/main/')).as('createContainer');
+        cy.intercept('PATCH', podUrl('/tasks/main/.meta')).as('createContainerMeta');
+        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('createTask');
 
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');
@@ -138,12 +138,13 @@ describe('Cloud', () => {
         cy.get('@createContainerMeta.all').should('have.length', 1);
         cy.get('@createTask.all').should('have.length', 1);
 
-        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', { url: podUrl('/main/'), name: 'Main' }).then(
-            (sparql) => {
-                cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
-                cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
-            },
-        );
+        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', {
+            url: podUrl('/tasks/main/'),
+            name: 'Main',
+        }).then((sparql) => {
+            cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
+            cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
+        });
 
         cy.fixtureWithReplacements('sparql/create-task.sparql', { name: 'Onboarding task' }).then((sparql) => {
             cy.get('@createTask').its('response.statusCode').should('eq', 201);
@@ -153,18 +154,18 @@ describe('Cloud', () => {
 
     it('Migrates complex local data', () => {
         // Arrange
-        cy.intercept('PUT', podUrl('/main/')).as('createMainContainer');
-        cy.intercept('PUT', podUrl('/household/')).as('createHouseholdContainer');
-        cy.intercept('PUT', podUrl('/household/groceries/')).as('createGroceriesContainer');
-        cy.intercept('PUT', podUrl('/household/recipes/')).as('createRecipesContainer');
-        cy.intercept('PUT', podUrl('/japanese/')).as('createJapaneseContainer');
-        cy.intercept('PUT', podUrl('/japanese/manga/')).as('createMangaContainer');
-        cy.intercept('PATCH', podUrl('/main/*')).as('createMainTask');
-        cy.intercept('PATCH', podUrl('/household/*')).as('createHouseholdTask');
-        cy.intercept('PATCH', podUrl('/household/groceries/*')).as('createGroceriesTask');
-        cy.intercept('PATCH', podUrl('/household/recipes/*')).as('createRecipesTask');
-        cy.intercept('PATCH', podUrl('/japanese/*')).as('createJapaneseTask');
-        cy.intercept('PATCH', podUrl('/japanese/manga/*')).as('createMangaTask');
+        cy.intercept('PUT', podUrl('/tasks/main/')).as('createMainContainer');
+        cy.intercept('PUT', podUrl('/tasks/household/')).as('createHouseholdContainer');
+        cy.intercept('PUT', podUrl('/tasks/household/groceries/')).as('createGroceriesContainer');
+        cy.intercept('PUT', podUrl('/tasks/household/recipes/')).as('createRecipesContainer');
+        cy.intercept('PUT', podUrl('/tasks/japanese/')).as('createJapaneseContainer');
+        cy.intercept('PUT', podUrl('/tasks/japanese/manga/')).as('createMangaContainer');
+        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('createMainTask');
+        cy.intercept('PATCH', podUrl('/tasks/household/*')).as('createHouseholdTask');
+        cy.intercept('PATCH', podUrl('/tasks/household/groceries/*')).as('createGroceriesTask');
+        cy.intercept('PATCH', podUrl('/tasks/household/recipes/*')).as('createRecipesTask');
+        cy.intercept('PATCH', podUrl('/tasks/japanese/*')).as('createJapaneseTask');
+        cy.intercept('PATCH', podUrl('/tasks/japanese/manga/*')).as('createMangaTask');
 
         cy.createStubs();
         cy.ariaLabel('Configuration').click();
@@ -235,7 +236,7 @@ describe('Cloud', () => {
         cy.waitSync();
         cy.ariaLabel('Show lists').click();
 
-        cy.intercept('PUT', podUrl('/main/*')).as('createContainer');
+        cy.intercept('PUT', podUrl('/tasks/main/*')).as('createContainer');
 
         // Act
         cy.press('New list');

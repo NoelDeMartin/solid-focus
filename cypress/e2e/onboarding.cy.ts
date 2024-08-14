@@ -25,9 +25,9 @@ describe('Onboarding', () => {
 
     it('Signs up', () => {
         // Arrange
-        cy.intercept('PUT', podUrl('/main/')).as('createContainer');
-        cy.intercept('PATCH', podUrl('/main/.meta')).as('createContainerMeta');
-        cy.intercept('PATCH', podUrl('/main/*')).as('createTask');
+        cy.intercept('PUT', podUrl('/tasks/main/')).as('createContainer');
+        cy.intercept('PATCH', podUrl('/tasks/main/.meta')).as('createContainerMeta');
+        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('createTask');
 
         // Act
         cy.press('Log in');
@@ -53,12 +53,13 @@ describe('Onboarding', () => {
         cy.get('@createContainerMeta.all').should('have.length', 1);
         cy.get('@createTask.all').should('have.length', 1);
 
-        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', { url: podUrl('/main/'), name: 'Main' }).then(
-            (sparql) => {
-                cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
-                cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
-            },
-        );
+        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', {
+            url: podUrl('/tasks/main/'),
+            name: 'Main',
+        }).then((sparql) => {
+            cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
+            cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
+        });
 
         cy.fixtureWithReplacements('sparql/create-task.sparql', { name: 'Cook Ramen' }).then((sparql) => {
             cy.get('@createTask').its('response.statusCode').should('eq', 201);
@@ -68,18 +69,18 @@ describe('Onboarding', () => {
 
     it('Logs in', () => {
         // Arrange
-        cy.solidCreateContainer('/work/', 'Work');
-        cy.solidCreateContainer('/household/', 'Household');
-        cy.solidCreateContainer('/household/groceries/', 'Groceries');
+        cy.solidCreateContainer('/tasks/work/', 'Work');
+        cy.solidCreateContainer('/tasks/household/', 'Household');
+        cy.solidCreateContainer('/tasks/household/groceries/', 'Groceries');
         cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
         cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
-            containerUrl: podUrl('/work/'),
+            containerUrl: podUrl('/tasks/work/'),
         });
         cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
-            containerUrl: podUrl('/household/'),
+            containerUrl: podUrl('/tasks/household/'),
         });
         cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
-        cy.solidCreateDocument('/household/tomatoes', 'turtle/task.ttl', { name: 'Tomatoes' });
+        cy.solidCreateDocument('/tasks/household/tomatoes', 'turtle/task.ttl', { name: 'Tomatoes' });
 
         // Act
         cy.press('Log in');

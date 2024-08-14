@@ -165,7 +165,7 @@ const ctaSize = ref<ElementSize>();
 const getStartedFormSize = ref<ElementSize>();
 const logInFormSize = ref<ElementSize>();
 const windowDimensions = useWindowDimensions();
-const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.isLoggedIn() ? 'get-started' : 'initial');
+const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.hasLoggedIn() ? 'get-started' : 'initial');
 const scrollY = useScrollY();
 const formAnimationDuration = ref(`${FORM_ANIMATION_DURATION}ms`);
 const contentStyles = computed(() => {

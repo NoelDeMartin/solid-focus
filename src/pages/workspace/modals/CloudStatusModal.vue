@@ -59,12 +59,12 @@
             </div>
             <details class="group mt-2 w-fit">
                 <summary
-                    class="-ml-2 flex cursor-pointer list-none items-center rounded-lg py-2 pl-1 pr-3 hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
+                    class="-ml-2 flex w-[max-content] cursor-pointer list-none items-center rounded-lg py-2 pl-1 pr-3 hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
                 >
                     <i-zondicons-cheveron-right class="h-6 w-6 transition-transform group-open:rotate-90" />
                     <span>{{ $t('cloud.advanced.title') }}</span>
                 </summary>
-                <ul class="ml-4 flex flex-col gap-2">
+                <ul class="ml-4 mt-2 flex flex-col gap-2">
                     <li>
                         <label class="flex items-center">
                             <input

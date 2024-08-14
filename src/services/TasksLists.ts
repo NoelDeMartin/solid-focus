@@ -14,7 +14,7 @@ export class TasksListsService extends Service {
 
         watchEffect(() => (this.lastVisitedListUrl = this.current?.url ?? this.lastVisitedListUrl));
 
-        Events.on('auth:logout', () => (this.lastVisitedListUrl = null));
+        Events.on('auth:after-logout', () => (this.lastVisitedListUrl = null));
         Task.on('deleted', (deletedTask) => {
             if (!this.current?.tasks) {
                 return;

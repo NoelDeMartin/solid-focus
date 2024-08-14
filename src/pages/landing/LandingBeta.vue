@@ -31,7 +31,7 @@ import { useEvent } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
 
-const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.isLoggedIn() ? 'get-started' : 'initial');
+const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.hasLoggedIn() ? 'get-started' : 'initial');
 
 useEvent('landing:reset', () => (content.value = 'initial'));
 useEvent('cloud:sync-completed', () => Workspaces.open());
