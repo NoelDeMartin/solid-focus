@@ -28,8 +28,12 @@ async function runGroupAnimation(group: AnimatedGroup, animation: ActiveGroupAni
     // See https://github.com/vuejs/core/blob/v3.4.0/packages/runtime-dom/src/components/Transition.ts#L316..L320
     for (const element of animation.elements) {
         const elementClasses = animation.classes.get(element);
-        elementClasses?.from?.split(' ').forEach((className) => element.nativeElement.classList.remove(className));
-        elementClasses?.to?.split(' ').forEach((className) => element.nativeElement.classList.add(className));
+        elementClasses?.from
+            ?.split(' ')
+            .forEach((className) => className && element.nativeElement.classList.remove(className));
+        elementClasses?.to
+            ?.split(' ')
+            .forEach((className) => className && element.nativeElement.classList.add(className));
     }
 
     // Measure again and run animations.
@@ -42,7 +46,9 @@ async function runGroupAnimation(group: AnimatedGroup, animation: ActiveGroupAni
     // Remove classes.
     for (const element of animation.elements) {
         const elementClasses = animation.classes.get(element);
-        elementClasses?.to?.split(' ').forEach((className) => element.nativeElement.classList.remove(className));
+        elementClasses?.to
+            ?.split(' ')
+            .forEach((className) => className && element.nativeElement.classList.remove(className));
     }
 
     // Complete group animation.
