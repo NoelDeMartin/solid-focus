@@ -22,11 +22,11 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
+        "@aerogel/core": "0.0.0-next.b243de4e2590f02709edeebd8c13b74087592c04",
         "@aerogel/plugin-i18n": "0.0.0-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
         "@aerogel/plugin-offline-first": "0.0.0-next.d91fa1b09d159896747a54add57983993ddb97c4",
         "@aerogel/plugin-routing": "0.0.0-next.24ab8be1a6189bf1f7eb73dd37b8d21e26a33d72",
-        "@aerogel/plugin-solid": "0.0.1-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
+        "@aerogel/plugin-solid": "0.0.1-next.b243de4e2590f02709edeebd8c13b74087592c04",
         "@aerogel/plugin-soukai": "0.0.0-next.d91fa1b09d159896747a54add57983993ddb97c4",
         "@headlessui/vue": "^1.7.22",
         "@intlify/unplugin-vue-i18n": "^0.12.2",

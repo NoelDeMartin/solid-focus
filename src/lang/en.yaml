@@ -118,10 +118,15 @@ workspaces:
     add: New workspace
     name: Name
     color: Color
+    url: Url
     description: Workspaces can help you manage different parts of your life. Avoid thinking about groceries when you're working on that side project!
     openSidebar: Show lists
     hideSidebar: Hide lists
     notFound: We couldn't find the `{workspace}` workspace, were you looking for something else?
+    advanced:
+        title: Advanced options
+        mintUrl: Create container url automatically.
+        info: This workspace is using the container at `{url}`. If you want to migrate it, you'll have to do it with another app (and make sure to update the [Type Index](https://solid.github.io/type-indexes/) as well!).
 
 lists:
     inbox: Inbox
@@ -213,6 +218,7 @@ ui:
 
 errors:
     required: This field is required
+    containerEndingSlashMissing: Container urls must end with /
     logs: Error logs
     notice: Something went wrong, but it\'s not your fault. Try again!
     viewLogs: View error logs

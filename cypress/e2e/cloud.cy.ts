@@ -92,6 +92,8 @@ describe('Cloud', () => {
         cy.intercept('PATCH', podUrl('/tasks/work/.meta')).as('createWorkContainerMeta');
         cy.intercept('PUT', podUrl('/tasks/work/learning/')).as('createLearningContainer');
         cy.intercept('PATCH', podUrl('/tasks/work/learning/.meta')).as('createLearningContainerMeta');
+        cy.intercept('PUT', podUrl('/study/')).as('createStudyContainer');
+        cy.intercept('PATCH', podUrl('/study/.meta')).as('createStudyContainerMeta');
 
         // Act
         cy.ariaLabel('Show lists').click();
@@ -103,11 +105,22 @@ describe('Cloud', () => {
         cy.ariaInput('Name').type('Learning{enter}');
         cy.waitSync();
 
+        cy.switchWorkspace('New workspace');
+        cy.get('[role="dialog"]').within(() => {
+            cy.press('Advanced options', 'summary');
+            cy.press('Create container url automatically');
+            cy.ariaInput('Name').type('Study');
+            cy.ariaInput('Url').clear().type(podUrl('/study/'));
+            cy.press('Create', 'button');
+        });
+
         // Assert
         cy.get('@createWorkContainer.all').should('have.length', 1);
         cy.get('@createWorkContainerMeta.all').should('have.length', 1);
         cy.get('@createLearningContainer.all').should('have.length', 1);
         cy.get('@createLearningContainerMeta.all').should('have.length', 1);
+        cy.get('@createStudyContainer.all').should('have.length', 1);
+        cy.get('@createStudyContainerMeta.all').should('have.length', 1);
     });
 
     it('Migrates simple local data', () => {

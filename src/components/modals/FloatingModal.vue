@@ -19,11 +19,10 @@
                         :text="subtitle"
                         class="mt-1 text-sm leading-6 text-gray-500"
                     />
-                    <div
-                        :class="{ 'mt-3': title }"
-                        class="max-h-[90vh] overflow-y-auto overflow-x-hidden [&>*]:overflow-hidden"
-                    >
-                        <slot :close="close" />
+                    <div class="-mx-4 -mb-4 max-h-[90vh] overflow-y-auto overflow-x-hidden [&>*]:overflow-hidden">
+                        <div class="px-4 pb-4" :class="{ 'pt-3': title }">
+                            <slot :close="close" />
+                        </div>
                     </div>
                 </AGHeadlessModalPanel>
             </div>
