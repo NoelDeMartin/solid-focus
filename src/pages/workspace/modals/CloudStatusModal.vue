@@ -113,7 +113,7 @@
                 <i-zondicons-refresh class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.sync') }}</span>
             </TextButton>
-            <TextButton v-else>
+            <TextButton v-else @click="($cloud.setupDismissed = false), $modal?.close()">
                 <i-ic-sharp-cloud-upload class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.setup.submit') }}</span>
             </TextButton>

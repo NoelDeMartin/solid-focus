@@ -31,7 +31,7 @@
                 :label="$t('workspaces.url')"
             />
             <AdvancedOptions v-if="$cloud.ready" class="mt-4">
-                <ul v-if="newRemoteWorkspace" class="mb-4 flex flex-col gap-2">
+                <ul v-if="createsRemote" class="mb-4 flex flex-col gap-2">
                     <li>
                         <label class="flex items-center">
                             <input
@@ -76,6 +76,7 @@ import { UI, componentRef, objectProp, requiredStringInput, stringInput, useForm
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
+import { mintWorkspaceUrl } from '@/utils/workspaces';
 import { THEME_COLORS } from '@/utils/colors';
 import type { IFloatingModal } from '@/components/modals/FloatingModal';
 import type { ThemeColor } from '@/utils/colors';
@@ -88,13 +89,7 @@ const form = useForm({
     color: requiredStringInput(props.workspace?.themeColor ?? 'sky'),
 });
 const mintUrl = ref(true);
-const newRemoteWorkspace = computed(() => {
-    if (props.workspace || !Cloud.ready) {
-        return;
-    }
-
-    return new Workspace();
-});
+const createsRemote = computed(() => !props.workspace && Cloud.ready);
 const colors = computed(() =>
     Object.entries(THEME_COLORS).map(([name, value]) => ({
         name,
@@ -127,11 +122,8 @@ watchEffect(() => {
         $modal.value?.$panel?.$el?.style.setProperty(`--primary-${name}`, value);
     });
 
-    if (newRemoteWorkspace.value && mintUrl.value) {
-        newRemoteWorkspace.value.name = form.name;
-        newRemoteWorkspace.value.mintUrl();
-
-        form.url = newRemoteWorkspace.value.url;
+    if (createsRemote.value && mintUrl.value) {
+        form.url = mintWorkspaceUrl(form.name);
     }
 });
 </script>

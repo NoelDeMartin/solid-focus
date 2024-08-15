@@ -167,18 +167,18 @@ describe('Cloud', () => {
 
     it('Migrates complex local data', () => {
         // Arrange
-        cy.intercept('PUT', podUrl('/tasks/main/')).as('createMainContainer');
-        cy.intercept('PUT', podUrl('/tasks/household/')).as('createHouseholdContainer');
-        cy.intercept('PUT', podUrl('/tasks/household/groceries/')).as('createGroceriesContainer');
-        cy.intercept('PUT', podUrl('/tasks/household/recipes/')).as('createRecipesContainer');
-        cy.intercept('PUT', podUrl('/tasks/japanese/')).as('createJapaneseContainer');
-        cy.intercept('PUT', podUrl('/tasks/japanese/manga/')).as('createMangaContainer');
-        cy.intercept('PATCH', podUrl('/tasks/main/*')).as('createMainTask');
-        cy.intercept('PATCH', podUrl('/tasks/household/*')).as('createHouseholdTask');
-        cy.intercept('PATCH', podUrl('/tasks/household/groceries/*')).as('createGroceriesTask');
-        cy.intercept('PATCH', podUrl('/tasks/household/recipes/*')).as('createRecipesTask');
-        cy.intercept('PATCH', podUrl('/tasks/japanese/*')).as('createJapaneseTask');
-        cy.intercept('PATCH', podUrl('/tasks/japanese/manga/*')).as('createMangaTask');
+        cy.intercept('PUT', podUrl('/tasks/')).as('createMainContainer');
+        cy.intercept('PUT', podUrl('/shared/')).as('createHouseholdContainer');
+        cy.intercept('PUT', podUrl('/shared/groceries/')).as('createGroceriesContainer');
+        cy.intercept('PUT', podUrl('/shared/recipes/')).as('createRecipesContainer');
+        cy.intercept('PUT', podUrl('/languages/japanese/')).as('createJapaneseContainer');
+        cy.intercept('PUT', podUrl('/languages/japanese/manga/')).as('createMangaContainer');
+        cy.intercept('PATCH', podUrl('/tasks/*')).as('createMainTask');
+        cy.intercept('PATCH', podUrl('/shared/*')).as('createHouseholdTask');
+        cy.intercept('PATCH', podUrl('/shared/groceries/*')).as('createGroceriesTask');
+        cy.intercept('PATCH', podUrl('/shared/recipes/*')).as('createRecipesTask');
+        cy.intercept('PATCH', podUrl('/languages/japanese/*')).as('createJapaneseTask');
+        cy.intercept('PATCH', podUrl('/languages/japanese/manga/*')).as('createMangaTask');
 
         cy.createStubs();
         cy.ariaLabel('Configuration').click();
@@ -188,10 +188,16 @@ describe('Cloud', () => {
 
         // Act
         cy.see('All your eggs are in the same basket');
+        cy.press('Advanced options', 'summary');
+        cy.ariaInput('Household url').scrollIntoView().clear().type(podUrl('/shared/'));
+        cy.ariaInput('Japanese url').scrollIntoView().clear().type(podUrl('/languages/japanese/'));
+        cy.ariaInput('Main url').scrollIntoView().clear().type(podUrl('/tasks/'));
         cy.press('Back up');
         cy.dontSee('Loading...', { timeout: 30000 });
 
         // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/shared`);
+
         cy.get('@createMainContainer.all').should('have.length', 1);
         cy.get('@createHouseholdContainer.all').should('have.length', 1);
         cy.get('@createGroceriesContainer.all').should('have.length', 1);
