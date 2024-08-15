@@ -34,6 +34,17 @@
                 />
             </AGForm>
         </Variant>
+
+        <Variant title="Disabled">
+            <AGForm :form="disabledForm">
+                <TextInput
+                    name="food"
+                    label="What's the best food?"
+                    placeholder="Ramen"
+                    disabled
+                />
+            </AGForm>
+        </Variant>
     </Story>
 </template>
 
@@ -43,11 +54,13 @@ import { ref, watchEffect } from 'vue';
 
 const form = useForm({ food: requiredStringInput() });
 const errorForm = useForm({ food: requiredStringInput() });
+const disabledForm = useForm({ food: requiredStringInput() });
 const label = ref('What\'s the best food?');
 const placeholder = ref('Ramen');
 const hasErrors = ref(false);
 
 errorForm.submit();
+disabledForm.food = 'Ramen';
 
 watchEffect(() => (hasErrors.value ? form.submit() : form.reset()));
 </script>
