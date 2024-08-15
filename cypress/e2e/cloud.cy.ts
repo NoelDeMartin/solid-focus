@@ -219,7 +219,7 @@ describe('Cloud', () => {
         cy.see('All your eggs are in the same basket');
         cy.press('not yet');
         cy.ariaLabel('Open account status').click();
-        cy.press('Advanced options');
+        cy.press('Advanced options', 'summary');
         cy.press('Reconnect on startup');
         cy.get('body').type('{esc}');
 

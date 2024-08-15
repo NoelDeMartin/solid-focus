@@ -67,6 +67,54 @@ describe('Onboarding', () => {
         });
     });
 
+    it('Signs up using advanced options', () => {
+        // Arrange
+        cy.intercept('PUT', podUrl('/work/')).as('createContainer');
+        cy.intercept('PATCH', podUrl('/work/.meta')).as('createContainerMeta');
+        cy.intercept('PATCH', podUrl('/work/*')).as('createTask');
+
+        // Act
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.press('Advanced options', 'summary');
+        cy.ariaInput('Task name').type('Reply to support emails');
+        cy.ariaInput('Workspace name').clear().type('Work');
+        cy.ariaInput('Workspace url').clear().type(podUrl('/work/'));
+        cy.press('Continue');
+        cy.waitSync();
+        cy.ariaLabel('Show lists').click();
+
+        // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/work`);
+        cy.seeActiveWorkspace('Work');
+        cy.see('Reply to support emails');
+        cy.seeActiveList('Inbox');
+
+        cy.reload();
+        cy.solidAuthorize();
+        cy.seeActiveWorkspace('Work');
+        cy.see('Reply to support emails');
+        cy.seeActiveList('Inbox');
+
+        cy.get('@createContainer.all').should('have.length', 1);
+        cy.get('@createContainerMeta.all').should('have.length', 1);
+        cy.get('@createTask.all').should('have.length', 1);
+
+        cy.fixtureWithReplacements('sparql/create-container-meta.sparql', {
+            url: podUrl('/work/'),
+            name: 'Work',
+        }).then((sparql) => {
+            cy.get('@createContainerMeta').its('response.statusCode').should('eq', 205);
+            cy.get('@createContainerMeta').its('request.body').should('be.sparql', sparql);
+        });
+
+        cy.fixtureWithReplacements('sparql/create-task.sparql', { name: 'Reply to support emails' }).then((sparql) => {
+            cy.get('@createTask').its('response.statusCode').should('eq', 201);
+            cy.get('@createTask').its('request.body').should('be.sparql', sparql);
+        });
+    });
+
     it('Logs in', () => {
         // Arrange
         cy.solidCreateContainer('/tasks/work/', 'Work');

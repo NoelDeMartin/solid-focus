@@ -41,10 +41,15 @@ landing:
     getStarted:
         cta: Get started
         title: Get started
-        intro: 'Are you ready to be more focused? Create a new task with the first thing you want to get done:'
-        submit: Create task
-        workspaceName: Main
+        intro: "Let's start small, begin by creating a new task with the first thing you want to get done:"
+        submit: Continue
+        defaultWorkspaceName: Main
         back: nevermind
+        loginError: There was a problem connecting to your account.
+        advanced:
+            intro: Tasks are organized within workspaces, you can use these advanced settings to configure your default workspace.
+            workspaceName: Workspace name
+            workspaceUrl: Workspace url
     logIn:
         cta: Log in
         title: Welcome back!
@@ -85,7 +90,6 @@ cloud:
         syncing: Syncing
         dirty: There are local changes
     advanced:
-        title: Advanced options
         reconnect: Reconnect on startup
         startupSync: Synchronize on startup
         polling: Synchronize every {minutes} minutes
@@ -124,7 +128,6 @@ workspaces:
     hideSidebar: Hide lists
     notFound: We couldn't find the `{workspace}` workspace, were you looking for something else?
     advanced:
-        title: Advanced options
         mintUrl: Create container url automatically.
         info: This workspace is using the container at `{url}`. If you want to migrate it, you'll have to do it with another app (and make sure to update the [Type Index](https://solid.github.io/type-indexes/) as well!).
 
@@ -215,6 +218,7 @@ ui:
     cancel: Cancel
     close: Close
     delete: Delete
+    advancedOptions: Advanced options
 
 errors:
     required: This field is required

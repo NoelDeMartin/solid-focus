@@ -30,15 +30,8 @@
                 class="mt-4"
                 :label="$t('workspaces.url')"
             />
-            <details v-if="$cloud.ready" class="group mt-4">
-                <summary
-                    class="-ml-2 flex w-[max-content] cursor-pointer list-none items-center rounded-lg py-2 pl-1 pr-3 hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
-                >
-                    <i-zondicons-cheveron-right class="h-6 w-6 transition-transform group-open:rotate-90" />
-                    <span>{{ $t('workspaces.advanced.title') }}</span>
-                </summary>
-
-                <ul v-if="newRemoteWorkspace" class="mb-4 ml-4 mt-2 flex flex-col gap-2">
+            <AdvancedOptions v-if="$cloud.ready" class="mt-4">
+                <ul v-if="newRemoteWorkspace" class="mb-4 flex flex-col gap-2">
                     <li>
                         <label class="flex items-center">
                             <input
@@ -57,11 +50,11 @@
 
                 <AGMarkdown
                     v-else
-                    class="ml-4 text-sm text-gray-600"
+                    class="text-sm text-gray-600"
                     lang-key="workspaces.advanced.info"
                     :lang-params="{ url: form.url }"
                 />
-            </details>
+            </AdvancedOptions>
             <div class="flex w-full justify-end gap-3" :class="{ 'mt-2': $cloud.ready, 'mt-8': !$cloud.ready }">
                 <TextButton color="secondary" @click="close()">
                     {{ $t('ui.cancel') }}
@@ -91,7 +84,7 @@ const $modal = componentRef<IFloatingModal>();
 const props = defineProps({ workspace: objectProp<Workspace>() });
 const form = useForm({
     url: stringInput(props.workspace?.url, { rules: 'container_url' }),
-    name: requiredStringInput(props.workspace?.name),
+    name: requiredStringInput(props.workspace?.name ?? ''),
     color: requiredStringInput(props.workspace?.themeColor ?? 'sky'),
 });
 const mintUrl = ref(true);

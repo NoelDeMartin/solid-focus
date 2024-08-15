@@ -57,14 +57,8 @@
                 <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-yellow-500" />
                 <AGMarkdown lang-key="cloud.info.disconnected" />
             </div>
-            <details class="group mt-2 w-fit">
-                <summary
-                    class="-ml-2 flex w-[max-content] cursor-pointer list-none items-center rounded-lg py-2 pl-1 pr-3 hover:bg-gray-100 focus-visible:outline focus-visible:outline-gray-700"
-                >
-                    <i-zondicons-cheveron-right class="h-6 w-6 transition-transform group-open:rotate-90" />
-                    <span>{{ $t('cloud.advanced.title') }}</span>
-                </summary>
-                <ul class="ml-4 mt-2 flex flex-col gap-2">
+            <AdvancedOptions class="mt-2">
+                <ul class="flex flex-col gap-2">
                     <li>
                         <label class="flex items-center">
                             <input
@@ -107,7 +101,7 @@
                         </div>
                     </li>
                 </ul>
-            </details>
+            </AdvancedOptions>
         </div>
 
         <div v-if="!$cloud.syncing && !$solid.loginOngoing" class="mt-4 flex flex-row-reverse justify-start gap-2">
