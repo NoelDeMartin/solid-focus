@@ -1,0 +1,40 @@
+DELETE DATA {
+
+    @prefix schema: <https://schema.org/> .
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <#it> schema:actionStatus schema:PotentialActionStatus .
+    <#it-metadata> crdt:updatedAt "[[previousUpdate][.*]]"^^xsd:dateTime .
+
+};
+
+INSERT DATA {
+
+    @prefix schema: <https://schema.org/> .
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix tasks: <https://vocab.noeldemartin.com/tasks/> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <#it>
+        schema:actionStatus schema:CompletedActionStatus ;
+        tasks:completedAt "[[newUpdate][.*]]"^^xsd:dateTime .
+
+    <#it-metadata>
+        crdt:updatedAt "[[newUpdate][.*]]"^^xsd:dateTime .
+
+    <#it-operation-[[operation-1][%uuid%]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <#it> ;
+        crdt:date "[[newUpdate][.*]]"^^xsd:dateTime ;
+        crdt:property tasks:completedAt ;
+        crdt:value "[[newUpdate][.*]]"^^xsd:dateTime .
+
+    <#it-operation-[[operation-2][%uuid%]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <#it> ;
+        crdt:date "[[newUpdate][.*]]"^^xsd:dateTime ;
+        crdt:property schema:actionStatus ;
+        crdt:value schema:CompletedActionStatus .
+
+}

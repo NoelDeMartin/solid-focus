@@ -14,7 +14,7 @@ export default class Task extends Model {
 
     public async toggle(): Promise<void> {
         if (this.completed) {
-            await this.updateAndSync({
+            await this.update({
                 status: Task.STATUS_POTENTIAL,
                 completedAt: null,
             });
@@ -22,15 +22,10 @@ export default class Task extends Model {
             return;
         }
 
-        await this.updateAndSync({
+        await this.update({
             status: Task.STATUS_COMPLETED,
             completedAt: new Date(),
         });
-    }
-
-    public async updateAndSync(attributes: Attributes): Promise<void> {
-        await this.update(attributes);
-        await Cloud.syncIfOnline(this);
     }
 
     protected initializeAttributes(attributes: Attributes, exists: boolean): void {

@@ -327,7 +327,6 @@ async function deleteTask() {
 
     if (Cloud.ready) {
         await task.value.softDelete();
-        await Cloud.syncIfOnline(task.value);
 
         return;
     }

@@ -112,8 +112,6 @@ async function submit(): Promise<void> {
         await workspace.open();
     }
 
-    await Cloud.syncIfOnline(workspace);
-
     $modal.value?.close();
 }
 

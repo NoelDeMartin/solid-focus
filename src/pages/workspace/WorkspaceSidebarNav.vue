@@ -48,6 +48,5 @@ async function createList() {
     }
 
     await Workspaces.current.open(list);
-    await Cloud.syncIfOnline(list);
 }
 </script>

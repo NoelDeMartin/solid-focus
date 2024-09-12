@@ -4,7 +4,6 @@ DELETE DATA {
     @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-    <#it> schema:actionStatus schema:PotentialActionStatus .
     <#it-metadata> crdt:updatedAt "[[createdAt][.*]]"^^xsd:dateTime .
 
 };
@@ -17,18 +16,18 @@ INSERT DATA {
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
     <#it>
-        schema:actionStatus schema:CompletedActionStatus ;
-        tasks:completedAt "[[updatedAt][.*]]"^^xsd:dateTime .
+        tasks:dueDate "[[dueDate][.*]]"^^xsd:dateTime ;
+        tasks:important true .
 
     <#it-metadata>
-        crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
+        crdt:updatedAt "[[secondUpdate][.*]]"^^xsd:dateTime .
 
     <#it-operation-[[operation-1][%uuid%]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
         crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
         crdt:property schema:name ;
-        crdt:value "[[.*]]" .
+        crdt:value "Sync updates" .
 
     <#it-operation-[[operation-2][%uuid%]]>
         a crdt:SetPropertyOperation ;
@@ -40,15 +39,15 @@ INSERT DATA {
     <#it-operation-[[operation-3][%uuid%]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
-        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
-        crdt:property tasks:completedAt ;
-        crdt:value "[[updatedAt][.*]]"^^xsd:dateTime .
+        crdt:date "[[firstUpate][.*]]"^^xsd:dateTime ;
+        crdt:property tasks:important ;
+        crdt:value true .
 
     <#it-operation-[[operation-4][%uuid%]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
-        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
-        crdt:property schema:actionStatus ;
-        crdt:value schema:CompletedActionStatus .
+        crdt:date "[[secondUpdate][.*]]"^^xsd:dateTime ;
+        crdt:property tasks:dueDate ;
+        crdt:value "[[dueDate][.*]]"^^xsd:dateTime .
 
 }

@@ -10,25 +10,45 @@ describe('Cloud', () => {
         cy.visit('/');
     });
 
-    it('Syncs updated tasks', () => {
+    it('Syncs updates', () => {
         // Arrange
         cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Sync updates{enter}');
         cy.dontSee('Loading...');
+        cy.waitSync();
 
         cy.intercept('PATCH', podUrl('/tasks/main/*')).as('updateTask');
 
-        // Act
+        // Act - toggle important and set due date
+        cy.ariaLabel('Select task \\"Sync updates\\"').click();
+        cy.ariaLabel('Make important').click();
+        cy.ariaLabel('Edit due date').click();
+        cy.get(':focus').then((element) => {
+            const input = element[0] as HTMLInputElement;
+
+            input.valueAsDate = new Date();
+            input.dispatchEvent(new Event('input'));
+        });
+        cy.press('Save');
+        cy.waitSync();
+
+        // Act - toggle task
         cy.contains('li', 'Sync updates').within(() => cy.get('input[type="checkbox"]').click());
+        cy.waitSync();
 
         // Assert
-        cy.get('@updateTask.all').should('have.length', 1);
+        cy.get('@updateTask.all').should('have.length', 2);
 
-        cy.fixture('sparql/complete-task.sparql').then((sparql) => {
-            cy.get('@updateTask').its('response.statusCode').should('eq', 205);
-            cy.get('@updateTask').its('request.body').should('be.sparql', sparql);
+        cy.fixture('sparql/sync-updates-1.sparql').then((sparql) => {
+            cy.get('@updateTask.1').its('response.statusCode').should('eq', 205);
+            cy.get('@updateTask.1').its('request.body').should('be.sparql', sparql);
+        });
+
+        cy.fixture('sparql/sync-updates-2.sparql').then((sparql) => {
+            cy.get('@updateTask.2').its('response.statusCode').should('eq', 205);
+            cy.get('@updateTask.2').its('request.body').should('be.sparql', sparql);
         });
     });
 
@@ -57,6 +77,7 @@ describe('Cloud', () => {
         cy.ariaLabel('Select task \\"To delete\\"').click();
         cy.ariaLabel('Delete').click();
         cy.press('Delete');
+        cy.waitSync();
 
         // Assert
         cy.get('@taskTurtle').then((taskTurtle) => {

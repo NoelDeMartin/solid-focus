@@ -111,9 +111,7 @@ async function createTask(name: string) {
         return;
     }
 
-    const task = await tasksList.relatedTasks.create({ name, status: Task.STATUS_POTENTIAL });
-
-    await Cloud.syncIfOnline(task);
+    await tasksList.relatedTasks.create({ name, status: Task.STATUS_POTENTIAL });
 }
 
 function changeTask(delta: 1 | -1) {

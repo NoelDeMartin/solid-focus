@@ -1,4 +1,3 @@
-import { Cloud } from '@aerogel/plugin-offline-first';
 import { Colors, UI, translate } from '@aerogel/core';
 import { requireBootedModel } from 'soukai';
 import type { Relation } from 'soukai';
@@ -48,7 +47,6 @@ export default class TasksList extends Model {
         }
 
         await this.update({ name });
-        await Cloud.syncIfOnline(this);
     }
 
 }

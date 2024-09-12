@@ -87,14 +87,15 @@ async function cancel() {
 }
 
 async function submit(): Promise<void> {
-    const workspace = await Workspace.create({
-        url: form.workspaceUrl,
-        name: form.workspaceName,
-        color: 'sky',
-    });
+    await Cloud.autoPushAfter(async () => {
+        const workspace = await Workspace.create({
+            url: form.workspaceUrl,
+            name: form.workspaceName,
+            color: 'sky',
+        });
 
-    await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
-    await Cloud.syncIfOnline();
-    await workspace.open();
+        await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
+        await workspace.open();
+    });
 }
 </script>
