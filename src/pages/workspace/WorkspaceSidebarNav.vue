@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { Cloud } from '@aerogel/plugin-offline-first';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { Colors, UI, translate } from '@aerogel/core';
 

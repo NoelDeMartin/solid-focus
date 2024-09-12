@@ -1,4 +1,3 @@
-import { Cloud } from '@aerogel/plugin-offline-first';
 import type { Attributes } from 'soukai';
 
 import Model from './Task.schema';
