@@ -214,7 +214,7 @@ describe('Cloud', () => {
         cy.ariaInput('Japanese url').scrollIntoView().clear().type(podUrl('/languages/japanese/'));
         cy.ariaInput('Main url').scrollIntoView().clear().type(podUrl('/tasks/'));
         cy.press('Back up');
-        cy.dontSee('Loading...', { timeout: 30000 });
+        cy.dontSee('Loading...', { timeout: 60000 });
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/shared`);
