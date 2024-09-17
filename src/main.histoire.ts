@@ -3,7 +3,7 @@ import { defineSetupAerogel } from '@aerogel/histoire';
 
 import { WorkspacesService } from '@/services/Workspaces';
 
-import './assets/css/styles.css';
+import './assets/css/main.css';
 import { components } from './components';
 
 export const setupVue3 = defineSetupAerogel({

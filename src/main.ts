@@ -6,7 +6,7 @@ import soukai from '@aerogel/plugin-soukai';
 import vivant from '@/vivant/aerogel';
 import { bootstrap } from '@aerogel/core';
 
-import './assets/css/styles.css';
+import './assets/css/main.css';
 import App from './App.vue';
 import { components } from './components';
 import { globals, services } from './services';
