@@ -1,5 +1,5 @@
 <template>
-    <AnimatedGroup ref="$group" class="flex flex-col px-4" :duration="allPendingCompleted ? 500 : 300">
+    <AnimationsConfig class="flex flex-col px-4" :duration="allPendingCompleted ? 600 : 300">
         <TasksForm v-if="$tasksList.tasks?.length" ref="$tasksForm" @submit="createTask($event)" />
 
         <div class="relative flex flex-grow flex-col">
@@ -12,29 +12,27 @@
 
             <TasksStart v-if="!tasks.pending.length && !tasks.completed.length" @create="createTask($event)" />
 
-            <AnimatedTransition
-                enter-active-class="transition-[opacity,transform] delay-200 duration-500"
-                enter-from-class="max-h-0 !py-0 opacity-0 -translate-y-12"
-                enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-[opacity,transform] duration-500"
-                leave-from-class="opacity-100 translate-y-0"
-                leave-to-class="absolute top-0 opacity-0 -translate-y-52"
-                leave-animation="freeze"
-            >
-                <TasksEmpty v-if="allPendingCompleted && !$focus.showCompleted" />
+            <AnimatedTransition leave-animation="freeze" enter-from-class="max-h-0 !p-0">
+                <TasksEmpty
+                    v-if="allPendingCompleted && !$focus.showCompleted"
+                    v-animate
+                    :enter="{ opacity: 1, y: 0, transition: { delay: 100 } }"
+                    :initial="{ opacity: 0, y: -30 }"
+                    :leave="{ opacity: 0, y: -200, transition: { duration: 300 } }"
+                />
             </AnimatedTransition>
 
             <div
                 v-if="tasks.completed.length"
-                class="flex flex-col"
+                class="mt-4 flex flex-col"
                 :class="{
-                    'mt-4 flex-grow': !allPendingCompleted,
-                    'has-[.completed-tasks-wrapper:not(.absolute)]:mt-4': allPendingCompleted,
+                    'flex-grow': !allPendingCompleted,
                     'has-[.completed-tasks-wrapper:not(.absolute)]:flex-grow': allPendingCompleted,
                 }"
             >
                 <TextButton
                     v-animate-layout
+                    layout-group="completed-toggle"
                     color="clear"
                     class="ml-1 self-start pl-1 pr-2 font-medium uppercase tracking-wider"
                     :aria-label="$focus.showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
@@ -42,19 +40,20 @@
                 >
                     <i-zondicons-cheveron-right
                         class="h-6 w-6 transition-transform"
-                        :class="{ 'rotate-90': $focus.showCompleted }"
+                        :class="{
+                            'rotate-90': $focus.showCompleted,
+                            'duration-[600ms]': allPendingCompleted,
+                            'duration-[300ms]': !allPendingCompleted,
+                        }"
                     />
                     <span>{{ $t('tasks.completed') }}</span>
                 </TextButton>
                 <AnimatedTransition
-                    :enter-from-class="`${allPendingCompleted ? 'absolute bottom-0' : ''} h-0`"
-                    :leave-to-class="`${allPendingCompleted ? 'absolute bottom-0' : ''} h-0`"
+                    layout-group="completed-toggle"
+                    :enter-from-class="allPendingCompleted ? 'absolute bottom-0 h-0' : ''"
+                    :leave-to-class="allPendingCompleted ? 'absolute bottom-0 h-0' : ''"
                     @enter="allPendingCompleted ? toggleCompletedTasks($event) : slideDown($event.firstElementChild)"
-                    @leave="
-                        allPendingCompleted
-                            ? toggleCompletedTasks($event)
-                            : ($event.classList.remove('h-0'), slideUp($event.firstElementChild))
-                    "
+                    @leave="allPendingCompleted ? toggleCompletedTasks($event) : slideUp($event.firstElementChild)"
                 >
                     <div v-if="$focus.showCompleted" class="completed-tasks-wrapper overflow-hidden">
                         <TasksList :tasks="tasks.completed" :disable-editing="disableEditing" class="mt-4" />
@@ -62,16 +61,14 @@
                 </AnimatedTransition>
             </div>
         </div>
-    </AnimatedGroup>
+    </AnimationsConfig>
 </template>
 
 <script setup lang="ts">
 import { arrayGroupBy, arraySorted, compare } from '@noeldemartin/utils';
-import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
-import { slideDown, slideUp } from '@/vivant/core';
 import { UI } from '@aerogel/core';
-import type { IAnimatedGroup } from '@/vivant/vue';
 
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
@@ -79,10 +76,9 @@ import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
-import { toggleCompletedTasks, toggleFooter } from './animations/tasks';
+import { slideDown, slideUp, toggleCompletedTasks } from './animations';
 import type { ITasksForm } from './components/tasks/TasksForm';
 
-const $group = ref<IAnimatedGroup>();
 const $tasksForm = ref<ITasksForm>();
 const disableEditingWithKeyboard = ref(false);
 const disableEditing = computed(() => UI.mobile || disableEditingWithKeyboard.value);
@@ -140,14 +136,6 @@ watch(
     () => showPending.value,
     (value) => (Focus.showCompleted &&= value),
 );
-watchEffect(
-    () =>
-        $group.value &&
-        Focus.setFooterAnimation({
-            group: $group.value.group,
-            animate: toggleFooter,
-        }),
-);
 watchKeyboardShortcut('Control', {
     start: () => (disableEditingWithKeyboard.value = true),
     end: () => (disableEditingWithKeyboard.value = false),
@@ -157,6 +145,4 @@ watchKeyboardShortcut('c', () => Focus.toggleCompleted());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
 watchKeyboardShortcut('ArrowDown', () => changeTask(1));
 watchKeyboardShortcut('Escape', () => Workspaces.select(null));
-
-onUnmounted(() => Focus.setFooterAnimation(null));
 </script>

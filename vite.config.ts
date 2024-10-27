@@ -26,7 +26,7 @@ export default defineConfig({
             deep: true,
             dts: false,
             resolvers: [HeadlessUiResolver(), AerogelResolver(), IconsResolver({ customCollections: ['app'] })],
-            dirs: ['src/components', 'src/pages', 'src/vivant/vue/components'],
+            dirs: ['src/components', 'src/pages'],
         }),
         I18n({ strictMessage: false, include: resolve(__dirname, './src/lang/**/*.yaml') }),
         Icons({
