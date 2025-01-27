@@ -1,5 +1,6 @@
 import { computed, customRef, onMounted, onUnmounted, reactive, readonly, watchEffect } from 'vue';
 import { tap } from '@noeldemartin/utils';
+import { UI } from '@aerogel/core';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
 
 function useDeferredRef<TValue>(value: TValue): Ref<TValue | undefined>;
@@ -165,6 +166,10 @@ export function watchKeyboardShortcut(
         const activeElementTagName = document.querySelector(':focus')?.tagName.toLowerCase();
 
         if (activeElementTagName === 'input' || activeElementTagName === 'textarea') {
+            return false;
+        }
+
+        if (event.key === 'Escape' && UI.modals.length > 0) {
             return false;
         }
 
