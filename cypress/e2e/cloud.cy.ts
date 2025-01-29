@@ -16,7 +16,6 @@ describe('Cloud', () => {
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Sync updates{enter}');
-        cy.dontSee('Loading...');
         cy.waitSync();
 
         cy.intercept('PATCH', podUrl('/tasks/main/*')).as('updateTask');
@@ -41,12 +40,12 @@ describe('Cloud', () => {
         // Assert
         cy.get('@updateTask.all').should('have.length', 2);
 
-        cy.fixture('sparql/sync-updates-1.sparql').then((sparql) => {
+        cy.fixture('sparql/sync-task-updates-1.sparql').then((sparql) => {
             cy.get('@updateTask.1').its('response.statusCode').should('eq', 205);
             cy.get('@updateTask.1').its('request.body').should('be.sparql', sparql);
         });
 
-        cy.fixture('sparql/sync-updates-2.sparql').then((sparql) => {
+        cy.fixture('sparql/sync-task-updates-2.sparql').then((sparql) => {
             cy.get('@updateTask.2').its('response.statusCode').should('eq', 205);
             cy.get('@updateTask.2').its('request.body').should('be.sparql', sparql);
         });
@@ -58,7 +57,7 @@ describe('Cloud', () => {
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('To delete{enter}');
-        cy.dontSee('Loading...');
+        cy.waitSync();
 
         cy.model('Workspace').then(async (Workspace) => {
             const main = await Workspace.find(podUrl('/tasks/main/'));
@@ -107,7 +106,7 @@ describe('Cloud', () => {
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Sync updates{enter}');
-        cy.dontSee('Loading...');
+        cy.waitSync();
 
         cy.intercept('PUT', podUrl('/tasks/work/')).as('createWorkContainer');
         cy.intercept('PATCH', podUrl('/tasks/work/.meta')).as('createWorkContainerMeta');
@@ -142,6 +141,49 @@ describe('Cloud', () => {
         cy.get('@createLearningContainerMeta.all').should('have.length', 1);
         cy.get('@createStudyContainer.all').should('have.length', 1);
         cy.get('@createStudyContainerMeta.all').should('have.length', 1);
+    });
+
+    it('Syncs list updates', () => {
+        // Arrange
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.ariaInput('Task name').type('Hello{enter}');
+        cy.waitSync();
+
+        cy.intercept('PATCH', podUrl('/tasks/main/testing/.meta')).as('updateList');
+        cy.intercept('PATCH', '*').as('otherUpdates');
+
+        // Act
+        cy.ariaLabel('Show lists').click();
+        cy.press('New list');
+        cy.ariaInput('Name').type('Testing{enter}');
+        cy.waitSync();
+
+        cy.ariaInput('Task name').type('A simple task{enter}');
+        cy.waitSync();
+
+        cy.ariaLabel('Testing list settings').click({ force: true });
+        cy.ariaInput('Name').clear().type('Renamed list{enter}');
+        cy.waitSync();
+
+        // Assert
+        cy.get('@updateList.all').should('have.length', 2);
+        cy.get('@otherUpdates.all').should('have.length', 1);
+
+        cy.fixtureWithReplacements('sparql/sync-list-updates-1.sparql', { url: podUrl('/tasks/main/testing/') }).then(
+            (sparql) => {
+                cy.get('@updateList.1').its('response.statusCode').should('eq', 205);
+                cy.get('@updateList.1').its('request.body').should('be.sparql', sparql);
+            },
+        );
+
+        cy.fixtureWithReplacements('sparql/sync-list-updates-2.sparql', { url: podUrl('/tasks/main/testing/') }).then(
+            (sparql) => {
+                cy.get('@updateList.2').its('response.statusCode').should('eq', 205);
+                cy.get('@updateList.2').its('request.body').should('be.sparql', sparql);
+            },
+        );
     });
 
     it('Migrates simple local data', () => {

@@ -1,16 +1,16 @@
 INSERT DATA {
-    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
-    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-    @prefix tasks: <https://vocab.noeldemartin.com/tasks/> .
 
-    <{{ url }}>
-        rdfs:label "{{ name }}" ;
-        tasks:color "sky" .
+    @prefix schema: <https://schema.org/> .
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <{{ url }}> rdfs:label "Testing" .
 
     <{{ url }}#metadata>
         a crdt:Metadata ;
         crdt:resource <{{ url }}> ;
         crdt:createdAt "[[.*]]"^^xsd:dateTime ;
         crdt:updatedAt "[[.*]]"^^xsd:dateTime .
+
 }

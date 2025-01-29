@@ -4,4 +4,6 @@ export const tasksListFields = solidContainerFields;
 
 export default defineSolidContainerSchema({
     fields: tasksListFields,
+    history: true,
+    timestamps: true,
 });

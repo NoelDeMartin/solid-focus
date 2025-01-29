@@ -1,0 +1,39 @@
+DELETE DATA {
+
+    @prefix schema: <https://schema.org/> .
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <{{ url }}> rdfs:label "Testing" .
+
+    <{{ url }}#metadata> crdt:updatedAt "[[createdAt][.*]]"^^xsd:dateTime .
+
+};
+
+INSERT DATA {
+
+    @prefix schema: <https://schema.org/> .
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <{{ url }}> rdfs:label "Renamed list" .
+
+    <{{ url }}#metadata> crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
+
+    <{{ url }}#operation-[[operation-1][%uuid%]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <{{ url }}> ;
+        crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
+        crdt:property rdfs:label ;
+        crdt:value "Testing" .
+
+    <{{ url }}#operation-[[operation-2][%uuid%]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <{{ url }}> ;
+        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
+        crdt:property rdfs:label ;
+        crdt:value "Renamed list" .
+
+}
