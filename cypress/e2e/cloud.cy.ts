@@ -347,6 +347,7 @@ describe('Cloud', () => {
         cy.ariaLabel('Open account status').click();
         cy.press('Log out');
         cy.see('Log out from this device?');
+        cy.press('I understand that changes that haven\'t been synchronized will be lost.');
         cy.press('Log out');
 
         // Assert
