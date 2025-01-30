@@ -109,7 +109,7 @@
                 <i-zondicons-refresh class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.reconnect') }}</span>
             </TextButton>
-            <TextButton v-else-if="$cloud.ready" @click="$cloud.sync()">
+            <TextButton v-else-if="$cloud.ready" @click="$cloud.sync({ refreshUserProfile: true })">
                 <i-zondicons-refresh class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.sync') }}</span>
             </TextButton>

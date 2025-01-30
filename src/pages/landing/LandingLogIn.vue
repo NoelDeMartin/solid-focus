@@ -7,7 +7,7 @@
             v-else
             :form="form"
             class="mt-10 max-w-md"
-            @submit="$solid.login(form.url)"
+            @submit="$solid.login(form.url, { loading: false })"
         >
             <h2 class="mt-6 text-center text-xl font-semibold leading-6 text-gray-900">
                 {{ $t('landing.logIn.title') }}
