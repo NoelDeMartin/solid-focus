@@ -58,6 +58,7 @@ landing:
 cloud:
     sync: Synchronize
     reconnect: Reconnect
+    disconnect: Disconnect
     logOut: Log out
     logIn:
         title: Connect account

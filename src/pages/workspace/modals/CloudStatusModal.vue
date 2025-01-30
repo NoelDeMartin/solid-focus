@@ -119,7 +119,7 @@
             </TextButton>
             <TextButton color="secondary" @click="$solid.logout()">
                 <i-material-symbols-logout-rounded class="h-5 w-5" />
-                <span class="ml-1">{{ $t('cloud.logOut') }}</span>
+                <span class="ml-1">{{ $cloud.ready ? $t('cloud.logOut') : $t('cloud.disconnect') }}</span>
             </TextButton>
         </div>
     </FloatingModal>
