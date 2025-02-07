@@ -57,7 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import { Cloud } from '@aerogel/plugin-offline-first';
 import { Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
@@ -87,15 +86,13 @@ async function cancel() {
 }
 
 async function submit(): Promise<void> {
-    await Cloud.autoPushAfter(async () => {
-        const workspace = await Workspace.create({
-            url: form.workspaceUrl,
-            name: form.workspaceName,
-            color: 'sky',
-        });
-
-        await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
-        await workspace.open();
+    const workspace = await Workspace.create({
+        url: form.workspaceUrl,
+        name: form.workspaceName,
+        color: 'sky',
     });
+
+    await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
+    await workspace.open();
 }
 </script>
