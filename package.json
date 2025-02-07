@@ -24,7 +24,7 @@
     "dependencies": {
         "@aerogel/core": "0.0.0-next.f86b4b09f066c4aef21796a37dbc8417b7dce3cd",
         "@aerogel/plugin-i18n": "0.0.0-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
-        "@aerogel/plugin-offline-first": "0.0.0-next.129b164cda8e791661ba16ad7bf51aaeae6be2eb",
+        "@aerogel/plugin-offline-first": "0.0.0-next.9e4577534f5eff6eb874798eb5e93ade90bfe21b",
         "@aerogel/plugin-routing": "0.0.0-next.f86b4b09f066c4aef21796a37dbc8417b7dce3cd",
         "@aerogel/plugin-solid": "0.0.1-next.6ee67691c283fd950be6f879c79ff3e620a3fe31",
         "@aerogel/plugin-soukai": "0.0.0-next.f86b4b09f066c4aef21796a37dbc8417b7dce3cd",
@@ -37,7 +37,7 @@
         "@tailwindcss/typography": "^0.5.9",
         "popmotion": "^11.0.5",
         "soukai": "0.5.2-next.8da33ba6f17b4fdf885c4a88ad6284bb35f04580",
-        "soukai-solid": "0.5.2-next.bec73d72c1691ea5afc0448a122869051a9c6f13",
+        "soukai-solid": "0.5.2-next.cdf8e0f3b6eb8754aee78d63499c508eff7d0748",
         "tailwind-merge": "^2.3.0",
         "tailwindcss": "^3.3.2",
         "vivant": "^0.0.1",
