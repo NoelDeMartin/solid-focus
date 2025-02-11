@@ -26,7 +26,7 @@ export default class Task extends Model {
             delete this.description;
         }
 
-        this.status ??= this.completedAt ? Task.STATUS_COMPLETED : Task.STATUS_POTENTIAL;
+        this.status = this.completedAt ? Task.STATUS_COMPLETED : Task.STATUS_POTENTIAL;
 
         await super.beforeSave();
     }
