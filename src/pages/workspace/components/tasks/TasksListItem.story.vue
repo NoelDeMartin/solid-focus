@@ -67,15 +67,12 @@ const task = computed(
             name: name.value,
             description: description.value ? 'Something' : null,
             important: important.value,
-            status: Task.STATUS_POTENTIAL,
             dueDate: DUE_DATES[dueDate.value],
         }),
 );
-const pendingTask = computed(() => new Task({ url: 'pending', name: name.value, status: Task.STATUS_POTENTIAL }));
-const selectedTask = computed(() => new Task({ url: 'selected', name: name.value, status: Task.STATUS_POTENTIAL }));
-const completedTask = computed(
-    () => new Task({ url: 'completed', name: name.value, status: Task.STATUS_COMPLETED, completedAt: new Date() }),
-);
+const pendingTask = computed(() => new Task({ url: 'pending', name: name.value }));
+const selectedTask = computed(() => new Task({ url: 'selected', name: name.value }));
+const completedTask = computed(() => new Task({ url: 'completed', name: name.value, completedAt: new Date() }));
 
 watchEffect(() => Workspaces.select(selectedTask.value));
 </script>

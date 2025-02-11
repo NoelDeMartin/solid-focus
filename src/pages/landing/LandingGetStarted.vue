@@ -92,7 +92,7 @@ async function submit(): Promise<void> {
         color: 'sky',
     });
 
-    await workspace.relatedTasks.create({ name: form.draft, status: Task.STATUS_POTENTIAL });
+    await workspace.relatedTasks.create({ name: form.draft });
     await workspace.open();
 }
 </script>

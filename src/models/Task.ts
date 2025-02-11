@@ -1,5 +1,3 @@
-import type { Attributes } from 'soukai';
-
 import Model from './Task.schema';
 
 export default class Task extends Model {
@@ -8,33 +6,29 @@ export default class Task extends Model {
     public static readonly STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
 
     public get completed(): boolean {
-        return this.status === Task.STATUS_COMPLETED;
+        return !!this.completedAt;
     }
 
     public async toggle(): Promise<void> {
         if (this.completed) {
-            await this.update({
-                status: Task.STATUS_POTENTIAL,
-                completedAt: null,
-            });
+            await this.update({ completedAt: null });
 
             return;
         }
 
-        await this.update({
-            status: Task.STATUS_COMPLETED,
-            completedAt: new Date(),
-        });
+        await this.update({ completedAt: new Date() });
     }
 
-    protected initializeAttributes(attributes: Attributes, exists: boolean): void {
-        if (exists && !('name' in attributes)) {
-            attributes.name = attributes.description ?? 'Unknown';
+    protected async beforeSave(): Promise<void> {
+        if (this.exists() && !this.name) {
+            this.name = this.description ?? 'Unknown';
 
-            delete attributes.description;
+            delete this.description;
         }
 
-        super.initializeAttributes(attributes, exists);
+        this.status ??= this.completedAt ? Task.STATUS_COMPLETED : Task.STATUS_POTENTIAL;
+
+        await super.beforeSave();
     }
 
 }

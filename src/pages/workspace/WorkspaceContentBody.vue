@@ -106,7 +106,7 @@ async function createTask(name: string) {
         return;
     }
 
-    await tasksList.relatedTasks.create({ name, status: Task.STATUS_POTENTIAL });
+    await tasksList.relatedTasks.create({ name });
 }
 
 function changeTask(delta: 1 | -1) {
