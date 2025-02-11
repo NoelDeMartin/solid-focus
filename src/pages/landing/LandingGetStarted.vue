@@ -60,7 +60,6 @@
 import { Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
-import Task from '@/models/Task';
 import Workspace from '@/models/Workspace';
 
 const form = useForm({
