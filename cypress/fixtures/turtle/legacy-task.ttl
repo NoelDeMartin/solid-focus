@@ -1,0 +1,16 @@
+@prefix lifecycle: <http://purl.org/vocab/lifecycle/schema#>.
+@prefix ldp: <http://www.w3.org/ns/ldp#>.
+@prefix purl: <http://purl.org/dc/terms/>.
+@prefix xml: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix ical: <http://www.w3.org/2002/12/cal/ical#>.
+
+<>
+    a lifecycle:Task, ldp:Resource;
+    rdfs:label "Learn Solid";
+    rdfs:comment "This was created a long time ago";
+    ical:priority 1;
+    ical:due "2019-01-01T00:00:00Z"^^xml:dateTime;
+    purl:created "2018-11-13T00:00:00Z"^^xml:dateTime;
+    purl:modified "2018-11-13T00:00:00Z"^^xml:dateTime;
+    ical:completed "2018-12-25T00:00:00Z"^^xml:dateTime.

@@ -1,9 +1,12 @@
 import { arraySorted, facade } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { Events } from '@aerogel/core';
+import { fetchSolidDocument } from '@noeldemartin/solid-utils';
+import { Solid } from '@aerogel/plugin-solid';
 import { trackModels } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
+import LegacyTaskSchema from '@/models/legacy/Task.schema';
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
@@ -41,6 +44,7 @@ export class WorkspacesService extends Service {
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
 
         Events.on('auth:after-logout', () => (this.lastVisitedWorkspaceUrl = null));
+        Events.on('cloud:sync-started', () => this.prepareLegacySchemas());
         Task.on('deleted', (deletedTask) => {
             if (!this.task || !this.task.is(deletedTask)) {
                 return;
@@ -48,6 +52,35 @@ export class WorkspacesService extends Service {
 
             this.select(null);
         });
+    }
+
+    protected async prepareLegacySchemas(): Promise<void> {
+        const user = Solid.user;
+
+        if (!user?.usedLegacyApp) {
+            return;
+        }
+
+        const rootContainerUrl = user.storageUrls[0];
+        const rootContainer = await fetchSolidDocument(rootContainerUrl, { fetch: Solid.fetch });
+        const containerUrls = rootContainer
+            .statements(rootContainerUrl, 'ldp:contains')
+            .map(({ object }) => object.value)
+            .filter((url) => url.endsWith('/'));
+
+        for (const containerUrl of containerUrls) {
+            const container = await fetchSolidDocument(containerUrl, { fetch: Solid.fetch });
+
+            if (!container.statement(containerUrl, 'rdf:type', 'http://purl.org/vocab/lifecycle/schema#TaskGroup')) {
+                continue;
+            }
+
+            const workspace = await Workspace.withEngine(Solid.requireAuthenticator().engine).find(containerUrl);
+            const typeIndex = await Solid.findOrCreatePrivateTypeIndex();
+
+            await Task.updateSchema(LegacyTaskSchema);
+            await workspace?.withEngine(Solid.requireAuthenticator().engine).register(typeIndex, Task);
+        }
     }
 
 }

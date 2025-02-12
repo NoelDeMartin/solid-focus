@@ -1,0 +1,7 @@
+INSERT DATA {
+    @prefix lifecycle: <http://purl.org/vocab/lifecycle/schema#> .
+
+    <{{ url }}>
+        a lifecycle:TaskGroup;
+        lifecycle:task <legacy-task>.
+}

@@ -1,0 +1,9 @@
+INSERT DATA {
+    @prefix acl: <http://www.w3.org/ns/auth/acl#> .
+
+    <#me>
+        acl:trustedApp [
+            acl:mode acl:Append, acl:Read, acl:Write;
+            acl:origin <https://noeldemartin.github.io>
+        ].
+}
