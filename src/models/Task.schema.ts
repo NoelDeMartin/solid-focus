@@ -1,6 +1,9 @@
 import { FieldType } from 'soukai';
 import { defineSolidModelSchema } from 'soukai-solid';
 
+export const STATUS_COMPLETED = 'https://schema.org/CompletedActionStatus';
+export const STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
+
 export default defineSolidModelSchema({
     rdfsClass: 'schema:Action',
     rdfContexts: {
@@ -29,6 +32,11 @@ export default defineSolidModelSchema({
         completedAt: {
             rdfProperty: 'tasks:completedAt',
             type: FieldType.Date,
+        },
+    },
+    hooks: {
+        beforeSave() {
+            this.setAttribute('status', this.getAttribute('completedAt') ? STATUS_COMPLETED : STATUS_POTENTIAL);
         },
     },
 });

@@ -2,12 +2,15 @@ import { FieldType } from 'soukai';
 import { defineSolidModelSchema } from 'soukai-solid';
 
 export default defineSolidModelSchema({
+    rdfsClass: 'lifecycle:Task',
     rdfContexts: {
         lifecycle: 'http://purl.org/vocab/lifecycle/schema#',
         cal: 'http://www.w3.org/2002/12/cal/ical#',
         purl: 'http://purl.org/dc/terms/',
     },
-    rdfsClass: 'lifecycle:Task',
+    history: true,
+    tombstone: false,
+    defaultResourceHash: '',
     fields: {
         name: {
             type: FieldType.String,
@@ -20,7 +23,8 @@ export default defineSolidModelSchema({
         },
         important: {
             rdfProperty: 'cal:priority',
-            type: FieldType.Boolean,
+            type: FieldType.Number,
+            cast: (value) => (value ? 1 : undefined),
         },
         dueDate: {
             rdfProperty: 'cal:due',
@@ -30,13 +34,15 @@ export default defineSolidModelSchema({
             rdfProperty: 'cal:completed',
             type: FieldType.Date,
         },
-        createdAt: {
+        legacyCreatedAt: {
             rdfProperty: 'purl:created',
             type: FieldType.Date,
+            alias: 'createdAt',
         },
-        updatedAt: {
+        legacyUpdatedAt: {
             rdfProperty: 'purl:modified',
             type: FieldType.Date,
+            alias: 'updatedAt',
         },
     },
 });

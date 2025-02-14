@@ -12,5 +12,5 @@
     ical:priority 1;
     ical:due "2019-01-01T00:00:00Z"^^xml:dateTime;
     purl:created "2018-11-13T00:00:00Z"^^xml:dateTime;
-    purl:modified "2018-11-13T00:00:00Z"^^xml:dateTime;
+    purl:modified "2018-11-14T00:00:00Z"^^xml:dateTime;
     ical:completed "2018-12-25T00:00:00Z"^^xml:dateTime.

@@ -2,9 +2,6 @@ import Model from './Task.schema';
 
 export default class Task extends Model {
 
-    public static readonly STATUS_COMPLETED = 'https://schema.org/CompletedActionStatus';
-    public static readonly STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
-
     public get completed(): boolean {
         return !!this.completedAt;
     }
@@ -25,8 +22,6 @@ export default class Task extends Model {
 
             delete this.description;
         }
-
-        this.status = this.completedAt ? Task.STATUS_COMPLETED : Task.STATUS_POTENTIAL;
 
         await super.beforeSave();
     }

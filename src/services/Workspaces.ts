@@ -6,7 +6,7 @@ import { Solid } from '@aerogel/plugin-solid';
 import { trackModels } from '@aerogel/plugin-soukai';
 import { watchEffect } from 'vue';
 
-import LegacyTaskSchema from '@/models/legacy/Task.schema';
+import LegacyTaskSchema from '@/models/legacy/LegacyTask.schema';
 import Task from '@/models/Task';
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
@@ -43,24 +43,40 @@ export class WorkspacesService extends Service {
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
 
-        Events.on('auth:after-logout', () => (this.lastVisitedWorkspaceUrl = null));
-        Events.on('cloud:sync-started', () => this.prepareLegacySchemas());
-        Task.on('deleted', (deletedTask) => {
-            if (!this.task || !this.task.is(deletedTask)) {
-                return;
-            }
+        Events.on('auth:after-logout', () => this.onLogout());
+        Events.on('cloud:sync-started', () => this.onSyncStarted());
+        Task.on('deleted', (task) => this.onTaskDeleted(task));
 
-            this.select(null);
-        });
+        await this.bootLegacySchemas();
     }
 
-    protected async prepareLegacySchemas(): Promise<void> {
-        const user = Solid.user;
-
-        if (!user?.usedLegacyApp) {
+    protected async bootLegacySchemas(): Promise<void> {
+        if (!this.usingLegacySchemas) {
             return;
         }
 
+        await Task.updateSchema(LegacyTaskSchema);
+    }
+
+    protected onLogout(): void {
+        this.lastVisitedWorkspaceUrl = null;
+        this.usingLegacySchemas = null;
+    }
+
+    protected async onSyncStarted(): Promise<void> {
+        if (this.usingLegacySchemas !== null) {
+            return;
+        }
+
+        const user = Solid.user;
+
+        if (!user?.usedLegacyApp) {
+            this.usingLegacySchemas = false;
+
+            return;
+        }
+
+        const legacyWorkspaces = [];
         const rootContainerUrl = user.storageUrls[0];
         const rootContainer = await fetchSolidDocument(rootContainerUrl, { fetch: Solid.fetch });
         const containerUrls = rootContainer
@@ -76,11 +92,31 @@ export class WorkspacesService extends Service {
             }
 
             const workspace = await Workspace.withEngine(Solid.requireAuthenticator().engine).find(containerUrl);
-            const typeIndex = await Solid.findOrCreatePrivateTypeIndex();
 
-            await Task.updateSchema(LegacyTaskSchema);
-            await workspace?.withEngine(Solid.requireAuthenticator().engine).register(typeIndex, Task);
+            workspace && legacyWorkspaces.push(workspace);
         }
+
+        this.usingLegacySchemas = legacyWorkspaces.length > 0;
+
+        if (!this.usingLegacySchemas) {
+            return;
+        }
+
+        const typeIndex = await Solid.findOrCreatePrivateTypeIndex();
+
+        await Task.updateSchema(LegacyTaskSchema);
+
+        for (const workspace of legacyWorkspaces) {
+            await workspace.withEngine(Solid.requireAuthenticator().engine).register(typeIndex, Task);
+        }
+    }
+
+    protected onTaskDeleted(task: Task): void {
+        if (!this.task || !this.task.is(task)) {
+            return;
+        }
+
+        this.select(null);
     }
 
 }

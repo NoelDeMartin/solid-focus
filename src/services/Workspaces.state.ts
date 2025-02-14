@@ -9,7 +9,7 @@ import type Workspace from '@/models/Workspace';
 
 export default defineServiceState({
     name: 'workspaces',
-    persist: ['lastVisitedWorkspaceUrl', 'sidebar'],
+    persist: ['lastVisitedWorkspaceUrl', 'sidebar', 'usingLegacySchemas'],
     initialState: () => ({
         all: shallowRef([] as Workspace[]),
         task: null as Task | null,
@@ -20,5 +20,6 @@ export default defineServiceState({
             return routeParams.workspace;
         }),
         lastVisitedWorkspaceUrl: null as Key | null,
+        usingLegacySchemas: null as boolean | null,
     }),
 });

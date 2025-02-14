@@ -1,0 +1,21 @@
+INSERT DATA {
+
+    @prefix lifecycle: <http://purl.org/vocab/lifecycle/schema#>.
+    @prefix purl: <http://purl.org/dc/terms/>.
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+
+    <>
+        a lifecycle:Task;
+        rdfs:label "Rebuild app";
+        purl:created "[[createdAt][.*]]"^^xsd:dateTime;
+        purl:modified "[[createdAt][.*]]"^^xsd:dateTime.
+
+    <#metadata>
+        a crdt:Metadata ;
+        crdt:resource <> ;
+        crdt:createdAt "[[createdAt][.*]]"^^xsd:dateTime ;
+        crdt:updatedAt "[[createdAt][.*]]"^^xsd:dateTime .
+
+}
