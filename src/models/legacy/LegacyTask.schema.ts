@@ -21,10 +21,9 @@ export default defineSolidModelSchema({
             type: FieldType.String,
             rdfProperty: 'rdfs:comment',
         },
-        important: {
+        priority: {
             rdfProperty: 'cal:priority',
             type: FieldType.Number,
-            cast: (value) => (value ? 1 : undefined),
         },
         dueDate: {
             rdfProperty: 'cal:due',

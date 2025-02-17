@@ -13,12 +13,12 @@ INSERT DATA {
 
     @prefix schema: <https://schema.org/> .
     @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
-    @prefix tasks: <https://vocab.noeldemartin.com/tasks/> .
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#> .
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
     <#it>
         schema:actionStatus schema:CompletedActionStatus ;
-        tasks:completedAt "[[newUpdate][.*]]"^^xsd:dateTime .
+        ical:completed "[[newUpdate][.*]]"^^xsd:dateTime .
 
     <#it-metadata>
         crdt:updatedAt "[[newUpdate][.*]]"^^xsd:dateTime .
@@ -27,7 +27,7 @@ INSERT DATA {
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
         crdt:date "[[newUpdate][.*]]"^^xsd:dateTime ;
-        crdt:property tasks:completedAt ;
+        crdt:property ical:completed ;
         crdt:value "[[newUpdate][.*]]"^^xsd:dateTime .
 
     <#it-operation-[[operation-2][%uuid%]]>

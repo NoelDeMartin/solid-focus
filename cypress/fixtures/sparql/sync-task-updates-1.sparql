@@ -12,12 +12,12 @@ INSERT DATA {
 
     @prefix schema: <https://schema.org/> .
     @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
-    @prefix tasks: <https://vocab.noeldemartin.com/tasks/> .
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#> .
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
     <#it>
-        tasks:dueDate "[[dueDate][.*]]"^^xsd:dateTime ;
-        tasks:important true .
+        ical:due "[[dueDate][.*]]"^^xsd:dateTime ;
+        ical:priority 1 .
 
     <#it-metadata>
         crdt:updatedAt "[[secondUpdate][.*]]"^^xsd:dateTime .
@@ -33,21 +33,28 @@ INSERT DATA {
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
         crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-        crdt:property schema:actionStatus ;
-        crdt:value schema:PotentialActionStatus .
+        crdt:property ical:summary ;
+        crdt:value "Sync updates" .
 
     <#it-operation-[[operation-3][%uuid%]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
-        crdt:date "[[firstUpate][.*]]"^^xsd:dateTime ;
-        crdt:property tasks:important ;
-        crdt:value true .
+        crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
+        crdt:property schema:actionStatus ;
+        crdt:value schema:PotentialActionStatus .
 
     <#it-operation-[[operation-4][%uuid%]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <#it> ;
+        crdt:date "[[firstUpate][.*]]"^^xsd:dateTime ;
+        crdt:property ical:priority ;
+        crdt:value 1 .
+
+    <#it-operation-[[operation-5][%uuid%]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <#it> ;
         crdt:date "[[secondUpdate][.*]]"^^xsd:dateTime ;
-        crdt:property tasks:dueDate ;
+        crdt:property ical:due ;
         crdt:value "[[dueDate][.*]]"^^xsd:dateTime .
 
 }

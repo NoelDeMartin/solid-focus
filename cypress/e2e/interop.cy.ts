@@ -73,4 +73,60 @@ describe('Interoperability', () => {
         cy.contains('Important').should('not.exist');
     });
 
+    it('Work with exclusive schema.org tasks', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/', 'Tasks');
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            containerUrl: podUrl('/tasks/'),
+            forClass: '<https://schema.org/Action>',
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+        cy.solidCreateDocument(
+            '/tasks/hello',
+            `
+                <#it>
+                    a <https://schema.org/Action> ;
+                    <https://schema.org/name> "Hello for schema.org".
+            `,
+        );
+
+        // Act
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Assert
+        cy.see('Syncing');
+        cy.see('Hello for schema.org');
+    });
+
+    it('Work with exclusive ical tasks', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/', 'Tasks');
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            containerUrl: podUrl('/tasks/'),
+            forClass: '<http://www.w3.org/2002/12/cal/ical#Vtodo>',
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+        cy.solidCreateDocument(
+            '/tasks/hello',
+            `
+                <#it>
+                    a <http://www.w3.org/2002/12/cal/ical#Vtodo> ;
+                    <http://www.w3.org/2002/12/cal/ical#summary> "Hello for ical".
+            `,
+        );
+
+        // Act
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Assert
+        cy.see('Syncing');
+        cy.see('Hello for ical');
+    });
+
 });

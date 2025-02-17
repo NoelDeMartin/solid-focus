@@ -273,7 +273,7 @@ async function toggleImportant() {
         return;
     }
 
-    await task.value.update({ important: !task.value.important });
+    await task.value.update({ priority: task.value.important ? null : 1 });
 }
 
 async function removeCompleted() {
@@ -305,7 +305,7 @@ async function save() {
         name: form.name.trim(),
         description: form.description?.trim() || null,
         dueDate: form.dueDate,
-        important: form.important,
+        priority: form.important ? 1 : null,
     });
 }
 

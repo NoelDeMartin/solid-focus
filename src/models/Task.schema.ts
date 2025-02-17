@@ -5,9 +5,10 @@ export const STATUS_COMPLETED = 'https://schema.org/CompletedActionStatus';
 export const STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
 
 export default defineSolidModelSchema({
-    rdfsClass: 'schema:Action',
+    rdfsClasses: ['schema:Action', 'ical:Vtodo'],
     rdfContexts: {
-        tasks: 'https://vocab.noeldemartin.com/tasks/',
+        schema: 'https://schema.org/',
+        ical: 'http://www.w3.org/2002/12/cal/ical#',
     },
     history: true,
     tombstone: false,
@@ -15,23 +16,28 @@ export default defineSolidModelSchema({
         name: {
             type: FieldType.String,
             required: true,
+            alias: '_summary',
         },
         description: FieldType.String,
         status: {
-            rdfProperty: 'actionStatus',
             type: FieldType.Key,
+            rdfProperty: 'actionStatus',
         },
-        important: {
-            rdfProperty: 'tasks:important',
-            type: FieldType.Boolean,
+        priority: {
+            type: FieldType.Number,
+            rdfProperty: 'ical:priority',
         },
         dueDate: {
-            rdfProperty: 'tasks:dueDate',
             type: FieldType.Date,
+            rdfProperty: 'ical:due',
         },
         completedAt: {
-            rdfProperty: 'tasks:completedAt',
             type: FieldType.Date,
+            rdfProperty: 'ical:completed',
+        },
+        _summary: {
+            type: FieldType.String,
+            rdfProperty: 'ical:summary',
         },
     },
     hooks: {

@@ -2,12 +2,14 @@ INSERT DATA {
 
     @prefix schema: <https://schema.org/> .
     @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#> .
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
     <#it>
-        a schema:Action ;
+        a schema:Action, ical:Vtodo ;
         schema:actionStatus schema:PotentialActionStatus ;
-        schema:name "{{ name }}" .
+        schema:name "{{ name }}" ;
+        ical:summary "{{ name }}" .
 
     <#it-metadata>
         a crdt:Metadata ;

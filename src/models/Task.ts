@@ -6,6 +6,10 @@ export default class Task extends Model {
         return !!this.completedAt;
     }
 
+    public get important(): boolean {
+        return !!this.priority;
+    }
+
     public async toggle(): Promise<void> {
         if (this.completed) {
             await this.update({ completedAt: null });

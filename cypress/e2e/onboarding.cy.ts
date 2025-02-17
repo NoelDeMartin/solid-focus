@@ -65,6 +65,15 @@ describe('Onboarding', () => {
             cy.get('@createTask').its('response.statusCode').should('eq', 201);
             cy.get('@createTask').its('request.body').should('be.sparql', sparql);
         });
+
+        cy.fixtureWithReplacements('turtle/type-index.ttl', {
+            url: podUrl('/settings/privateTypeIndex'),
+            containerUrl: podUrl('/tasks/main/'),
+        }).then((expected) => {
+            cy.solidReadDocument('/settings/privateTypeIndex').then((actual) => {
+                cy.wrap(actual).should('be.turtle', expected);
+            });
+        });
     });
 
     it('Signs up using advanced options', () => {
@@ -112,6 +121,15 @@ describe('Onboarding', () => {
         cy.fixtureWithReplacements('sparql/create-task.sparql', { name: 'Reply to support emails' }).then((sparql) => {
             cy.get('@createTask').its('response.statusCode').should('eq', 201);
             cy.get('@createTask').its('request.body').should('be.sparql', sparql);
+        });
+
+        cy.fixtureWithReplacements('turtle/type-index.ttl', {
+            url: podUrl('/settings/privateTypeIndex'),
+            containerUrl: podUrl('/work/'),
+        }).then((expected) => {
+            cy.solidReadDocument('/settings/privateTypeIndex').then((actual) => {
+                cy.wrap(actual).should('be.turtle', expected);
+            });
         });
     });
 
