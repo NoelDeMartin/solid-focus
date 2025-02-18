@@ -1,0 +1,14 @@
+input[type='number'].appearance-textfield {
+    appearance: textfield;
+}
+
+input[type='number'].appearance-textfield::-webkit-outer-spin-button,
+input[type='number'].appearance-textfield::-webkit-inner-spin-button {
+    appearance: none;
+}
+
+button[data-markdown-action] {
+    color: var(--tw-prose-links);
+    text-decoration: underline;
+    font-weight: 500;
+}

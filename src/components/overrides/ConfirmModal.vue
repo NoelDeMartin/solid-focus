@@ -1,7 +1,7 @@
 <template>
     <FloatingModal v-slot="{ close }" :title="title || message" :cancellable="false">
         <AGForm :form="form" @submit="close([true, form.data()])">
-            <AGMarkdown v-if="title" :text="message" />
+            <AGMarkdown v-if="title" :text="message" :actions="actions" />
             <ul v-if="checkboxes" class="mt-4 flex flex-col text-sm text-gray-600">
                 <li v-for="(checkbox, name) of checkboxes" :key="name">
                     <label class="flex items-center">

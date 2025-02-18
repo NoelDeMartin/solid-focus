@@ -43,7 +43,7 @@ export class WorkspacesService extends Service {
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
 
-        Events.on('auth:after-logout', () => this.onLogout());
+        Events.on('purge-storage', () => this.onPurgeStorage());
         Events.on('cloud:sync-started', () => this.onSyncStarted());
         Task.on('deleted', (task) => this.onTaskDeleted(task));
 
@@ -58,7 +58,7 @@ export class WorkspacesService extends Service {
         await Task.updateSchema(LegacyTaskSchema);
     }
 
-    protected onLogout(): void {
+    protected onPurgeStorage(): void {
         this.lastVisitedWorkspaceUrl = null;
         this.usingLegacySchemas = null;
     }

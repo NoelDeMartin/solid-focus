@@ -1,6 +1,7 @@
 @import './colors.css';
 @import './fonts.css';
 @import './helpers.css';
+@import './reset.css';
 
 @tailwind base;
 @tailwind components;

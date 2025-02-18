@@ -13,12 +13,3 @@
     right: var(--clickable-inset-by);
     bottom: var(--clickable-inset-by);
 }
-
-input[type='number'].appearance-textfield {
-    appearance: textfield;
-}
-
-input[type='number'].appearance-textfield::-webkit-outer-spin-button,
-input[type='number'].appearance-textfield::-webkit-inner-spin-button {
-    appearance: none;
-}

@@ -21,15 +21,26 @@
                 </SelectInputOption>
             </SelectInputOptions>
         </SelectInput>
+        <details v-if="!$solid.hasLoggedIn()" class="mt-4">
+            <summary>
+                <span class="text-base font-semibold">{{ $t('settings.dangerZone') }}</span>
+            </summary>
+            <TextButton color="danger" class="mt-4" @click="purgeData()">
+                <i-zondicons-trash class="h-4 w-4" />
+                <span class="ml-1">{{ $t('settings.purge') }}</span>
+            </TextButton>
+        </details>
     </FloatingModal>
 </template>
 
 <script setup lang="ts">
+import { Colors, Lang, Storage, UI, translate } from '@aerogel/core';
 import { computed } from 'vue';
-import { Lang, translate } from '@aerogel/core';
 
 import locales from '@/lang/locales.json';
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
+
+import CloudLoginModal from './CloudLoginModal.vue';
 
 const browserLocale = Lang.getBrowserLocale();
 const options = computed(() => [null, ...Lang.locales]);
@@ -38,5 +49,26 @@ function localeName(locale: string | null): string {
     locale = locale ?? '';
 
     return locales[locale as 'en'] ?? translate('settings.localeDefault', { locale: locales[browserLocale as 'en'] });
+}
+
+async function purgeData(): Promise<void> {
+    const confirmed = await UI.confirm(
+        translate('settings.purgeConfirmTitle'),
+        translate('settings.purgeConfirmMessage'),
+        {
+            acceptColor: Colors.Danger,
+            acceptText: translate('settings.purgeConfirmAccept'),
+            actions: {
+                connect: () => UI.openModal(CloudLoginModal),
+            },
+        },
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    await UI.closeAllModals();
+    await Storage.purge();
 }
 </script>

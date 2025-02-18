@@ -209,6 +209,11 @@ settings:
     locale: Language
     localeDescription: Can't find your language? [You can contribute it!]({url})
     localeDefault: '{locale} (default)'
+    dangerZone: Danger zone
+    purge: Purge data
+    purgeConfirmTitle: Delete everything?
+    purgeConfirmMessage: If you proceed, all your data will be deleted forever. If you want to save it before wiping this device, you can [connect to your Solid account](#action:connect) first.
+    purgeConfirmAccept: Purge data
 
 time:
     yesterday: Yesterday
