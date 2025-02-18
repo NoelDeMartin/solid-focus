@@ -2,7 +2,7 @@
     <div class="flex-1">
         <aside
             ref="$panel"
-            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
+            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen overflow-y-auto border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
         >
             <AGForm
                 v-if="task"
@@ -10,7 +10,12 @@
                 class="flex h-full w-full flex-col"
                 @submit="save()"
             >
-                <AGMarkdown :text="task.name" class="sr-only" as="h2" />
+                <AGMarkdown
+                    v-if="editing"
+                    :text="task.name"
+                    class="sr-only"
+                    as="h2"
+                />
                 <span class="sr-only">
                     {{ task.important ? $t('task.importantA11y') : $t('task.notImportantA11y') }}
                 </span>
@@ -23,7 +28,6 @@
                             : $t('task.pendingA11y')
                     }}
                 </span>
-                <AGMarkdown v-if="task.description" :text="task.description" class="sr-only" />
 
                 <div class="flex gap-1">
                     <IconButton
@@ -35,16 +39,9 @@
                     >
                         <i-zondicons-arrow-left class="h-4 w-4" />
                     </IconButton>
-                    <TextButton
-                        v-if="!editing"
-                        color="clear"
-                        class="w-full justify-start whitespace-pre-wrap text-start md:max-w-80"
-                        :aria-label="$t('task.editName')"
-                        :title="$t('task.editName')"
-                        @click="startEditing('name')"
-                    >
-                        <AGMarkdown :text="task.name" inline class="text-lg font-semibold" />
-                    </TextButton>
+                    <h2 v-if="!editing" class="w-full justify-start whitespace-pre-wrap md:max-w-[21rem]">
+                        <AGMarkdown :text="task.name" inline class="text-start text-lg font-semibold" />
+                    </h2>
                     <TextInput
                         v-else
                         multiline
@@ -76,17 +73,20 @@
 
                 <div class="mt-2 w-full">
                     <TextButton
-                        v-if="!editing"
+                        v-if="!editing && !task.description"
                         color="clear"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="min-h-12 w-full justify-start whitespace-normal text-start md:max-w-80"
-                        :class="{ 'bg-gray-50': !task.description }"
+                        class="min-h-12 w-full justify-start whitespace-normal bg-gray-50 text-start md:max-w-80"
                         @click="startEditing('description')"
                     >
-                        <AGMarkdown v-if="task.description" :text="task.description" class="text-base" />
-                        <AGMarkdown v-else lang-key="task.emptyDescription" class="text-sm text-gray-400" />
+                        <AGMarkdown lang-key="task.emptyDescription" class="text-sm text-gray-400" />
                     </TextButton>
+                    <AGMarkdown
+                        v-else-if="!editing"
+                        :text="task.description"
+                        class="min-h-12 w-full justify-start whitespace-normal text-start text-base md:max-w-[21rem]"
+                    />
                     <TaskDescriptionInput
                         v-else
                         :aria-label="$t('task.description')"
@@ -149,10 +149,21 @@
                 <TextButton
                     v-else
                     color="secondary"
-                    class="mt-2"
+                    class="mt-2 self-start"
                     @click="task.toggle()"
                 >
-                    <span>{{ $t('task.complete') }}</span>
+                    <i-zondicons-checkmark class="h-4 w-4" />
+                    <span class="ml-2">{{ $t('task.complete') }}</span>
+                </TextButton>
+
+                <TextButton
+                    v-if="!editing"
+                    color="secondary"
+                    class="mt-2 hidden self-start md:flex"
+                    @click="startEditing('description')"
+                >
+                    <i-zondicons-edit-pencil class="h-4 w-4" />
+                    <span class="ml-2">{{ $t('task.edit') }}</span>
                 </TextButton>
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">

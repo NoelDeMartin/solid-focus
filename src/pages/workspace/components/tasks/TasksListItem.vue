@@ -22,7 +22,7 @@
                 >
                 <i-material-symbols-star-rounded
                     v-if="task.important"
-                    class="!pointer-events-none h-6 w-6 text-[--primary-500]"
+                    class="!pointer-events-none h-6 w-6 shrink-0 text-[--primary-500]"
                 />
                 <EditableContent
                     class="overflow-y-auto truncate py-2.5 pr-1"

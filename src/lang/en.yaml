@@ -172,7 +172,6 @@ task:
     edit: Edit
     emptyDescription: No description
     name: Name
-    editName: Edit name
     description: Description
     editDescription: Edit description
     dueDate: Due date

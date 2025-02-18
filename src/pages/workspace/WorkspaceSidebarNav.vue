@@ -21,13 +21,14 @@
 </template>
 
 <script setup lang="ts">
+import { arraySorted } from '@noeldemartin/utils';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { Colors, UI, translate } from '@aerogel/core';
 
 import TasksList from '@/models/TasksList';
 import Workspaces from '@/services/Workspaces';
 
-const lists = computedModels(TasksList, () => Workspaces.current?.lists ?? []);
+const lists = computedModels(TasksList, () => arraySorted(Workspaces.current?.lists ?? [], 'name'));
 
 async function createList() {
     const name = await UI.prompt(translate('lists.add'), {
