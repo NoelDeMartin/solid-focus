@@ -4,7 +4,7 @@
 // If you want to use it, just uncomment these lines:
 // import './animations.cy';
 // import './cloud.cy';
-// import './interop.cy';
+// import './interoperability.cy';
 // import './navigation.cy';
 // import './onboarding.cy';
 // import './tasks.cy';

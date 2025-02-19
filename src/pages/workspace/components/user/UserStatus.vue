@@ -17,7 +17,8 @@
             class="pointer-events-none absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white"
             :class="[cloudStatusClass, { 'sr-only': $cloud.syncing || $solid.loginOngoing }]"
         >
-            <span v-if="$cloud.dirty && !$cloud.syncing" class="sr-only">{{ $t(`cloud.status.dirty`) }}</span>
+            <span v-if="$solid.error || $cloud.syncError" class="sr-only">{{ $t(`cloud.status.error`) }}</span>
+            <span v-else-if="$cloud.dirty && !$cloud.syncing" class="sr-only">{{ $t(`cloud.status.dirty`) }}</span>
             <span v-else class="sr-only">{{ $t(`cloud.status.${$cloud.status}`) }}</span>
         </div>
     </div>
@@ -31,7 +32,7 @@ import CloudStatusModal from '../../modals/CloudStatusModal.vue';
 import { Cloud } from '@aerogel/plugin-offline-first';
 
 const cloudStatusClass = computed(() => {
-    if (Solid.error) {
+    if (Solid.error || Cloud.syncError) {
         return 'bg-red-500';
     }
 

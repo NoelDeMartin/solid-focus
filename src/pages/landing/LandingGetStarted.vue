@@ -19,10 +19,7 @@
                 :placeholder="$t('tasks.inputPlaceholder')"
             />
 
-            <div
-                v-if="$solid.previousSession?.error || $solid.loginStartupError"
-                class="mt-4 flex items-center gap-2 text-red-500"
-            >
+            <div v-if="loginError" class="mt-4 flex items-center gap-2 text-red-500">
                 <i-ion-warning class="h-6 w-6" />
                 <div>
                     <p>
@@ -30,7 +27,7 @@
                     </p>
                     <TextLink
                         class="text-xs underline opacity-75 hover:opacity-100 focus-visible:opacity-100"
-                        @click="$errors.inspect($solid.previousSession?.error || $solid.loginStartupError)"
+                        @click="$errors.inspect(loginError)"
                     >
                         {{ $t('errors.viewDetails') }}
                     </TextLink>
@@ -57,6 +54,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { Cloud } from '@aerogel/plugin-offline-first';
 import { Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
@@ -67,6 +66,7 @@ const form = useForm({
     workspaceName: requiredStringInput(translate('landing.getStarted.defaultWorkspaceName')),
     workspaceUrl: stringInput(undefined, { rules: Solid.hasLoggedIn() ? 'required|container_url' : '' }),
 });
+const loginError = computed(() => Solid.previousSession?.error ?? Solid.loginStartupError ?? Cloud.syncError);
 
 if (Solid.hasLoggedIn()) {
     const workspace = new Workspace({ name: form.workspaceName });

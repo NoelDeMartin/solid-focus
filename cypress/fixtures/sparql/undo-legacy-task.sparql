@@ -1,0 +1,17 @@
+DELETE DATA {
+    @prefix purl: <http://purl.org/dc/terms/>.
+    @prefix xml: <http://www.w3.org/2001/XMLSchema#>.
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#>.
+
+    <>
+        purl:modified "2018-11-14T00:00:00Z"^^xml:dateTime ;
+        ical:completed "2018-12-25T00:00:00Z"^^xml:dateTime .
+
+};
+
+INSERT DATA {
+    @prefix purl: <http://purl.org/dc/terms/>.
+    @prefix xml: <http://www.w3.org/2001/XMLSchema#>.
+
+    <> purl:modified "2025-02-19T08:21:13Z"^^xml:dateTime .
+}.

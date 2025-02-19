@@ -1,0 +1,81 @@
+DELETE DATA {
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/>.
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+    <#metadata> crdt:updatedAt "[[.*]]"^^xsd:dateTime .
+
+};
+
+INSERT DATA {
+
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/>.
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+    @prefix purl: <http://purl.org/dc/terms/>.
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#>.
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+    <#metadata> crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property rdfs:label ;
+        crdt:value "Learn Solid".
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property rdfs:comment ;
+        crdt:value "This was created a long time ago".
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property ical:priority ;
+        crdt:value 1 .
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property ical:due ;
+        crdt:value "2019-01-01T00:00:00Z"^^xsd:dateTime.
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property purl:created ;
+        crdt:value "2018-11-13T00:00:00Z"^^xsd:dateTime.
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property purl:modified ;
+        crdt:value "2018-11-14T00:00:00Z"^^xsd:dateTime.
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
+        crdt:property ical:completed ;
+        crdt:value "2018-12-25T00:00:00Z"^^xsd:dateTime.
+
+    <#operation-[[.*]]>
+        a crdt:UnsetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
+        crdt:property ical:completed .
+
+    <#operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <> ;
+        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
+        crdt:property purl:modified ;
+        crdt:value "[[updatedAt][.*]]"^^xsd:dateTime .
+
+}

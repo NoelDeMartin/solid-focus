@@ -7,7 +7,12 @@
             v-else
             :form="form"
             class="mt-10 max-w-md"
-            @submit="$solid.login(form.url, { loading: false })"
+            @submit="
+                $solid.login(form.url, {
+                    authenticator: form.authenticator,
+                    loading: false,
+                })
+            "
         >
             <h2 class="mt-6 text-center text-xl font-semibold leading-6 text-gray-900">
                 {{ $t('landing.logIn.title') }}
@@ -20,9 +25,26 @@
                     :placeholder="$t('cloud.logIn.placeholder')"
                     class="w-96 max-w-full"
                 />
+                <SelectInput
+                    v-if="form.authenticator"
+                    name="authenticator"
+                    options-class="w-96 max-w-[calc(100vw-4rem)]"
+                    :label="$t('landing.logIn.switchAuthenticatorLabel')"
+                    :options="{
+                        inrupt: $t('landing.logIn.switchAuthenticatorInrupt'),
+                        legacy: $t('landing.logIn.switchAuthenticatorLegacy'),
+                    }"
+                />
                 <TextButton submit class="w-full">
                     {{ $t('cloud.logIn.submit') }}
                 </TextButton>
+                <TextLink
+                    v-if="!form.authenticator"
+                    class="text-sm font-normal text-gray-700"
+                    @click="form.authenticator = 'inrupt'"
+                >
+                    {{ $t('landing.logIn.switchAuthenticator') }}
+                </TextLink>
                 <TextButton
                     color="clear"
                     class="mx-auto self-center px-3.5 py-2.5 text-sm font-semibold"
@@ -37,7 +59,10 @@
 </template>
 
 <script setup lang="ts">
-import { requiredStringInput, useForm } from '@aerogel/core';
+import { requiredStringInput, stringInput, useForm } from '@aerogel/core';
 
-const form = useForm({ url: requiredStringInput() });
+const form = useForm({
+    url: requiredStringInput(),
+    authenticator: stringInput(),
+});
 </script>

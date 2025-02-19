@@ -16,6 +16,7 @@ describe('Interoperability', () => {
 
         cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
         cy.intercept('PATCH', podUrl('/tasks/!(legacy-task*)')).as('createTask');
+        cy.intercept('PATCH', podUrl('/settings/privateTypeIndex')).as('registerWorkspace');
 
         // Act - Log in
         cy.press('Log in');
@@ -36,6 +37,16 @@ describe('Interoperability', () => {
         cy.fixture('sparql/update-legacy-task-1.sparql').then((sparql) => {
             cy.get('@updateTask.1').its('response.statusCode').should('eq', 205);
             cy.get('@updateTask.1').its('request.body').should('be.sparql', sparql);
+        });
+
+        cy.get('@registerWorkspace.all').should('have.length', 1);
+        cy.fixtureWithReplacements('sparql/register-workspace.sparql', {
+            resourceHash: '[[.*]]',
+            forClass: '<http://purl.org/vocab/lifecycle/schema#Task>',
+            containerUrl: podUrl('/tasks/'),
+        }).then((sparql) => {
+            cy.get('@registerWorkspace.1').its('response.statusCode').should('eq', 205);
+            cy.get('@registerWorkspace.1').its('request.body').should('be.sparql', sparql);
         });
 
         // Act - Toggle important
@@ -71,6 +82,48 @@ describe('Interoperability', () => {
         cy.see('Learn Solid');
         cy.see('Rebuild app');
         cy.contains('Important').should('not.exist');
+    });
+
+    it('Updates in legacy schema are propagated', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/', 'Tasks');
+        cy.solidUpdateDocument('/tasks/.meta', 'sparql/prepare-legacy-container.sparql', { url: podUrl('/tasks/') });
+        cy.solidCreateDocument('/tasks/legacy-task', 'turtle/legacy-task.ttl');
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            forClass: '<http://purl.org/vocab/lifecycle/schema#Task>',
+            containerUrl: podUrl('/tasks/'),
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/prepare-legacy-profile.sparql');
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+
+        cy.intercept('PATCH', podUrl('/settings/privateTypeIndex')).as('registerWorkspace');
+
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.waitSync();
+
+        // Act
+        cy.solidUpdateDocument('/tasks/legacy-task', 'sparql/undo-legacy-task.sparql');
+
+        cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
+
+        cy.ariaLabel('Open account status').click();
+        cy.press('Synchronize', 'button');
+        cy.get('body').type('{esc}');
+        cy.waitSync();
+
+        // Assert
+        cy.dontSee('Completed');
+
+        cy.get('@registerWorkspace.all').should('have.length', 0);
+
+        cy.get('@updateTask.all').should('have.length', 1);
+        cy.fixture('sparql/reconcile-legacy-task.sparql').then((sparql) => {
+            cy.get('@updateTask.1').its('response.statusCode').should('eq', 205);
+            cy.get('@updateTask.1').its('request.body').should('be.sparql', sparql);
+        });
     });
 
     it('Work with exclusive schema.org tasks', () => {

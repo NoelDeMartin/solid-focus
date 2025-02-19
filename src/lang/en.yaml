@@ -53,6 +53,10 @@ landing:
     logIn:
         cta: Log in
         title: Welcome back!
+        switchAuthenticator: Can't log in? Try using a different authentication method
+        switchAuthenticatorLabel: Authentication method
+        switchAuthenticatorInrupt: Log in using Inrupt's authentication library
+        switchAuthenticatorLegacy: Log in using the legacy authentication library
         back: cancel
 
 cloud:
@@ -92,6 +96,7 @@ cloud:
         online: Online
         syncing: Syncing
         dirty: There are local changes
+        error: There has been an error connecting
     advanced:
         reconnect: Reconnect on startup
         startupSync: Synchronize on startup

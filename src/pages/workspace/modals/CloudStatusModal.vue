@@ -28,14 +28,14 @@
                 <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />
                 <AGMarkdown lang-key="cloud.info.reconnecting" />
             </div>
-            <div v-else-if="$solid.error" class="mt-4 flex items-center gap-2">
+            <div v-else-if="error" class="mt-4 flex items-center gap-2">
                 <i-ion-warning class="mt-0.5 h-6 w-6 flex-shrink-0 self-start text-red-500" />
                 <div>
                     <AGMarkdown :text="errorDescription" />
                     <TextLink
                         v-if="showErrorDetails"
                         class="text-sm underline opacity-50 hover:opacity-75 focus-visible:opacity-75"
-                        @click="$errors.inspect($solid.error)"
+                        @click="$errors.inspect(error)"
                     >
                         {{ $t('errors.viewDetails') }}
                     </TextLink>
@@ -127,6 +127,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Cloud } from '@aerogel/plugin-offline-first';
 import { Solid } from '@aerogel/plugin-solid';
 import { componentRef, translate, useEvent } from '@aerogel/core';
 
@@ -136,18 +137,19 @@ import UserSettingsModal from './UserSettingsModal.vue';
 
 const $modal = componentRef<IFloatingModal>();
 const pollingText = translate('cloud.advanced.polling', { minutes: '%%separator%%' }).split('%%separator%%');
+const error = computed(() => Solid.error ?? Cloud.syncError);
 const errorDescription = computed(() => {
-    if (!Solid.error) {
+    if (!error.value) {
         return;
     }
 
-    if (typeof Solid.error === 'string') {
-        return Solid.error;
+    if (typeof error.value === 'string') {
+        return error.value;
     }
 
     return translate('cloud.info.error');
 });
-const showErrorDetails = computed(() => Solid.error && typeof Solid.error !== 'string');
+const showErrorDetails = computed(() => error.value && typeof error.value !== 'string');
 
 useEvent('auth:logout', () => $modal.value?.close());
 </script>
