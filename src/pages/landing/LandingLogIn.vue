@@ -9,7 +9,7 @@
             class="mt-10 max-w-md"
             @submit="
                 $solid.login(form.url, {
-                    authenticator: form.authenticator,
+                    authenticator: form.authenticator as AuthenticatorName,
                     loading: false,
                 })
             "
@@ -60,6 +60,7 @@
 
 <script setup lang="ts">
 import { requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import type { AuthenticatorName } from '@aerogel/plugin-solid';
 
 const form = useForm({
     url: requiredStringInput(),
