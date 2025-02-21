@@ -186,7 +186,7 @@ describe('Cloud', () => {
         );
     });
 
-    it('Migrates simple local data', () => {
+    it('Backs up simple local data', () => {
         // Arrange
         cy.intercept('PUT', podUrl('/tasks/main/')).as('createContainer');
         cy.intercept('PATCH', podUrl('/tasks/main/.meta')).as('createContainerMeta');
@@ -228,7 +228,7 @@ describe('Cloud', () => {
         });
     });
 
-    it('Migrates complex local data', () => {
+    it('Backs up complex local data', () => {
         // Arrange
         cy.intercept('PUT', podUrl('/tasks/')).as('createMainContainer');
         cy.intercept('PUT', podUrl('/shared/')).as('createHouseholdContainer');
