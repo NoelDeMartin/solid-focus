@@ -5,9 +5,9 @@ export const STATUS_COMPLETED = 'https://schema.org/CompletedActionStatus';
 export const STATUS_POTENTIAL = 'https://schema.org/PotentialActionStatus';
 
 export default defineSolidModelSchema({
-    rdfsClasses: ['schema:Action', 'ical:Vtodo'],
+    rdfsClasses: ['Action', 'ical:Vtodo'],
     rdfContexts: {
-        schema: 'https://schema.org/',
+        default: 'https://schema.org/',
         ical: 'http://www.w3.org/2002/12/cal/ical#',
     },
     history: true,

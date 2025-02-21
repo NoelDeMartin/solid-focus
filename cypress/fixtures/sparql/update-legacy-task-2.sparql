@@ -24,62 +24,62 @@ INSERT DATA {
 
     <#metadata> crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-1][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property rdfs:label ;
         crdt:value "Learn Solid".
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-2][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property rdfs:comment ;
         crdt:value "This was created a long time ago".
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-3][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property ical:priority ;
         crdt:value 1 .
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-4][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property ical:due ;
         crdt:value "2019-01-01T00:00:00Z"^^xsd:dateTime.
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-5][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property purl:created ;
         crdt:value "2018-11-13T00:00:00Z"^^xsd:dateTime.
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-6][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property purl:modified ;
         crdt:value "2018-11-14T00:00:00Z"^^xsd:dateTime.
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-7][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "2018-11-13T00:00:00Z"^^xsd:dateTime ;
         crdt:property ical:completed ;
         crdt:value "2018-12-25T00:00:00Z"^^xsd:dateTime.
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-8][.*]]>
         a crdt:UnsetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
         crdt:property ical:priority .
 
-    <#operation-[[.*]]>
+    <#operation-[[operation-9][.*]]>
         a crdt:SetPropertyOperation ;
         crdt:resource <> ;
         crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;

@@ -8,6 +8,7 @@ import { watchEffect } from 'vue';
 
 import LegacyTaskSchema from '@/models/legacy/LegacyTask.schema';
 import Task from '@/models/Task';
+import TaskSchema from '@/models/Task.schema';
 import TasksLists from '@/services/TasksLists';
 import Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
@@ -30,6 +31,16 @@ export class WorkspacesService extends Service {
         const list = lists?.find((model) => model.url === TasksLists.lastVisitedListUrl);
 
         await workspace?.open(list);
+    }
+
+    public async migrateSchemas(): Promise<void> {
+        if (!this.usingLegacySchemas) {
+            return;
+        }
+
+        await Cloud.migrate([[Task, TaskSchema]]);
+
+        this.usingLegacySchemas = false;
     }
 
     protected async boot(): Promise<void> {

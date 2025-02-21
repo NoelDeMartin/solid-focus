@@ -213,6 +213,10 @@ settings:
     locale: Language
     localeDescription: Can't find your language? [You can contribute it!]({url})
     localeDefault: '{locale} (default)'
+    migrationTitle: Data migration
+    migrationDescription: It seems like the data structure in your POD is outdated. When you're ready, you can migrate to a newer schema for better compatibility with other apps.
+    migrationOngoing: Migrating...
+    migrate: Migrate
     dangerZone: Danger zone
     purge: Purge data
     purgeConfirmTitle: Delete everything?

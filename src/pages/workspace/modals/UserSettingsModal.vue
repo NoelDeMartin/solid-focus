@@ -21,6 +21,17 @@
                 </SelectInputOption>
             </SelectInputOptions>
         </SelectInput>
+        <div v-if="$workspaces.usingLegacySchemas" class="mt-4 flex flex-row">
+            <div class="flex-grow">
+                <h3 class="text-base font-semibold">
+                    {{ $t('settings.migrationTitle') }}
+                </h3>
+                <AGMarkdown :text="$t('settings.migrationDescription')" class="mt-1 text-sm text-gray-500" />
+            </div>
+            <TextButton color="secondary" class="self-center" @click="migrateSchemas()">
+                {{ $t('settings.migrate') }}
+            </TextButton>
+        </div>
         <details v-if="!$solid.hasLoggedIn()" class="mt-4">
             <summary>
                 <span class="text-base font-semibold">{{ $t('settings.dangerZone') }}</span>
@@ -39,6 +50,7 @@ import { computed } from 'vue';
 
 import locales from '@/lang/locales.json';
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
+import Workspaces from '@/services/Workspaces';
 
 import CloudLoginModal from './CloudLoginModal.vue';
 
@@ -49,6 +61,13 @@ function localeName(locale: string | null): string {
     locale = locale ?? '';
 
     return locales[locale as 'en'] ?? translate('settings.localeDefault', { locale: locales[browserLocale as 'en'] });
+}
+
+async function migrateSchemas(): Promise<void> {
+    await UI.closeAllModals();
+    await UI.loading(translate('settings.migrationOngoing'), async () => {
+        await Workspaces.migrateSchemas();
+    });
 }
 
 async function purgeData(): Promise<void> {

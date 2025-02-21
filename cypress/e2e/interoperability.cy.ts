@@ -182,4 +182,42 @@ describe('Interoperability', () => {
         cy.see('Hello for ical');
     });
 
+    it('Migrates schemas', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/', 'Tasks');
+        cy.solidUpdateDocument('/tasks/.meta', 'sparql/prepare-legacy-container.sparql', { url: podUrl('/tasks/') });
+        cy.solidCreateDocument('/tasks/legacy-task', 'turtle/legacy-task.ttl');
+        cy.solidUpdateDocument('/profile/card', 'sparql/prepare-legacy-profile.sparql');
+
+        // Arrange - Log in
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.waitSync();
+
+        // Arrange - Update
+        cy.press('Completed');
+        cy.ariaLabel('Select task \\"Learn Solid\\"').click();
+        cy.ariaLabel('Remove important').click();
+        cy.waitSync();
+
+        cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
+
+        // Act
+        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Settings').click();
+        cy.press('Migrate');
+        cy.see('Migrating');
+        cy.dontSee('Migrating');
+
+        // Assert
+        cy.get('@updateTask.all').should('have.length', 1);
+
+        cy.fixture('turtle/migrated-task.ttl').then((expected) => {
+            cy.solidReadDocument('/tasks/legacy-task').then((actual) => {
+                cy.wrap(actual).should('be.turtle', expected);
+            });
+        });
+    });
+
 });
