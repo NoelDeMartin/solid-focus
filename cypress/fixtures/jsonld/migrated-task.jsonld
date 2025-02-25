@@ -1,0 +1,198 @@
+{
+    "@graph": [
+        {
+            "@context": {
+                "@vocab": "https://schema.org/",
+                "ical": "http://www.w3.org/2002/12/cal/ical#"
+            },
+            "@type": [
+                "Action",
+                "ical:Vtodo"
+            ],
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#it",
+            "name": "Learn Solid",
+            "description": "This was created a long time ago",
+            "ical:due": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2019-01-01T00:00:00.000Z"
+            },
+            "ical:completed": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2018-12-25T00:00:00.000Z"
+            },
+            "actionStatus": {
+                "@id": "https://schema.org/CompletedActionStatus"
+            },
+            "ical:summary": "Learn Solid"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "Metadata",
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "createdAt": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "updatedAt": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[updatedAt][.*]]"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#metadata"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "https://schema.org/name"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "value": "Learn Solid",
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "https://schema.org/description"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "value": "This was created a long time ago",
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "http://www.w3.org/2002/12/cal/ical#priority"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "value": 1,
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "http://www.w3.org/2002/12/cal/ical#due"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "value": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2019-01-01T00:00:00.000Z"
+            },
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "http://www.w3.org/2002/12/cal/ical#completed"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[createdAt][.*]]"
+            },
+            "value": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "2018-12-25T00:00:00.000Z"
+            },
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "UnsetPropertyOperation",
+            "property": {
+                "@id": "http://www.w3.org/2002/12/cal/ical#priority"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[updatedAt][.*]]"
+            },
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "http://www.w3.org/2002/12/cal/ical#summary"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[updatedAt][.*]]"
+            },
+            "value": "Learn Solid",
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#it-operation-[[.*]]"
+        },
+        {
+            "@context": {
+                "@vocab": "https://vocab.noeldemartin.com/crdt/"
+            },
+            "@type": "SetPropertyOperation",
+            "property": {
+                "@id": "https://schema.org/actionStatus"
+            },
+            "date": {
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+                "@value": "[[updatedAt][.*]]"
+            },
+            "value": {
+                "@id": "https://schema.org/CompletedActionStatus"
+            },
+            "resource": {
+                "@id": "http://localhost:3000/alice/tasks/legacy-task#it"
+            },
+            "@id": "http://localhost:3000/alice/tasks/legacy-task#it-operation-[[.*]]"
+        }
+    ]
+}

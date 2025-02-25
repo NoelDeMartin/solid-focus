@@ -218,6 +218,12 @@ describe('Interoperability', () => {
                 cy.wrap(actual).should('be.turtle', expected);
             });
         });
+
+        cy.fixture('jsonld/migrated-task.jsonld').then((expected) => {
+            cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
+                cy.assertJsonLD(expected, actual);
+            });
+        });
     });
 
 });
