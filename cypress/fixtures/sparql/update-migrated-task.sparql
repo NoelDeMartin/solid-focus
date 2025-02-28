@@ -1,0 +1,26 @@
+DELETE DATA {
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/>.
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+    <#metadata> crdt:updatedAt "[[.*]]"^^xsd:dateTime .
+
+};
+
+INSERT DATA {
+
+    @prefix crdt: <https://vocab.noeldemartin.com/crdt/>.
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+    @prefix ical: <http://www.w3.org/2002/12/cal/ical#>.
+
+    <#it> ical:priority 1 .
+
+    <#metadata> crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
+
+    <#it-operation-[[.*]]>
+        a crdt:SetPropertyOperation ;
+        crdt:resource <#it> ;
+        crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
+        crdt:property ical:priority ;
+        crdt:value 1 .
+
+}

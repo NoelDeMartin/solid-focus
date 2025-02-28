@@ -1,10 +1,10 @@
 import { arraySorted, facade } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { Events } from '@aerogel/core';
+import { Events, UI, translate } from '@aerogel/core';
 import { fetchSolidDocument } from '@noeldemartin/solid-utils';
 import { Solid } from '@aerogel/plugin-solid';
 import { trackModels } from '@aerogel/plugin-soukai';
-import { watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 import LegacyTaskSchema from '@/models/legacy/LegacyTask.schema';
 import Task from '@/models/Task';
@@ -33,14 +33,17 @@ export class WorkspacesService extends Service {
         await workspace?.open(list);
     }
 
-    public async migrateSchemas(): Promise<void> {
+    public async migrate(): Promise<void> {
         if (!this.usingLegacySchemas) {
             return;
         }
 
-        await Cloud.migrate([[Task, TaskSchema]]);
+        const progress = ref(0);
 
-        this.usingLegacySchemas = false;
+        await UI.loading(
+            { progress, message: translate('settings.migrationOngoing') },
+            Cloud.migrate({ onUpdated: (value) => (progress.value = value) }),
+        );
     }
 
     protected async boot(): Promise<void> {
@@ -52,11 +55,21 @@ export class WorkspacesService extends Service {
             transform: (workspaces) => arraySorted(workspaces, 'name'),
         });
 
-        watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
-
+        Task.on('deleted', (task) => this.onTaskDeleted(task));
         Events.on('purge-storage', () => this.onPurgeStorage());
         Events.on('cloud:sync-started', () => this.onSyncStarted());
-        Task.on('deleted', (task) => this.onTaskDeleted(task));
+        Events.on('cloud:migration-completed', () => this.onMigrationCompleted());
+
+        watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
+        watchEffect(() => {
+            const currentTask = this.task;
+
+            if (!currentTask) {
+                return;
+            }
+
+            this.task = this.current?.tasks?.find((task) => task.is(currentTask)) ?? null;
+        });
 
         await this.bootLegacySchemas();
     }
@@ -65,6 +78,8 @@ export class WorkspacesService extends Service {
         if (!this.usingLegacySchemas) {
             return;
         }
+
+        Cloud.registerSchemaMigration(Task, TaskSchema);
 
         await Task.updateSchema(LegacyTaskSchema);
     }
@@ -115,11 +130,15 @@ export class WorkspacesService extends Service {
 
         const typeIndex = await Solid.findOrCreatePrivateTypeIndex();
 
-        await Task.updateSchema(LegacyTaskSchema);
+        await this.bootLegacySchemas();
 
         for (const workspace of legacyWorkspaces) {
             await workspace.withEngine(Solid.requireAuthenticator().engine).register(typeIndex, Task);
         }
+    }
+
+    protected onMigrationCompleted(): void {
+        this.usingLegacySchemas = false;
     }
 
     protected onTaskDeleted(task: Task): void {

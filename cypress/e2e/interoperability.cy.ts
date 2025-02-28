@@ -203,14 +203,14 @@ describe('Interoperability', () => {
 
         cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
 
-        // Act
+        // Act - Migrate
         cy.ariaLabel('Open account status').click();
         cy.ariaLabel('Settings').click();
         cy.press('Migrate');
         cy.see('Migrating');
         cy.dontSee('Migrating');
 
-        // Assert
+        // Assert - Migrate
         cy.get('@updateTask.all').should('have.length', 1);
 
         cy.fixture('turtle/migrated-task.ttl').then((expected) => {
@@ -223,6 +223,19 @@ describe('Interoperability', () => {
             cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
                 cy.assertJsonLD(expected, actual);
             });
+        });
+
+        // Act - Update
+        cy.ariaLabel('Select task \\"Learn Solid\\"').click();
+        cy.press('Not important');
+        cy.waitSync();
+
+        // Assert - Update
+        cy.get('@updateTask.all').should('have.length', 2);
+
+        cy.fixture('sparql/update-migrated-task.sparql').then((sparql) => {
+            cy.get('@updateTask.2').its('response.statusCode').should('eq', 205);
+            cy.get('@updateTask.2').its('request.body').should('be.sparql', sparql);
         });
     });
 

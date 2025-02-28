@@ -28,7 +28,13 @@
                 </h3>
                 <AGMarkdown :text="$t('settings.migrationDescription')" class="mt-1 text-sm text-gray-500" />
             </div>
-            <TextButton color="secondary" class="self-center" @click="migrateSchemas()">
+            <TextButton
+                color="secondary"
+                class="self-center"
+                :disabled="!!$cloud.migrationDisabledReason"
+                :title="$cloud.migrationDisabledReason"
+                @click="migrateSchemas()"
+            >
                 {{ $t('settings.migrate') }}
             </TextButton>
         </div>
@@ -65,9 +71,7 @@ function localeName(locale: string | null): string {
 
 async function migrateSchemas(): Promise<void> {
     await UI.closeAllModals();
-    await UI.loading(translate('settings.migrationOngoing'), async () => {
-        await Workspaces.migrateSchemas();
-    });
+    await Workspaces.migrate();
 }
 
 async function purgeData(): Promise<void> {
