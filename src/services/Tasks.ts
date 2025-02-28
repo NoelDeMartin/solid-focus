@@ -27,7 +27,7 @@ export class TasksService extends Service {
     }
 
     protected onTaskDeleted(task: Task): void {
-        if (!this.current || this.current.is(task)) {
+        if (!this.current || !this.current.is(task)) {
             return;
         }
 
