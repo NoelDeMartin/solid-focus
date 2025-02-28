@@ -4,7 +4,6 @@ import { Router } from '@aerogel/plugin-routing';
 import { shallowRef } from 'vue';
 import type { Key } from 'soukai';
 
-import type Task from '@/models/Task';
 import type Workspace from '@/models/Workspace';
 
 export default defineServiceState({
@@ -12,7 +11,6 @@ export default defineServiceState({
     persist: ['lastVisitedWorkspaceUrl', 'sidebar', 'usingLegacySchemas'],
     initialState: () => ({
         all: shallowRef([] as Workspace[]),
-        task: null as Task | null,
         sidebar: false,
         current: computedModel(() => {
             const routeParams: { workspace?: Workspace } = Router.currentRoute.value?.params ?? {};

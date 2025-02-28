@@ -5,12 +5,12 @@
                 type="button"
                 class="absolute inset-0 h-full w-full rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--primary-500]"
                 :class="{
-                    'bg-[--primary-100]': $workspaces.task?.is(task),
-                    'hover:bg-gray-100': !$workspaces.task?.is(task),
+                    'bg-[--primary-100]': $tasks.current?.is(task),
+                    'hover:bg-gray-100': !$tasks.current?.is(task),
                 }"
                 :aria-label="$t('tasks.selectA11y', { name: task.name })"
                 :title="$t('tasks.selectTitle')"
-                @click="$workspaces.task?.is(task) ? $workspaces.select(null) : $workspaces.select(task)"
+                @click="$tasks.current?.is(task) ? $tasks.select(null) : $tasks.select(task)"
             />
             <div class="pointer-events-none relative flex items-center [&>*]:pointer-events-auto">
                 <input

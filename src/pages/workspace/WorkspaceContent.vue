@@ -9,15 +9,15 @@
 <script setup lang="ts">
 import { watchEffect } from 'vue';
 
+import Tasks from '@/services/Tasks';
 import TasksLists from '@/services/TasksLists';
-import Workspaces from '@/services/Workspaces';
 
 function deselectTask(event: MouseEvent) {
-    if (!Workspaces.task || (event.target instanceof Element && event.target.closest('button, a, input, textarea'))) {
+    if (!Tasks.current || (event.target instanceof Element && event.target.closest('button, a, input, textarea'))) {
         return;
     }
 
-    Workspaces.select(null);
+    Tasks.select(null);
 }
 
 watchEffect(() => TasksLists.current?.loadRelationIfUnloaded('tasks'));

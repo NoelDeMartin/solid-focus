@@ -3,6 +3,7 @@ import { required } from '@noeldemartin/utils';
 import { listName, workspaceName } from '@/utils/display';
 
 import Focus from './Focus';
+import Tasks from './Tasks';
 import TasksLists from './TasksLists';
 import Workspaces from './Workspaces';
 
@@ -15,6 +16,7 @@ export const globals = {
 
 export const services = {
     $focus: Focus,
+    $tasks: Tasks,
     $tasksLists: TasksLists,
     $workspaces: Workspaces,
 };

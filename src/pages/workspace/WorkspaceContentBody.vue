@@ -72,8 +72,8 @@ import { UI } from '@aerogel/core';
 
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
+import Tasks from '@/services/Tasks';
 import TasksLists from '@/services/TasksLists';
-import Workspaces from '@/services/Workspaces';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
 import { slideDown, slideUp, toggleCompletedTasks } from './animations';
@@ -111,9 +111,9 @@ async function createTask(name: string) {
 
 function changeTask(delta: 1 | -1) {
     const tasksList = tasks.value.pending.concat(Focus.showCompleted ? tasks.value.completed : []);
-    const select = (task?: Task) => task && Workspaces.select(task);
+    const select = (task?: Task) => task && Tasks.select(task);
 
-    if (!Workspaces.task) {
+    if (!Tasks.current) {
         select(delta > 0 ? tasksList[0] : tasksList.slice(-1)[0]);
 
         return;
@@ -122,7 +122,7 @@ function changeTask(delta: 1 | -1) {
     for (let index = 0; index < tasksList.length; index++) {
         const task = tasksList[index] as Task;
 
-        if (!Workspaces.task.is(task)) {
+        if (!Tasks.current.is(task)) {
             continue;
         }
 
@@ -144,5 +144,5 @@ watchKeyboardShortcut('+', () => $tasksForm.value?.focus());
 watchKeyboardShortcut('c', () => Focus.toggleCompleted());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
 watchKeyboardShortcut('ArrowDown', () => changeTask(1));
-watchKeyboardShortcut('Escape', () => Workspaces.select(null));
+watchKeyboardShortcut('Escape', () => Tasks.select(null));
 </script>

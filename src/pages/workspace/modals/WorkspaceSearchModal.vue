@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import Tasks from '@/services/Tasks';
 import TasksLists from '@/services/TasksLists';
 import Workspaces from '@/services/Workspaces';
 import { useSearch } from '@/utils/search';
@@ -89,6 +90,6 @@ async function select(result: SearchResult) {
         await result.workspace.open(result.list);
     }
 
-    result.task && Workspaces.select(result.task);
+    result.task && Tasks.select(result.task);
 }
 </script>

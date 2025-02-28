@@ -21,10 +21,6 @@ export class WorkspacesService extends Service {
         this.sidebar = !this.sidebar;
     }
 
-    public select(task: Task | null): void {
-        this.task = task;
-    }
-
     public async open(): Promise<void> {
         const workspace = this.all.find((model) => model.url === this.lastVisitedWorkspaceUrl) ?? this.all[0];
         const lists = await workspace?.loadRelationIfUnloaded<TasksList[]>('lists');
@@ -55,21 +51,11 @@ export class WorkspacesService extends Service {
             transform: (workspaces) => arraySorted(workspaces, 'name'),
         });
 
-        Task.on('deleted', (task) => this.onTaskDeleted(task));
         Events.on('purge-storage', () => this.onPurgeStorage());
         Events.on('cloud:sync-started', () => this.onSyncStarted());
         Events.on('cloud:migration-completed', () => this.onMigrationCompleted());
 
         watchEffect(() => (this.lastVisitedWorkspaceUrl = this.current?.url ?? this.lastVisitedWorkspaceUrl));
-        watchEffect(() => {
-            const currentTask = this.task;
-
-            if (!currentTask) {
-                return;
-            }
-
-            this.task = this.current?.tasks?.find((task) => task.is(currentTask)) ?? null;
-        });
 
         await this.bootLegacySchemas();
     }
@@ -139,14 +125,6 @@ export class WorkspacesService extends Service {
 
     protected onMigrationCompleted(): void {
         this.usingLegacySchemas = false;
-    }
-
-    protected onTaskDeleted(task: Task): void {
-        if (!this.task || !this.task.is(task)) {
-            return;
-        }
-
-        this.select(null);
     }
 
 }

@@ -35,7 +35,7 @@
                         class="mt-0.5 self-start"
                         :aria-label="$t('ui.close')"
                         :title="$t('ui.close')"
-                        @click="$workspaces.select(null)"
+                        @click="$tasks.select(null)"
                     >
                         <i-zondicons-arrow-left class="h-4 w-4" />
                     </IconButton>
@@ -180,7 +180,7 @@
                         :aria-label="$t('ui.close')"
                         :title="$t('ui.close')"
                         class="hidden md:block"
-                        @click="$workspaces.select(null)"
+                        @click="$tasks.select(null)"
                     >
                         <i-zondicons-cheveron-right class="h-5 w-5" />
                     </IconButton>
@@ -229,7 +229,7 @@ import type { ElementSize } from '@aerogel/core';
 
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
-import Workspaces from '@/services/Workspaces';
+import Tasks from '@/services/Tasks';
 
 import PanelAnimator from './animations/PanelAnimator';
 
@@ -356,8 +356,8 @@ useModelEvent(Task, 'updated', async (updatedTask) => {
 });
 
 watchEffect(async () => {
-    if (Workspaces.task && !Workspaces.task.isSoftDeleted()) {
-        workspaceTask.value = Workspaces.task;
+    if (Tasks.current && !Tasks.current.isSoftDeleted()) {
+        workspaceTask.value = Tasks.current;
 
         await panelAnimator.show();
 

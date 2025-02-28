@@ -30,7 +30,7 @@
 import { computed, ref, watchEffect } from 'vue';
 
 import Task from '@/models/Task';
-import Workspaces from '@/services/Workspaces';
+import Tasks from '@/services/Tasks';
 import { useThemeColor } from '@/utils/histoire';
 import { invert } from '@noeldemartin/utils';
 
@@ -74,7 +74,7 @@ const pendingTask = computed(() => new Task({ url: 'pending', name: name.value }
 const selectedTask = computed(() => new Task({ url: 'selected', name: name.value }));
 const completedTask = computed(() => new Task({ url: 'completed', name: name.value, completedAt: new Date() }));
 
-watchEffect(() => Workspaces.select(selectedTask.value));
+watchEffect(() => Tasks.select(selectedTask.value));
 </script>
 
 <style>
