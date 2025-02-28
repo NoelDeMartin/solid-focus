@@ -38,6 +38,14 @@
                 <TextButton submit class="w-full">
                     {{ $t('cloud.logIn.submit') }}
                 </TextButton>
+                <TextButton
+                    v-if="$app.development"
+                    submit
+                    class="w-full"
+                    @click="form.url = 'dev'"
+                >
+                    {{ $t('cloud.logIn.dev') }}
+                </TextButton>
                 <TextLink
                     v-if="!form.authenticator"
                     class="text-sm font-normal text-gray-700"
