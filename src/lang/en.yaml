@@ -77,6 +77,7 @@ cloud:
         label: Login url
         placeholder: https://me.solidcommunity.net
         submit: Log in
+        dev: Log in to dev server
     setup:
         title: All your eggs are in the same basket
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
