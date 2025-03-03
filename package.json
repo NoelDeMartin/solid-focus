@@ -24,7 +24,7 @@
     "dependencies": {
         "@aerogel/core": "0.0.0-next.7035064d9ec6a82a936ee8dfcc4b58ed2e25a399",
         "@aerogel/plugin-i18n": "0.0.0-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
-        "@aerogel/plugin-offline-first": "0.0.0-next.7922f2bc4a4504bc48c8991b91c146ff6ac8a093",
+        "@aerogel/plugin-offline-first": "0.0.0-next.0d3eab7f6820f1e764c5f88dfd1f2228a86f4e44",
         "@aerogel/plugin-routing": "0.0.0-next.bb9dcdbb118a15d146d3a1c4cf861ca2f4f1eebd",
         "@aerogel/plugin-solid": "0.0.1-next.7922f2bc4a4504bc48c8991b91c146ff6ac8a093",
         "@aerogel/plugin-soukai": "0.0.0-next.576be48ca5479b8b603fa3960d1b6eb3b5d90a3c",
