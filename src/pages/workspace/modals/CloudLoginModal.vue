@@ -36,5 +36,7 @@ import { App, requiredStringInput, useForm } from '@aerogel/core';
 import { computed } from 'vue';
 
 const form = useForm({ url: requiredStringInput() });
-const showDevLogin = computed(() => App.development && (!form.url || form.url.trim().length === 0));
+const showDevLogin = computed(
+    () => App.development && (!form.url || form.url === 'dev' || form.url.trim().length === 0),
+);
 </script>

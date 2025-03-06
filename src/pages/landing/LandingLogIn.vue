@@ -75,5 +75,7 @@ const form = useForm({
     url: requiredStringInput(),
     authenticator: stringInput(),
 });
-const showDevLogin = computed(() => App.development && (!form.url || form.url.trim().length === 0));
+const showDevLogin = computed(
+    () => App.development && (!form.url || form.url === 'dev' || form.url.trim().length === 0),
+);
 </script>
