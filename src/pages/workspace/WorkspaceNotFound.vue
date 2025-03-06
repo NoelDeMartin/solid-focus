@@ -1,5 +1,12 @@
 <template>
-    <div class="relative isolate flex w-full flex-grow items-center justify-center p-8">
+    <div
+        v-animate
+        class="relative isolate flex w-full flex-grow items-center justify-center p-8"
+        :initial="{ opacity: 0 }"
+        :enter="{ opacity: 1 }"
+        :delay="1000"
+        :duration="600"
+    >
         <WorkspaceNotFoundBackground class="absolute inset-0" />
         <div class="relative z-10 p-8 text-center drop-shadow-[0_0_8px_white]">
             <h1 class="text-4xl font-semibold">

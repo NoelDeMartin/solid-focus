@@ -359,4 +359,26 @@ describe('Cloud', () => {
         });
     });
 
+    it('Logs in from not found page', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/main/', 'Main');
+        cy.solidCreateDocument('/tasks/main/hello', 'turtle/task.ttl', { name: 'Hello World' });
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            containerUrl: podUrl('/tasks/main/'),
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+
+        cy.visit('/main');
+
+        // Act
+        cy.press('Need to log in?');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Assert
+        cy.url().should('equal', `${Cypress.config('baseUrl')}/main`);
+        cy.see('Hello World');
+    });
+
 });
