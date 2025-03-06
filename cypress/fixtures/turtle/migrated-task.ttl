@@ -7,6 +7,7 @@
     a schema:Action, ical:Vtodo;
     schema:name "Learn Solid";
     ical:summary  "Learn Solid";
+    ical:priority 1;
     schema:description "This was created a long time ago";
     schema:actionStatus schema:CompletedActionStatus;
     ical:due "2019-01-01T00:00:00.000Z"^^xsd:dateTime;
@@ -17,58 +18,3 @@
     crdt:resource <#it> ;
     crdt:createdAt "[[createdAt][.*]]"^^xsd:dateTime ;
     crdt:updatedAt "[[updatedAt][.*]]"^^xsd:dateTime .
-
-<#operation-[[operation-1][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-    crdt:property schema:name ;
-    crdt:value "Learn Solid".
-
-<#operation-[[operation-2][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-    crdt:property schema:description ;
-    crdt:value "This was created a long time ago".
-
-<#operation-[[operation-3][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-    crdt:property ical:due ;
-    crdt:value "2019-01-01T00:00:00Z"^^xsd:dateTime.
-
-<#operation-[[operation-4][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-    crdt:property ical:completed ;
-    crdt:value "2018-12-25T00:00:00Z"^^xsd:dateTime.
-
-<#operation-[[operation-5][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[createdAt][.*]]"^^xsd:dateTime ;
-    crdt:property ical:priority ;
-    crdt:value 1.
-
-<#operation-[[operation-6][.*]]>
-    a crdt:UnsetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
-    crdt:property ical:priority .
-
-<#it-operation-[[operation-7][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
-    crdt:property ical:summary ;
-    crdt:value "Learn Solid".
-
-<#it-operation-[[operation-8][.*]]>
-    a crdt:SetPropertyOperation ;
-    crdt:resource <#it> ;
-    crdt:date "[[updatedAt][.*]]"^^xsd:dateTime ;
-    crdt:property schema:actionStatus ;
-    crdt:value schema:CompletedActionStatus.

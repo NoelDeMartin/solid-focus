@@ -4,7 +4,7 @@
             class="flex"
             :class="{ 'flex-col-reverse': showProgress, 'items-center justify-center gap-2': !showProgress }"
         >
-            <AGProgressBar v-if="showProgress" class="bg-[--primary-600]" :progress="progress" />
+            <AGProgressBar v-if="showProgress" bar-class="bg-[--primary-600]" :progress="progress" />
             <i-svg-spinners-ring-resize v-else class="mr-2 h-6 w-6 text-[--primary-600]" />
             <AGMarkdown :text="renderedMessage" />
         </div>

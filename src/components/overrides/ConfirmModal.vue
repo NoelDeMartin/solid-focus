@@ -19,7 +19,12 @@
                 <TextButton submit :color="acceptColor">
                     {{ renderedAcceptText }}
                 </TextButton>
-                <TextButton :color="cancelColor" class="mr-2" @click="close(false)">
+                <TextButton
+                    v-if="!required"
+                    :color="cancelColor"
+                    class="mr-2"
+                    @click="close(false)"
+                >
                     {{ renderedCancelText }}
                 </TextButton>
             </div>

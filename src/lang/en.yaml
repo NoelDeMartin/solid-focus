@@ -85,6 +85,15 @@ cloud:
         submit: Back up now
         advanced: Use the inputs below to configure the containers where each workspace will be created.
         workspaceUrl: '{name} url'
+    migrate:
+        title: Your data is using an old schema
+        message: The data in your POD is using an old format that is probably not the best for interoperability. We recommend that you migrate it to the latest format for better compatibility with other apps.
+        learnMore: learn more
+        submit: Migrate now
+        ongoing: Migrating...
+        dismiss: not yet
+        dismissTitle: Postpone migration
+        dismissMessage: The app should continue working with the old schema, but we strongly suggest that you migrate it at some point. You can continue this process in the settings under the `Data migration` section.
     info:
         setup: Your data is not backed up yet.
         changes: 'Everything is up to date. | There is one local change. | There are {n} local changes.'
@@ -216,7 +225,6 @@ settings:
     localeDefault: '{locale} (default)'
     migrationTitle: Data migration
     migrationDescription: It seems like the data structure in your POD is outdated. When you're ready, you can migrate to a newer schema for better compatibility with other apps.
-    migrationOngoing: Migrating...
     migrate: Migrate
     dangerZone: Danger zone
     purge: Purge data

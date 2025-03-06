@@ -1,5 +1,5 @@
 <template>
-    <AGForm :form="form" class="flex flex-col items-center p-8 text-center" @submit="submit()">
+    <AGForm :form="form" class="flex flex-grow flex-col items-center justify-center p-8 text-center" @submit="submit()">
         <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
         <h1 class="mt-4 text-3xl font-semibold">
             {{ $t('cloud.setup.title') }}

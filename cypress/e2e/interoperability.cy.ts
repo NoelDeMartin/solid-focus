@@ -18,11 +18,14 @@ describe('Interoperability', () => {
         cy.intercept('PATCH', podUrl('/tasks/!(legacy-task*)')).as('createTask');
         cy.intercept('PATCH', podUrl('/settings/privateTypeIndex')).as('registerWorkspace');
 
-        // Act - Log in
+        // Act - Log in & postpone migration
         cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.waitSync();
+
+        cy.press('not yet');
+        cy.press('Ok');
 
         // Assert - Log in
         cy.press('Completed');
@@ -103,6 +106,9 @@ describe('Interoperability', () => {
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.waitSync();
+
+        cy.press('not yet');
+        cy.press('Ok');
 
         // Act
         cy.solidUpdateDocument('/tasks/legacy-task', 'sparql/undo-legacy-task.sparql');
@@ -189,11 +195,50 @@ describe('Interoperability', () => {
         cy.solidCreateDocument('/tasks/legacy-task', 'turtle/legacy-task.ttl');
         cy.solidUpdateDocument('/profile/card', 'sparql/prepare-legacy-profile.sparql');
 
+        cy.press('Log in');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+        cy.waitSync();
+
+        cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
+
+        // Act
+        cy.see('Your data is using an old schema');
+        cy.press('Migrate now');
+        cy.see('Migrating');
+        cy.dontSee('Migrating');
+
+        // Assert
+        cy.get('@updateTask.all').should('have.length', 1);
+
+        cy.fixture('turtle/migrated-task.ttl').then((expected) => {
+            cy.solidReadDocument('/tasks/legacy-task').then((actual) => {
+                cy.wrap(actual).should('be.turtle', expected);
+            });
+        });
+
+        cy.fixture('jsonld/migrated-task.jsonld').then((expected) => {
+            cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
+                cy.assertJsonLD(expected, actual);
+            });
+        });
+    });
+
+    it('Migrates postponed schemas', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/', 'Tasks');
+        cy.solidUpdateDocument('/tasks/.meta', 'sparql/prepare-legacy-container.sparql', { url: podUrl('/tasks/') });
+        cy.solidCreateDocument('/tasks/legacy-task', 'turtle/legacy-task.ttl');
+        cy.solidUpdateDocument('/profile/card', 'sparql/prepare-legacy-profile.sparql');
+
         // Arrange - Log in
         cy.press('Log in');
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.waitSync();
+
+        cy.press('not yet');
+        cy.press('Ok');
 
         // Arrange - Update
         cy.press('Completed');
@@ -213,13 +258,13 @@ describe('Interoperability', () => {
         // Assert - Migrate
         cy.get('@updateTask.all').should('have.length', 1);
 
-        cy.fixture('turtle/migrated-task.ttl').then((expected) => {
+        cy.fixture('turtle/migrated-postponed-task.ttl').then((expected) => {
             cy.solidReadDocument('/tasks/legacy-task').then((actual) => {
                 cy.wrap(actual).should('be.turtle', expected);
             });
         });
 
-        cy.fixture('jsonld/migrated-task.jsonld').then((expected) => {
+        cy.fixture('jsonld/migrated-postponed-task.jsonld').then((expected) => {
             cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
                 cy.assertJsonLD(expected, actual);
             });

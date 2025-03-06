@@ -33,7 +33,7 @@
                 class="self-center"
                 :disabled="!!$cloud.migrationDisabledReason"
                 :title="$cloud.migrationDisabledReason"
-                @click="migrateSchemas()"
+                @click="$ui.closeAllModals(), $cloud.migrate()"
             >
                 {{ $t('settings.migrate') }}
             </TextButton>
@@ -56,7 +56,6 @@ import { computed } from 'vue';
 
 import locales from '@/lang/locales.json';
 import SelectInputButton from '@/components/forms/SelectInputButton.vue';
-import Workspaces from '@/services/Workspaces';
 
 import CloudLoginModal from './CloudLoginModal.vue';
 
@@ -67,11 +66,6 @@ function localeName(locale: string | null): string {
     locale = locale ?? '';
 
     return locales[locale as 'en'] ?? translate('settings.localeDefault', { locale: locales[browserLocale as 'en'] });
-}
-
-async function migrateSchemas(): Promise<void> {
-    await UI.closeAllModals();
-    await Workspaces.migrate();
 }
 
 async function purgeData(): Promise<void> {

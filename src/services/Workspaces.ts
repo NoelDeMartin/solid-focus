@@ -1,10 +1,10 @@
 import { arraySorted, facade } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { Events, UI, translate } from '@aerogel/core';
+import { Events } from '@aerogel/core';
 import { fetchSolidDocument } from '@noeldemartin/solid-utils';
 import { Solid } from '@aerogel/plugin-solid';
 import { trackModels } from '@aerogel/plugin-soukai';
-import { ref, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 
 import LegacyTaskSchema from '@/models/legacy/LegacyTask.schema';
 import Task from '@/models/Task';
@@ -27,19 +27,6 @@ export class WorkspacesService extends Service {
         const list = lists?.find((model) => model.url === TasksLists.lastVisitedListUrl);
 
         await workspace?.open(list);
-    }
-
-    public async migrate(): Promise<void> {
-        if (!this.usingLegacySchemas) {
-            return;
-        }
-
-        const progress = ref(0);
-
-        await UI.loading(
-            { progress, message: translate('settings.migrationOngoing') },
-            Cloud.migrate({ onUpdated: (value) => (progress.value = value) }),
-        );
     }
 
     protected async boot(): Promise<void> {

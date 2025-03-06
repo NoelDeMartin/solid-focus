@@ -1,6 +1,7 @@
 <template>
     <div v-if="$workspaces.current && !settingUpCloud" class="h-1 w-full bg-[--primary-500]" />
     <WorkspaceCloudSetup v-if="settingUpCloud" />
+    <WorkspaceCloudMigrate v-else-if="migratingCloud" />
     <div
         v-else-if="$workspaces.current?.isRelationLoaded('lists') && $tasksLists.current"
         class="isolate flex w-full flex-grow"
@@ -36,6 +37,17 @@ defineProps({
 
 const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeColor ?? 'sky']);
 const settingUpCloud = computed(() => Solid.isLoggedIn() && !Cloud.ready && !Cloud.setupDismissed);
+const migratingCloud = computed(() => {
+    if (!Solid.isLoggedIn() || !Cloud.ready) {
+        return false;
+    }
+
+    if (Cloud.migrating) {
+        return true;
+    }
+
+    return Cloud.shouldMigrate() && !Cloud.migrationDismissed;
+});
 
 watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
 bindThemeColors(workspaceColors);
