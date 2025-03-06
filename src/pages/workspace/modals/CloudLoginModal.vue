@@ -15,7 +15,15 @@
                     :placeholder="$t('cloud.logIn.placeholder')"
                     class="w-96 max-w-full"
                 />
-                <TextButton submit class="w-full md:w-auto">
+                <TextButton
+                    v-if="showDevLogin"
+                    submit
+                    class="w-full md:w-auto"
+                    @click="form.url = 'dev'"
+                >
+                    {{ $t('cloud.logIn.dev') }}
+                </TextButton>
+                <TextButton v-else submit class="w-full md:w-auto">
                     {{ $t('cloud.logIn.submit') }}
                 </TextButton>
             </div>
@@ -24,7 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { requiredStringInput, useForm } from '@aerogel/core';
+import { App, requiredStringInput, useForm } from '@aerogel/core';
+import { computed } from 'vue';
 
 const form = useForm({ url: requiredStringInput() });
+const showDevLogin = computed(() => App.development && (!form.url || form.url.trim().length === 0));
 </script>

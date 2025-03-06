@@ -35,16 +35,16 @@
                         legacy: $t('landing.logIn.switchAuthenticatorLegacy'),
                     }"
                 />
-                <TextButton submit class="w-full">
-                    {{ $t('cloud.logIn.submit') }}
-                </TextButton>
                 <TextButton
-                    v-if="$app.development"
+                    v-if="showDevLogin"
                     submit
                     class="w-full"
                     @click="form.url = 'dev'"
                 >
                     {{ $t('cloud.logIn.dev') }}
+                </TextButton>
+                <TextButton v-else submit class="w-full">
+                    {{ $t('cloud.logIn.submit') }}
                 </TextButton>
                 <TextLink
                     v-if="!form.authenticator"
@@ -67,11 +67,13 @@
 </template>
 
 <script setup lang="ts">
-import { requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import { App, requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import { computed } from 'vue';
 import type { AuthenticatorName } from '@aerogel/plugin-solid';
 
 const form = useForm({
     url: requiredStringInput(),
     authenticator: stringInput(),
 });
+const showDevLogin = computed(() => App.development && (!form.url || form.url.trim().length === 0));
 </script>
