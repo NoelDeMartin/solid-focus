@@ -5,7 +5,6 @@
             <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :progress="progress" />
         </template>
         <template v-else>
-            <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
             <h1 class="mt-4 text-3xl font-semibold">
                 {{ $t('cloud.migrate.title') }}
             </h1>

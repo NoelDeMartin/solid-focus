@@ -6,7 +6,7 @@
             @update:model-value="changeWorkspace($event)"
         >
             <TextButton :as="SelectInputButton" color="clear" class="-ml-1">
-                <span class="max-w-32 text-left text-xl font-semibold">{{ $workspaceName($workspace) }}</span>
+                <span class="max-w-32 truncate text-left text-xl font-semibold">{{ $workspaceName($workspace) }}</span>
                 <i-zondicons-cheveron-down class="ml-0.5 h-6 w-6" />
             </TextButton>
             <SelectInputOptions as="div" class="pb-10">
