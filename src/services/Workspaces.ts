@@ -1,4 +1,4 @@
-import { arraySorted, facade } from '@noeldemartin/utils';
+import { arraySorted, facade, silenced } from '@noeldemartin/utils';
 import { Cloud } from '@aerogel/plugin-offline-first';
 import { Events } from '@aerogel/core';
 import { fetchSolidDocument } from '@noeldemartin/solid-utils';
@@ -84,9 +84,9 @@ export class WorkspacesService extends Service {
             .filter((url) => url.endsWith('/'));
 
         for (const containerUrl of containerUrls) {
-            const container = await fetchSolidDocument(containerUrl, { fetch: Solid.fetch });
+            const container = await silenced(fetchSolidDocument(containerUrl, { fetch: Solid.fetch }));
 
-            if (!container.statement(containerUrl, 'rdf:type', 'http://purl.org/vocab/lifecycle/schema#TaskGroup')) {
+            if (!container?.statement(containerUrl, 'rdf:type', 'http://purl.org/vocab/lifecycle/schema#TaskGroup')) {
                 continue;
             }
 
