@@ -42,7 +42,7 @@ const migratingCloud = computed(() => {
         return false;
     }
 
-    if (Cloud.migrating) {
+    if (Cloud.migrating || (Cloud.migrationJob && !Cloud.migrationPostponed)) {
         return true;
     }
 

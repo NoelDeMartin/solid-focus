@@ -4,6 +4,30 @@
             <h1>{{ $t('cloud.migrate.ongoing') }}</h1>
             <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :progress="progress" />
         </template>
+        <template v-else-if="interrupted">
+            <h1 class="mt-4 text-3xl font-semibold">
+                {{ $t('cloud.migrate.interruptedTitle') }}
+            </h1>
+            <AGMarkdown
+                lang-key="cloud.migrate.interruptedMessage"
+                class="mt-2 text-left text-lg font-light text-gray-600"
+            />
+            <TextLink
+                class="mt-2 flex items-center self-end text-sm"
+                :url="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
+            >
+                <span>{{ $t('cloud.migrate.learnMore') }}</span>
+                <i-zondicons-arrow-right class="ml-1.5 size-2.5" />
+            </TextLink>
+            <div class="mt-4 flex flex-row-reverse justify-center gap-2">
+                <TextButton @click="$cloud.migrate()">
+                    {{ $t('cloud.migrate.continue') }}
+                </TextButton>
+                <TextButton color="secondary" @click="$cloud.postponeMigration()">
+                    {{ $t('cloud.migrate.postpone') }}
+                </TextButton>
+            </div>
+        </template>
         <template v-else>
             <h1 class="mt-4 text-3xl font-semibold">
                 {{ $t('cloud.migrate.title') }}
@@ -30,11 +54,12 @@
 
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { UI, translate, useEvent } from '@aerogel/core';
 import type { JobListener } from '@aerogel/core';
 
 const progress = ref(0);
+const interrupted = computed(() => Cloud.migrationJob && !Cloud.migrating);
 const listener: JobListener = { onUpdated: (value) => (progress.value = value) };
 
 async function dismiss() {

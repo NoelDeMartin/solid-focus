@@ -94,6 +94,10 @@ cloud:
         dismiss: not yet
         dismissTitle: Postpone migration
         dismissMessage: The app should continue working with the old schema, but we strongly suggest that you migrate it at some point. You can continue this process in the settings under the `Data migration` section.
+        interruptedTitle: The data migration was interrupted!
+        interruptedMessage: It seems like the schema migration was interrupted, you should complete it before you continue using the application or you may run into issues.
+        continue: Continue
+        postpone: Postpone
     info:
         setup: Your data is not backed up yet.
         changes: 'Everything is up to date. | There is one local change. | There are {n} local changes.'
