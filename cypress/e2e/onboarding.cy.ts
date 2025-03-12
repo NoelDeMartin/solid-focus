@@ -154,7 +154,7 @@ describe('Onboarding', () => {
         cy.solidLogin();
 
         // Assert
-        cy.see('Syncing');
+        cy.see('Synchronization in progress');
         cy.ariaLabel('Show lists').click();
 
         cy.url().should('equal', `${Cypress.config('baseUrl')}/household`);

@@ -156,7 +156,7 @@ describe('Interoperability', () => {
         cy.solidLogin();
 
         // Assert
-        cy.see('Syncing');
+        cy.see('Synchronization in progress');
         cy.see('Hello for schema.org');
     });
 
@@ -184,7 +184,7 @@ describe('Interoperability', () => {
         cy.solidLogin();
 
         // Assert
-        cy.see('Syncing');
+        cy.see('Synchronization in progress');
         cy.see('Hello for ical');
     });
 
