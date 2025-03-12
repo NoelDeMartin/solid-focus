@@ -113,7 +113,7 @@ cloud:
     status:
         disconnected: Disconnected
         online: Online
-        syncing: Syncing
+        syncing: Synchronization in progress
         dirty: There are local changes
         error: There has been an error connecting
     advanced:
