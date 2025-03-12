@@ -22,9 +22,9 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "0.0.0-next.c4825c5cbe0fe3257e478c2a7ec8df27d5a72305",
-        "@aerogel/plugin-i18n": "0.0.0-next.13b88f634a31caf3669d61e53e7d3fa95e20488c",
-        "@aerogel/plugin-offline-first": "0.0.0-next.883688b71831164897856b300dfe05e1d10ddcdf",
+        "@aerogel/core": "0.0.0-next.3e6f40eb783e9764b1fce8f9ef6066afe4802a55",
+        "@aerogel/plugin-i18n": "0.0.0-next.5db4f0ca00e272b7c47941039d7b104c51c246b0",
+        "@aerogel/plugin-offline-first": "0.0.0-next.3e6f40eb783e9764b1fce8f9ef6066afe4802a55",
         "@aerogel/plugin-routing": "0.0.0-next.9f3ed4cb5fa9fb0b4794b0def141e8d82563bd40",
         "@aerogel/plugin-solid": "0.0.1-next.7922f2bc4a4504bc48c8991b91c146ff6ac8a093",
         "@aerogel/plugin-soukai": "0.0.0-next.576be48ca5479b8b603fa3960d1b6eb3b5d90a3c",
@@ -37,7 +37,7 @@
         "@tailwindcss/typography": "^0.5.9",
         "popmotion": "^11.0.5",
         "soukai": "0.5.2-next.b7fedddf243ea6df3baf082890eb2834dd48c010",
-        "soukai-solid": "0.5.2-next.372c559763157145f687c3b71d4e0f13be7b1469",
+        "soukai-solid": "0.5.2-next.edc8539490c467b9e2c9103b344345f667cdb301",
         "tailwind-merge": "^2.3.0",
         "tailwindcss": "^3.3.2",
         "vivant": "^0.0.1",

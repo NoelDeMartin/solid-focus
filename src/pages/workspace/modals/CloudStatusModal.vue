@@ -22,7 +22,18 @@
         <div class="px-2">
             <div v-if="$cloud.syncing" class="mt-4 flex items-center gap-2">
                 <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />
-                <AGMarkdown lang-key="cloud.info.syncing" />
+                <div class="flex flex-col">
+                    <AGMarkdown lang-key="cloud.info.syncing" />
+                    <AGProgressBar v-if="$cloud.syncJob" :job="$cloud.syncJob" bar-class="bg-green-500" />
+                    <TextButton
+                        v-if="$cloud.syncJob"
+                        color="secondary"
+                        class="mt-2"
+                        @click="$cloud.syncJob.cancel()"
+                    >
+                        {{ $t('ui.cancel') }}
+                    </TextButton>
+                </div>
             </div>
             <div v-else-if="$solid.loginOngoing" class="mt-4 flex items-center gap-2">
                 <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />

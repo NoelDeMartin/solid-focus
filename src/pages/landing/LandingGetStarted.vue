@@ -1,6 +1,35 @@
 <template>
     <div class="mt-4 max-w-full sm:mt-8">
-        <AGMarkdown v-if="$cloud.syncing" lang-key="cloud.status.syncing" />
+        <div v-if="$cloud.syncing" class="flex flex-col items-center">
+            <AGMarkdown lang-key="landing.getStarted.syncing" class="mt-2 text-lg font-light text-gray-600" />
+            <AGProgressBar
+                v-if="$cloud.syncJob"
+                :job="$cloud.syncJob"
+                bar-class="bg-[--primary-600]"
+                class="mt-2"
+            />
+            <TextButton v-if="$cloud.syncJob" class="mt-2" @click="$cloud.syncJob?.cancel()">
+                {{ $t('ui.cancel') }}
+            </TextButton>
+        </div>
+
+        <div v-else-if="$cloud.syncJob" class="flex flex-col items-center">
+            <h1 class="mt-4 text-3xl font-semibold">
+                {{ $t('landing.getStarted.syncCancelledTitle') }}
+            </h1>
+            <AGMarkdown
+                lang-key="landing.getStarted.syncCancelledMessage"
+                class="mt-2 text-lg font-light text-gray-600"
+            />
+            <div class="mt-4 flex flex-row-reverse justify-center gap-2">
+                <TextButton @click="$cloud.sync()">
+                    {{ $t('landing.getStarted.syncCancelledResume') }}
+                </TextButton>
+                <TextButton color="secondary" @click="cancel()">
+                    {{ $t('landing.getStarted.syncCancelledLogout') }}
+                </TextButton>
+            </div>
+        </div>
 
         <AGForm v-else :form="form" @submit="$ui.loading(submit())">
             <h2 class="text-center text-xl font-semibold leading-6 text-gray-900">
