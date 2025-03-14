@@ -36,13 +36,19 @@ defineProps({
 });
 
 const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeColor ?? 'sky']);
-const settingUpCloud = computed(() => Solid.isLoggedIn() && !Cloud.ready && !Cloud.setupDismissed);
+const settingUpCloud = computed(() => {
+    if (Cloud.setupOngoing) {
+        return true;
+    }
+
+    return Solid.isLoggedIn() && !Cloud.ready && !Cloud.setupDismissed;
+});
 const migratingCloud = computed(() => {
-    if (!Solid.isLoggedIn() || !Cloud.ready) {
+    if (!Solid.isLoggedIn() || !Cloud.ready || Cloud.migrationPostponed) {
         return false;
     }
 
-    if (Cloud.migrating || (Cloud.migrationJob && !Cloud.migrationPostponed)) {
+    if (Cloud.migrating || Cloud.migrationJob) {
         return true;
     }
 

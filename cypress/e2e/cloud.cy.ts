@@ -202,7 +202,8 @@ describe('Cloud', () => {
         // Act
         cy.see('All your eggs are in the same basket');
         cy.press('Back up');
-        cy.dontSee('Loading...');
+        cy.see('Backing up');
+        cy.dontSee('Backing up');
 
         // Assert
         cy.ariaLabel('Show lists').click();
@@ -256,7 +257,8 @@ describe('Cloud', () => {
         cy.ariaInput('Japanese url').scrollIntoView().clear().type(podUrl('/languages/japanese/'));
         cy.ariaInput('Main url').scrollIntoView().clear().type(podUrl('/tasks/'));
         cy.press('Back up');
-        cy.dontSee('Loading...', { timeout: 60000 });
+        cy.see('Backing up');
+        cy.dontSee('Backing up', { timeout: 60000 });
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/shared`);

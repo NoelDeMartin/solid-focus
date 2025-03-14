@@ -88,6 +88,7 @@ cloud:
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
         dismiss: not yet
         submit: Back up now
+        ongoing: Backing up...
         advanced: Use the inputs below to configure the containers where each workspace will be created.
         workspaceUrl: '{name} url'
     migrate:

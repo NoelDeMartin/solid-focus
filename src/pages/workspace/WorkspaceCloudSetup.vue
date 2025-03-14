@@ -1,5 +1,14 @@
 <template>
-    <AGForm :form="form" class="flex flex-grow flex-col items-center justify-center p-8 text-center" @submit="submit()">
+    <div v-if="$cloud.setupOngoing" class="flex flex-grow flex-col items-center justify-center p-8 text-center">
+        <h1>{{ $t('cloud.setup.ongoing') }}</h1>
+        <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :job="$cloud.syncJob" />
+    </div>
+    <AGForm
+        v-else
+        :form="form"
+        class="flex flex-grow flex-col items-center justify-center p-8 text-center"
+        @submit="submit()"
+    >
         <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
         <h1 class="mt-4 text-3xl font-semibold">
             {{ $t('cloud.setup.title') }}
@@ -37,7 +46,7 @@ import { Cloud } from '@aerogel/plugin-offline-first';
 import { computed } from 'vue';
 import { required, urlParse } from '@noeldemartin/utils';
 import { Solid } from '@aerogel/plugin-solid';
-import { UI, stringInput, useForm } from '@aerogel/core';
+import { stringInput, useForm } from '@aerogel/core';
 import type { SolidModelConstructor } from 'soukai-solid';
 import type { FormFieldDefinition } from '@aerogel/core';
 
@@ -76,7 +85,7 @@ async function submit() {
         }, {} as Record<string, string>),
     );
 
-    await UI.loading(Cloud.setup(modelUrlMappings));
+    await Cloud.setup(modelUrlMappings);
 
     TasksLists.current || (await Workspaces.open());
 }

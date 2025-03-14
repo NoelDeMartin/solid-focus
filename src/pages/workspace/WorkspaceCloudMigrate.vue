@@ -2,7 +2,7 @@
     <div class="flex flex-grow flex-col items-center justify-center p-8 text-center">
         <template v-if="$cloud.migrating">
             <h1>{{ $t('cloud.migrate.ongoing') }}</h1>
-            <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :progress="progress" />
+            <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :job="$cloud.migrationJob" />
         </template>
         <template v-else-if="interrupted">
             <h1 class="mt-4 text-3xl font-semibold">
@@ -54,13 +54,10 @@
 
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { UI, translate, useEvent } from '@aerogel/core';
-import type { JobListener } from '@aerogel/core';
+import { computed } from 'vue';
+import { UI, translate } from '@aerogel/core';
 
-const progress = ref(0);
 const interrupted = computed(() => Cloud.migrationJob && !Cloud.migrating);
-const listener: JobListener = { onUpdated: (value) => (progress.value = value) };
 
 async function dismiss() {
     await UI.confirm(translate('cloud.migrate.dismissTitle'), translate('cloud.migrate.dismissMessage'), {
@@ -69,8 +66,4 @@ async function dismiss() {
 
     Cloud.dismissMigration();
 }
-
-useEvent('cloud:migration-started', () => Cloud.migrationJob?.listeners.add(listener));
-onMounted(() => Cloud.migrationJob?.listeners.add(listener));
-onUnmounted(() => Cloud.migrationJob?.listeners.remove(listener));
 </script>
