@@ -22,17 +22,9 @@
         <div class="px-2">
             <div v-if="$cloud.syncing" class="mt-4 flex items-center gap-2">
                 <i-zondicons-refresh class="mt-0.5 h-6 w-6 flex-shrink-0 animate-spin self-start text-green-500" />
-                <div class="flex flex-col">
+                <div class="flex w-full flex-col">
                     <AGMarkdown lang-key="cloud.info.syncing" />
                     <AGProgressBar v-if="$cloud.syncJob" :job="$cloud.syncJob" bar-class="bg-green-500" />
-                    <TextButton
-                        v-if="$cloud.syncJob"
-                        color="secondary"
-                        class="mt-2"
-                        @click="$cloud.syncJob.cancel()"
-                    >
-                        {{ $t('ui.cancel') }}
-                    </TextButton>
                 </div>
             </div>
             <div v-else-if="$solid.loginOngoing" class="mt-4 flex items-center gap-2">
@@ -115,8 +107,12 @@
             </AdvancedOptions>
         </div>
 
-        <div v-if="!$cloud.syncing && !$solid.loginOngoing" class="mt-4 flex flex-row-reverse justify-start gap-2">
-            <TextButton v-if="!$solid.isLoggedIn()" @click="$solid.reconnect({ force: true })">
+        <div v-if="!$solid.loginOngoing" class="mt-4 flex flex-row-reverse justify-start gap-2">
+            <TextButton v-if="$cloud.syncing" color="secondary" @click="$cloud.syncJob?.cancel()">
+                <i-ic-baseline-stop class="h-5 w-5" />
+                <span class="ml-1">{{ $t('cloud.stop') }}</span>
+            </TextButton>
+            <TextButton v-else-if="!$solid.isLoggedIn()" @click="$solid.reconnect({ force: true })">
                 <i-zondicons-refresh class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.reconnect') }}</span>
             </TextButton>
@@ -128,7 +124,7 @@
                 <i-ic-sharp-cloud-upload class="h-5 w-5" />
                 <span class="ml-1">{{ $t('cloud.setup.submit') }}</span>
             </TextButton>
-            <TextButton color="secondary" @click="$solid.logout()">
+            <TextButton v-if="!$cloud.syncing" color="secondary" @click="$solid.logout()">
                 <i-material-symbols-logout-rounded class="h-5 w-5" />
                 <span class="ml-1">{{ $cloud.ready ? $t('cloud.logOut') : $t('cloud.disconnect') }}</span>
             </TextButton>

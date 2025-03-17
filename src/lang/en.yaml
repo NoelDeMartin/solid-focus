@@ -68,6 +68,7 @@ cloud:
     sync: Synchronize
     reconnect: Reconnect
     disconnect: Disconnect
+    stop: Stop synchronization
     logOut: Log out
     logIn:
         title: Connect account

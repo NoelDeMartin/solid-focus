@@ -2,7 +2,11 @@
     <div class="flex flex-grow flex-col items-center justify-center p-8 text-center">
         <template v-if="$cloud.migrating">
             <h1>{{ $t('cloud.migrate.ongoing') }}</h1>
-            <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2" :job="$cloud.migrationJob" />
+            <AGProgressBar
+                bar-class="bg-[--primary-600]"
+                class="mt-2 min-w-[min(400px,80vw)]"
+                :job="$cloud.migrationJob"
+            />
         </template>
         <template v-else-if="interrupted">
             <h1 class="mt-4 text-3xl font-semibold">

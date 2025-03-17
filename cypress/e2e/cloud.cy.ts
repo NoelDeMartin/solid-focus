@@ -277,7 +277,7 @@ describe('Cloud', () => {
         cy.get('@createMangaTask.all').should('have.length', 2);
     });
 
-    it('Postpones migrating local data', () => {
+    it('Postpones backing up local data', () => {
         // Arrange
         cy.press('Get started');
         cy.ariaInput('Task name').type('Onboarding task{enter}');

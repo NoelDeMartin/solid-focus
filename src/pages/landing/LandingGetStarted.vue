@@ -6,7 +6,7 @@
                 v-if="$cloud.syncJob"
                 :job="$cloud.syncJob"
                 bar-class="bg-[--primary-600]"
-                class="mt-2"
+                class="mt-2 min-w-[min(400px,80vw)]"
             />
             <TextButton v-if="$cloud.syncJob" class="mt-2" @click="$cloud.syncJob?.cancel()">
                 {{ $t('ui.cancel') }}
