@@ -12,7 +12,7 @@
         "cy:test-snapshots": "docker run -it -u `id -u ${whoami}` -e CYPRESS_SNAPSHOTS=true -v ./:/app -w /app cypress/base:18.16.0 sh -c \"npx cypress install && npm run cy:test\"",
         "cy:test-snapshots:ci": "docker run -e CYPRESS_SNAPSHOTS=true -v ./:/app -w /app cypress/base:18.16.0 sh -c \"npx cypress install && npm run cy:test\"",
         "dev": "vite",
-        "dev:serve-pod": "community-solid-server -c @css:config/file.json -f ./solid-data",
+        "dev:serve-pod": "community-solid-server -c @css:config/file.json -f ./solid",
         "histoire": "histoire dev",
         "lint": "noeldemartin-lint src",
         "postinstall": "patch-package",
