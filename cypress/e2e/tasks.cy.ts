@@ -30,7 +30,7 @@ describe('Tasks', () => {
 
         // Act
         cy.ariaLabel('Select task \\"Cook Ramen\\"').click();
-        cy.press('Edit');
+        cy.ariaLabel('Edit description').click();
         cy.ariaLabel('Name').type('!');
         cy.ariaLabel('Description').type('Ramen is good for your soul.');
         cy.press('Save');
