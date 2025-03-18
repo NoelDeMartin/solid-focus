@@ -86,7 +86,7 @@
                     <AGMarkdown
                         v-else-if="!editing"
                         :text="task.description"
-                        class="w-full justify-start whitespace-normal text-start text-base md:max-w-[21rem]"
+                        class="w-full justify-start whitespace-normal px-2 text-start text-base md:max-w-[21rem] md:px-0"
                     />
                     <TaskDescriptionInput
                         v-else
