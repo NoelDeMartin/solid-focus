@@ -76,7 +76,7 @@
                 {{ $t('landing.more') }}
             </h2>
 
-            <ul class="mt-6 grid grid-cols-3 gap-6">
+            <ul role="list" class="mt-6 grid grid-cols-3 gap-6">
                 <li class="flex flex-col items-center gap-y-2 rounded bg-gray-200 p-8">
                     <i-ion-logo-markdown class="h-12 w-12" />
                     <AGMarkdown lang-key="landing.moreMarkdown" class="text-lg" />
