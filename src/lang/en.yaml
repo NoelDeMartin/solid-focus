@@ -198,12 +198,15 @@ task:
     edit: Edit
     emptyDescription: No description
     name: Name
+    namePlaceholder: What are you working on?
     description: Description
+    descriptionPlaceholder: Write some notes...
     editDescription: Edit description
     dueDate: Due date
     editDueDate: Edit due date
     created: Created on {date}
     completed: Completed on {date}
+    notCompleted: Not completed
     complete: Complete
     due: Due on {date}
     notDue: No due date

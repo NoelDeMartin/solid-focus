@@ -8,11 +8,17 @@
                 :tasks="tasks.pending"
                 :disable-editing="disableEditing"
                 :class="tasks.pending.length ? 'mt-4' : 'mt-0'"
+                @added="updateCompletedToggleLayout()"
+                @removed="updateCompletedToggleLayout()"
             />
 
             <TasksStart v-if="!tasks.pending.length && !tasks.completed.length" @create="createTask($event)" />
 
-            <AnimatedTransition leave-animation="freeze" enter-from-class="max-h-0 !p-0">
+            <AnimatedTransition
+                layout-group="completed-toggle"
+                leave-animation="freeze"
+                enter-from-class="max-h-0 !p-0"
+            >
                 <TasksEmpty
                     v-if="allPendingCompleted && !$focus.showCompleted"
                     v-animate
@@ -31,10 +37,11 @@
                 }"
             >
                 <TextButton
+                    ref="$completedToggle"
                     v-animate-layout
                     layout-group="completed-toggle"
                     color="clear"
-                    class="ml-1 self-start pl-1 pr-2 font-medium uppercase tracking-wider"
+                    class="mb-1 ml-1 self-start pl-1 pr-2 font-medium uppercase tracking-wider"
                     :aria-label="$focus.showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
                     @click="$focus.toggleCompleted()"
                 >
@@ -68,7 +75,9 @@
 import { arrayGroupBy, arraySorted, compare } from '@noeldemartin/utils';
 import { computed, ref, watch } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
-import { UI } from '@aerogel/core';
+import { isAnimatableElement } from 'vivant';
+import { recordSnapshot } from '@vivantjs/core';
+import { UI, elementRef } from '@aerogel/core';
 
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
@@ -80,6 +89,7 @@ import { slideDown, slideUp, toggleCompletedTasks } from './animations';
 import type { ITasksForm } from './components/tasks/TasksForm';
 
 const $tasksForm = ref<ITasksForm>();
+const $completedToggle = elementRef();
 const disableEditingWithKeyboard = ref(false);
 const disableEditing = computed(() => UI.mobile || disableEditingWithKeyboard.value);
 const groupedTasks = computedModels(Task, () =>
@@ -94,7 +104,9 @@ const allPendingCompleted = computed(() => !tasks.value.pending.length && tasks.
 function compareTasks(a: Task, b: Task): number {
     const importantComparison = compare(b.important, a.important);
     const dueDateComparison = !a.dueDate || !b.dueDate ? compare(b.dueDate, a.dueDate) : compare(a.dueDate, b.dueDate);
-    const dateComparison = a.completed ? compare(b.completedAt, a.completedAt) : compare(b.createdAt, a.createdAt);
+    const dateComparison = a.completed
+        ? compare(b.completedAt, a.completedAt)
+        : compare(b.createdAt ?? new Date(), a.createdAt ?? new Date());
 
     return [importantComparison, dueDateComparison, dateComparison].find((result) => result !== 0) ?? 0;
 }
@@ -129,6 +141,20 @@ function changeTask(delta: 1 | -1) {
         select(tasksList[index + delta]);
 
         return;
+    }
+}
+
+function updateCompletedToggleLayout() {
+    if (!$completedToggle.value) {
+        return;
+    }
+
+    const animatableElements = Array.from($completedToggle.value.children)
+        .filter(isAnimatableElement)
+        .concat([$completedToggle.value]);
+
+    for (const animatableElement of animatableElements) {
+        recordSnapshot(animatableElement);
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$workspaces.current && !settingUpCloud" class="h-1 w-full bg-[--primary-500]" />
+    <div v-if="$workspaces.current && !settingUpCloud" class="fixed top-0 z-10 h-1 w-full bg-[--primary-500]" />
     <WorkspaceCloudSetup v-if="settingUpCloud" />
     <WorkspaceCloudMigrate v-else-if="migratingCloud" />
     <div

@@ -2,7 +2,7 @@
     <div class="flex-1">
         <aside
             ref="$panel"
-            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen overflow-y-auto border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
+            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen overflow-y-auto overflow-x-hidden border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
         >
             <AGForm
                 v-if="task"
@@ -39,7 +39,7 @@
                     >
                         <i-zondicons-arrow-left class="h-4 w-4" />
                     </IconButton>
-                    <h2 v-if="!editing" class="w-full justify-start whitespace-pre-wrap md:max-w-[21rem]">
+                    <h2 v-if="!editing" class="w-full whitespace-pre-wrap pt-2 md:max-w-[21rem] md:pt-0">
                         <AGMarkdown :text="task.name" inline class="text-start text-lg font-semibold" />
                     </h2>
                     <TextInput
@@ -47,8 +47,9 @@
                         multiline
                         :aria-label="$t('task.name')"
                         name="name"
+                        :placeholder="$t('task.namePlaceholder')"
                         class="w-full"
-                        input-class="md:max-w-80 text-lg font-semibold py-2 px-3"
+                        input-class="md:max-w-[21rem] text-lg font-semibold py-2 px-3"
                     />
 
                     <OptionsMenu v-if="!editing && $ui.mobile">
@@ -71,13 +72,13 @@
                     </OptionsMenu>
                 </div>
 
-                <div class="mt-2 w-full">
+                <div class="group relative isolate mt-2 w-full">
                     <TextButton
                         v-if="!editing && !task.description"
                         color="clear"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="min-h-12 w-full justify-start whitespace-normal bg-gray-50 text-start md:max-w-80"
+                        class="h-32 w-full items-start justify-start whitespace-normal bg-gray-50 text-start md:max-w-80"
                         @click="startEditing('description')"
                     >
                         <AGMarkdown lang-key="task.emptyDescription" class="text-sm text-gray-400" />
@@ -85,15 +86,26 @@
                     <AGMarkdown
                         v-else-if="!editing"
                         :text="task.description"
-                        class="min-h-12 w-full justify-start whitespace-normal text-start text-base md:max-w-[21rem]"
+                        class="w-full justify-start whitespace-normal text-start text-base md:max-w-[21rem]"
                     />
                     <TaskDescriptionInput
                         v-else
                         :aria-label="$t('task.description')"
                         name="description"
+                        :placeholder="$t('task.descriptionPlaceholder')"
                         class="w-full"
-                        input-class="md:max-w-80 py-2 px-3"
+                        input-class="md:max-w-[21rem] py-2 px-3 min-h-32"
                     />
+                    <IconButton
+                        v-if="!editing && task.description"
+                        color="secondary"
+                        class="clickable-target absolute right-0 top-0 z-10 hidden h-9 w-9 -translate-y-full translate-x-14 rounded-md bg-white p-0 transition-transform hover:bg-gray-200 group-hover:translate-x-0 md:flex"
+                        :aria-label="$t('task.edit')"
+                        :title="$t('task.edit')"
+                        @click="startEditing('description')"
+                    >
+                        <i-zondicons-edit-pencil class="h-4 w-4" />
+                    </IconButton>
                 </div>
 
                 <TextButton
@@ -105,7 +117,7 @@
                     @click="startEditing('dueDate')"
                 >
                     <i-material-symbols-calendar-clock-rounded class="h-6 w-6 text-gray-500" />
-                    <span class="ml-1">
+                    <span class="ml-1.5">
                         {{ renderedDueDate ? $t('task.due', { date: renderedDueDate }) : $t('task.notDue') }}
                     </span>
                 </TextButton>
@@ -125,45 +137,27 @@
                 >
                     <i-material-symbols-star-rounded v-if="important" class="h-6 w-6 text-[--primary-500]" />
                     <i-material-symbols-star-outline-rounded v-else class="h-6 w-6 text-[--primary-500]" />
-                    <span class="ml-1">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
+                    <span class="ml-1.5">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
                 </TextButton>
 
                 <TextButton
-                    v-if="renderedCompletedAt"
                     color="clear"
-                    :title="$t('task.removeCompleted.button')"
-                    :aria-label="$t('task.removeCompleted.button')"
+                    :title="renderedCompletedAt ? $t('task.removeCompleted.button') : $t('task.complete')"
+                    :aria-label="renderedCompletedAt ? $t('task.removeCompleted.button') : $t('task.complete')"
                     class="mt-2 self-start"
-                    @click="removeCompleted()"
+                    @click="toggleCompleted()"
                 >
-                    <i-zondicons-checkmark class="h-5 w-5 text-[--primary-500]" />
-                    <span class="ml-1">
+                    <i-app-checkmark v-if="renderedCompletedAt" class="h-5 w-6 px-0.5 text-[--primary-500]" />
+                    <i-app-checkmark-outline v-else class="h-5 w-6 px-0.5 text-[--primary-500]" />
+                    <span class="ml-1.5">
                         {{
-                            $t('task.completed', {
-                                date: renderedCompletedAt,
-                            })
+                            renderedCompletedAt
+                                ? $t('task.completed', {
+                                    date: renderedCompletedAt,
+                                })
+                                : $t('task.notCompleted')
                         }}
                     </span>
-                </TextButton>
-
-                <TextButton
-                    v-else
-                    color="secondary"
-                    class="mt-2 self-start"
-                    @click="task.toggle()"
-                >
-                    <i-zondicons-checkmark class="h-4 w-4" />
-                    <span class="ml-2">{{ $t('task.complete') }}</span>
-                </TextButton>
-
-                <TextButton
-                    v-if="!editing"
-                    color="secondary"
-                    class="mt-2 hidden self-start md:flex"
-                    @click="startEditing('description')"
-                >
-                    <i-zondicons-edit-pencil class="h-4 w-4" />
-                    <span class="ml-2">{{ $t('task.edit') }}</span>
                 </TextButton>
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
@@ -287,16 +281,18 @@ async function toggleImportant() {
     await task.value.update({ priority: task.value.important ? null : 1 });
 }
 
-async function removeCompleted() {
+async function toggleCompleted() {
     if (!task.value) {
         return;
     }
 
-    const confirm = await UI.confirm(
-        translate('task.removeCompleted.title'),
-        translate('task.removeCompleted.message', { task: task.value.name }),
-        { acceptText: translate('task.removeCompleted.accept') },
-    );
+    const confirm =
+        !task.value.completed ||
+        (await UI.confirm(
+            translate('task.removeCompleted.title'),
+            translate('task.removeCompleted.message', { task: task.value.name }),
+            { acceptText: translate('task.removeCompleted.accept') },
+        ));
 
     if (!confirm) {
         return;
