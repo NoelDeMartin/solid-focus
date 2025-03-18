@@ -46,6 +46,12 @@ export interface ElementScrollYOptions {
     scrollMarginTop?: number;
 }
 
+export interface KeyboardShortcutOptions {
+    prevent?: boolean;
+    start?(): unknown;
+    end?(): unknown;
+}
+
 export function bindRefs<T>(source: Ref<T>, target: Ref<T>): WatchStopHandle {
     return watchEffect(() => (target.value = source.value));
 }
@@ -153,11 +159,22 @@ export function useWindowDimensions(): Readonly<Ref<{ width: number; height: num
     });
 }
 
+/* eslint-disable max-len */
+export function watchKeyboardShortcut(shortcut: string, listener: () => unknown): () => void;
+export function watchKeyboardShortcut(shortcut: string, options: KeyboardShortcutOptions, listener?: () => unknown): () => void; // prettier-ignore
+/* eslint-enable max-len */
+
 export function watchKeyboardShortcut(
     shortcut: string,
-    listeners: Partial<{ start(): unknown; end(): unknown }> | (() => unknown),
+    listenerOrOptions: KeyboardShortcutOptions | (() => unknown),
+    listener?: () => unknown,
 ): () => void {
-    const shortcutListeners = typeof listeners === 'function' ? { start: listeners } : listeners;
+    const options = typeof listenerOrOptions === 'object' ? listenerOrOptions : {};
+
+    if (listener) {
+        options.start ??= listener;
+    }
+
     const consume = (event: KeyboardEvent) => {
         if (event.key !== shortcut) {
             return false;
@@ -173,14 +190,16 @@ export function watchKeyboardShortcut(
             return false;
         }
 
-        event.preventDefault();
+        if (options.prevent) {
+            event.preventDefault();
+        }
 
         return true;
     };
 
     const stops = [
-        useWindowEvent('keydown', (event) => consume(event) && shortcutListeners.start?.()),
-        useWindowEvent('keyup', (event) => consume(event) && shortcutListeners.end?.()),
+        useWindowEvent('keydown', (event) => consume(event) && options.start?.()),
+        useWindowEvent('keyup', (event) => consume(event) && options.end?.()),
     ];
 
     return () => stops.forEach((stop) => stop());

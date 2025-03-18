@@ -166,7 +166,7 @@ watchKeyboardShortcut('Control', {
     start: () => (disableEditingWithKeyboard.value = true),
     end: () => (disableEditingWithKeyboard.value = false),
 });
-watchKeyboardShortcut('+', () => $tasksForm.value?.focus());
+watchKeyboardShortcut('+', { prevent: true }, () => $tasksForm.value?.focus());
 watchKeyboardShortcut('c', () => Focus.toggleCompleted());
 watchKeyboardShortcut('ArrowUp', () => changeTask(-1));
 watchKeyboardShortcut('ArrowDown', () => changeTask(1));

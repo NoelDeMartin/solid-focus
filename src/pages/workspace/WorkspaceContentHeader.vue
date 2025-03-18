@@ -33,5 +33,5 @@ import { watchKeyboardShortcut } from '@/utils/composables';
 
 import WorkspaceSearchModal from './modals/WorkspaceSearchModal.vue';
 
-watchKeyboardShortcut('s', () => UI.openModal(WorkspaceSearchModal));
+watchKeyboardShortcut('s', { prevent: true }, () => UI.openModal(WorkspaceSearchModal));
 </script>
