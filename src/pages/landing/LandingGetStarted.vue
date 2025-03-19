@@ -36,6 +36,8 @@
                 {{ $t('landing.getStarted.title') }}
             </h2>
 
+            <AGMarkdown lang-key="landing.getStarted.a11yIntro" :lang-params="{ issuesUrl }" class="sr-only" />
+
             <AGMarkdown
                 lang-key="landing.getStarted.intro"
                 class="mx-auto mt-2 max-w-lg text-center font-light text-gray-600"
@@ -83,10 +85,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { App, Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { Cloud } from '@aerogel/plugin-offline-first';
-import { Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
+import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
+import { urlResolve } from '@noeldemartin/utils';
 
 import Workspace from '@/models/Workspace';
 
@@ -95,6 +98,7 @@ const form = useForm({
     workspaceName: requiredStringInput(translate('landing.getStarted.defaultWorkspaceName')),
     workspaceUrl: stringInput(undefined, { rules: Solid.hasLoggedIn() ? 'required|container_url' : '' }),
 });
+const issuesUrl = computed(() => urlResolve(App.sourceUrl ?? '', 'issues'));
 const loginError = computed(() => Solid.previousSession?.error ?? Solid.loginStartupError ?? Cloud.syncError);
 
 if (Solid.hasLoggedIn()) {

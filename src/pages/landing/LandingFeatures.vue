@@ -67,7 +67,11 @@
                     <h2 id="a11y" class="scroll-mt-32 text-3xl font-bold text-blue-900">
                         {{ $t('landing.a11yTitle') }}
                     </h2>
-                    <AGMarkdown lang-key="landing.a11yDescription" class="mt-8 text-lg font-light" />
+                    <AGMarkdown
+                        lang-key="landing.a11yDescription"
+                        :lang-params="{ sourceUrl: $app.sourceUrl }"
+                        class="mt-8 text-lg font-light"
+                    />
                 </div>
                 <i-twemoji-globe-showing-europe-africa class="h-40 w-40" />
             </div>

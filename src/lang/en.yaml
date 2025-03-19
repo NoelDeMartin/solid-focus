@@ -29,7 +29,7 @@ landing:
     a11yDescription: |
         **Accessibility** and **localization** have been taken into account since the beginning.
 
-        You can also look under the hood because it's [Open Source](https://github.com/NoelDeMartin/solid-focus).
+        You can also look under the hood because it's [Open Source]({sourceUrl}).
     more: and more...
     moreMarkdown: '[Markdown](https://www.markdownguide.org/getting-started/) support'
     moreScratchpad: Notes scratchpad
@@ -42,6 +42,7 @@ landing:
         cta: Get started
         title: Get started
         intro: "Let's start small, begin by creating a new task with the first thing you want to get done:"
+        a11yIntro: "Hi there! If you're reading this message, you are probably using a screen reader because it's hidden from view. I care about accessibility, so if you find something that isn't working or can be improved, please [let me know]({issuesUrl})!"
         submit: Continue
         defaultWorkspaceName: Main
         back: nevermind
