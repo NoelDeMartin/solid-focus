@@ -1,6 +1,5 @@
 <template>
     <AGForm
-        v-initial-focus
         class="group relative flex gap-2 rounded-lg md:gap-4"
         :class="{
             'bg-gray-100 focus-within:bg-transparent hover:bg-gray-200 focus-within:hover:bg-transparent': !form.draft,
