@@ -277,6 +277,36 @@ describe('Cloud', () => {
         cy.get('@createMangaTask.all').should('have.length', 2);
     });
 
+    it('Backs up to existing containers', () => {
+        // Arrange
+        cy.solidCreateContainer('/tasks/main/', 'Main');
+        cy.solidCreateContainer('/tasks/japanese/', 'Japanese');
+        cy.solidCreateDocument('/tasks/main/hello', 'turtle/task.ttl', { name: 'Hello World' });
+        cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
+        cy.solidUpdateDocument('/settings/privateTypeIndex', 'sparql/register-workspace.sparql', {
+            containerUrl: podUrl('/tasks/main/'),
+        });
+        cy.solidUpdateDocument('/profile/card', 'sparql/declare-type-index.sparql');
+
+        cy.createStubs();
+        cy.ariaLabel('Configuration').click();
+        cy.press('Connect account');
+        cy.ariaInput('Login url').type(`${webId()}{enter}`);
+        cy.solidLogin();
+
+        // Act
+        cy.see('All your eggs are in the same basket');
+        cy.press('Back up');
+        cy.see('Backing up');
+        cy.dontSee('Backing up', { timeout: 60000 });
+
+        // Assert
+        cy.ariaLabel('Show lists').click();
+        cy.switchWorkspace('Main');
+        cy.see('Learn Aerogel');
+        cy.see('Hello World');
+    });
+
     it('Postpones backing up local data', () => {
         // Arrange
         cy.press('Get started');

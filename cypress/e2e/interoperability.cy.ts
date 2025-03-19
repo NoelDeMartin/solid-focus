@@ -132,7 +132,7 @@ describe('Interoperability', () => {
         });
     });
 
-    it('Work with exclusive schema.org tasks', () => {
+    it('Works with exclusive schema.org tasks', () => {
         // Arrange
         cy.solidCreateContainer('/tasks/', 'Tasks');
         cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
@@ -160,7 +160,7 @@ describe('Interoperability', () => {
         cy.see('Hello for schema.org');
     });
 
-    it('Work with exclusive ical tasks', () => {
+    it('Works with exclusive ical tasks', () => {
         // Arrange
         cy.solidCreateContainer('/tasks/', 'Tasks');
         cy.solidCreateDocument('/settings/privateTypeIndex', '<> a <http://www.w3.org/ns/solid/terms#TypeIndex> .');
