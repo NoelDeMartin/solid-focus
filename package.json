@@ -23,9 +23,9 @@
     "dependencies": {
         "@aerogel/core": "0.0.0-next.24ed4c26fdb36195386fee4a81543fb84f51c979",
         "@aerogel/plugin-i18n": "0.0.0-next.24ed4c26fdb36195386fee4a81543fb84f51c979",
-        "@aerogel/plugin-local-first": "0.0.0-next.37b0ea1761527ab3251028140f82f5c446617782",
+        "@aerogel/plugin-local-first": "0.0.0-next.88677f04a9d8fa694eab48c30f9a56f59df19206",
         "@aerogel/plugin-routing": "0.0.0-next.24ed4c26fdb36195386fee4a81543fb84f51c979",
-        "@aerogel/plugin-solid": "0.0.1-next.24ed4c26fdb36195386fee4a81543fb84f51c979",
+        "@aerogel/plugin-solid": "0.0.1-next.88677f04a9d8fa694eab48c30f9a56f59df19206",
         "@aerogel/plugin-soukai": "0.0.0-next.24ed4c26fdb36195386fee4a81543fb84f51c979",
         "@headlessui/vue": "^1.7.22",
         "@intlify/unplugin-vue-i18n": "^0.12.2",

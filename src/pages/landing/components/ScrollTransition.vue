@@ -10,6 +10,7 @@
 import { booleanProp, enumProp, mixedProp, numberProp } from '@aerogel/core';
 import { clamp } from '@noeldemartin/utils';
 import { computed, ref, watchEffect } from 'vue';
+import type { StyleValue } from 'vue';
 
 import { useScrollY, useWindowDimensions } from '@/utils/composables';
 
@@ -38,7 +39,7 @@ const props = defineProps({
     fill: enumProp(Fills, Fills.None),
     morphTo: mixedProp<HTMLElement | undefined>(),
     start: numberProp(1),
-    style: mixedProp(),
+    style: mixedProp<StyleValue>(),
 });
 
 const $root = ref<HTMLElement>();
