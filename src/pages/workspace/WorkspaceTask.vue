@@ -217,7 +217,7 @@ import {
 } from '@aerogel/core';
 import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
 import { computed, onUnmounted, ref, watchEffect } from 'vue';
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { MenuButton } from '@headlessui/vue';
 import type { ElementSize } from '@aerogel/core';
 

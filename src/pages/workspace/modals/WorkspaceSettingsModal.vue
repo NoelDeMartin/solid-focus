@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { computed, ref, watchEffect } from 'vue';
 import { UI, componentRef, objectProp, requiredStringInput, stringInput, useForm } from '@aerogel/core';
 

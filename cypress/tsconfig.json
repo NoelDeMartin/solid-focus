@@ -1,14 +1,11 @@
 {
+    "extends": "@tsconfig/node22/tsconfig.json",
+    "include": ["**/*.ts"],
     "compilerOptions": {
-        "target": "es5",
-        "lib": ["es5", "dom"],
-        "types": ["cypress", "node"],
-        "strict": true,
         "baseUrl": ".",
-        "paths": {
-            "@/*": ["../src/*"],
-            "@cy/*": ["./*"]
-        }
-    },
-    "include": ["**/*.ts", "../src/**/*.ts"]
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "lib": ["DOM"],
+        "types": ["node", "cypress"]
+    }
 }

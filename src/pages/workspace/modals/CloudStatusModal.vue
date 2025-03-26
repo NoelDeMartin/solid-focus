@@ -134,7 +134,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { Solid } from '@aerogel/plugin-solid';
 import { componentRef, translate, useEvent } from '@aerogel/core';
 

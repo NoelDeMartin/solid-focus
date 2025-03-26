@@ -1,5 +1,5 @@
 import { arraySorted, facade, silenced } from '@noeldemartin/utils';
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { Events } from '@aerogel/core';
 import { fetchSolidDocument } from '@noeldemartin/solid-utils';
 import { Solid } from '@aerogel/plugin-solid';

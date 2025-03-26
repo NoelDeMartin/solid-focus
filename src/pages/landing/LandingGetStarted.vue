@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { App, Events, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
 import { urlResolve } from '@noeldemartin/utils';

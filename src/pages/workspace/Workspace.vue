@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 import { computed, watchEffect } from 'vue';
 import { objectProp } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';

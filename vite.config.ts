@@ -1,3 +1,5 @@
+import { URL, fileURLToPath } from 'node:url';
+
 import Aerogel, { AerogelResolver } from '@aerogel/vite';
 import Components from 'unplugin-vue-components/vite';
 import I18n from '@intlify/unplugin-vue-i18n/vite';
@@ -6,11 +8,10 @@ import IconsResolver from 'unplugin-icons/resolver';
 import { defineConfig } from 'vitest/config';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers';
-import { resolve } from 'path';
 
 export default defineConfig({
     build: { sourcemap: true },
-    publicDir: resolve(__dirname, './src/assets/public/'),
+    publicDir: fileURLToPath(new URL('./src/assets/public/', import.meta.url)),
     plugins: [
         Aerogel({
             name: 'Focus',
@@ -28,7 +29,7 @@ export default defineConfig({
             resolvers: [HeadlessUiResolver(), AerogelResolver(), IconsResolver({ customCollections: ['app'] })],
             dirs: ['src/components', 'src/pages'],
         }),
-        I18n({ strictMessage: false, include: resolve(__dirname, './src/lang/**/*.yaml') }),
+        I18n({ strictMessage: false, include: fileURLToPath(new URL('./src/lang/**/*.yaml', import.meta.url)) }),
         Icons({
             iconCustomizer(_, __, props) {
                 props['aria-hidden'] = 'true';
@@ -40,7 +41,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': resolve(__dirname, './src'),
+            '@': fileURLToPath(new URL('./src/', import.meta.url)),
         },
     },
 });

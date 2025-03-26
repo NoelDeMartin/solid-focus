@@ -29,7 +29,7 @@ import { computed } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
 
 import CloudStatusModal from '../../modals/CloudStatusModal.vue';
-import { Cloud } from '@aerogel/plugin-offline-first';
+import { Cloud } from '@aerogel/plugin-local-first';
 
 const cloudStatusClass = computed(() => {
     if (Solid.error || Cloud.syncError) {
