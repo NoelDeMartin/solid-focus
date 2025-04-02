@@ -1,5 +1,5 @@
 <template>
-    <div class="relative h-12 w-12">
+    <div class="relative h-12 w-12 shrink-0">
         <button
             class="clickable-target flex h-full w-full rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--primary-600]"
             type="button"

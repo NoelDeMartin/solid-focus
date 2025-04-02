@@ -8,7 +8,7 @@
         >
             <i-tabler-layout-sidebar-filled class="h-6 w-6" />
         </IconButton>
-        <h1 class="ml-1 text-xl font-semibold">
+        <h1 class="ml-1 text-xl font-semibold truncate">
             {{ $listName($tasksList) }}
         </h1>
         <div class="flex-grow" />
