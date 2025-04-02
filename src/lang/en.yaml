@@ -70,6 +70,7 @@ cloud:
     reconnect: Reconnect
     disconnect: Disconnect
     stop: Stop synchronization
+    stopping: Stopping...
     logOut: Log out
     logIn:
         title: Connect account

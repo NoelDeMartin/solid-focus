@@ -108,9 +108,14 @@
         </div>
 
         <div v-if="!$solid.loginOngoing" class="mt-4 flex flex-row-reverse justify-start gap-2">
-            <TextButton v-if="$cloud.syncing" color="secondary" @click="$cloud.syncJob?.cancel()">
+            <TextButton
+                v-if="$cloud.syncing"
+                color="secondary"
+                :disabled="cancellingSync"
+                @click="cancelSync()"
+            >
                 <i-ic-baseline-stop class="h-5 w-5" />
-                <span class="ml-1">{{ $t('cloud.stop') }}</span>
+                <span class="ml-1">{{ cancellingSync ? $t('cloud.stopping') : $t('cloud.stop') }}</span>
             </TextButton>
             <TextButton v-else-if="!$solid.isLoggedIn()" @click="$solid.reconnect({ force: true })">
                 <i-zondicons-refresh class="h-5 w-5" />
@@ -133,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Cloud } from '@aerogel/plugin-local-first';
 import { Solid } from '@aerogel/plugin-solid';
 import { componentRef, translate, useEvent } from '@aerogel/core';
@@ -144,6 +149,7 @@ import UserSettingsModal from './UserSettingsModal.vue';
 
 const $modal = componentRef<IFloatingModal>();
 const pollingText = translate('cloud.advanced.polling', { minutes: '%%separator%%' }).split('%%separator%%');
+const cancellingSync = ref(false);
 const error = computed(() => Solid.error ?? Cloud.syncError);
 const errorDescription = computed(() => {
     if (!error.value) {
@@ -157,6 +163,21 @@ const errorDescription = computed(() => {
     return translate('cloud.info.error');
 });
 const showErrorDetails = computed(() => error.value && typeof error.value !== 'string');
+
+async function cancelSync() {
+    if (!Cloud.syncJob) {
+        return;
+    }
+
+    cancellingSync.value = true;
+
+    await Promise.race([
+        Cloud.syncJob.cancel(),
+        Cloud.syncJob.completed,
+    ]);
+
+    cancellingSync.value = false;
+}
 
 useEvent('auth:logout', () => $modal.value?.close());
 </script>
