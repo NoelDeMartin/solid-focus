@@ -16,8 +16,8 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
             - run: pnpm install
-            - run: npm run lint
             - run: npm run build
+            - run: npm run lint
             - run: npm run test:ci
             - run: npm run cy:test
             - name: Upload Cypress screenshots
