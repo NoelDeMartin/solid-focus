@@ -5,3 +5,12 @@ export interface LandingContext {
     showingForm: Ref<boolean>;
     showingCallout: Ref<boolean>;
 }
+
+declare module '@aerogel/core' {
+    interface EventsPayload {
+        'landing:get-started': void;
+        'landing:log-in': void;
+        'landing:ready': void;
+        'landing:reset': void;
+    }
+}

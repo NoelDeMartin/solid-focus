@@ -1,5 +1,6 @@
 <template>
     <div class="group flex gap-2 px-4 pt-4">
+        <!-- @vue-generic {Workspace | typeof ADD_WORKSPACE} -->
         <Select
             :model-value="$workspaces.current"
             :label="$t('workspaces.select')"
@@ -70,8 +71,6 @@
 
 <script setup lang="ts">
 import { HeadlessSelectTrigger, UI } from '@aerogel/core';
-import type { FormFieldValue } from '@aerogel/core';
-import type { Nullable } from '@noeldemartin/utils';
 
 import Workspaces from '@/services/Workspaces';
 import { THEME_COLORS } from '@/utils/colors';
@@ -81,9 +80,7 @@ import WorkspaceSettingsModal from './modals/WorkspaceSettingsModal.vue';
 
 const ADD_WORKSPACE = 'add-workspace' as const;
 
-async function changeWorkspace(value: Nullable<FormFieldValue>) {
-    const option = value as Nullable<Workspace | typeof ADD_WORKSPACE>;
-
+async function changeWorkspace(option: Workspace | typeof ADD_WORKSPACE) {
     if (option === ADD_WORKSPACE) {
         await UI.openModal(WorkspaceSettingsModal);
 
