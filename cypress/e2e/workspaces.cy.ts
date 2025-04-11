@@ -45,10 +45,12 @@ describe('Workspaces', () => {
         // Arrange
         cy.press('New list');
         cy.ariaInput('Name').type('Groceries{enter}');
+        cy.wait(500);
 
         // Act
         cy.ariaLabel('Groceries list settings').click({ force: true });
         cy.ariaInput('Name').clear().type('Learning{enter}');
+        cy.wait(500);
 
         // Assert
         cy.url().should('equal', `${Cypress.config('baseUrl')}/main/groceries`);
