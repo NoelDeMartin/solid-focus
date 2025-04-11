@@ -1,8 +1,9 @@
+import type { Nullable } from '@noeldemartin/utils';
 import type { Ref } from 'vue';
 
-export type ElementRef = Ref<HTMLElement | { $el: HTMLElement | undefined } | undefined>;
+export type ElementRef = Ref<Nullable<HTMLElement> | { $el: Nullable<HTMLElement> }>;
 
-export function element($element: ElementRef): HTMLElement | undefined {
+export function element($element: ElementRef): Nullable<HTMLElement> {
     if (!$element.value) {
         return;
     }

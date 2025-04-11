@@ -2,6 +2,7 @@ import { computed, customRef, onMounted, onUnmounted, reactive, readonly, watchE
 import { tap } from '@noeldemartin/utils';
 import { UI } from '@aerogel/core';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
+import type { Nullable } from '@noeldemartin/utils';
 
 function useDeferredRef<TValue>(value: TValue): Ref<TValue | undefined>;
 function useDeferredRef<TValue, TInitial>(value: TValue, initial: TInitial): Ref<TValue | TInitial>;
@@ -83,7 +84,7 @@ export function useDoubleClick(listener: () => unknown): void {
 }
 
 export function useElementScrollY(
-    $element: Ref<HTMLElement | undefined>,
+    $element: Ref<Nullable<HTMLElement>>,
     options: ElementScrollYOptions = {},
 ): ComputedRef<number | undefined> {
     const ready = useLayoutReady();

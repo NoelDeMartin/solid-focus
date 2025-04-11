@@ -6,28 +6,28 @@
 
 <script setup lang="ts">
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-import { stringProp } from '@aerogel/core';
 import { TransitionGroup, computed, nextTick, ref, useAttrs, watch } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    tag: stringProp('template'),
-    class: stringProp(),
-});
+const { tag = 'template', class: className = '' } = defineProps<{
+    tag?: string;
+    class?: HTMLAttributes['class'];
+}>();
 const enabled = ref(true);
 const route = useRoute();
 const attrs = useAttrs();
 const render = computed(() => {
     if (!enabled.value) {
-        return { component: props.tag, attrs: { class: props.class } };
+        return { component: tag, attrs: { class: className } };
     }
 
     return {
         component: TransitionGroup,
         attrs: {
-            class: props.class,
-            tag: props.tag,
+            class: className,
+            tag,
             ...attrs,
         },
     };

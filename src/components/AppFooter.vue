@@ -3,18 +3,18 @@
         <div class="flex-1">
             <div :style="`width: ${$focus.footerLeftPadding ?? 0}px`" />
         </div>
-        <footer class="flex w-full max-w-screen-xl items-center justify-center gap-1 p-3 text-sm text-gray-500">
-            <TextLink @click="$ui.openModal(AboutModal)">
+        <footer class="flex w-full max-w-(--breakpoint-xl) items-center justify-center gap-1 p-3 text-sm text-gray-500">
+            <Link class="text-gray-500" @click="$ui.openModal(AboutModal)">
                 {{ $t('footer.about') }}
-            </TextLink>
+            </Link>
             <span aria-hidden="true">|</span>
-            <TextLink :url="$app.sourceUrl">
+            <Link :url="$app.sourceUrl" class="text-gray-500">
                 {{ $t('footer.source') }}
-            </TextLink>
+            </Link>
             <span aria-hidden="true">|</span>
-            <TextLink :url="$app.versionUrl">
+            <Link :url="$app.versionUrl" class="text-gray-500">
                 {{ $app.versionName }}
-            </TextLink>
+            </Link>
         </footer>
         <div class="flex-1">
             <div :style="`width: ${$focus.footerRightPadding ?? 0}px`" />

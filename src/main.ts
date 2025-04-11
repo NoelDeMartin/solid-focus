@@ -8,12 +8,12 @@ import { bootstrap } from '@aerogel/core';
 
 import './assets/css/main.css';
 import App from './App.vue';
-import { components } from './components';
+import settings from './components/settings';
 import { globals, services } from './services';
 import { bindings, routes } from './pages';
 
 bootstrap(App, {
-    components,
+    settings,
     services,
     plugins: [
         i18n({ messages: import.meta.glob('@/lang/*.yaml') }),

@@ -1,3 +1,4 @@
 /dist
 /node_modules
 /solid
+/src/types/components.d.ts

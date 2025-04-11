@@ -1,23 +1,23 @@
 <template>
-    <div class="fixed left-0 top-0 z-20 w-screen">
+    <div class="fixed top-0 left-0 z-20 w-screen">
         <div class="mx-8">
-            <div class="m-auto flex h-20 max-w-screen-xl items-center justify-between py-8">
-                <div ref="$headerLogo" class="aspect-[5/2] h-12" />
-                <div ref="$headerCTAs" :style="{ width: `${ctaSize?.width}px`, height: `${ctaSize?.height}px` }" />
+            <div class="m-auto flex h-20 max-w-(--breakpoint-xl) items-center justify-between py-8">
+                <div ref="$headerLogoRef" class="aspect-5/2 h-12" />
+                <div ref="$headerCTAsRef" :style="{ width: `${ctaSize?.width}px`, height: `${ctaSize?.height}px` }" />
             </div>
         </div>
     </div>
 
     <div class="relative flex h-screen w-screen flex-col items-center justify-center text-center">
         <ScrollTransition
-            ref="$logo"
-            class="z-30 flex aspect-[5/2] h-24 items-center justify-center"
+            ref="$logoRef"
+            class="z-30 flex aspect-5/2 h-24 items-center justify-center"
             fill="forwards"
             :morph-to="$headerLogo"
             :end="featuresScrollY"
             :style="headerItemStyles"
         >
-            <i-app-logo class="h-full w-full" />
+            <i-app-logo class="size-full" />
         </ScrollTransition>
 
         <h1 class="sr-only">
@@ -43,7 +43,7 @@
                     class="absolute top-0 z-40 whitespace-nowrap"
                 >
                     <ScrollTransition
-                        ref="$intro"
+                        ref="$introRef"
                         disappear
                         fill="forwards"
                         :end="featuresScrollY && featuresScrollY / 4"
@@ -51,15 +51,15 @@
                         <p class="mt-2 text-3xl font-medium tracking-tight text-blue-950">
                             {{ $t('landing.tagline') }}
                         </p>
-                        <AGMarkdown
+                        <Markdown
                             lang-key="landing.description"
-                            class="mt-4 rounded bg-white/75 px-1 text-lg leading-8 text-gray-600"
+                            class="mt-4 rounded-sm bg-white/75 px-1 text-lg leading-8 text-gray-600"
                             singleline
                         />
                     </ScrollTransition>
                     <div class="mt-4 flex justify-center">
                         <ScrollTransition
-                            ref="$ctas"
+                            ref="$ctasRef"
                             class="z-30"
                             fill="forwards"
                             :morph-to="$headerCTAs"
@@ -67,23 +67,23 @@
                             :style="headerItemStyles"
                         >
                             <div
-                                v-measure="(size: ElementSize) => ctaSize = size"
+                                v-measure="(size: ElementSize) => (ctaSize = size)"
                                 class="flex items-center justify-center gap-x-3"
                             >
-                                <TextButton
+                                <Button
                                     class="px-3.5 py-2.5 text-sm font-semibold"
                                     @click="$events.emit('landing:get-started')"
                                 >
                                     {{ $t('landing.getStarted.cta') }}
-                                </TextButton>
-                                <TextButton
-                                    color="clear"
+                                </Button>
+                                <Button
+                                    variant="ghost"
                                     class="px-3.5 py-2.5 text-sm font-semibold"
                                     @click="$events.emit('landing:log-in')"
                                 >
                                     <span>{{ $t('landing.logIn.cta') }}</span>
-                                    <i-zondicons-arrow-right class="ml-1.5 h-3 w-3" />
-                                </TextButton>
+                                    <i-zondicons-arrow-right class="ml-1.5 size-3" />
+                                </Button>
                             </div>
                         </ScrollTransition>
                     </div>
@@ -107,19 +107,21 @@
             </TransitionGroup>
         </div>
         <ScrollTransition
-            ref="$arrow"
+            ref="$arrowRef"
             disappear
             fill="forwards"
             class="absolute bottom-0 left-1/2 z-30 -translate-x-1/2"
             :end="windowDimensions.height / 2"
         >
-            <IconButton
+            <Button
+                size="icon"
+                variant="ghost"
                 class="duration-landing-form animate-bounce p-0 transition-opacity"
                 :class="showingForm ? 'opacity-0' : 'opacity-100'"
                 @click="showFeatures()"
             >
-                <i-zondicons-cheveron-down class="h-12 w-12" />
-            </IconButton>
+                <i-zondicons-cheveron-down class="size-12" />
+            </Button>
         </ScrollTransition>
     </div>
 
@@ -129,11 +131,11 @@
     >
         <LandingTreesImage class="relative z-10 w-full" />
         <LandingMountainsImage
-            class="absolute left-0 top-[calc((1114/4096)*-100vw)] z-0 w-full will-change-transform"
+            class="absolute top-[calc((1114/4096)*-100vw)] left-0 z-0 w-full will-change-transform"
             :style="`transform: translateY(${backgroundTranslateY}px)`"
         />
         <LandingMeadowImage
-            class="absolute left-0 top-[calc((231/4096)*-100vw)] z-0 w-full will-change-transform"
+            class="absolute top-[calc((231/4096)*-100vw)] left-0 z-0 w-full will-change-transform"
             :style="`transform: translateY(${backgroundTranslateY * 0.5}px)`"
         />
     </div>
@@ -141,25 +143,24 @@
 
 <script setup lang="ts">
 import { animate, easeInOut } from 'popmotion';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 import { Events, injectOrFail, useEvent } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
+import type { CSSProperties } from 'vue';
 import type { ElementSize } from '@aerogel/core';
 
 import { useScrollY, useWindowDimensions } from '@/utils/composables';
 
 import { FORM_ANIMATION_DURATION, heroicEntrance, scrollToHero } from './animations';
-import type { IScrollTransition } from './components/ScrollTransition';
 import type { LandingContext } from './landing';
-import type { Styles } from './animations';
 
 const { featuresScrollY, showingForm, showingCallout } = injectOrFail<LandingContext>('landing');
-const $headerLogo = ref<HTMLElement>();
-const $headerCTAs = ref<HTMLElement>();
-const $logo = ref<IScrollTransition>();
-const $intro = ref<IScrollTransition>();
-const $ctas = ref<IScrollTransition>();
-const $arrow = ref<IScrollTransition>();
+const $headerLogo = useTemplateRef('$headerLogoRef');
+const $headerCTAs = useTemplateRef('$headerCTAsRef');
+const $logo = useTemplateRef('$logoRef');
+const $intro = useTemplateRef('$introRef');
+const $ctas = useTemplateRef('$ctasRef');
+const $arrow = useTemplateRef('$arrowRef');
 const initialContentSize = ref<ElementSize>();
 const ctaSize = ref<ElementSize>();
 const getStartedFormSize = ref<ElementSize>();
@@ -192,7 +193,7 @@ const backgroundTranslateY = computed(() => {
     return Math.min(featuresScrollY.value / 2, scrollY.value / 2);
 });
 const headerItemStyles = computed(() => {
-    const styles: Styles = { transition: 'opacity 600ms' };
+    const styles: CSSProperties = { transition: 'opacity 600ms' };
 
     if (showingCallout.value) {
         styles.opacity = '0';

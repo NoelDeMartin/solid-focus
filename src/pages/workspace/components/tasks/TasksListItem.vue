@@ -3,29 +3,29 @@
         <div class="relative isolate rounded-lg px-2.5 text-base" :class="{ 'text-gray-500': task.completed }">
             <button
                 type="button"
-                class="absolute inset-0 h-full w-full rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--primary-500]"
+                class="focus-visible:outline-primary-500 absolute inset-0 size-full rounded-lg focus-visible:outline-2"
                 :class="{
-                    'bg-[--primary-100]': $tasks.current?.is(task),
+                    'bg-primary-100': $tasks.current?.is(task),
                     'hover:bg-gray-100': !$tasks.current?.is(task),
                 }"
                 :aria-label="$t('tasks.selectA11y', { name: task.name })"
                 :title="$t('tasks.selectTitle')"
                 @click="$tasks.current?.is(task) ? $tasks.select(null) : $tasks.select(task)"
             />
-            <div class="pointer-events-none relative flex items-center [&>*]:pointer-events-auto">
+            <div class="pointer-events-none relative flex items-center *:pointer-events-auto">
                 <input
                     type="checkbox"
-                    class="clickable-target mr-2 h-5 w-5 cursor-pointer rounded border-2 border-[--primary] text-[--primary-500] hover:bg-[--primary-100] checked:hover:text-[--primary-400] focus:ring-[--primary-500] focus-visible:ring-[--primary-500]"
+                    class="clickable-target text-primary-500 focus:ring-primary-500 focus-visible:ring-primary-500 not-checked:hover:bg-primary-100 checked:hover:text-primary-400 border-primary-500 mr-2 size-5 rounded-sm border-2"
                     :checked="task.completed"
                     :aria-labelledby="ariaId"
                     @change="task.toggle()"
                 >
                 <i-material-symbols-star-rounded
                     v-if="task.important"
-                    class="!pointer-events-none h-6 w-6 shrink-0 text-[--primary-500]"
+                    class="text-primary-500 pointer-events-none! size-6 shrink-0"
                 />
                 <EditableContent
-                    class="overflow-y-auto truncate py-2.5 pr-1"
+                    class="truncate overflow-y-auto py-2.5 pr-1"
                     content-class="whitespace-pre"
                     tabindex="-1"
                     form-aria-hidden
@@ -35,19 +35,19 @@
                     @update="task.setAttribute('name', $event)"
                     @save="task.save()"
                 >
-                    <AGMarkdown :id="ariaId" :text="task.name" inline />
+                    <Markdown :id="ariaId" :text="task.name" inline />
                     <span v-if="task.important" class="sr-only">
                         {{ $t('tasks.important') }}
                     </span>
                 </EditableContent>
                 <i-material-symbols-description-rounded
                     v-if="task.description"
-                    class="!pointer-events-none h-5 w-5 text-gray-400"
+                    class="pointer-events-none! size-5 text-gray-400"
                 />
                 <div class="flex-1" />
                 <span
                     v-if="renderedDueDate"
-                    class="!pointer-events-none"
+                    class="pointer-events-none!"
                     :class="{ 'text-red-600': isPast && !task.completed }"
                 >
                     {{ renderedDueDate }}
@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { booleanProp, requiredObjectProp, translate } from '@aerogel/core';
+import { translate } from '@aerogel/core';
 import { computed } from 'vue';
 import { uuid } from '@noeldemartin/utils';
 
@@ -72,14 +72,11 @@ const NAMED_DAYS_DIFF: Record<string, string> = {
     '1': translate('time.tomorrow'),
 };
 
-const props = defineProps({
-    task: requiredObjectProp<Task>(),
-    disableEditing: booleanProp(),
-});
+const { task, disableEditing } = defineProps<{ task: Task; disableEditing?: boolean }>();
 const ariaId = `task-${uuid()}`;
-const isPast = computed(() => props.task.dueDate && getDaysDiff(props.task.dueDate, TODAY) < 0);
+const isPast = computed(() => task.dueDate && getDaysDiff(task.dueDate, TODAY) < 0);
 const renderedDueDate = computed(() => {
-    const dueDate = props.task.dueDate;
+    const dueDate = task.dueDate;
 
     if (!dueDate) {
         return;

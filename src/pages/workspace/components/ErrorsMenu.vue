@@ -1,11 +1,13 @@
 <template>
-    <IconButton
+    <Button
+        size="icon"
+        variant="ghost"
         :title="$t('errors.viewLogs')"
         :aria-label="$t('errors.viewLogs')"
         @click="$ui.openModal(ErrorLogsModal)"
     >
-        <i-ion-warning class="h-6 w-6 text-red-500" />
-    </IconButton>
+        <i-ion-warning class="size-6 text-red-500" />
+    </Button>
 </template>
 
 <script setup lang="ts">

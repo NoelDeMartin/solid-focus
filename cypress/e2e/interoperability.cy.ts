@@ -75,7 +75,7 @@ describe('Interoperability', () => {
         });
 
         // Act - Reload
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.press('Advanced options', 'summary');
         cy.press('Reconnect on startup');
         cy.get('body').type('{esc}');
@@ -115,7 +115,7 @@ describe('Interoperability', () => {
 
         cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
 
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.press('Synchronize', 'button');
         cy.get('body').type('{esc}');
         cy.waitSync();
@@ -249,7 +249,7 @@ describe('Interoperability', () => {
         cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
 
         // Act - Migrate
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.ariaLabel('Settings').click();
         cy.press('Migrate');
         cy.see('Migrating');

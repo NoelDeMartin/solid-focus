@@ -1,5 +1,5 @@
 <template>
-    <AGForm
+    <Form
         class="group relative flex gap-2 rounded-lg md:gap-4"
         :class="{
             'bg-gray-100 focus-within:bg-transparent hover:bg-gray-200 focus-within:hover:bg-transparent': !form.draft,
@@ -7,58 +7,58 @@
         :form="form"
         @submit="submit()"
     >
-        <AGHeadlessInput
-            ref="$input"
+        <HeadlessInput
             name="draft"
             :description="$ui.mobile ? $t('tasks.mobileInputDescription') : $t('tasks.desktopInputDescription')"
             class="relative flex-1"
         >
-            <AGHeadlessInputInput
-                class="absolute inset-0 h-full w-full rounded-lg border-gray-200 pl-3 pr-10 opacity-0 hover:bg-gray-50 focus:border-[--primary-500] focus:ring-[--primary-500] group-focus-within:opacity-100 md:pl-6"
+            <HeadlessInputInput
+                ref="$inputRef"
+                class="focus:border-primary-500 focus:ring-primary-500 absolute inset-0 size-full rounded-lg border-gray-200 pr-10 pl-3 opacity-0 group-focus-within:opacity-100 hover:bg-gray-50 md:pl-6"
                 :aria-label="$t('tasks.inputLabel')"
                 :class="[inputClass, { 'opacity-100': form.draft }]"
                 :placeholder="$t('tasks.inputPlaceholder')"
                 @keydown.esc="$input?.$el?.blur()"
             />
-            <AGHeadlessInputDescription
+            <HeadlessInputDescription
                 class="pointer-events-none px-3 py-2 text-gray-500 group-focus-within:opacity-0 md:px-5 md:py-4"
                 :class="{ 'opacity-0': form.draft }"
             />
-            <IconButton
+            <Button
+                size="icon"
+                variant="ghost"
                 tabindex="-1"
-                class="absolute right-1 top-1/2 h-11 w-11 -translate-y-1/2 rounded-lg group-focus-within:flex"
+                class="absolute top-1/2 right-1 size-11 -translate-y-1/2 rounded-lg group-focus-within:flex"
                 :class="{ flex: form.draft, hidden: !form.draft }"
                 :aria-label="$t('tasks.inputClear')"
-                @click="form.reset(), blur()"
+                @click="(form.reset(), blur())"
             >
-                <i-zondicons-close class="h-4 w-4" />
-            </IconButton>
-        </AGHeadlessInput>
+                <i-zondicons-close class="size-4" />
+            </Button>
+        </HeadlessInput>
 
-        <TextButton
+        <Button
             submit
             class="w-16 text-sm font-semibold group-focus-within:flex"
             :class="[submitClass, { flex: form.draft, hidden: !form.draft }]"
         >
             {{ $t('tasks.inputSubmit') }}
-        </TextButton>
-    </AGForm>
+        </Button>
+    </Form>
 </template>
 
 <script setup lang="ts">
-import { componentRef, stringInput, stringProp, useForm } from '@aerogel/core';
-import type { IAGHeadlessInput } from '@aerogel/core';
+import { stringInput, useForm } from '@aerogel/core';
+import { useTemplateRef } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
-import type { ITasksForm } from './TasksForm';
-
-const props = defineProps({
-    value: stringProp(),
-    inputClass: stringProp(''),
-    submitClass: stringProp(''),
-});
+const { inputClass = '', submitClass = '' } = defineProps<{
+    inputClass?: HTMLAttributes['class'];
+    submitClass?: HTMLAttributes['class'];
+}>();
 const emit = defineEmits(['submit']);
-const $input = componentRef<IAGHeadlessInput>();
-const form = useForm({ draft: stringInput(props.value ?? undefined) });
+const $input = useTemplateRef('$inputRef');
+const form = useForm({ draft: stringInput() });
 
 function blur() {
     if (!(document.activeElement instanceof HTMLElement)) {
@@ -76,5 +76,5 @@ function submit() {
     name && emit('submit', name);
 }
 
-defineExpose<ITasksForm>({ focus: () => $input.value?.$el?.focus() });
+defineExpose({ focus: () => $input.value?.$el?.focus() });
 </script>

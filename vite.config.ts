@@ -5,9 +5,9 @@ import Components from 'unplugin-vue-components/vite';
 import I18n from '@intlify/unplugin-vue-i18n/vite';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
+import RekaResolver from 'reka-ui/resolver';
 import { defineConfig } from 'vitest/config';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
-import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
     build: { sourcemap: true },
@@ -25,8 +25,8 @@ export default defineConfig({
         }),
         Components({
             deep: true,
-            dts: false,
-            resolvers: [HeadlessUiResolver(), AerogelResolver(), IconsResolver({ customCollections: ['app'] })],
+            dts: 'src/types/components.d.ts',
+            resolvers: [AerogelResolver(), IconsResolver({ customCollections: ['app'] }), RekaResolver()],
             dirs: ['src/components', 'src/pages'],
         }),
         I18n({ strictMessage: false, include: fileURLToPath(new URL('./src/lang/**/*.yaml', import.meta.url)) }),

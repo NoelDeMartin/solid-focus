@@ -38,6 +38,7 @@ landing:
     moreSearch: Global search
     moreKeyboard: Keyboard shortcuts
     callout: Just give it a try, and see for yourself.
+    syncing: Synchronization in progress
     getStarted:
         cta: Get started
         title: Get started
@@ -65,23 +66,11 @@ landing:
         switchAuthenticatorLegacy: Log in using the legacy authentication library
         back: cancel
 
+solid:
+    logoutConfirmWipe: Also remove all existing data (tasks, lists, etc.)
+
 cloud:
-    sync: Synchronize
-    reconnect: Reconnect
-    disconnect: Disconnect
-    stop: Stop synchronization
-    stopping: Stopping...
-    logOut: Log out
     logIn:
-        title: Connect account
-        info: Log in to your [Solid account](https://solidproject.org) to keep data safe across devices.
-        learnMore: What is Solid?
-        learnMoreMessage: |
-            Solid is a decentralized storage protocol built on top of web standards. If you want to use this app across devices, you can use Solid to keep changes in sync. Even if you use it in a single device, this will also keep your data secure in case your device is lost.
-
-            In any case, Focus works 100% offline and you can connect your Solid POD later on. If you've never heard of Solid and you're just trying things out, you can keep using it without an account.
-
-            [Learn more](https://solidproject.org)
         label: Login url
         placeholder: https://me.solidcommunity.net
         submit: Log in
@@ -107,25 +96,6 @@ cloud:
         interruptedMessage: It seems like the schema migration was interrupted, you should complete it before you continue using the application or you may run into issues.
         continue: Continue
         postpone: Postpone
-    info:
-        setup: Your data is not backed up yet.
-        changes: 'Everything is up to date. | There is one local change. | There are {n} local changes.'
-        syncing: Synchronizing...
-        reconnecting: Reconnecting...
-        disconnected: You are disconnected from your Solid account, all the changes you make will remain in your device.
-        error: There has been an error connecting.
-    status:
-        disconnected: Disconnected
-        online: Online
-        syncing: Synchronization in progress
-        dirty: There are local changes
-        error: There has been an error connecting
-    advanced:
-        reconnect: Reconnect on startup
-        startupSync: Synchronize on startup
-        polling: Synchronize every {minutes} minutes
-        pollingA11y: Synchronize on a fixed interval
-        pollingMinutes: Synchronization interval (in minutes)
 
 footer:
     about: about
@@ -146,6 +116,7 @@ workspace:
     searchCompleted: Completed task
     searchList: List
     searchWorkspace: Workspace
+    actions: View actions
 
 workspaces:
     select: Select workspace
@@ -169,13 +140,6 @@ lists:
     editA11y: '{name} list settings'
     name: Name
     notFound: We couldn't find the `{list}` list, were you looking for something else?
-
-user:
-    anonymous: Anonymous
-    menu: Configuration
-    settings: Settings
-    account: Open account status
-    logIn: Connect account
 
 tasks:
     desktopInputDescription: Press "+" to add a new task
@@ -235,18 +199,9 @@ notFound:
     logIn: Need to log in?
 
 settings:
-    title: Settings
-    locale: Language
-    localeDescription: Can't find your language? [You can contribute it!]({url})
-    localeDefault: '{locale} (default)'
     migrationTitle: Data migration
     migrationDescription: It seems like the data structure in your POD is outdated. When you're ready, you can migrate to a newer schema for better compatibility with other apps.
     migrate: Migrate
-    dangerZone: Danger zone
-    purge: Purge data
-    purgeConfirmTitle: Delete everything?
-    purgeConfirmMessage: If you proceed, all your data will be deleted forever. If you want to save it before wiping this device, you can [connect to your Solid account](#action:connect) first.
-    purgeConfirmAccept: Purge data
 
 time:
     yesterday: Yesterday
@@ -259,7 +214,6 @@ ui:
     cancel: Cancel
     close: Close
     delete: Delete
-    advancedOptions: Advanced options
 
 errors:
     required: This field is required

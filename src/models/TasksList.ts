@@ -1,4 +1,4 @@
-import { Colors, UI, translate } from '@aerogel/core';
+import { UI, translate } from '@aerogel/core';
 import { requireBootedModel } from 'soukai';
 import type { Relation } from 'soukai';
 import type { SolidContainsRelation, SolidIsContainedByRelation } from 'soukai-solid';
@@ -10,10 +10,10 @@ import Model from './TasksList.schema';
 
 export default class TasksList extends Model {
 
-    public declare workspace?: Workspace;
-    public declare relatedWorkspace: SolidIsContainedByRelation<this, Workspace, typeof Workspace>;
-    public declare tasks?: Task[];
-    public declare relatedTasks: SolidContainsRelation<this, Task, typeof Task>;
+    declare public workspace?: Workspace;
+    declare public relatedWorkspace: SolidIsContainedByRelation<this, Workspace, typeof Workspace>;
+    declare public tasks?: Task[];
+    declare public relatedTasks: SolidContainsRelation<this, Task, typeof Task>;
 
     public get slug(): string | undefined {
         return this.url.slice(this.url.slice(0, -1).lastIndexOf('/') + 1, -1);
@@ -39,7 +39,7 @@ export default class TasksList extends Model {
             label: translate('lists.name'),
             defaultValue: this.name,
             acceptText: translate('ui.save'),
-            cancelColor: Colors.Secondary,
+            cancelVariant: 'secondary',
         });
 
         if (!name) {

@@ -4,7 +4,7 @@
             <li
                 v-for="(log, index) of $errors.logs"
                 :key="index"
-                class="mb-2 flex min-w-56 max-w-prose justify-between py-2 last:mb-0"
+                class="mb-2 flex max-w-prose min-w-56 justify-between py-2 last:mb-0"
             >
                 <div>
                     <h3 class="font-medium">
@@ -13,7 +13,7 @@
                     <time :datetime="log.date.toISOString()" class="text-xs text-gray-700">
                         {{ log.date.toLocaleTimeString() }}
                     </time>
-                    <AGMarkdown
+                    <Markdown
                         class="text-sm text-gray-500"
                         :text="log.report.description ?? getErrorMessage(log.report)"
                     />
@@ -24,7 +24,7 @@
                     class="self-center"
                     @click="$errors.inspect(log.report)"
                 >
-                    <i-zondicons-view-show class="h-4 w-4" aria-hidden="true" />
+                    <i-zondicons-view-show class="size-4" aria-hidden="true" />
                 </IconButton>
             </li>
         </ol>

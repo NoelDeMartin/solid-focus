@@ -1,5 +1,5 @@
 <template>
-    <div ref="$root" v-bind="$attrs" :style="rootStyles">
+    <div ref="$rootRef" v-bind="$attrs" :style="rootStyles">
         <slot />
     </div>
 
@@ -7,15 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { booleanProp, enumProp, mixedProp, numberProp } from '@aerogel/core';
 import { clamp } from '@noeldemartin/utils';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, useTemplateRef, watchEffect } from 'vue';
+import type { Nullable } from '@noeldemartin/utils';
 import type { StyleValue } from 'vue';
 
 import { useScrollY, useWindowDimensions } from '@/utils/composables';
 
 import { Fills } from './ScrollTransition';
-import type { ScrollTransitionExposed } from './ScrollTransition';
 
 interface Rect {
     x: number;
@@ -31,31 +30,40 @@ interface Measurements {
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    appear: booleanProp(false),
-    disabled: booleanProp(false),
-    disappear: booleanProp(false),
-    end: numberProp(document.body.scrollHeight),
-    fill: enumProp(Fills, Fills.None),
-    morphTo: mixedProp<HTMLElement | undefined>(),
-    start: numberProp(1),
-    style: mixedProp<StyleValue>(),
-});
+const {
+    appear,
+    disabled,
+    disappear,
+    end = document.body.scrollHeight,
+    fill = Fills.None,
+    morphTo,
+    start = 1,
+    style,
+} = defineProps<{
+    appear?: boolean;
+    disabled?: boolean;
+    disappear?: boolean;
+    end?: number;
+    fill?: (typeof Fills)[keyof typeof Fills];
+    morphTo?: Nullable<HTMLElement>;
+    start?: number;
+    style?: StyleValue;
+}>();
 
-const $root = ref<HTMLElement>();
+const $root = useTemplateRef('$rootRef');
 const measurements = ref<Measurements>();
 const windowDimensions = useWindowDimensions();
 const scrollY = useScrollY();
 const isActive = computed(() => {
-    if (props.disabled) {
+    if (disabled) {
         return false;
     }
 
-    if (scrollY.value < props.start && (props.fill === Fills.None || props.fill === Fills.Forwards)) {
+    if (scrollY.value < start && (fill === Fills.None || fill === Fills.Forwards)) {
         return false;
     }
 
-    if (scrollY.value > props.end && props.fill === Fills.None) {
+    if (scrollY.value > end && fill === Fills.None) {
         return false;
     }
 
@@ -63,35 +71,35 @@ const isActive = computed(() => {
 });
 const rootStyles = computed(() => {
     if (!isActive.value) {
-        return props.style;
+        return style;
     }
 
     const transforms: string[] = [];
     const styles: Record<string, string> = {};
-    const progress = (clamp(scrollY.value, props.start, props.end) - props.start) / (props.end - props.start);
+    const progress = (clamp(scrollY.value, start, end) - start) / (end - start);
 
-    if (props.morphTo && measurements.value) {
-        const { start, end } = measurements.value;
-        const translateX = start.x * (1 - progress) + end.x * progress - end.x;
-        const translateY = start.y * (1 - progress) + end.y * progress - end.y;
+    if (morphTo && measurements.value) {
+        const { start: measuredStart, end: measuredEnd } = measurements.value;
+        const translateX = measuredStart.x * (1 - progress) + measuredEnd.x * progress - measuredEnd.x;
+        const translateY = measuredStart.y * (1 - progress) + measuredEnd.y * progress - measuredEnd.y;
 
         styles['position'] = 'fixed';
-        styles['left'] = `${end.x}px`;
-        styles['top'] = `${end.y}px`;
-        styles['width'] = `${start.width}px`;
-        styles['height'] = `${start.height}px`;
+        styles['left'] = `${measuredEnd.x}px`;
+        styles['top'] = `${measuredEnd.y}px`;
+        styles['width'] = `${measuredStart.width}px`;
+        styles['height'] = `${measuredStart.height}px`;
         styles['transform-origin'] = 'top left';
 
         transforms.push(`translate(${translateX}px, ${translateY}px)`);
     }
 
-    if (props.morphTo && measurements.value) {
+    if (morphTo && measurements.value) {
         transforms.push(`scale(${(measurements.value.end.width / measurements.value.start.width - 1) * progress + 1})`);
     }
 
-    if (props.appear) {
+    if (appear) {
         styles['opacity'] = `${progress}`;
-    } else if (props.disappear) {
+    } else if (disappear) {
         styles['opacity'] = `${1 - progress}`;
     }
 
@@ -99,10 +107,10 @@ const rootStyles = computed(() => {
         styles['transform'] = transforms.join(' ');
     }
 
-    return [styles, props.style];
+    return [styles, style];
 });
 const placeholderStyles = computed(() => {
-    if (!isActive.value || !measurements.value || !props.morphTo) {
+    if (!isActive.value || !measurements.value || !morphTo) {
         return;
     }
 
@@ -113,35 +121,31 @@ const placeholderStyles = computed(() => {
 });
 
 watchEffect(() => {
-    if (!isActive.value || !props.morphTo || !$root.value) {
+    if (!isActive.value || !morphTo || !$root.value) {
         measurements.value = undefined;
 
         return;
     }
 
-    const start = $root.value.getBoundingClientRect();
-    const end = props.morphTo.getBoundingClientRect();
+    const clientStart = $root.value.getBoundingClientRect();
+    const clientEnd = morphTo.getBoundingClientRect();
 
     measurements.value = {
         start: {
-            x: start.x,
-            y: window.scrollY + start.y,
-            width: start.width,
-            height: start.height,
+            x: clientStart.x,
+            y: window.scrollY + clientStart.y,
+            width: clientStart.width,
+            height: clientStart.height,
         },
         end: {
-            x: end.x,
-            y: end.y,
-            width: end.width,
-            height: end.height,
+            x: clientEnd.x,
+            y: clientEnd.y,
+            width: clientEnd.width,
+            height: clientEnd.height,
         },
     };
 
     // Bust cached dimensions on window resize.
     windowDimensions.value;
-});
-
-defineExpose<ScrollTransitionExposed>({
-    $el: $root,
 });
 </script>

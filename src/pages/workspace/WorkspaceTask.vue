@@ -1,16 +1,16 @@
 <template>
     <div class="flex-1">
         <aside
-            ref="$panel"
-            class="fixed bottom-0 right-0 top-1 z-10 hidden w-screen overflow-y-auto overflow-x-hidden border-l bg-white p-4 will-change-transform md:w-auto md:min-w-96 md:p-6 md:pb-2"
+            ref="$panelRef"
+            class="fixed top-1 right-0 bottom-0 z-10 hidden w-screen overflow-x-hidden overflow-y-auto border-l border-gray-200 bg-white p-4 will-change-[translate] md:w-auto md:min-w-96 md:p-6 md:pb-2"
         >
-            <AGForm
+            <Form
                 v-if="task"
                 :form="form"
-                class="flex h-full w-full flex-col"
+                class="flex size-full flex-col"
                 @submit="save()"
             >
-                <AGMarkdown
+                <Markdown
                     v-if="editing"
                     :text="task.name"
                     class="sr-only"
@@ -30,19 +30,21 @@
                 </span>
 
                 <div class="flex gap-1">
-                    <IconButton
+                    <Button
                         v-if="!editing && $ui.mobile"
+                        size="icon"
+                        variant="ghost"
                         class="mt-0.5 self-start"
                         :aria-label="$t('ui.close')"
                         :title="$t('ui.close')"
                         @click="$tasks.select(null)"
                     >
-                        <i-zondicons-arrow-left class="h-4 w-4" />
-                    </IconButton>
-                    <h2 v-if="!editing" class="w-full whitespace-pre-wrap pt-2 md:max-w-[21rem] md:pt-0">
-                        <AGMarkdown :text="task.name" inline class="text-start text-lg font-semibold" />
+                        <i-zondicons-arrow-left class="size-4" />
+                    </Button>
+                    <h2 v-if="!editing" class="w-full pt-2 whitespace-pre-wrap md:max-w-[21rem] md:pt-0">
+                        <Markdown :text="task.name" inline class="text-start text-lg font-semibold" />
                     </h2>
-                    <TextInput
+                    <Input
                         v-else
                         multiline
                         :aria-label="$t('task.name')"
@@ -51,104 +53,109 @@
                         class="w-full"
                         input-class="md:max-w-[21rem] text-lg font-semibold py-2 px-3"
                     />
-
-                    <OptionsMenu v-if="!editing && $ui.mobile">
-                        <IconButton :as="MenuButton" :title="$t('task.actions')" :aria-label="$t('task.actions')">
-                            <i-zondicons-dots-horizontal-triple class="h-5 w-5" />
-                        </IconButton>
-
+                    <DropdownMenu v-if="!editing && $ui.mobile" align="end">
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            :title="$t('task.actions')"
+                            :aria-label="$t('task.actions')"
+                        >
+                            <i-zondicons-dots-horizontal-triple class="size-5" />
+                        </Button>
                         <template #options>
-                            <OptionsMenuItems>
-                                <OptionsMenuItem @click="startEditing('name')">
-                                    <i-zondicons-edit-pencil class="h-4 w-4" />
-                                    <span class="ml-3">{{ $t('task.edit') }}</span>
-                                </OptionsMenuItem>
-                                <OptionsMenuItem @click="deleteTask()">
-                                    <i-zondicons-trash class="h-4 w-4" />
-                                    <span class="ml-3">{{ $t('task.delete.button') }}</span>
-                                </OptionsMenuItem>
-                            </OptionsMenuItems>
+                            <DropdownMenuOptions>
+                                <DropdownMenuOption @select="startEditing('name')">
+                                    <i-zondicons-edit-pencil class="size-4" />
+                                    <span>{{ $t('task.edit') }}</span>
+                                </DropdownMenuOption>
+                                <DropdownMenuOption @select="deleteTask()">
+                                    <i-zondicons-trash class="size-4" />
+                                    <span>{{ $t('task.delete.button') }}</span>
+                                </DropdownMenuOption>
+                            </DropdownMenuOptions>
                         </template>
-                    </OptionsMenu>
+                    </DropdownMenu>
                 </div>
 
                 <div class="group relative isolate mt-2 w-full">
-                    <TextButton
+                    <Button
                         v-if="!editing && !task.description"
-                        color="clear"
+                        variant="ghost"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="h-32 w-full items-start justify-start whitespace-normal bg-gray-50 text-start md:max-w-80"
+                        class="h-32 w-full items-start justify-start bg-gray-50 text-start whitespace-normal md:max-w-80"
                         @click="startEditing('description')"
                     >
-                        <AGMarkdown lang-key="task.emptyDescription" class="text-sm text-gray-400" />
-                    </TextButton>
-                    <AGMarkdown
+                        <Markdown lang-key="task.emptyDescription" class="text-sm text-gray-400" />
+                    </Button>
+                    <Markdown
                         v-else-if="!editing"
                         :text="task.description"
-                        class="w-full justify-start whitespace-normal px-2 text-start text-base md:max-w-[21rem] md:px-0"
+                        class="w-full justify-start px-2 text-start text-base whitespace-normal md:max-w-[21rem] md:px-0"
                     />
                     <TaskDescriptionInput
                         v-else
                         :aria-label="$t('task.description')"
-                        name="description"
                         :placeholder="$t('task.descriptionPlaceholder')"
+                        name="description"
                         class="w-full"
                         input-class="md:max-w-[21rem] py-2 px-3 min-h-32"
                     />
-                    <IconButton
+                    <Button
                         v-if="!editing && task.description"
-                        color="secondary"
-                        class="clickable-target absolute right-0 top-0 z-10 hidden h-9 w-9 -translate-y-full translate-x-14 rounded-md bg-white p-0 transition-transform hover:bg-gray-200 group-hover:translate-x-0 md:flex"
+                        size="icon"
+                        variant="ghost"
+                        class="clickable-target absolute top-0 right-0 z-10 hidden size-9 translate-x-14 -translate-y-full rounded-md bg-white p-0 transition-transform group-hover:translate-x-0 hover:bg-gray-200 md:flex"
                         :aria-label="$t('task.edit')"
                         :title="$t('task.edit')"
                         @click="startEditing('description')"
                     >
-                        <i-zondicons-edit-pencil class="h-4 w-4" />
-                    </IconButton>
+                        <i-zondicons-edit-pencil class="size-4" />
+                    </Button>
                 </div>
 
-                <TextButton
+                <Button
                     v-if="!editing"
-                    color="clear"
+                    variant="ghost"
                     class="mt-2 self-start"
                     :title="$t('task.editDueDate')"
                     :aria-label="$t('task.editDueDate')"
                     @click="startEditing('dueDate')"
                 >
-                    <i-material-symbols-calendar-clock-rounded class="h-6 w-6 text-gray-500" />
+                    <i-material-symbols-calendar-clock-rounded class="size-6 text-gray-500" />
                     <span class="ml-1.5">
                         {{ renderedDueDate ? $t('task.due', { date: renderedDueDate }) : $t('task.notDue') }}
                     </span>
-                </TextButton>
-                <DateInput
+                </Button>
+                <Input
                     v-else
                     :aria-label="$t('task.dueDate')"
+                    type="date"
                     name="dueDate"
                     class="mt-2"
                 />
 
-                <TextButton
-                    color="clear"
+                <Button
+                    variant="ghost"
                     class="mt-2 self-start"
                     :title="task.important ? $t('task.removeImportant') : $t('task.makeImportant')"
                     :aria-label="task.important ? $t('task.removeImportant') : $t('task.makeImportant')"
                     @click="toggleImportant()"
                 >
-                    <i-material-symbols-star-rounded v-if="important" class="h-6 w-6 text-[--primary-500]" />
-                    <i-material-symbols-star-outline-rounded v-else class="h-6 w-6 text-[--primary-500]" />
+                    <i-material-symbols-star-rounded v-if="important" class="text-primary-500 size-6" />
+                    <i-material-symbols-star-outline-rounded v-else class="text-primary-500 size-6" />
                     <span class="ml-1.5">{{ important ? $t('task.important') : $t('task.notImportant') }}</span>
-                </TextButton>
+                </Button>
 
-                <TextButton
-                    color="clear"
+                <Button
+                    variant="ghost"
                     :title="renderedCompletedAt ? $t('task.removeCompleted.button') : $t('task.complete')"
                     :aria-label="renderedCompletedAt ? $t('task.removeCompleted.button') : $t('task.complete')"
                     class="mt-2 self-start"
                     @click="toggleCompleted()"
                 >
-                    <i-app-checkmark v-if="renderedCompletedAt" class="h-5 w-6 px-0.5 text-[--primary-500]" />
-                    <i-app-checkmark-outline v-else class="h-5 w-6 px-0.5 text-[--primary-500]" />
+                    <i-app-checkmark v-if="renderedCompletedAt" class="text-primary-500 h-5 w-6 px-0.5" />
+                    <i-app-checkmark-outline v-else class="text-primary-500 h-5 w-6 px-0.5" />
                     <span class="ml-1.5">
                         {{
                             renderedCompletedAt
@@ -158,26 +165,28 @@
                                 : $t('task.notCompleted')
                         }}
                     </span>
-                </TextButton>
+                </Button>
 
                 <div v-if="editing" class="mt-4 flex flex-row-reverse gap-1.5 self-end text-sm">
-                    <TextButton submit>
+                    <Button submit>
                         {{ $t('ui.save') }}
-                    </TextButton>
-                    <TextButton color="secondary" @click="editing = false">
+                    </Button>
+                    <Button variant="secondary" @click="editing = false">
                         {{ $t('ui.cancel') }}
-                    </TextButton>
+                    </Button>
                 </div>
                 <div class="flex-1" />
                 <div class="flex items-center justify-between">
-                    <IconButton
+                    <Button
+                        size="icon"
+                        variant="ghost"
                         :aria-label="$t('ui.close')"
                         :title="$t('ui.close')"
                         class="hidden md:block"
                         @click="$tasks.select(null)"
                     >
-                        <i-zondicons-cheveron-right class="h-5 w-5" />
-                    </IconButton>
+                        <i-zondicons-cheveron-right class="size-5" />
+                    </Button>
                     <span class="w-full text-center text-sm text-gray-500">
                         {{
                             $t('task.created', {
@@ -185,19 +194,21 @@
                             })
                         }}
                     </span>
-                    <IconButton
+                    <Button
+                        size="icon"
+                        variant="ghost"
                         class="hidden text-gray-500 md:block"
                         :aria-label="$t('ui.delete')"
                         :title="$t('ui.delete')"
                         @click="deleteTask()"
                     >
-                        <i-zondicons-trash class="h-5 w-5" />
-                    </IconButton>
+                        <i-zondicons-trash class="size-5" />
+                    </Button>
                 </div>
-            </AGForm>
+            </Form>
         </aside>
         <div
-            ref="$filler"
+            ref="$fillerRef"
             v-measure.watch="(size: ElementSize) => $ui.desktop && ($focus.footerRightPadding = size.width)"
             class="hidden md:block"
         />
@@ -205,20 +216,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-    Colors,
-    UI,
-    booleanInput,
-    dateInput,
-    requiredStringInput,
-    stringInput,
-    translate,
-    useForm,
-} from '@aerogel/core';
+import { UI, booleanInput, dateInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
-import { computed, onUnmounted, ref, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
 import { Cloud } from '@aerogel/plugin-local-first';
-import { MenuButton } from '@headlessui/vue';
 import type { ElementSize } from '@aerogel/core';
 
 import Focus from '@/services/Focus';
@@ -227,8 +228,8 @@ import Tasks from '@/services/Tasks';
 
 import PanelAnimator from './animations/PanelAnimator';
 
-const $panel = ref<HTMLElement>();
-const $filler = ref<HTMLElement>();
+const $panel = useTemplateRef('$panelRef');
+const $filler = useTemplateRef('$fillerRef');
 const panelAnimator = new PanelAnimator($panel, $filler, 'right');
 const form = useForm({
     name: requiredStringInput(''),
@@ -324,8 +325,8 @@ async function deleteTask() {
             translate('task.delete.message', { task: task.value.name }),
             {
                 acceptText: translate('ui.delete'),
-                acceptColor: Colors.Danger,
-                cancelColor: Colors.Secondary,
+                acceptVariant: 'danger',
+                cancelVariant: 'secondary',
             },
         ))
     ) {

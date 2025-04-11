@@ -1,5 +1,5 @@
 <template>
-    <AGMarkdown v-if="$cloud.syncing" lang-key="cloud.status.syncing" />
+    <Markdown v-if="$cloud.syncing" lang-key="landing.syncing" />
 
     <div
         v-else
@@ -10,7 +10,7 @@
     >
         <LandingHeader />
         <LandingHero />
-        <div class="relative z-20 bg-gradient-to-b from-[#dedbd3] to-white pt-28">
+        <div class="relative z-20 bg-linear-to-b from-[#dedbd3] to-white pt-28">
             <LandingFeatures />
             <LandingCallout />
         </div>

@@ -1,56 +1,52 @@
 <template>
-    <div class="flex flex-grow flex-col items-center justify-center p-8 text-center">
+    <div class="flex grow flex-col items-center justify-center p-8 text-center">
         <template v-if="$cloud.migrating">
             <h1>{{ $t('cloud.migrate.ongoing') }}</h1>
-            <AGProgressBar
-                bar-class="bg-[--primary-600]"
-                class="mt-2 min-w-[min(400px,80vw)]"
-                :job="$cloud.migrationJob"
-            />
+            <ProgressBar bar-class="bg-primary-600" class="mt-2 min-w-[min(400px,80vw)]" :job="$cloud.migrationJob" />
         </template>
         <template v-else-if="interrupted">
             <h1 class="mt-4 text-3xl font-semibold">
                 {{ $t('cloud.migrate.interruptedTitle') }}
             </h1>
-            <AGMarkdown
+            <Markdown
                 lang-key="cloud.migrate.interruptedMessage"
                 class="mt-2 text-left text-lg font-light text-gray-600"
             />
-            <TextLink
+            <Link
                 class="mt-2 flex items-center self-end text-sm"
                 :url="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
             >
                 <span>{{ $t('cloud.migrate.learnMore') }}</span>
                 <i-zondicons-arrow-right class="ml-1.5 size-2.5" />
-            </TextLink>
+            </Link>
             <div class="mt-4 flex flex-row-reverse justify-center gap-2">
-                <TextButton @click="$cloud.migrate()">
+                <Button @click="$cloud.migrate()">
                     {{ $t('cloud.migrate.continue') }}
-                </TextButton>
-                <TextButton color="secondary" @click="$cloud.postponeMigration()">
+                </Button>
+                <Button variant="secondary" @click="$cloud.postponeMigration()">
                     {{ $t('cloud.migrate.postpone') }}
-                </TextButton>
+                </Button>
             </div>
         </template>
         <template v-else>
             <h1 class="mt-4 text-3xl font-semibold">
                 {{ $t('cloud.migrate.title') }}
             </h1>
-            <AGMarkdown lang-key="cloud.migrate.message" class="mt-2 text-left text-lg font-light text-gray-600" />
-            <TextLink
+            <Markdown lang-key="cloud.migrate.message" class="mt-2 text-left text-lg font-light text-gray-600" />
+            <Link
                 class="mt-2 flex items-center self-end text-sm"
                 :url="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
             >
                 <span>{{ $t('cloud.migrate.learnMore') }}</span>
                 <i-zondicons-arrow-right class="ml-1.5 size-2.5" />
-            </TextLink>
+            </Link>
             <div class="mt-4 flex flex-row-reverse justify-center gap-2">
-                <TextButton @click="$cloud.migrate()">
+                <Button @click="$cloud.migrate()">
                     {{ $t('cloud.migrate.submit') }}
-                </TextButton>
-                <TextButton color="secondary" @click="dismiss()">
+                </Button>
+                <Button variant="secondary" @click="dismiss()">
                     {{ $t('cloud.migrate.dismiss') }}
-                </TextButton>
+                </Button>
             </div>
         </template>
     </div>

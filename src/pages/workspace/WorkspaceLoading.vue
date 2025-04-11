@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-grow items-center justify-center transition-opacity duration-1000"
+        class="fill-primary-500 flex grow items-center justify-center transition-opacity duration-1000"
         :class="ready ? 'opacity-100' : 'opacity-0'"
     >
         <svg
@@ -26,10 +26,6 @@ onMounted(() => after({ ms: 600 }).then(() => (ready.value = true)));
 </script>
 
 <style scoped>
-svg {
-    fill: var(--primary-500);
-}
-
 svg circle:nth-child(1) {
     transform-origin: 12.5% 50%;
 }

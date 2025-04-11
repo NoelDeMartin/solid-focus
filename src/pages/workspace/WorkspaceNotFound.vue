@@ -1,7 +1,7 @@
 <template>
     <div
         v-animate
-        class="relative isolate flex w-full flex-grow items-center justify-center p-8"
+        class="relative isolate flex w-full grow items-center justify-center p-8"
         :initial="{ opacity: 0 }"
         :enter="{ opacity: 1 }"
         :delay="1000"
@@ -12,31 +12,26 @@
             <h1 class="text-4xl font-semibold">
                 {{ $t('notFound.title') }}
             </h1>
-            <AGMarkdown :lang-key="langKey" :lang-params="langParams" class="mt-4 text-xl text-gray-600" />
+            <Markdown :lang-key="langKey" :lang-params="langParams" class="mt-4 text-xl text-gray-600" />
             <div class="mt-4 flex justify-center gap-2">
-                <TextButton route="home" class="text-sm">
+                <Button route="home" class="text-sm">
                     {{ $t('notFound.goHome') }}
-                </TextButton>
-                <TextButton
+                </Button>
+                <Button
                     v-if="!$solid.hasLoggedIn()"
-                    color="clear"
+                    variant="ghost"
                     class="text-sm"
-                    @click="$ui.openModal(CloudLoginModal)"
+                    @click="$ui.openModal(AccountLoginModal)"
                 >
                     {{ $t('notFound.logIn') }}
-                </TextButton>
+                </Button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { mixedProp, requiredStringProp } from '@aerogel/core';
+import { AccountLoginModal } from '@aerogel/plugin-local-first';
 
-import CloudLoginModal from './modals/CloudLoginModal.vue';
-
-defineProps({
-    langKey: requiredStringProp(),
-    langParams: mixedProp(),
-});
+defineProps<{ langKey: string; langParams?: Record<string, string> }>();
 </script>

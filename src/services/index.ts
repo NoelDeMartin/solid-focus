@@ -24,6 +24,6 @@ export const services = {
 export type AppGlobals = typeof globals;
 export type AppServices = typeof services;
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
     interface ComponentCustomProperties extends AppGlobals, AppServices {}
 }

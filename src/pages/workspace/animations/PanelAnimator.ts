@@ -4,10 +4,14 @@ import type { ElementRef } from '@/utils/animations';
 export default class PanelAnimator {
 
     private showing: boolean = false;
-    private hiddenTransform: string;
+    private hiddenTranslate: string;
 
-    constructor(private $panel: ElementRef, private $filler: ElementRef, direction: 'right' | 'left') {
-        this.hiddenTransform = direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+    constructor(
+        private $panel: ElementRef,
+        private $filler: ElementRef,
+        direction: 'right' | 'left',
+    ) {
+        this.hiddenTranslate = direction === 'right' ? '100%' : '-100%';
     }
 
     public async show(): Promise<void> {
@@ -26,7 +30,7 @@ export default class PanelAnimator {
         panel.style.display = 'flex';
 
         await Promise.all([
-            panel.animate([{ transform: this.hiddenTransform }, { transform: 'translateX(0)' }], {
+            panel.animate([{ translate: this.hiddenTranslate }, { translate: '0%' }], {
                 duration: 200,
                 easing: 'ease-in',
                 fill: 'forwards',
@@ -52,7 +56,7 @@ export default class PanelAnimator {
         }
 
         await Promise.all([
-            panel.animate([{ transform: 'translateX(0%)' }, { transform: this.hiddenTransform }], {
+            panel.animate([{ translate: '0%' }, { translate: this.hiddenTranslate }], {
                 duration: 200,
                 easing: 'ease-in',
                 fill: 'forwards',

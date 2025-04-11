@@ -1,8 +1,8 @@
 <template>
     <AnimationsConfig class="flex flex-col px-4" :duration="allPendingCompleted ? 600 : 300">
-        <TasksForm v-if="$tasksList.tasks?.length" ref="$tasksForm" @submit="createTask($event)" />
+        <TasksForm v-if="$tasksList.tasks?.length" ref="$tasksFormRef" @submit="createTask($event)" />
 
-        <div class="relative flex flex-grow flex-col">
+        <div class="relative flex grow flex-col">
             <TasksList
                 class="transition-[margin] duration-500"
                 :tasks="tasks.pending"
@@ -17,7 +17,7 @@
             <AnimatedTransition
                 layout-group="completed-toggle"
                 leave-animation="freeze"
-                enter-from-class="max-h-0 !p-0"
+                enter-from-class="max-h-0 p-0!"
             >
                 <TasksEmpty
                     v-if="allPendingCompleted && !$focus.showCompleted"
@@ -32,21 +32,21 @@
                 v-if="tasks.completed.length"
                 class="mt-4 flex flex-col"
                 :class="{
-                    'flex-grow': !allPendingCompleted,
-                    'has-[.completed-tasks-wrapper:not(.absolute)]:flex-grow': allPendingCompleted,
+                    grow: !allPendingCompleted,
+                    'has-[.completed-tasks-wrapper:not(.absolute)]:grow': allPendingCompleted,
                 }"
             >
-                <TextButton
-                    ref="$completedToggle"
+                <Button
+                    ref="$completedToggleRef"
                     v-animate-layout
                     layout-group="completed-toggle"
-                    color="clear"
-                    class="mb-1 ml-1 self-start pl-1 pr-2 font-medium uppercase tracking-wider"
+                    variant="ghost"
+                    class="mb-1 ml-1 self-start pr-2 pl-1 font-medium tracking-wider uppercase"
                     :aria-label="$focus.showCompleted ? $t('tasks.hideCompleted') : $t('tasks.showCompleted')"
                     @click="$focus.toggleCompleted()"
                 >
                     <i-zondicons-cheveron-right
-                        class="h-6 w-6 transition-transform"
+                        class="size-6 transition-transform"
                         :class="{
                             'rotate-90': $focus.showCompleted,
                             'duration-[600ms]': allPendingCompleted,
@@ -54,7 +54,7 @@
                         }"
                     />
                     <span>{{ $t('tasks.completed') }}</span>
-                </TextButton>
+                </Button>
                 <AnimatedTransition
                     layout-group="completed-toggle"
                     :enter-from-class="allPendingCompleted ? 'absolute bottom-0 h-0' : ''"
@@ -73,11 +73,11 @@
 
 <script setup lang="ts">
 import { arrayGroupBy, arraySorted, compare } from '@noeldemartin/utils';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, useTemplateRef, watch } from 'vue';
 import { computedModels } from '@aerogel/plugin-soukai';
 import { isAnimatableElement } from 'vivant';
 import { recordSnapshot } from '@vivantjs/core';
-import { UI, elementRef } from '@aerogel/core';
+import { UI } from '@aerogel/core';
 
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
@@ -86,10 +86,9 @@ import TasksLists from '@/services/TasksLists';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
 import { slideDown, slideUp, toggleCompletedTasks } from './animations';
-import type { ITasksForm } from './components/tasks/TasksForm';
 
-const $tasksForm = ref<ITasksForm>();
-const $completedToggle = elementRef();
+const $tasksForm = useTemplateRef('$tasksFormRef');
+const $completedToggle = useTemplateRef('$completedToggleRef');
 const disableEditingWithKeyboard = ref(false);
 const disableEditing = computed(() => UI.mobile || disableEditingWithKeyboard.value);
 const groupedTasks = computedModels(Task, () =>
@@ -149,9 +148,9 @@ function updateCompletedToggleLayout() {
         return;
     }
 
-    const animatableElements = Array.from($completedToggle.value.children)
+    const animatableElements = Array.from($completedToggle.value.$el?.children ?? [])
         .filter(isAnimatableElement)
-        .concat([$completedToggle.value]);
+        .concat([$completedToggle.value.$el]);
 
     for (const animatableElement of animatableElements) {
         recordSnapshot(animatableElement);

@@ -1,9 +1,9 @@
 <template>
     <div class="mt-8 max-w-full">
-        <AGMarkdown v-if="$solid.loginStale" :text="$td('solid.loginStale', 'This is taking too long...')" />
-        <AGMarkdown v-else-if="$solid.loginOngoing" :text="$td('ui.loading', 'Loading...')" />
+        <Markdown v-if="$solid.loginStale" :text="$td('solid.loginStale', 'This is taking too long...')" />
+        <Markdown v-else-if="$solid.loginOngoing" :text="$td('ui.loading', 'Loading...')" />
 
-        <AGForm
+        <Form
             v-else
             :form="form"
             class="mt-10 max-w-md"
@@ -14,60 +14,60 @@
                 })
             "
         >
-            <h2 class="mt-6 text-center text-xl font-semibold leading-6 text-gray-900">
+            <h2 class="mt-6 text-center text-xl leading-6 font-semibold text-gray-900">
                 {{ $t('landing.logIn.title') }}
             </h2>
 
             <div class="mt-4 flex flex-col items-center gap-y-2">
-                <TextInput
+                <Input
                     name="url"
                     :aria-label="$t('cloud.logIn.label')"
                     :placeholder="$t('cloud.logIn.placeholder')"
                     class="w-96 max-w-full"
                 />
-                <SelectInput
+                <Select
                     v-if="form.authenticator"
                     name="authenticator"
+                    class="w-96 max-w-full"
+                    label-class="sr-only"
                     options-class="w-96 max-w-[calc(100vw-4rem)]"
                     :label="$t('landing.logIn.switchAuthenticatorLabel')"
-                    :options="{
-                        inrupt: $t('landing.logIn.switchAuthenticatorInrupt'),
-                        legacy: $t('landing.logIn.switchAuthenticatorLegacy'),
-                    }"
+                    :options="authenticatorOptions"
+                    :render-option="renderAuthenticator"
                 />
-                <TextButton
+                <Button
                     v-if="showDevLogin"
                     submit
                     class="w-full"
                     @click="form.url = 'dev'"
                 >
                     {{ $t('cloud.logIn.dev') }}
-                </TextButton>
-                <TextButton v-else submit class="w-full">
+                </Button>
+                <Button v-else submit class="w-full">
                     {{ $t('cloud.logIn.submit') }}
-                </TextButton>
-                <TextLink
+                </Button>
+                <Link
                     v-if="!form.authenticator"
                     class="text-sm font-normal text-gray-700"
                     @click="form.authenticator = 'inrupt'"
                 >
                     {{ $t('landing.logIn.switchAuthenticator') }}
-                </TextLink>
-                <TextButton
-                    color="clear"
+                </Link>
+                <Button
+                    variant="ghost"
                     class="mx-auto self-center px-3.5 py-2.5 text-sm font-semibold"
                     @click="$events.emit('landing:reset')"
                 >
-                    <i-zondicons-arrow-left class="h-3 w-3" />
-                    <span class="ml-1.5">{{ $t('landing.logIn.back') }}</span>
-                </TextButton>
+                    <i-zondicons-arrow-left class="size-3" />
+                    <span>{{ $t('landing.logIn.back') }}</span>
+                </Button>
             </div>
-        </AGForm>
+        </Form>
     </div>
 </template>
 
 <script setup lang="ts">
-import { App, requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import { App, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { computed } from 'vue';
 import type { AuthenticatorName } from '@aerogel/plugin-solid';
 
@@ -75,7 +75,12 @@ const form = useForm({
     url: requiredStringInput(),
     authenticator: stringInput(),
 });
+const authenticatorOptions = ['inrupt', 'legacy'];
 const showDevLogin = computed(
     () => App.development && (!form.url || form.url === 'dev' || form.url.trim().length === 0),
 );
+
+function renderAuthenticator(option: string) {
+    return translate(`landing.logIn.switchAuthenticator${option.charAt(0).toUpperCase() + option.slice(1)}`);
+}
 </script>

@@ -319,7 +319,7 @@ describe('Cloud', () => {
         // Act
         cy.see('All your eggs are in the same basket');
         cy.press('not yet');
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.press('Advanced options', 'summary');
         cy.press('Reconnect on startup');
         cy.get('body').type('{esc}');
@@ -327,7 +327,7 @@ describe('Cloud', () => {
         // Assert
         cy.dontSee('All your eggs are in the same basket');
         cy.see('Onboarding task');
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.see('Your data is not backed up yet');
 
         cy.reload();
@@ -374,9 +374,10 @@ describe('Cloud', () => {
         cy.ariaInput('Login url').type(`${webId()}{enter}`);
         cy.solidLogin();
         cy.ariaInput('Task name').type('Testing{enter}');
+        cy.waitSync();
 
         // Act
-        cy.ariaLabel('Open account status').click();
+        cy.ariaLabel('Open account').click();
         cy.press('Log out');
         cy.see('Log out from this device?');
         cy.press('Log out');

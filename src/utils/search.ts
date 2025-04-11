@@ -10,6 +10,7 @@ import type Workspace from '@/models/Workspace';
 
 async function indexList(workspace: Workspace, list: TasksList, results: Ref<SearchResult[]>): Promise<void> {
     results.value.push({
+        key: list.url,
         url: list.url,
         searchableText: listName(list)?.toLowerCase().replace(/\s+/g, '') ?? '',
         workspace,
@@ -20,6 +21,7 @@ async function indexList(workspace: Workspace, list: TasksList, results: Ref<Sea
 
     for (const task of tasks) {
         results.value.push({
+            key: task.url,
             url: task.url,
             searchableText: task.name.toLowerCase().replace(/\s+/g, ''),
             workspace,
@@ -31,6 +33,7 @@ async function indexList(workspace: Workspace, list: TasksList, results: Ref<Sea
 
 async function indexWorkspace(workspace: Workspace, results: Ref<SearchResult[]>): Promise<void> {
     results.value.push({
+        key: `workspace-${workspace.url}`,
         url: workspace.url,
         searchableText: workspaceName(workspace)?.toLowerCase().replace(/\s+/g, '') ?? '',
         workspace,
@@ -47,6 +50,7 @@ function compareResults(a: SearchResult, b: SearchResult): number {
 }
 
 export interface SearchResult {
+    key: string;
     url: string;
     searchableText: string;
     task?: Task;

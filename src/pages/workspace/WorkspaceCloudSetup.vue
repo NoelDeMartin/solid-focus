@@ -1,28 +1,28 @@
 <template>
-    <div v-if="$cloud.setupOngoing" class="flex flex-grow flex-col items-center justify-center p-8 text-center">
+    <div v-if="$cloud.setupOngoing" class="flex grow flex-col items-center justify-center p-8 text-center">
         <h1>{{ $t('cloud.setup.ongoing') }}</h1>
-        <AGProgressBar bar-class="bg-[--primary-600]" class="mt-2 min-w-[min(400px,80vw)]" :job="$cloud.syncJob" />
+        <ProgressBar bar-class="bg-primary-600" class="mt-2 min-w-[min(400px,80vw)]" :job="$cloud.syncJob" />
     </div>
-    <AGForm
+    <Form
         v-else
         :form="form"
-        class="flex flex-grow flex-col items-center justify-center p-8 text-center"
+        class="flex grow flex-col items-center justify-center p-8 text-center"
         @submit="submit()"
     >
         <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
         <h1 class="mt-4 text-3xl font-semibold">
             {{ $t('cloud.setup.title') }}
         </h1>
-        <AGMarkdown
+        <Markdown
             lang-key="cloud.setup.message"
             :lang-params="{ domain }"
             class="mt-2 text-lg font-light text-gray-600"
         />
         <AdvancedOptions class="mt-4 w-full max-w-prose text-start">
-            <AGMarkdown lang-key="cloud.setup.advanced" class="text-gray-600" />
+            <Markdown lang-key="cloud.setup.advanced" class="text-gray-600" />
             <ul class="mt-2 space-y-2">
                 <li v-for="(workspace, index) of $workspaces.all" :key="workspace.url">
-                    <TextInput
+                    <Input
                         :name="`workspaces.${index}`"
                         :label="$t('cloud.setup.workspaceUrl', { name: workspace.name })"
                     />
@@ -30,15 +30,15 @@
             </ul>
         </AdvancedOptions>
         <div class="mt-4 flex flex-row-reverse justify-center gap-2">
-            <TextButton submit>
-                <i-ic-sharp-cloud-upload class="h-5 w-5" />
+            <Button submit>
+                <i-ic-sharp-cloud-upload class="size-5" />
                 <span class="ml-2">{{ $t('cloud.setup.submit') }}</span>
-            </TextButton>
-            <TextButton color="secondary" @click="$cloud.dismissSetup()">
+            </Button>
+            <Button variant="secondary" @click="$cloud.dismissSetup()">
                 {{ $t('cloud.setup.dismiss') }}
-            </TextButton>
+            </Button>
         </div>
-    </AGForm>
+    </Form>
 </template>
 
 <script setup lang="ts">
@@ -57,13 +57,16 @@ import { mintWorkspaceUrl } from '@/utils/workspaces';
 
 const remoteCollection = Cloud.requireRemoteCollection(Workspace);
 const form = useForm(
-    Workspaces.all.reduce((fields, workspace, index) => {
-        fields[`workspaces.${index}`] = stringInput(mintWorkspaceUrl(remoteCollection, required(workspace.name)), {
-            rules: 'required|container_url',
-        });
+    Workspaces.all.reduce(
+        (fields, workspace, index) => {
+            fields[`workspaces.${index}`] = stringInput(mintWorkspaceUrl(remoteCollection, required(workspace.name)), {
+                rules: 'required|container_url',
+            });
 
-        return fields;
-    }, {} as Record<string, FormFieldDefinition>),
+            return fields;
+        },
+        {} as Record<string, FormFieldDefinition>,
+    ),
 );
 const domain = computed(() => {
     if (!Solid.user) {
@@ -78,11 +81,14 @@ async function submit() {
 
     modelUrlMappings.set(
         Workspace,
-        Workspaces.all.reduce((mappings, workspace, index) => {
-            mappings[workspace.url] = form.getFieldValue(`workspaces.${index}`) as string;
+        Workspaces.all.reduce(
+            (mappings, workspace, index) => {
+                mappings[workspace.url] = form.getFieldValue(`workspaces.${index}`) as string;
 
-            return mappings;
-        }, {} as Record<string, string>),
+                return mappings;
+            },
+            {} as Record<string, string>,
+        ),
     );
 
     await Cloud.setup(modelUrlMappings);

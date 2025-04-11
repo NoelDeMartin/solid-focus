@@ -1,5 +1,5 @@
 <template>
-    <AGTransitionGroup
+    <RouteTransitionGroup
         tag="ul"
         class="flex flex-col"
         leave-from-class="h-[46px]"
@@ -18,26 +18,25 @@
             :task="task"
             :disable-editing="disableEditing"
         />
-    </AGTransitionGroup>
+    </RouteTransitionGroup>
 </template>
 
 <script setup lang="ts">
 import { after } from '@noeldemartin/utils';
-import { booleanProp, requiredArrayProp } from '@aerogel/core';
-import type { GetClosureArgs } from '@noeldemartin/utils';
 
 import type Task from '@/models/Task';
 
-const emit = defineEmits(['added', 'removed']);
+defineProps<{ tasks: Task[]; disableEditing?: boolean }>();
 
-defineProps({
-    tasks: requiredArrayProp<Task>(),
-    disableEditing: booleanProp(),
-});
+const emit = defineEmits<{
+    added: [];
+    removed: [];
+}>();
 
-async function emitAfterAnimations(event: GetClosureArgs<typeof emit>[0]) {
+async function emitAfterAnimations(event: 'added' | 'removed') {
     await after({ ms: 500 });
 
-    emit(event);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    emit(event as any);
 }
 </script>

@@ -1,10 +1,10 @@
 <template>
-    <div v-if="$workspaces.current && !settingUpCloud" class="fixed top-0 z-10 h-1 w-full bg-[--primary-500]" />
+    <div v-if="$workspaces.current && !settingUpCloud" class="bg-primary-500 fixed top-0 z-10 h-1 w-full" />
     <WorkspaceCloudSetup v-if="settingUpCloud" />
     <WorkspaceCloudMigrate v-else-if="migratingCloud" />
     <div
         v-else-if="$workspaces.current?.isRelationLoaded('lists') && $tasksLists.current"
-        class="isolate flex w-full flex-grow"
+        class="isolate flex w-full grow"
     >
         <WorkspaceSidebar />
         <WorkspaceContent />
@@ -14,15 +14,18 @@
     <WorkspaceNotFound
         v-else-if="$workspaces.current"
         lang-key="lists.notFound"
-        :lang-params="{ list: $route.params.list }"
+        :lang-params="{ list: $route.params.list as string }"
     />
-    <WorkspaceNotFound v-else lang-key="workspaces.notFound" :lang-params="{ workspace: $route.params.workspace }" />
+    <WorkspaceNotFound
+        v-else
+        lang-key="workspaces.notFound"
+        :lang-params="{ workspace: $route.params.workspace as string }"
+    />
 </template>
 
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-local-first';
 import { computed, watchEffect } from 'vue';
-import { objectProp } from '@aerogel/core';
 import { Solid } from '@aerogel/plugin-solid';
 
 import Workspaces from '@/services/Workspaces';
@@ -30,10 +33,10 @@ import { THEME_COLORS, bindThemeColors } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
 
-defineProps({
-    workspace: objectProp<Workspace>(),
-    list: objectProp<TasksList>(),
-});
+defineProps<{
+    workspace?: Workspace;
+    list?: TasksList;
+}>();
 
 const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeColor ?? 'sky']);
 const settingUpCloud = computed(() => {

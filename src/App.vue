@@ -1,8 +1,8 @@
 <template>
-    <AGAppLayout>
-        <main class="flex flex-grow flex-col items-center justify-center">
+    <AppLayout>
+        <main class="flex grow flex-col items-center justify-center">
             <RouterView />
         </main>
         <AppFooter />
-    </AGAppLayout>
+    </AppLayout>
 </template>
