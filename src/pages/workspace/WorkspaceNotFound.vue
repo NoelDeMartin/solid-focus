@@ -21,7 +21,7 @@
                     v-if="!$solid.hasLoggedIn()"
                     variant="ghost"
                     class="text-sm"
-                    @click="$ui.openModal(AccountLoginModal)"
+                    @click="$ui.modal(AccountLoginModal)"
                 >
                     {{ $t('notFound.logIn') }}
                 </Button>

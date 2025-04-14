@@ -21,7 +21,7 @@
             :aria-label="$t('workspace.search')"
             :title="$t('workspace.search')"
             :class="$solid.hasLoggedIn() && 'mr-2'"
-            @click="$ui.openModal(WorkspaceSearchModal)"
+            @click="$ui.modal(WorkspaceSearchModal)"
         >
             <i-zondicons-search class="size-5" />
         </Button>
@@ -36,5 +36,5 @@ import { watchKeyboardShortcut } from '@/utils/composables';
 
 import WorkspaceSearchModal from './modals/WorkspaceSearchModal.vue';
 
-watchKeyboardShortcut('s', { prevent: true }, () => UI.openModal(WorkspaceSearchModal));
+watchKeyboardShortcut('s', { prevent: true }, () => UI.modal(WorkspaceSearchModal));
 </script>

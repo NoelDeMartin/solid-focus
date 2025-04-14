@@ -12,8 +12,8 @@ import Model from './Workspace.schema';
 
 export default class Workspace extends Model {
 
-    public declare lists?: TasksList[];
-    public declare relatedLists: SolidContainsRelation<this, TasksList, typeof TasksList>;
+    declare public lists?: TasksList[];
+    declare public relatedLists: SolidContainsRelation<this, TasksList, typeof TasksList>;
 
     public get routeAttributes(): { route: string; routeParams: Object } {
         return {
@@ -35,13 +35,13 @@ export default class Workspace extends Model {
             name: 'workspace',
             params: {
                 workspace: this.slug,
-                list: list instanceof Workspace ? '' : list?.slug ?? '',
+                list: list instanceof Workspace ? '' : (list?.slug ?? ''),
             },
         });
     }
 
     public async edit(): Promise<void> {
-        await UI.openModal(WorkspaceSettingsModal, { workspace: this });
+        await UI.modal(WorkspaceSettingsModal, { workspace: this });
     }
 
 }

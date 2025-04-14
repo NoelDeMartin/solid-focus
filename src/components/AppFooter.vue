@@ -4,7 +4,7 @@
             <div :style="`width: ${$focus.footerLeftPadding ?? 0}px`" />
         </div>
         <footer class="flex w-full max-w-(--breakpoint-xl) items-center justify-center gap-1 p-3 text-sm text-gray-500">
-            <Link class="text-gray-500" @click="$ui.openModal(AboutModal)">
+            <Link class="text-gray-500" @click="$ui.modal(AboutModal)">
                 {{ $t('footer.about') }}
             </Link>
             <span aria-hidden="true">|</span>

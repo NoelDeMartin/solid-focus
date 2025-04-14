@@ -82,7 +82,7 @@ const ADD_WORKSPACE = 'add-workspace' as const;
 
 async function changeWorkspace(option: Workspace | typeof ADD_WORKSPACE) {
     if (option === ADD_WORKSPACE) {
-        await UI.openModal(WorkspaceSettingsModal);
+        await UI.modal(WorkspaceSettingsModal);
 
         return;
     }
