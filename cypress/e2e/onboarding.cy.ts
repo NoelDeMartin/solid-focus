@@ -66,10 +66,7 @@ describe('Onboarding', () => {
             cy.get('@createTask').its('request.body').should('be.sparql', sparql);
         });
 
-        cy.fixtureWithReplacements('turtle/type-index.ttl', {
-            url: podUrl('/settings/privateTypeIndex'),
-            containerUrl: podUrl('/tasks/main/'),
-        }).then((expected) => {
+        cy.fixtureWithReplacements('turtle/type-index.ttl', { containerUrl: '../tasks/main/' }).then((expected) => {
             cy.solidReadDocument('/settings/privateTypeIndex').then((actual) => {
                 cy.wrap(actual).should('be.turtle', expected);
             });
@@ -123,10 +120,7 @@ describe('Onboarding', () => {
             cy.get('@createTask').its('request.body').should('be.sparql', sparql);
         });
 
-        cy.fixtureWithReplacements('turtle/type-index.ttl', {
-            url: podUrl('/settings/privateTypeIndex'),
-            containerUrl: podUrl('/work/'),
-        }).then((expected) => {
+        cy.fixtureWithReplacements('turtle/type-index.ttl', { containerUrl: '../work/' }).then((expected) => {
             cy.solidReadDocument('/settings/privateTypeIndex').then((actual) => {
                 cy.wrap(actual).should('be.turtle', expected);
             });

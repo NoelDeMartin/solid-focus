@@ -1,4 +1,4 @@
-<{{ url }}> a <http://www.w3.org/ns/solid/terms#TypeIndex>, <http://www.w3.org/ns/solid/terms#UnlistedDocument>.
+<{{ url ?? '' }}> a <http://www.w3.org/ns/solid/terms#TypeIndex>, <http://www.w3.org/ns/solid/terms#UnlistedDocument>.
 
 <#[[.*]]>
     a <http://www.w3.org/ns/solid/terms#TypeRegistration>;
