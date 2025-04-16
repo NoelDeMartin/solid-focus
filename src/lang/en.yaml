@@ -218,9 +218,6 @@ ui:
 errors:
     required: This field is required
     containerEndingSlashMissing: Container urls must end with /
-    logs: Error logs
-    notice: Something went wrong, but it\'s not your fault. Try again!
-    viewLogs: View error logs
     viewDetails: View details
 
 beta:

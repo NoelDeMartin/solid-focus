@@ -14,7 +14,7 @@
             {{ $listName($tasksList) }}
         </h1>
         <div class="grow" />
-        <ErrorsMenu v-if="$errors.logs.length > 0" />
+        <ErrorLogs />
         <Button
             size="icon"
             variant="ghost"

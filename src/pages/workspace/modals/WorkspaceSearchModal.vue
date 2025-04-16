@@ -1,5 +1,5 @@
 <template>
-    <HeadlessModal v-slot="{ close }" dismissable class="relative z-50">
+    <HeadlessModal v-slot="{ close }" class="relative z-50">
         <HeadlessModalOverlay class="fixed inset-0 bg-black/30" />
         <HeadlessModalContent
             :aria-describedby="undefined"
