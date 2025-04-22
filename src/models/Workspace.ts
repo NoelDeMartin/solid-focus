@@ -5,8 +5,6 @@ import type { SolidContainsRelation } from 'soukai-solid';
 
 import TasksList from '@/models/TasksList';
 import WorkspaceSettingsModal from '@/pages/workspace/modals/WorkspaceSettingsModal.vue';
-import { THEME_COLORS } from '@/utils/colors';
-import type { ThemeColor } from '@/utils/colors';
 
 import Model from './Workspace.schema';
 
@@ -20,10 +18,6 @@ export default class Workspace extends Model {
             route: 'workspace',
             routeParams: { workspace: this.slug },
         };
-    }
-
-    public get themeColor(): ThemeColor {
-        return this.color && this.color in THEME_COLORS ? (this.color as ThemeColor) : 'sky';
     }
 
     public listsRelationship(): Relation {

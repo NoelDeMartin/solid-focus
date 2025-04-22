@@ -87,6 +87,7 @@ import { Solid } from '@aerogel/plugin-solid';
 import { urlResolve } from '@noeldemartin/utils';
 
 import Workspace from '@/models/Workspace';
+import { DEFAULT_COLOR } from '@/utils/theme';
 
 const form = useForm({
     draft: requiredStringInput(),
@@ -116,7 +117,7 @@ async function submit(): Promise<void> {
     const workspace = await Workspace.create({
         url: form.workspaceUrl,
         name: form.workspaceName,
-        color: 'sky',
+        color: DEFAULT_COLOR,
     });
 
     await workspace.relatedTasks.create({ name: form.draft });

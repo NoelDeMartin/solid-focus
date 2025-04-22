@@ -6,12 +6,12 @@ import { tasksListFields } from '@/models/TasksList.schema';
 
 export default defineSolidContainerSchema(TasksList, {
     rdfContexts: {
-        tasks: 'https://vocab.noeldemartin.com/tasks/',
+        tasks: 'https://schema.org/',
     },
     fields: {
         color: {
             type: FieldType.String,
-            rdfProperty: 'tasks:color',
+            rdfProperty: 'schema:color',
         },
         ...tasksListFields,
     },

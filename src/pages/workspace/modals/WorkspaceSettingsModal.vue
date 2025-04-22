@@ -18,12 +18,12 @@
                     </Button>
                     <SelectOptions inner-class="flex">
                         <SelectOption
-                            v-for="color of colors"
-                            :key="color.name"
-                            :value="color.name"
+                            v-for="(color, key) of COLORS"
+                            :key
+                            :value="color"
                             inner-class="px-4 py-3"
                         >
-                            <div class="size-4 rounded-full" :style="`background: ${color.values[500]};`" />
+                            <div class="size-4 rounded-full" :style="`background: ${color};`" />
                         </SelectOption>
                     </SelectOptions>
                 </Select>
@@ -80,23 +80,17 @@ import { HeadlessSelectTrigger, UI, requiredStringInput, stringInput, useForm } 
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
 import { mintWorkspaceUrl } from '@/utils/workspaces';
-import { THEME_COLORS } from '@/utils/colors';
-import type { ThemeColor } from '@/utils/colors';
+import { COLORS, DEFAULT_COLOR, setThemeVariables } from '@/utils/theme';
 
 const { workspace } = defineProps<{ workspace?: Workspace }>();
 const $modal = useTemplateRef('$modalRef');
 const form = useForm({
     url: stringInput(workspace?.url, { rules: 'container_url' }),
     name: requiredStringInput(workspace?.name ?? ''),
-    color: requiredStringInput(workspace?.themeColor ?? 'sky'),
+    color: requiredStringInput(workspace?.color ?? DEFAULT_COLOR),
 });
 const mintUrl = ref(true);
 const createsRemote = computed(() => !workspace && Cloud.ready);
-const colors = computed(() =>
-    Object.entries(THEME_COLORS).map(([name, value]) => ({
-        name,
-        values: value,
-    })));
 
 async function submit(): Promise<void> {
     const updates = {
@@ -118,9 +112,7 @@ async function submit(): Promise<void> {
 }
 
 watchEffect(() => {
-    Object.entries(THEME_COLORS[form.color as ThemeColor]).forEach(([name, value]) => {
-        $modal.value?.$content?.$el.style.setProperty(`--color-primary-${name}`, value);
-    });
+    $modal.value?.$content?.$el && setThemeVariables($modal.value.$content.$el, form.color);
 
     if (createsRemote.value && mintUrl.value) {
         form.url = mintWorkspaceUrl(form.name);

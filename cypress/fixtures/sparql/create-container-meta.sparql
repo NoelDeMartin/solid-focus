@@ -2,11 +2,11 @@ INSERT DATA {
     @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
     @prefix crdt: <https://vocab.noeldemartin.com/crdt/> .
     @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-    @prefix tasks: <https://vocab.noeldemartin.com/tasks/> .
+    @prefix schema: <https://schema.org/> .
 
     <{{ url }}>
         rdfs:label "{{ name }}" ;
-        tasks:color "sky" .
+        schema:color "oklch(58.8% 0.158 241.966)" .
 
     <{{ url }}#metadata>
         a crdt:Metadata ;

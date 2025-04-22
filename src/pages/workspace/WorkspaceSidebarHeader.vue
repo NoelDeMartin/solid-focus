@@ -18,14 +18,11 @@
                     v-for="workspace in $workspaces.all"
                     :key="workspace.url"
                     :value="workspace"
-                    :style="`--highlighted-color: ${THEME_COLORS[workspace.themeColor][100]}`"
+                    :style="`--highlighted-color: var(--color-primary-100)`"
                     inner-class="group-data-[highlighted]:bg-(--highlighted-color)"
                 >
-                    <div
-                        class="size-3 shrink-0 rounded-full"
-                        :style="{ background: THEME_COLORS[workspace.themeColor][500] }"
-                    />
-                    <span :style="{ color: THEME_COLORS[workspace.themeColor][900] }">
+                    <div class="size-3 shrink-0 rounded-full" :style="`background: var(--color-primary-500)`" />
+                    <span :style="`color: var(--color-primary-900)`">
                         {{ $workspaceName(workspace) }}
                     </span>
                 </SelectOption>
@@ -73,7 +70,6 @@
 import { HeadlessSelectTrigger, UI } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
-import { THEME_COLORS } from '@/utils/colors';
 import type Workspace from '@/models/Workspace';
 
 import WorkspaceSettingsModal from './modals/WorkspaceSettingsModal.vue';

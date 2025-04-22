@@ -29,7 +29,7 @@ import { computed, watchEffect } from 'vue';
 import { Solid } from '@aerogel/plugin-solid';
 
 import Workspaces from '@/services/Workspaces';
-import { THEME_COLORS, bindThemeColors } from '@/utils/colors';
+import { DEFAULT_COLOR, clearThemeVariables, setThemeVariables } from '@/utils/theme';
 import type Workspace from '@/models/Workspace';
 import type TasksList from '@/models/TasksList';
 
@@ -38,7 +38,7 @@ defineProps<{
     list?: TasksList;
 }>();
 
-const workspaceColors = computed(() => THEME_COLORS[Workspaces.current?.themeColor ?? 'sky']);
+const workspaceColor = computed(() => Workspaces.current?.color ?? DEFAULT_COLOR);
 const settingUpCloud = computed(() => {
     if (Cloud.setupOngoing) {
         return true;
@@ -59,5 +59,8 @@ const migratingCloud = computed(() => {
 });
 
 watchEffect(() => Workspaces.current?.loadRelationIfUnloaded('lists'));
-bindThemeColors(workspaceColors);
+watchEffect((onCleanup) => {
+    setThemeVariables(document.documentElement, workspaceColor.value);
+    onCleanup(() => clearThemeVariables(document.documentElement));
+});
 </script>
