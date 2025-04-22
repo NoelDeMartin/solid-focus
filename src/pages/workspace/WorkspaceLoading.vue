@@ -1,6 +1,6 @@
 <template>
     <div
-        class="fill-primary-500 flex grow items-center justify-center transition-opacity duration-1000"
+        class="text-primary-500 flex grow items-center justify-center transition-opacity duration-1000"
         :class="ready ? 'opacity-100' : 'opacity-0'"
     >
         <svg
