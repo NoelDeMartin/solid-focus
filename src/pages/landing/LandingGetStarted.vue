@@ -2,12 +2,7 @@
     <div class="mt-4 max-w-full sm:mt-8">
         <div v-if="$cloud.syncing" class="flex flex-col items-center">
             <Markdown lang-key="landing.getStarted.syncing" class="mt-2 text-lg font-light text-gray-600" />
-            <ProgressBar
-                v-if="$cloud.syncJob"
-                :job="$cloud.syncJob"
-                bar-class="bg-primary-600"
-                class="mt-2 min-w-[min(400px,80vw)]"
-            />
+            <ProgressBar v-if="$cloud.syncJob" :job="$cloud.syncJob" class="mt-2 min-w-[min(400px,80vw)]" />
             <Button v-if="$cloud.syncJob" class="mt-2" @click="$cloud.syncJob?.cancel()">
                 {{ $t('ui.cancel') }}
             </Button>

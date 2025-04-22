@@ -1,7 +1,7 @@
 <template>
     <div v-if="$cloud.setupOngoing" class="flex grow flex-col items-center justify-center p-8 text-center">
         <h1>{{ $t('cloud.setup.ongoing') }}</h1>
-        <ProgressBar bar-class="bg-primary-600" class="mt-2 min-w-[min(400px,80vw)]" :job="$cloud.syncJob" />
+        <ProgressBar class="mt-2 min-w-[min(400px,80vw)]" :job="$cloud.syncJob" />
     </div>
     <Form
         v-else
