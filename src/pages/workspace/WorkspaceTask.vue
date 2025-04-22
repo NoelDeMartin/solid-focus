@@ -187,7 +187,11 @@
                     >
                         <i-zondicons-cheveron-right class="size-5" />
                     </Button>
-                    <span class="w-full text-center text-sm text-gray-500">
+                    <span
+                        class="w-full text-center text-sm text-gray-500"
+                        @click="tapCreatedAt()"
+                        @touchdown="tapCreatedAt()"
+                    >
                         {{
                             $t('task.created', {
                                 date: renderedCreatedAt,
@@ -231,6 +235,7 @@ import PanelAnimator from './animations/PanelAnimator';
 const $panel = useTemplateRef('$panelRef');
 const $filler = useTemplateRef('$fillerRef');
 const panelAnimator = new PanelAnimator($panel, $filler, 'right');
+const createdAtTappedCount = ref(0);
 const form = useForm({
     name: requiredStringInput(''),
     description: stringInput(''),
@@ -340,6 +345,18 @@ async function deleteTask() {
     }
 
     await task.value.delete();
+}
+
+function tapCreatedAt() {
+    if (createdAtTappedCount.value > 5) {
+        UI.alert('Secret unlocked!', `\`${task.value?.url}\``);
+
+        return;
+    }
+
+    createdAtTappedCount.value++;
+
+    setTimeout(() => createdAtTappedCount.value--, 5000);
 }
 
 useModelEvent(Task, 'updated', async (updatedTask) => {
