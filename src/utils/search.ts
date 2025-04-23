@@ -1,5 +1,5 @@
 import { arraySorted, compare } from '@noeldemartin/utils';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, shallowReactive } from 'vue';
 import type { ComputedRef, Ref } from 'vue';
 
 import Workspaces from '@/services/Workspaces';
@@ -8,8 +8,8 @@ import type Task from '@/models/Task';
 import type TasksList from '@/models/TasksList';
 import type Workspace from '@/models/Workspace';
 
-async function indexList(workspace: Workspace, list: TasksList, results: Ref<SearchResult[]>): Promise<void> {
-    results.value.push({
+async function indexList(workspace: Workspace, list: TasksList, results: SearchResult[]): Promise<void> {
+    results.push({
         key: list.url,
         url: list.url,
         searchableText: listName(list)?.toLowerCase().replace(/\s+/g, '') ?? '',
@@ -20,7 +20,7 @@ async function indexList(workspace: Workspace, list: TasksList, results: Ref<Sea
     const tasks = await list.loadRelationIfUnloaded<Task[]>('tasks');
 
     for (const task of tasks) {
-        results.value.push({
+        results.push({
             key: task.url,
             url: task.url,
             searchableText: task.name.toLowerCase().replace(/\s+/g, ''),
@@ -31,8 +31,8 @@ async function indexList(workspace: Workspace, list: TasksList, results: Ref<Sea
     }
 }
 
-async function indexWorkspace(workspace: Workspace, results: Ref<SearchResult[]>): Promise<void> {
-    results.value.push({
+async function indexWorkspace(workspace: Workspace, results: SearchResult[]): Promise<void> {
+    results.push({
         key: `workspace-${workspace.url}`,
         url: workspace.url,
         searchableText: workspaceName(workspace)?.toLowerCase().replace(/\s+/g, '') ?? '',
@@ -59,15 +59,15 @@ export interface SearchResult {
 }
 
 export function useSearch(query: Ref<string>): ComputedRef<SearchResult[]> {
-    const results = ref([]) as Ref<SearchResult[]>;
+    const results = shallowReactive<SearchResult[]>([]);
     const filteredResults = computed(() =>
         arraySorted(
             query.value === ''
-                ? results.value
-                : results.value.filter((result) =>
+                ? results
+                : results.filter((result) =>
                     result.searchableText.includes(query.value.toLowerCase().replace(/\s+/g, ''))),
             compareResults,
-        ));
+        ).slice(0, 20));
 
     onMounted(async () => {
         const currentWorkspace = Workspaces.current;

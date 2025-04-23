@@ -3,7 +3,7 @@
         <HeadlessModalOverlay class="fixed inset-0 bg-black/30" />
         <HeadlessModalContent
             :aria-describedby="undefined"
-            class="fixed top-4 left-1/2 z-10 w-full max-w-xl -translate-x-1/2 sm:top-6 md:top-20"
+            class="fixed top-4 left-1/2 z-10 w-full max-w-[calc(100vw-(--spacing(8)))] -translate-x-1/2 sm:top-6 md:top-20 md:max-w-xl"
         >
             <HeadlessModalTitle class="sr-only">
                 {{ $t('workspace.search') }}
