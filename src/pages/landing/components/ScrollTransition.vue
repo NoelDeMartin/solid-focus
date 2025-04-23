@@ -1,5 +1,5 @@
 <template>
-    <div ref="$rootRef" v-bind="$attrs" :style="rootStyles">
+    <div :ref="forwardRef" v-bind="$attrs" :style="rootStyles">
         <slot />
     </div>
 
@@ -8,7 +8,8 @@
 
 <script setup lang="ts">
 import { clamp } from '@noeldemartin/utils';
-import { computed, ref, useTemplateRef, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
+import { useForwardExpose } from 'reka-ui';
 import type { Nullable } from '@noeldemartin/utils';
 import type { StyleValue } from 'vue';
 
@@ -50,7 +51,7 @@ const {
     style?: StyleValue;
 }>();
 
-const $root = useTemplateRef('$rootRef');
+const { forwardRef, currentRef } = useForwardExpose();
 const measurements = ref<Measurements>();
 const windowDimensions = useWindowDimensions();
 const scrollY = useScrollY();
@@ -121,13 +122,13 @@ const placeholderStyles = computed(() => {
 });
 
 watchEffect(() => {
-    if (!isActive.value || !morphTo || !$root.value) {
+    if (!isActive.value || !morphTo || !currentRef.value) {
         measurements.value = undefined;
 
         return;
     }
 
-    const clientStart = $root.value.getBoundingClientRect();
+    const clientStart = (currentRef.value as Element).getBoundingClientRect();
     const clientEnd = morphTo.getBoundingClientRect();
 
     measurements.value = {

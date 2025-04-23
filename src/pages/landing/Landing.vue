@@ -3,6 +3,7 @@
 
     <div
         v-else
+        class="isolate"
         :class="{
             'h-screen overflow-hidden': scrollLocked,
             'pointer-events-none': !ready,

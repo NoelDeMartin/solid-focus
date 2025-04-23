@@ -1,9 +1,9 @@
 <template>
     <LandingSkyImage
-        class="fixed left-0 top-0 z-30 h-40 w-screen transition-transform"
+        class="fixed top-0 left-0 z-30 h-40 w-screen transition-transform"
         :style="{
             transform: `translateY(${showingForm ? '-100%' : '0%'})`,
-            'animation-duration': `${FORM_ANIMATION_DURATION}ms`,
+            'transition-duration': `${FORM_ANIMATION_DURATION}ms`,
         }"
     />
 </template>

@@ -42,12 +42,20 @@
                 </h2>
                 <Markdown lang-key="landing.pwaDescription" class="mt-8 max-w-full text-lg font-light" />
 
-                <div class="mt-8 flex gap-4">
+                <div class="mt-8 flex items-center justify-center gap-4">
                     <div class="flex-1">
-                        <img src="@/assets/img/landing/pwa-mobile.png" alt="" class="w-full rounded-sm border">
+                        <img
+                            src="@/assets/img/landing/pwa-mobile.png"
+                            alt=""
+                            class="w-full rounded-sm border border-gray-200"
+                        >
                     </div>
-                    <div class="flex-[2.8]">
-                        <img src="@/assets/img/landing/pwa-desktop.png" alt="" class="w-full rounded-sm border">
+                    <div class="flex-[2.77]">
+                        <img
+                            src="@/assets/img/landing/pwa-desktop.png"
+                            alt=""
+                            class="w-full rounded-sm border border-gray-200"
+                        >
                     </div>
                 </div>
             </div>

@@ -31,9 +31,9 @@
             <TransitionGroup
                 enter-active-class="transition-all ease-in-out duration-landing-form"
                 :enter-from-class="`${content !== 'initial' ? 'translate-x-full' : '-translate-x-full'} opacity-0`"
-                enter-to-class="translate-x-0 opacity-1"
+                enter-to-class="translate-x-0 opacity-100"
                 leave-active-class="transition-all ease-in-out duration-landing-form"
-                leave-from-class="translate-x-0 opacity-1"
+                leave-from-class="translate-x-0 opacity-100"
                 :leave-to-class="`${content !== 'initial' ? '-translate-x-full' : 'translate-x-full'} opacity-0`"
                 :duration="FORM_ANIMATION_DURATION"
             >
@@ -53,7 +53,7 @@
                         </p>
                         <Markdown
                             lang-key="landing.description"
-                            class="mt-4 rounded-sm bg-white/75 px-1 text-lg leading-8 text-gray-600"
+                            class="mt-4 rounded-sm bg-white/50 px-1 text-lg leading-8 text-gray-600"
                             singleline
                         />
                     </ScrollTransition>
@@ -116,7 +116,7 @@
             <Button
                 size="icon"
                 variant="ghost"
-                class="duration-landing-form animate-bounce p-0 transition-opacity"
+                class="duration-landing-form hover:bg-background/50 animate-bounce p-0 transition-opacity"
                 :class="showingForm ? 'opacity-0' : 'opacity-100'"
                 @click="showFeatures()"
             >
