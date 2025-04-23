@@ -8,11 +8,11 @@
                 {{ $t('footer.about') }}
             </Link>
             <span aria-hidden="true">|</span>
-            <Link :url="$app.sourceUrl" class="text-gray-500">
+            <Link :href="$app.sourceUrl" class="text-gray-500">
                 {{ $t('footer.source') }}
             </Link>
             <span aria-hidden="true">|</span>
-            <Link :url="$app.versionUrl" class="text-gray-500">
+            <Link :href="$app.versionUrl" class="text-gray-500">
                 {{ $app.versionName }}
             </Link>
         </footer>

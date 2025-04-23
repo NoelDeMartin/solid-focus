@@ -18,7 +18,7 @@
                     v-for="workspace in $workspaces.all"
                     :key="workspace.url"
                     :value="workspace"
-                    :style="`--highlighted-color: var(--color-primary-100)`"
+                    :style="`${workspaceThemeVariables[workspace.url]} --highlighted-color: var(--color-primary-100)`"
                     inner-class="group-data-[highlighted]:bg-(--highlighted-color)"
                 >
                     <div class="size-3 shrink-0 rounded-full" :style="`background: var(--color-primary-500)`" />
@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { HeadlessSelectTrigger, UI } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
@@ -75,6 +76,27 @@ import type Workspace from '@/models/Workspace';
 import WorkspaceSettingsModal from './modals/WorkspaceSettingsModal.vue';
 
 const ADD_WORKSPACE = 'add-workspace' as const;
+const workspaceThemeVariables = computed(() =>
+    Workspaces.all.reduce(
+        (variables, workspace) => {
+            variables[workspace.url] = `
+                --color-primary-50: color-mix(in oklab, var(--color-primary-600) 5%, transparent);
+                --color-primary-100: color-mix(in oklab, var(--color-primary-600) 15%, transparent);
+                --color-primary-200: color-mix(in oklab, var(--color-primary-600) 30%, transparent);
+                --color-primary-300: color-mix(in oklab, var(--color-primary-600) 50%, transparent);
+                --color-primary-400: color-mix(in oklab, var(--color-primary-600) 65%, transparent);
+                --color-primary-500: color-mix(in oklab, var(--color-primary-600) 80%, transparent);
+                --color-primary-600: ${workspace.color};
+                --color-primary-700: color-mix(in oklab, var(--color-primary-600) 90%, black);
+                --color-primary-800: color-mix(in oklab, var(--color-primary-600) 80%, black);
+                --color-primary-900: color-mix(in oklab, var(--color-primary-600) 70%, black);
+                --color-primary-950: color-mix(in oklab, var(--color-primary-600) 50%, black);
+            `;
+
+            return variables;
+        },
+        {} as Record<string, string>,
+    ));
 
 async function changeWorkspace(option: Workspace | typeof ADD_WORKSPACE) {
     if (option === ADD_WORKSPACE) {

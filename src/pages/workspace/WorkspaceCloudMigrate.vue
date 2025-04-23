@@ -14,7 +14,7 @@
             />
             <Link
                 class="mt-2 flex items-center self-end text-sm"
-                :url="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
+                :href="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
             >
                 <span>{{ $t('cloud.migrate.learnMore') }}</span>
                 <i-zondicons-arrow-right class="ml-1.5 size-2.5" />
@@ -35,7 +35,7 @@
             <Markdown lang-key="cloud.migrate.message" class="mt-2 text-left text-lg font-light text-gray-600" />
             <Link
                 class="mt-2 flex items-center self-end text-sm"
-                :url="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
+                :href="`${$app.sourceUrl}/blob/main/docs/migrate-schema.md`"
             >
                 <span>{{ $t('cloud.migrate.learnMore') }}</span>
                 <i-zondicons-arrow-right class="ml-1.5 size-2.5" />
