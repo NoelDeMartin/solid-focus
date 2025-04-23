@@ -71,6 +71,7 @@ import { computed } from 'vue';
 import { HeadlessSelectTrigger, UI } from '@aerogel/core';
 
 import Workspaces from '@/services/Workspaces';
+import { DEFAULT_COLOR } from '@/utils/theme';
 import type Workspace from '@/models/Workspace';
 
 import WorkspaceSettingsModal from './modals/WorkspaceSettingsModal.vue';
@@ -86,7 +87,7 @@ const workspaceThemeVariables = computed(() =>
                 --color-primary-300: color-mix(in oklab, var(--color-primary-600) 50%, transparent);
                 --color-primary-400: color-mix(in oklab, var(--color-primary-600) 65%, transparent);
                 --color-primary-500: color-mix(in oklab, var(--color-primary-600) 80%, transparent);
-                --color-primary-600: ${workspace.color};
+                --color-primary-600: ${workspace.color ?? DEFAULT_COLOR};
                 --color-primary-700: color-mix(in oklab, var(--color-primary-600) 90%, black);
                 --color-primary-800: color-mix(in oklab, var(--color-primary-600) 80%, black);
                 --color-primary-900: color-mix(in oklab, var(--color-primary-600) 70%, black);
