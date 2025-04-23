@@ -4,7 +4,8 @@
             <span class="absolute top-5 -right-4 rotate-12 text-xl font-bold text-red-700">{{ $t('beta.tag') }}</span>
             <i-app-logo class="size-full" />
         </div>
-        <div v-if="content === 'initial'">
+        <LandingSyncing v-if="$cloud.syncing || $cloud.syncJob" />
+        <div v-else-if="content === 'initial'">
             <h2 class="mt-6 text-xl leading-6 font-semibold text-gray-900">
                 {{ $t('beta.title') }}
             </h2>

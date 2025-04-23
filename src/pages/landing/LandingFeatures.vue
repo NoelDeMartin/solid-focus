@@ -19,7 +19,7 @@
             <div class="mt-32 ml-auto flex w-fit gap-8">
                 <img src="@/assets/img/landing/workspaces.png" alt="" class="w-60 rounded-full">
                 <div class="max-w-[550px]">
-                    <h2 id="workspaces" class="scroll-mt-32 text-3xl font-bold text-blue-900">
+                    <h2 id="workspaces" class="text-primary-900 scroll-mt-32 text-3xl font-bold">
                         {{ $t('landing.workspacesTitle') }}
                     </h2>
                     <Markdown lang-key="landing.workspacesDescription" class="mt-8 text-lg font-light" />
@@ -28,7 +28,7 @@
 
             <div class="mt-32 ml-16 flex gap-8">
                 <div class="max-w-[500px]">
-                    <h2 id="local-first" class="scroll-mt-32 text-3xl font-bold text-blue-900">
+                    <h2 id="local-first" class="text-primary-900 scroll-mt-32 text-3xl font-bold">
                         {{ $t('landing.localFirstTitle') }}
                     </h2>
                     <Markdown lang-key="landing.localFirstDescription" class="mt-8 text-lg font-light" />
@@ -37,7 +37,7 @@
             </div>
 
             <div class="mt-32 flex flex-col items-center">
-                <h2 id="pwa" class="scroll-mt-32 text-3xl font-bold text-blue-900">
+                <h2 id="pwa" class="text-primary-900 scroll-mt-32 text-3xl font-bold">
                     {{ $t('landing.pwaTitle') }}
                 </h2>
                 <Markdown lang-key="landing.pwaDescription" class="mt-8 max-w-full text-lg font-light" />
@@ -63,7 +63,7 @@
             <div class="mt-32 flex w-fit gap-8">
                 <i-app-solid class="size-52" />
                 <div class="max-w-[550px]">
-                    <h2 id="solid" class="scroll-mt-32 text-3xl font-bold text-blue-900">
+                    <h2 id="solid" class="text-primary-900 scroll-mt-32 text-3xl font-bold">
                         {{ $t('landing.solidTitle') }}
                     </h2>
                     <Markdown lang-key="landing.solidDescription" class="mt-8 text-lg font-light" />
@@ -72,7 +72,7 @@
 
             <div class="mt-32 ml-16 flex gap-8">
                 <div class="max-w-[550px]">
-                    <h2 id="a11y" class="scroll-mt-32 text-3xl font-bold text-blue-900">
+                    <h2 id="a11y" class="text-primary-900 scroll-mt-32 text-3xl font-bold">
                         {{ $t('landing.a11yTitle') }}
                     </h2>
                     <Markdown
@@ -84,7 +84,7 @@
                 <i-twemoji-globe-showing-europe-africa class="size-40" />
             </div>
 
-            <h2 class="mt-32 text-center text-3xl font-bold text-blue-900">
+            <h2 class="text-primary-900 mt-32 text-center text-3xl font-bold">
                 {{ $t('landing.more') }}
             </h2>
 

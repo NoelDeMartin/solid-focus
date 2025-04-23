@@ -1,8 +1,5 @@
 <template>
-    <Markdown v-if="$cloud.syncing" lang-key="landing.syncing" />
-
     <div
-        v-else
         class="isolate"
         :class="{
             'h-screen overflow-hidden': scrollLocked,

@@ -37,8 +37,10 @@
                 :leave-to-class="`${content !== 'initial' ? '-translate-x-full' : 'translate-x-full'} opacity-0`"
                 :duration="FORM_ANIMATION_DURATION"
             >
+                <LandingSyncing v-if="$cloud.syncing || $cloud.syncJob" />
+
                 <div
-                    v-if="content === 'initial'"
+                    v-else-if="content === 'initial'"
                     v-measure="(size: ElementSize) => (initialContentSize = size)"
                     class="absolute top-0 z-40 whitespace-nowrap"
                 >
@@ -48,7 +50,7 @@
                         fill="forwards"
                         :end="featuresScrollY && featuresScrollY / 4"
                     >
-                        <p class="mt-2 text-3xl font-medium tracking-tight text-blue-950">
+                        <p class="text-primary-950 mt-2 text-3xl font-medium tracking-tight">
                             {{ $t('landing.tagline') }}
                         </p>
                         <Markdown
@@ -92,7 +94,7 @@
                 <div
                     v-else-if="content === 'get-started'"
                     v-measure="(size: ElementSize) => (getStartedFormSize = size)"
-                    class="absolute top-0"
+                    :class="{ 'absolute top-0': !$solid.hasLoggedIn() }"
                 >
                     <LandingGetStarted />
                 </div>
@@ -170,6 +172,10 @@ const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.hasLoggedIn() ? 
 const scrollY = useScrollY();
 const formAnimationDuration = ref(`${FORM_ANIMATION_DURATION}ms`);
 const contentStyles = computed(() => {
+    if (Solid.hasLoggedIn()) {
+        return '';
+    }
+
     return {
         'initial': {
             width: `${initialContentSize.value?.width}px`,

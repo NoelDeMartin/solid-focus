@@ -38,7 +38,12 @@ landing:
     moreSearch: Global search
     moreKeyboard: Keyboard shortcuts
     callout: Just give it a try, and see for yourself.
-    syncing: Synchronization in progress
+    syncing:
+        title: Synchronization in progress ({progress}%)...
+        syncCancelledTitle: Synchronization stopped
+        syncCancelledMessage: Getting the data from your account was interrupted, you'll need to finish a complete sync before you can start using the app.
+        syncCancelledResume: Resume
+        syncCancelledLogout: Cancel
     getStarted:
         cta: Get started
         title: Get started
@@ -48,11 +53,6 @@ landing:
         defaultWorkspaceName: Main
         back: nevermind
         loginError: There was a problem connecting to your account.
-        syncing: Synchronization in progress...
-        syncCancelledTitle: Synchronization stopped
-        syncCancelledMessage: Getting the data from your account was interrupted, you'll need to finish a complete sync before you can start using the app.
-        syncCancelledResume: Resume
-        syncCancelledLogout: Cancel
         advanced:
             intro: Tasks are organized within workspaces, you can use these advanced settings to configure your default workspace.
             workspaceName: Workspace name
@@ -63,6 +63,8 @@ landing:
         back: cancel
 
 solid:
+    loginStale: This is taking too long...
+    loginOngoing: Logging in...
     logoutConfirmWipe: Also remove all existing data (tasks, lists, etc.)
 
 cloud:

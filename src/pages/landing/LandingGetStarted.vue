@@ -1,32 +1,6 @@
 <template>
     <div class="mt-4 max-w-full sm:mt-8">
-        <div v-if="$cloud.syncing" class="flex flex-col items-center">
-            <Markdown lang-key="landing.getStarted.syncing" class="mt-2 text-lg font-light text-gray-600" />
-            <ProgressBar v-if="$cloud.syncJob" :job="$cloud.syncJob" class="mt-2 min-w-[min(400px,80vw)]" />
-            <Button v-if="$cloud.syncJob" class="mt-2" @click="$cloud.syncJob?.cancel()">
-                {{ $t('ui.cancel') }}
-            </Button>
-        </div>
-
-        <div v-else-if="$cloud.syncJob" class="flex flex-col items-center">
-            <h1 class="mt-4 text-3xl font-semibold">
-                {{ $t('landing.getStarted.syncCancelledTitle') }}
-            </h1>
-            <Markdown
-                lang-key="landing.getStarted.syncCancelledMessage"
-                class="mt-2 text-lg font-light text-gray-600"
-            />
-            <div class="mt-4 flex flex-row-reverse justify-center gap-2">
-                <Button @click="$cloud.sync()">
-                    {{ $t('landing.getStarted.syncCancelledResume') }}
-                </Button>
-                <Button variant="secondary" @click="cancel()">
-                    {{ $t('landing.getStarted.syncCancelledLogout') }}
-                </Button>
-            </div>
-        </div>
-
-        <Form v-else :form="form" @submit="$ui.loading(submit())">
+        <Form :form="form" @submit="submit()">
             <h2 class="text-center text-xl leading-6 font-semibold text-gray-900">
                 {{ $t('landing.getStarted.title') }}
             </h2>
@@ -45,14 +19,14 @@
                 :placeholder="$t('tasks.inputPlaceholder')"
             />
 
-            <div v-if="loginError" class="mt-4 flex items-center gap-2 text-red-500">
+            <div v-if="loginError" class="mt-4 flex items-center gap-2 text-start text-red-500">
                 <i-ion-warning class="size-6" />
                 <div>
                     <p>
                         <Markdown lang-key="landing.getStarted.loginError" inline />
                     </p>
                     <Link
-                        class="text-xs underline opacity-75 hover:opacity-100 focus-visible:opacity-100"
+                        class="text-xs text-red-500 underline opacity-75 hover:opacity-100 focus-visible:opacity-100"
                         @click="$errors.inspect(loginError)"
                     >
                         {{ $t('errors.viewDetails') }}
