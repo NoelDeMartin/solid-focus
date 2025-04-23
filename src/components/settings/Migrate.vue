@@ -4,7 +4,7 @@
             <h3 class="text-base font-semibold">
                 {{ $t('settings.migrationTitle') }}
             </h3>
-            <Markdown :text="$t('settings.migrationDescription')" class="mt-1 text-sm text-gray-500" />
+            <Markdown lang-key="settings.migrationDescription" class="mt-1 text-sm text-gray-500" />
         </div>
         <Button
             variant="secondary"

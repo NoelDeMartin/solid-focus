@@ -1,7 +1,7 @@
 <template>
     <div class="mt-8 max-w-full">
-        <Markdown v-if="$solid.loginStale" :text="$td('solid.loginStale', 'This is taking too long...')" />
-        <Markdown v-else-if="$solid.loginOngoing" :text="$td('ui.loading', 'Loading...')" />
+        <Markdown v-if="$solid.loginStale" lang-key="solid.loginStale" lang-default="This is taking too long..." />
+        <Markdown v-else-if="$solid.loginOngoing" lang-key="ui.loading" lang-default="Loading..." />
 
         <div v-else class="mt-10 max-w-md">
             <h2 class="mt-6 text-center text-xl leading-6 font-semibold text-gray-900">
