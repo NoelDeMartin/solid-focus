@@ -9,6 +9,7 @@
             <ProgressBar v-if="$cloud.syncJob" :job="$cloud.syncJob" class="mt-2 min-w-[min(400px,80vw)]" />
             <Button
                 v-if="$cloud.syncJob"
+                variant="secondary"
                 :disabled="cancellingSync"
                 class="mt-2"
                 @click="stop()"

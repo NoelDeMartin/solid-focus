@@ -16,7 +16,7 @@ landing:
         Focus is [local-first](https://www.inkandswitch.com/local-first/), so you can stop worrying about that fickle internet connection in the subway.
 
         It is also completely private. **You don't even need an account to get started!**
-    pwaTitle: Built for the web, not appstores
+    pwaTitle: Built for the Web, not appstores
     pwaDescription: |
         Focus is a [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
         crafted with an adaptive design. **It will look great in any of your devices.**
@@ -34,7 +34,7 @@ landing:
     moreMarkdown: '[Markdown](https://www.markdownguide.org/getting-started/) support'
     moreScratchpad: Notes scratchpad
     moreDeadlines: Task deadlines
-    moreStarred: Starred tasks
+    moreImportant: Important tasks
     moreSearch: Global search
     moreKeyboard: Keyboard shortcuts
     callout: Just give it a try, and see for yourself.

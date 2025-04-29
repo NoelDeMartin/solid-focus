@@ -25,5 +25,9 @@ export type AppGlobals = typeof globals;
 export type AppServices = typeof services;
 
 declare module 'vue' {
-    interface ComponentCustomProperties extends AppGlobals, AppServices {}
+    interface ComponentCustomProperties extends AppGlobals {}
+}
+
+declare module '@aerogel/core' {
+    interface Services extends AppServices {}
 }

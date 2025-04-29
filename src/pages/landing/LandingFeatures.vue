@@ -103,7 +103,7 @@
                 </li>
                 <li class="flex flex-col items-center gap-y-2 rounded-sm bg-gray-200 p-8">
                     <i-ic-sharp-star class="size-12" />
-                    <Markdown lang-key="landing.moreStarred" class="text-lg" />
+                    <Markdown lang-key="landing.moreImportant" class="text-lg" />
                 </li>
                 <li class="flex flex-col items-center gap-y-2 rounded-sm bg-gray-200 p-8">
                     <i-material-symbols-search-rounded class="size-12" />

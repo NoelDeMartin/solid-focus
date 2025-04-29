@@ -83,7 +83,7 @@
                         variant="ghost"
                         :aria-label="$t('task.editDescription')"
                         :title="$t('task.editDescription')"
-                        class="h-32 w-full items-start justify-start bg-gray-50 text-start whitespace-normal md:max-w-80"
+                        class="h-32 w-full items-start justify-start bg-gray-50 text-start whitespace-normal hover:bg-gray-100 md:max-w-80"
                         @click="startEditing('description')"
                     >
                         <Markdown lang-key="task.emptyDescription" class="text-sm text-gray-400" />
@@ -222,7 +222,7 @@
 <script setup lang="ts">
 import { UI, booleanInput, dateInput, requiredStringInput, stringInput, translate, useForm } from '@aerogel/core';
 import { computedModel, useModelEvent } from '@aerogel/plugin-soukai';
-import { computed, onUnmounted, ref, useTemplateRef, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
 import { Cloud } from '@aerogel/plugin-local-first';
 import type { ElementSize } from '@aerogel/core';
 
@@ -368,6 +368,8 @@ useModelEvent(Task, 'updated', async (updatedTask) => {
 
     workspaceTask.value = undefined;
 });
+
+watch(task, () => (editing.value = false));
 
 watchEffect(async () => {
     if (Tasks.current && !Tasks.current.isSoftDeleted()) {
