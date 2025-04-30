@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 left-0 z-20 w-screen">
+    <div class="fixed top-0 left-0 z-20 w-full">
         <div class="mx-8">
             <div class="m-auto flex h-20 max-w-(--breakpoint-xl) items-center justify-between py-8">
                 <div ref="$headerLogoRef" class="aspect-5/2 h-12" />
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="relative flex h-screen w-screen flex-col items-center justify-center text-center">
+    <div class="relative flex h-screen w-full flex-col items-center justify-center text-center">
         <ScrollTransition
             ref="$logoRef"
             class="z-30 flex aspect-5/2 h-24 items-center justify-center"
@@ -25,7 +25,7 @@
         </h1>
 
         <div
-            class="duration-landing-form relative flex items-center justify-center transition-all"
+            class="duration-landing-form relative flex w-full items-center justify-center transition-all"
             :style="contentStyles"
         >
             <TransitionGroup
@@ -56,7 +56,7 @@
                         <Markdown
                             lang-key="landing.description"
                             class="mt-4 rounded-sm bg-white/50 px-1 text-lg leading-8 text-gray-600"
-                            singleline
+                            inline
                         />
                     </ScrollTransition>
                     <div class="mt-4 flex justify-center">
@@ -128,7 +128,7 @@
     </div>
 
     <div
-        class="duration-landing-form pointer-events-none relative isolate mt-[5vw] w-screen transition-transform will-change-transform"
+        class="duration-landing-form pointer-events-none relative isolate mt-[5vw] w-full transition-transform will-change-transform"
         :style="`transform: translateY(${showingForm ? '100%' : '0%'})`"
     >
         <LandingTreesImage class="relative z-10 w-full" />

@@ -1,6 +1,6 @@
 <template>
     <div
-        class="isolate"
+        class="isolate w-full"
         :class="{
             'h-screen overflow-hidden': scrollLocked,
             'pointer-events-none': !ready,

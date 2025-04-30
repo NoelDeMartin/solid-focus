@@ -2,7 +2,7 @@
     <div class="flex-1">
         <aside
             ref="$panelRef"
-            class="fixed top-1 right-0 bottom-0 z-10 hidden w-screen overflow-x-hidden overflow-y-auto border-l border-gray-200 bg-white p-4 will-change-[translate] md:w-auto md:min-w-96 md:p-6 md:pb-2"
+            class="fixed top-1 right-0 bottom-0 z-10 hidden w-full overflow-x-hidden overflow-y-auto border-l border-gray-200 bg-white p-4 will-change-[translate] md:w-auto md:min-w-96 md:p-6 md:pb-2"
         >
             <Form
                 v-if="task"
