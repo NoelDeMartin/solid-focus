@@ -1,9 +1,13 @@
 <template>
     <div class="fixed top-0 left-0 z-20 w-full">
         <div class="mx-8">
-            <div class="m-auto flex h-20 max-w-(--breakpoint-xl) items-center justify-between py-8">
+            <div class="m-auto flex h-20 max-w-(--breakpoint-xl) items-center justify-center py-8 md:justify-between">
                 <div ref="$headerLogoRef" class="aspect-5/2 h-12" />
-                <div ref="$headerCTAsRef" :style="{ width: `${ctaSize?.width}px`, height: `${ctaSize?.height}px` }" />
+                <div
+                    ref="$headerCTAsRef"
+                    :style="{ width: `${ctaSize?.width}px`, height: `${ctaSize?.height}px` }"
+                    class="hidden md:block"
+                />
             </div>
         </div>
     </div>
@@ -17,7 +21,14 @@
             :end="featuresScrollY"
             :style="headerItemStyles"
         >
-            <i-app-logo class="size-full" />
+            <button
+                type="button"
+                tabindex="-1"
+                class="size-full"
+                @click="scrollToHero()"
+            >
+                <i-app-logo class="size-full" />
+            </button>
         </ScrollTransition>
 
         <h1 class="sr-only">
@@ -42,7 +53,7 @@
                 <div
                     v-else-if="content === 'initial'"
                     v-measure="(size: ElementSize) => (initialContentSize = size)"
-                    class="absolute top-0 z-40 whitespace-nowrap"
+                    class="z-40 md:absolute md:top-0 md:whitespace-nowrap"
                 >
                     <ScrollTransition
                         ref="$introRef"
@@ -55,8 +66,7 @@
                         </p>
                         <Markdown
                             lang-key="landing.description"
-                            class="mt-4 rounded-sm bg-white/50 px-1 text-lg leading-8 text-gray-600"
-                            inline
+                            class="mt-4 rounded-sm bg-white/50 px-3 text-lg leading-8 text-gray-600"
                         />
                     </ScrollTransition>
                     <div class="mt-4 flex justify-center">
@@ -64,9 +74,10 @@
                             ref="$ctasRef"
                             class="z-30"
                             fill="forwards"
-                            :morph-to="$headerCTAs"
-                            :end="featuresScrollY"
-                            :style="headerItemStyles"
+                            :disappear="$ui.mobile"
+                            :morph-to="$ui.desktop && $headerCTAs"
+                            :end="featuresScrollY && ($ui.mobile ? featuresScrollY / 4 : featuresScrollY)"
+                            :style="$ui.desktop && headerItemStyles"
                         >
                             <div
                                 v-measure="(size: ElementSize) => (ctaSize = size)"

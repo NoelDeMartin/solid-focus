@@ -1,8 +1,8 @@
 <template>
     <div class="flex h-screen flex-col items-center justify-center">
-        <Markdown lang-key="landing.callout" class="mt-16 w-full text-center text-2xl font-light" inline />
+        <Markdown lang-key="landing.callout" class="mt-16 w-full px-8 text-center text-2xl font-light" />
 
-        <div ref="$logoRef" class="z-30 mt-16 flex aspect-5/2 h-32">
+        <div ref="$logoRef" class="z-30 mt-8 flex aspect-5/2 h-32 md:mt-16">
             <i-app-logo class="size-full" />
         </div>
 

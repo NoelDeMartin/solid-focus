@@ -10,7 +10,7 @@
 import { clamp } from '@noeldemartin/utils';
 import { computed, ref, watchEffect } from 'vue';
 import { useForwardExpose } from 'reka-ui';
-import type { Nullable } from '@noeldemartin/utils';
+import type { Falsifiable } from '@aerogel/core';
 import type { StyleValue } from 'vue';
 
 import { useScrollY, useWindowDimensions } from '@/utils/composables';
@@ -46,7 +46,7 @@ const {
     disappear?: boolean;
     end?: number;
     fill?: (typeof Fills)[keyof typeof Fills];
-    morphTo?: Nullable<HTMLElement>;
+    morphTo?: Falsifiable<HTMLElement>;
     start?: number;
     style?: StyleValue;
 }>();
