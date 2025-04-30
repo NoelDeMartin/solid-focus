@@ -12,6 +12,7 @@
             <ComboboxRoot
                 open
                 ignore-filter
+                :by="(a, b) => a === b"
                 class="ring-opacity-5 mx-auto w-full transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black/5"
                 @update:model-value="(select($event), close())"
             >
