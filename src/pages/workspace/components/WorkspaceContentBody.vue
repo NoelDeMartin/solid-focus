@@ -85,7 +85,7 @@ import Tasks from '@/services/Tasks';
 import TasksLists from '@/services/TasksLists';
 import { watchKeyboardShortcut } from '@/utils/composables';
 
-import { slideDown, slideUp, toggleCompletedTasks } from './animations';
+import { slideDown, slideUp, toggleCompletedTasks } from '@/pages/workspace/animations';
 
 const $tasksForm = useTemplateRef('$tasksFormRef');
 const $completedToggle = useTemplateRef('$completedToggleRef');

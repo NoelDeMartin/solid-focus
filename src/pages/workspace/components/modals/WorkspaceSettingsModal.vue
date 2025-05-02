@@ -23,7 +23,7 @@
                             :value="color"
                             inner-class="px-4 py-3"
                         >
-                            <div class="size-4 rounded-full" :style="`background: ${color};`" />
+                            <div class="size-4 rounded-full" :style="{ background: color }" />
                         </SelectOption>
                     </SelectOptions>
                 </Select>

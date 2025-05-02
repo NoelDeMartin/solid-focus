@@ -21,8 +21,8 @@
                     :style="`${workspaceThemeVariables[workspace.url]} --highlighted-color: var(--color-primary-100)`"
                     inner-class="group-data-[highlighted]:bg-(--highlighted-color)"
                 >
-                    <div class="size-3 shrink-0 rounded-full" :style="`background: var(--color-primary-500)`" />
-                    <span :style="`color: var(--color-primary-900)`">
+                    <div class="size-3 shrink-0 rounded-full" :style="{ background: `var(--color-primary-500)` }" />
+                    <span :style="{ color: `var(--color-primary-900)` }">
                         {{ $workspaceName(workspace) }}
                     </span>
                 </SelectOption>

@@ -230,7 +230,7 @@ import Focus from '@/services/Focus';
 import Task from '@/models/Task';
 import Tasks from '@/services/Tasks';
 
-import PanelAnimator from './animations/PanelAnimator';
+import PanelAnimator from '@/pages/workspace/animations/PanelAnimator';
 
 const $panel = useTemplateRef('$panelRef');
 const $filler = useTemplateRef('$fillerRef');

@@ -24,7 +24,7 @@ import { injectOrFail } from '@aerogel/core';
 
 import { bindRefs, useElementScrollY, useScrollY, useWindowDimensions } from '@/utils/composables';
 
-import type { LandingContext } from './landing';
+import type { LandingContext } from '@/pages/landing/landing';
 
 const $logo = useTemplateRef('$logoRef');
 const context = injectOrFail<LandingContext>('landing');

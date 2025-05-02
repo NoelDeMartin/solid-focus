@@ -9,7 +9,7 @@
         class="flex grow flex-col items-center justify-center p-8 text-center"
         @submit="submit()"
     >
-        <img src="@/assets/img/workspaces/setup.avif" class="w-96" alt="">
+        <WorkspaceSetupImage class="w-96 object-contain object-bottom" />
         <h1 class="mt-4 text-3xl font-semibold">
             {{ $t('cloud.setup.title') }}
         </h1>

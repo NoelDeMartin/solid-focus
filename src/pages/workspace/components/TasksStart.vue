@@ -1,8 +1,6 @@
 <template>
     <div class="flex h-full flex-col items-center justify-center px-4 md:pb-24">
-        <div class="flex h-56 max-h-full items-end justify-center">
-            <img src="@/assets/img/tasks/start.avif" class="max-h-full" alt="">
-        </div>
+        <TasksStartImage class="h-56 object-contain object-bottom" />
         <h2 class="mt-6 text-xl leading-6 font-semibold text-gray-900">
             {{ $t('tasks.startTitle') }}
         </h2>

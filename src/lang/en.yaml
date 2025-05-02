@@ -2,7 +2,7 @@ landing:
     title: Focus
     tagline: Forget with confidence
     description: |
-        Hundreds of ideas. Countless chores. A never-ending list of things to do.<br>
+        Hundreds of ideas. Countless chores. A never-ending list of things to do.<br class="hidden md:block">
         Forget all of that. Write it down, and **focus** on what matters.
     featuresPrompt: Wait a second, is this just another Task Manager?
     featuresIntro: "Well... yes, and no. Here's what's different about Focus:"

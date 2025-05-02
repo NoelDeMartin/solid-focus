@@ -4,7 +4,7 @@ import type { Relation } from 'soukai';
 import type { SolidContainsRelation } from 'soukai-solid';
 
 import TasksList from '@/models/TasksList';
-import WorkspaceSettingsModal from '@/pages/workspace/modals/WorkspaceSettingsModal.vue';
+import WorkspaceSettingsModal from '@/pages/workspace/components/modals/WorkspaceSettingsModal.vue';
 
 import Model from './Workspace.schema';
 

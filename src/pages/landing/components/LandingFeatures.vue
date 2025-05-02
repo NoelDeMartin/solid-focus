@@ -125,7 +125,7 @@ import { useTemplateRef } from 'vue';
 
 import { bindRefs, useElementScrollY } from '@/utils/composables';
 
-import type { LandingContext } from './landing';
+import type { LandingContext } from '@/pages/landing/landing';
 
 const $root = useTemplateRef('$rootRef');
 const context = injectOrFail<LandingContext>('landing');
