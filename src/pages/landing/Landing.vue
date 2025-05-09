@@ -8,7 +8,7 @@
     >
         <LandingHeader />
         <LandingHero />
-        <div class="relative z-20 bg-linear-to-b from-[#dedbd3] to-white pt-16 md:pt-28">
+        <div class="relative z-20 bg-linear-to-b from-[#e1dad0] to-white pt-16 md:pt-28">
             <LandingFeatures />
             <LandingCallout />
         </div>

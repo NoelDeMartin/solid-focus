@@ -3,8 +3,6 @@
         <source
             type="image/avif"
             srcset="
-                @/assets/img/landing/landscape/meadow@4x.avif 4096w,
-                @/assets/img/landing/landscape/meadow@3x.avif 2560w,
                 @/assets/img/landing/landscape/meadow@2x.avif 1920w,
                 @/assets/img/landing/landscape/meadow.avif    1280w
             "

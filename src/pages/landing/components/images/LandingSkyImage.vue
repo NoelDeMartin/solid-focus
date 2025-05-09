@@ -2,12 +2,7 @@
     <picture>
         <source
             type="image/avif"
-            srcset="
-                @/assets/img/landing/landscape/sky@4x.avif 4096w,
-                @/assets/img/landing/landscape/sky@3x.avif 2560w,
-                @/assets/img/landing/landscape/sky@2x.avif 1920w,
-                @/assets/img/landing/landscape/sky.avif    1280w
-            "
+            srcset="@/assets/img/landing/landscape/sky@2x.avif 1920w, @/assets/img/landing/landscape/sky.avif 1280w"
             sizes="100vw"
         >
         <img alt="" src="@/assets/img/landing/landscape/sky.png" v-bind="$attrs">

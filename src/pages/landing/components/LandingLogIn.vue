@@ -6,7 +6,7 @@
             <Markdown v-else-if="$solid.loginOngoing" class="whitespace-nowrap" lang-key="solid.loginOngoing" />
         </div>
 
-        <div v-else class="mt-10 max-w-md">
+        <div v-else class="mt-10 w-md">
             <h2 class="mt-6 text-center text-xl leading-6 font-semibold text-gray-900">
                 {{ $t('landing.logIn.title') }}
             </h2>

@@ -46,8 +46,8 @@ landing:
         syncCancelledLogout: Cancel
     getStarted:
         cta: Get started
-        title: Get started
-        intro: "Let's start small, begin by creating a new task with the first thing you want to get done:"
+        title: Let's get started
+        intro: 'To begin, create a task with the first thing you want to get done:'
         a11yIntro: "Hi there! If you're reading this message, you are probably using a screen reader because it's hidden from view. I care about accessibility, so if you find something that isn't working or can be improved, please [let me know]({issuesUrl})!"
         submit: Continue
         defaultWorkspaceName: Main
@@ -60,7 +60,7 @@ landing:
     logIn:
         cta: Log in
         title: Welcome back!
-        back: cancel
+        back: nevermind
 
 solid:
     loginStale: This is taking too long...

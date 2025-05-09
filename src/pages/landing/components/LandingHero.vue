@@ -43,11 +43,11 @@
             >
                 <TransitionGroup
                     enter-active-class="transition-all ease-in-out duration-landing-form"
-                    :enter-from-class="`${content !== 'initial' ? 'translate-x-full' : ''} opacity-0`"
+                    :enter-from-class="`${content !== 'initial' ? 'translate-x-full' : '-translate-x-full'} opacity-0`"
                     enter-to-class="translate-x-0 opacity-100"
                     leave-active-class="transition-all ease-in-out duration-landing-form"
                     leave-from-class="translate-x-0 opacity-100"
-                    :leave-to-class="`${content !== 'initial' ? '' : 'translate-x-full'} opacity-0`"
+                    :leave-to-class="`${content !== 'initial' ? '-translate-x-full' : 'translate-x-full'} opacity-0`"
                     :duration="FORM_ANIMATION_DURATION"
                 >
                     <LandingSyncing v-if="$cloud.syncing || $cloud.syncJob" />
@@ -143,7 +143,7 @@
         class="duration-landing-form pointer-events-none relative isolate mt-[5vw] w-full transition-transform will-change-transform"
         :style="{ transform: `translateY(${showingForm ? '100%' : '0%'})` }"
     >
-        <LandingTreesImage class="relative z-10 w-full" />
+        <LandingTreesImage class="relative top-1 z-10 w-full" />
         <LandingMountainsImage
             class="absolute left-0 z-0 hidden w-full will-change-transform md:block"
             :style="{
