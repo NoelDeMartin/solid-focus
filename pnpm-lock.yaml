@@ -30,8 +30,8 @@ importers:
         specifier: ^0.12.2
         version: 0.12.3(rollup@2.79.2)(vue-i18n@11.1.3(vue@3.5.13(typescript@5.8.3)))
       '@noeldemartin/solid-utils':
-        specifier: ^0.6.0
-        version: 0.6.0(web-streams-polyfill@3.3.3)
+        specifier: next
+        version: 0.6.0-next.c7addc0a638eedd08392f2f42039946a876fe146(web-streams-polyfill@3.3.3)
       '@noeldemartin/utils':
         specifier: next
         version: 0.7.0-next.366d8dfb04bd5ec43c796b0d09c55ca575ec4ef2
@@ -1655,9 +1655,6 @@ packages:
   '@noeldemartin/scripts@0.3.0-next.73e253ff6238acee8a0199922401c4be310129bd':
     resolution: {integrity: sha512-nOZ1BGimZF3isy88XK+nLiECzMOVBMhcox6guvNU3c+8hjqh6/vS59zDEC0FmN0ep7sXBVs/VB8Xc9nJqvwd0g==}
     hasBin: true
-
-  '@noeldemartin/solid-utils@0.6.0':
-    resolution: {integrity: sha512-12bBrU0egmmYxiLRVB/QLOr0vGlaF2gymfVk/8Job7kI5sUNUNMMhcmb9m4yEjnSnIAq39mAZy5dE9UTGBzMVw==}
 
   '@noeldemartin/solid-utils@0.6.0-next.508449b33de64b0bcade86b642c9793381434231':
     resolution: {integrity: sha512-0agq869A6ccHCsNyAafvOJjafrUNAt3M8vPc5Im5kJyMGSINGmXH4KyhX2Dr/22nIXjuOHXcEH8wYdKcsqg+qA==}
@@ -9134,16 +9131,6 @@ snapshots:
       - supports-color
       - svelte-eslint-parser
       - typescript
-
-  '@noeldemartin/solid-utils@0.6.0(web-streams-polyfill@3.3.3)':
-    dependencies:
-      '@noeldemartin/utils': 0.7.0
-      '@rdfjs/types': 2.0.1
-      jsonld: 8.3.3(web-streams-polyfill@3.3.3)
-      md5: 2.3.0
-      n3: 1.25.2
-    transitivePeerDependencies:
-      - web-streams-polyfill
 
   '@noeldemartin/solid-utils@0.6.0-next.508449b33de64b0bcade86b642c9793381434231(web-streams-polyfill@3.3.3)':
     dependencies:
