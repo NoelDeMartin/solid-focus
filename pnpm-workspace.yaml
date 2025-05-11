@@ -1,4 +1,2 @@
 onlyBuiltDependencies:
     - cypress
-patchedDependencies:
-    reka-ui: patches/reka-ui.patch
