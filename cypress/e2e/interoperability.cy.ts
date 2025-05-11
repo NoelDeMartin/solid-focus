@@ -110,7 +110,7 @@ describe('Interoperability', () => {
         cy.press('not yet');
         cy.press('Ok');
 
-        // Act
+        // Act - Pull changes
         cy.solidUpdateDocument('/tasks/legacy-task', 'sparql/undo-legacy-task.sparql');
 
         cy.intercept('PATCH', podUrl('/tasks/legacy-task')).as('updateTask');
@@ -120,9 +120,16 @@ describe('Interoperability', () => {
         cy.get('body').type('{esc}');
         cy.waitSync();
 
-        // Assert
+        // Assert - Pull changes
         cy.dontSee('Completed');
 
+        // Act - Push changes
+        cy.ariaLabel('Open account').click();
+        cy.press('Synchronize', 'button');
+        cy.get('body').type('{esc}');
+        cy.waitSync();
+
+        // Assert - Push changes
         cy.get('@registerWorkspace.all').should('have.length', 0);
 
         cy.get('@updateTask.all').should('have.length', 1);
@@ -218,7 +225,7 @@ describe('Interoperability', () => {
         });
 
         cy.fixture('jsonld/migrated-task.jsonld').then((expected) => {
-            cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
+            cy.soukaiIndexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
                 cy.assertJsonLD(expected, actual);
             });
         });
@@ -265,7 +272,7 @@ describe('Interoperability', () => {
         });
 
         cy.fixture('jsonld/migrated-postponed-task.jsonld').then((expected) => {
-            cy.indexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
+            cy.soukaiIndexedDBDocument(podUrl('/tasks/legacy-task')).then((actual) => {
                 cy.assertJsonLD(expected, actual);
             });
         });
