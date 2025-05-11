@@ -141,7 +141,7 @@
 
     <div
         class="duration-landing-form pointer-events-none relative isolate mt-[5vw] w-full transition-transform will-change-transform"
-        :style="{ transform: `translateY(${showingForm ? '100%' : '0%'})` }"
+        :style="{ transform: `translateY(${showingForm ? ($ui.mobile ? '300%' : '100%') : '0%'})` }"
     >
         <LandingTreesImage class="relative top-1 z-10 w-full" />
         <LandingMountainsImage
@@ -198,7 +198,6 @@ const logInFormSize = ref<ElementSize>();
 const windowDimensions = useWindowDimensions();
 const content = ref<'initial' | 'get-started' | 'log-in'>(Solid.hasLoggedIn() ? 'get-started' : 'initial');
 const scrollY = useScrollY();
-const formAnimationDuration = ref(`${FORM_ANIMATION_DURATION}ms`);
 const contentStyles = computed(() => {
     if (Solid.hasLoggedIn()) {
         return '';
@@ -292,6 +291,6 @@ useEvent('landing:reset', hideForm);
 
 <style scoped>
 .duration-landing-form {
-    transition-duration: v-bind(formAnimationDuration);
+    transition-duration: 1200ms; /* FORM_ANIMATION_DURATION */
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-4 max-w-full sm:mt-8">
+    <div class="mt-4 max-w-full px-3 sm:mt-8 md:px-0">
         <Form :form="form" @submit="submit()">
             <h2 class="text-center text-xl leading-6 font-semibold text-gray-900">
                 {{ $t('landing.getStarted.title') }}
