@@ -81,7 +81,7 @@ solid:
     disconnectConfirmTitle: Disconnect account?
     disconnectConfirmMessage: "You'll need to introduce your credentials again to connect to your Solid POD."
     logoutOngoing: Logging out...
-    logoutConfirmTitle: Log out from this device
+    logoutConfirmTitle: Log out from this device?
     logoutConfirmMessage: "Logging out will remove all the data from this device, but you'll still have it in your Solid POD."
     logoutConfirmMessageWithLocalChanges: "There are some changes that haven't been synchronized and will be lost, but the rest of the data will remain in your Solid POD."
 

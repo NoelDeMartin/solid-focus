@@ -81,7 +81,7 @@ solid:
     disconnectConfirmTitle: ¿Desconectar cuenta?
     disconnectConfirmMessage: 'Tendrás que introducir tus credenciales de nuevo para conectarte a tu POD.'
     logoutOngoing: Cerrando sesión...
-    logoutConfirmTitle: Cerrar sesión en este dispositivo
+    logoutConfirmTitle: ¿Cerrar sesión en este dispositivo?
     logoutConfirmMessage: 'Cerrar la sesión eliminará todos los datos de este dispositivo, pero aún los tendrás en tu POD.'
     logoutConfirmMessageWithLocalChanges: 'Hay algunos cambios que no se han sincronizado y se perderán, pero el resto de los datos permanecerán en tu POD.'
 

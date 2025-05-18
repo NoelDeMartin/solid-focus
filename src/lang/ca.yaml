@@ -81,7 +81,7 @@ solid:
     disconnectConfirmTitle: Desconnectar compte?
     disconnectConfirmMessage: "Hauràs d'introduir les teves credencials de nou per connectar-te al teu POD."
     logoutOngoing: Tancant sessió...
-    logoutConfirmTitle: Tancar sessió en aquest dispositiu
+    logoutConfirmTitle: Tancar sessió en aquest dispositiu?
     logoutConfirmMessage: "Tancar la sessió eliminarà totes les dades d'aquest dispositiu, però encara les tindràs al teu POD."
     logoutConfirmMessageWithLocalChanges: "Hi ha alguns canvis que no s'han sincronitzat i es perdran, però la resta de dades romandran al teu POD."
 
