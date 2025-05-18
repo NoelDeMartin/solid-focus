@@ -1,5 +1,276 @@
+landing:
+    title: Focus
+    tagline: Olvida con confianza
+    description: |
+        Cientos de ideas. Miles de tareas. Una lista interminable de cosas por hacer.<br class="hidden md:block">
+        Olvída todo eso. Guárdalo en Focus, y concéntrate en lo que importa.
+    featuresPrompt: Espera un momento, ¿es esto otro gestor de tareas?
+    featuresIntro: 'Bueno... sí y no. Aquí puedes vercómo Focus es diferente:'
+    workspacesTitle: Espacios de trabajo
+    workspacesDescription: |
+        Diferentes partes de tu vida merecen **su propio lugar**.
+
+        Usa diferentes espacios de trabajo para organizar las tareas donde corresponden, y evita pensar en la compra cuando estás trabajando en ese side-project.
+    localFirstTitle: ¿Sin Internet? ¡Sin problema!
+    localFirstDescription: |
+        Focus es [local-first](https://www.inkandswitch.com/local-first/), así que puedes dejar de preocuparte por la conexión inestable en el metro.
+
+        También es completamente privado. **¡Ni siquiera necesitas una cuenta para empezar!**
+    pwaTitle: Hecho para la web, no para las Appstores
+    pwaDescription: |
+        Focus es una [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
+        creada con un diseño adaptable. **Se verá genial en cualquiera de tus dispositivos.**
+    solidTitle: Sé dueño de tus datos
+    solidDescription: |
+        Gracias a estándares abiertos como el [Protocolo Solid](https://solidproject.org), tú decides donde viven tus datos.
+
+        Tus aplicaciones deberían trabajar juntas, **¡dile adiós al vendor lock-in!**
+    a11yTitle: Hecho para todos
+    a11yDescription: |
+        La **accesibilidad** y la **localización** se han tenido en cuenta desde el principio.
+
+        También puedes mirar lo que hay debajo, porque es [Código Abierto]({sourceUrl}).
+    more: y más...
+    moreMarkdown: 'Soporte para [Markdown](https://www.markdownguide.org/getting-started/)'
+    moreScratchpad: Bloc de notas
+    moreDeadlines: Fechas límite para tareas
+    moreImportant: Tareas importantes
+    moreSearch: Búsqueda global
+    moreKeyboard: Atajos de teclado
+    callout: Compruébalo tú mismo.
+    syncing:
+        title: Sincronización en progreso ({progress}%)...
+        syncCancelledTitle: Sincronización detenida
+        syncCancelledMessage: Se ha interrumpido la obtención de datos, es necesario hacer una sincronización completa antes de empezar a usar la aplicación.
+        syncCancelledResume: Continuar
+        syncCancelledLogout: Cancelar
+    getStarted:
+        cta: Empezar
+        title: Vamos a empezar
+        intro: 'Primero, crea una tarea con lo que quieres hacer:'
+        a11yIntro: '¡Hola! Si estás leyendo este mensaje, probablemente estás usando un lector de pantalla porque está oculto para la vista. Me importa la accesibilidad, así que si encuentras algo que no funciona o que puede mejorarse, por favor [házmelo saber]({issuesUrl})!'
+        submit: Continuar
+        defaultWorkspaceName: Principal
+        back: volver
+        loginError: Ha habido un problema al conectar con la cuenta.
+        advanced:
+            intro: Las tareas están organizadas dentro de espacios de trabajo, puedes usar estos ajustes avanzados para configurar tu espacio de trabajo predeterminado.
+            workspaceName: Nombre del espacio de trabajo
+            workspaceUrl: URL del espacio de trabajo
+    logIn:
+        cta: Log in
+        title: ¡Bienvenido de nuevo!
+        back: volver
+
+solid:
+    loginStale: Esto está tardando demasiado...
+    loginOngoing: Iniciando sesión...
+    logIn:
+        submit: Iniciar sesión
+        switchAuthenticator: ¿No puedes iniciar sesión? Intenta usar un método de autenticación diferente
+    logoutConfirmWipe: Eliminar todos los datos locales (tareas, listas, etc.)
+    logoutConfirmAccept: Cerrar sesión
+    logoutConfirmCancel: Cancelar
+    logoutConfirmWipeNotice: Entiendo que los cambios que no se han sincronizado se perderán.
+
+cloud:
+    logIn:
+        label: URL de inicio de sesión
+        placeholder: https://me.solidcommunity.net
+        submit: Iniciar sesión
+    setup:
+        title: Tienes todos los huevos en la misma cesta
+        message: Tus datos solo están guardados en el dispositivo actual, deberías subirlos a la nube para mantenerlos seguros. ¿Quieres guardarlos en `{domain}`?
+        dismiss: aún no
+        submit: Guardar ahora
+        ongoing: Guardando...
+        advanced: Usa el formulario a continuación para configurar las carpetas donde se creará cada espacio de trabajo.
+        workspaceUrl: 'URL de {name}'
+    migrate:
+        title: Tus datos están usando un formato antiguo
+        message: Los datos en tu POD están usando un formato antiguo que seguramente no sea el mejor para la interoperabilidad. Recomendamos que los migres al formato más reciente para una mejor compatibilidad con otras aplicaciones.
+        learnMore: saber más
+        submit: Migrar ahora
+        ongoing: Migrando...
+        dismiss: aún no
+        dismissTitle: Posponer migración
+        dismissMessage: La aplicación debería seguir funcionando con el esquema antiguo, pero recomendamos que lo migres en algún momento. Puedes continuar este proceso en la configuración bajo la sección `Migración de datos`.
+        interruptedTitle: ¡La migración de datos se ha interrumpido!
+        interruptedMessage: Parece que la migración del formato se ha interrumpido, deberías completarla antes de continuar usando la aplicación o podrías encontrar problemas.
+        continue: Continuar
+        postpone: Posponer
+    info:
+        syncing: Sincronizando...
+        reconnecting: Reconectando...
+        error: Ha habido un error al conectar.
+    status:
+        syncing: Sincronización en progreso
+        migrating: Migración en progreso
+        online: Online
+        disconnected: Desconectado
+
+footer:
+    about: acerca de
+    source: código fuente
+
+about:
+    title: Acerca de
+    info: |
+        Creado y mantenido por [Noel De Martin](https://noeldemartin.com).
+
+        Esta aplicación es de código abierto y las contribuciones son bienvenidas, encuentra el código en [GitHub]({sourceUrl}).
+
+workspace:
+    search: Presiona "s" para buscar
+    searchPlaceholder: Buscar tareas, listas, espacios de trabajo...
+    searchEmpty: No se ha encontrado nada.
+    searchPending: Tarea pendiente
+    searchCompleted: Tarea completada
+    searchList: Lista
+    searchWorkspace: Espacio de trabajo
+    actions: Ver acciones
+
+workspaces:
+    select: Seleccionar espacio de trabajo
+    edit: Configuración del espacio de trabajo
+    add: Nuevo espacio de trabajo
+    name: Nombre
+    color: Color
+    url: URL
+    description: Los espacios de trabajo pueden ayudarte a gestionar diferentes partes de tu vida. ¡Evita pensar en la compra cuando estás trabajando en ese side-project!
+    openSidebar: Mostrar listas
+    hideSidebar: Ocultar listas
+    notFound: No hemos encontrado el espacio de trabajo `{workspace}`, ¿estabas buscando otra cosa?
+    advanced:
+        mintUrl: Crear URL de la carpeta automáticamente.
+        info: Este espacio de trabajo está usando la carpeta en `{url}`. Si quieres migrarlo, tendrás que hacerlo con otra aplicación (¡y asegurarte de actualizar el [Type Index](https://solid.github.io/type-indexes/)!).
+
+lists:
+    inbox: Inbox
+    add: Nueva lista
+    edit: Configuración de la lista
+    editA11y: Configuración de la lista {name}
+    name: Nombre
+    notFound: No hemos encontrado la lista `{list}`, ¿estabas buscando otra cosa?
+
 tasks:
-    desktopInputDescription: Utiliza "+" para añadir una nueva tarea
+    desktopInputDescription: Presiona "+" para añadir una nueva tarea
+    mobileInputDescription: Añadir nueva tarea
+    inputLabel: Nombre de la tarea
+    inputPlaceholder: ¿Qué quieres hacer?
+    inputClear: Borrar
+    inputSubmit: Añadir
+    selectA11y: Seleccionar tarea "{name}"
+    selectTitle: Seleccionar tarea
+    important: (Importante)
+    startTitle: Listo para crecer
+    startMessage: El suelo está listo, planta tus ideas aquí para que puedan brotar como árboles. ¡O simplemente escribe lo que tengas en mente, no todas las tareas tienen que ser tan floridas!
+    startSubmit: Crear tarea
+    empty: ¡Felicidades, has completado todas tus tareas! ¿Hora de tomar un descanso?
+    completed: Completadas
+    showCompleted: Mostrar completadas
+    hideCompleted: Ocultar completadas
+
+task:
+    actions: Ver acciones
+    edit: Editar
+    emptyDescription: Sin descripción
+    name: Nombre
+    namePlaceholder: ¿En qué estás trabajando?
+    description: Descripción
+    descriptionPlaceholder: Escribe algunas notas...
+    editDescription: Editar descripción
+    dueDate: Fecha límite
+    editDueDate: Editar fecha límite
+    created: Creada el {date}
+    completed: Completada el {date}
+    notCompleted: No completada
+    complete: Completar
+    due: Fecha límite {date}
+    notDue: Sin fecha límite
+    important: Importante
+    notImportant: No importante
+    importantA11y: Esta tarea está marcada como importante
+    notImportantA11y: Esta tarea no está marcada como importante
+    pendingA11y: Esta tarea aún no se ha completado
+    makeImportant: Marcar como importante
+    removeImportant: Quitar importante
+    removeCompleted:
+        button: Deshacer tarea
+        title: ¿Deshacer tarea?
+        message: Esto moverá <code>{task}</code> a la lista de tareas pendientes, y se perderá la fecha de finalización anterior.
+        accept: Deshacer tarea
+    delete:
+        button: Eliminar
+        title: Eliminar tarea
+        message: Esto eliminará la tarea <code>{task}</code>.
+
+notFound:
+    title: ¿Estás perdido?
+    goHome: Ir al inicio
+    logIn: ¿Necesitas loguearte?
 
 settings:
     title: Configuración
+    migrate: Migrar
+    migrationTitle: Migración de datos
+    migrationDescription: Parece que la estructura de datos en tu POD está desactualizada. Cuando estés listo, puedes migrar a un formato más nuevo para mejorar la compatibilidad con otras aplicaciones.
+    locale: Idioma
+    localeDescription: Elige el idioma de la aplicación.
+    localeDefault: '{locale} (predeterminado)'
+    dangerZone: Zona peligrosa
+    purge: Purgar datos
+    purgeConfirmTitle: ¿Eliminar todo?
+    purgeConfirmMessage: Si continúas, todos tus datos se eliminarán para siempre. Si deseas guardarlos antes de limpiar este dispositivo, puedes [conectarte a tu cuenta Solid](#action:connect).
+    purgeConfirmAccept: Purgar datos
+    debug: Inspeccionar
+    debugDescription: Habilitar la inspección con [Eruda](https://eruda.liriliri.io/).
+
+time:
+    yesterday: Ayer
+    today: Hoy
+    tomorrow: Mañana
+
+ui:
+    create: Crear
+    save: Guardar
+    cancel: Cancelar
+    close: Cerrar
+    delete: Eliminar
+    advancedOptions: Opciones avanzadas
+    accept: Aceptar
+    confirm: Confirmar
+    loading: Cargando
+    loadingInProgress: Cargando...
+    select: Selecciona una opción
+    selectEmpty: No hay opciones disponibles
+
+errors:
+    required: Este campo es obligatorio
+    containerEndingSlashMissing: Las URLs de las carpetas han de terminar con /
+    viewDetails: Ver detalles
+    unknown: Error desconocido
+    unknownDescription: Tipo de error desconocido
+    notice: Algo ha salido mal, pero no es tu culpa. ¡Inténtalo de nuevo!
+    copiedToClipboard: La información de depuración se ha copiado al portapapeles
+    addedToConsole: Ahora puedes usar la variable **error** en la consola
+    report_clipboard: Copiar al portapapeles
+    report_console: Registrar en la consola
+    previousReport: Mostrar informe anterior
+    nextReport: Mostrar informe siguiente
+    detailsEmpty: Este error no tiene stacktrace.
+
+startupCrash:
+    title: ¡Algo ha salido mal!
+    message: "Algo ha fallado al intentar iniciar la aplicación.\n\nAquí hay algunas cosas que puedes probar:"
+    reload: Intentar de nuevo
+    inspect: Ver detalles del error
+
+account:
+    error: Ha habido un error al conectar con la cuenta.
+    dirty: Hay cambios locales que aún no se han sincronizado.
+
+user:
+    logIn: Conectar cuenta
+    settings: Configuración
+    menu: Configuración

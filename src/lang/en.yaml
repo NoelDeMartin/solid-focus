@@ -65,14 +65,19 @@ landing:
 solid:
     loginStale: This is taking too long...
     loginOngoing: Logging in...
+    logIn:
+        submit: Log in
+        switchAuthenticator: Can't log in? Try using a different authentication method
     logoutConfirmWipe: Also remove all existing data (tasks, lists, etc.)
+    logoutConfirmAccept: Log out
+    logoutConfirmCancel: Cancel
+    logoutConfirmWipeNotice: I understand that changes that haven't been synchronized will be lost.
 
 cloud:
     logIn:
         label: Login url
         placeholder: https://me.solidcommunity.net
         submit: Log in
-        dev: Log in to dev server
     setup:
         title: All your eggs are in the same basket
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
@@ -94,6 +99,15 @@ cloud:
         interruptedMessage: It seems like the schema migration was interrupted, you should complete it before you continue using the application or you may run into issues.
         continue: Continue
         postpone: Postpone
+    info:
+        syncing: Synchronizing...
+        reconnecting: Reconnecting...
+        error: There has been an error connecting.
+    status:
+        syncing: Synchronization in progress
+        migrating: Migration in progress
+        online: Online
+        disconnected: Disconnected
 
 footer:
     about: about
@@ -197,9 +211,20 @@ notFound:
     logIn: Need to log in?
 
 settings:
+    title: Settings
+    migrate: Migrate
     migrationTitle: Data migration
     migrationDescription: It seems like the data structure in your POD is outdated. When you're ready, you can migrate to a newer schema for better compatibility with other apps.
-    migrate: Migrate
+    locale: Language
+    localeDescription: Choose the application's language.
+    localeDefault: '{locale} (default)'
+    dangerZone: Danger zone
+    purge: Purge data
+    purgeConfirmTitle: Delete everything?
+    purgeConfirmMessage: If you proceed, all your data will be deleted forever. If you want to save it before wiping this device, you can [connect to your Solid account](#action:connect) first.
+    purgeConfirmAccept: Purge data
+    debug: Debugging
+    debugDescription: Enable debugging with [Eruda](https://eruda.liriliri.io/).
 
 time:
     yesterday: Yesterday
@@ -212,21 +237,40 @@ ui:
     cancel: Cancel
     close: Close
     delete: Delete
+    advancedOptions: Advanced options
+    accept: Ok
+    confirm: Confirm
+    loading: Loading
+    loadingInProgress: Loading in progress...
+    select: Select an option
+    selectEmpty: No options available
 
 errors:
     required: This field is required
     containerEndingSlashMissing: Container urls must end with /
     viewDetails: View details
+    unknown: Unknown Error
+    unknownDescription: Unknown error object
+    notice: Something went wrong, but it's not your fault. Try again!
+    copiedToClipboard: Debug information copied to clipboard
+    addedToConsole: You can now use the **error** variable in the console
+    report_clipboard: Copy to clipboard
+    report_console: Log to console
+    previousReport: Show previous report
+    nextReport: Show next report
+    detailsEmpty: This error is missing a stacktrace.
 
-beta:
-    tag: Beta
-    title: Hello there!
-    message: |
-        Thanks for visiting **Focus**. The app is still a Work In Progress, so I don't recommend using it in production. But feel free
-        to play around with it and take it for a spin. Most of the functionality is already in place, but there are still some things
-        I want to do and I can't guarantee that it won't change in the final version.
+startupCrash:
+    title: Something went wrong!
+    message: "Something failed trying to start the application.\n\nHere's some things you can do:"
+    reload: Try again
+    inspect: View error details
 
-        Also, please don't share it too widely because I think first impressions are important and I've still got some work to do :).
+account:
+    error: There has been an error connecting with your account.
+    dirty: There are local changes that haven't been synchronized yet.
 
-        You can find more about what is missing, and give some feedback, in the [Beta Feedback](https://github.com/NoelDeMartin/solid-focus/issues/15) issue.
-        If you want to know when this is ready, subscribe to the issue in GitHub to get a notification.
+user:
+    logIn: Connect account
+    settings: Settings
+    menu: Configuration

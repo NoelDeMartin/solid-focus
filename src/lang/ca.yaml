@@ -1,5 +1,276 @@
+landing:
+    title: Focus
+    tagline: Oblida amb confiança
+    description: |
+        Centenars d'idees. Milers de tasques. Una llista interminable de coses per fer.<br class="hidden md:block">
+        Oblida tot això. Guarda-ho a Focus, i concentra't en el que importa.
+    featuresPrompt: Espera un moment, això és un altre gestor de tasques?
+    featuresIntro: 'Bé... sí i no. Aquí pots veure com Focus és diferent:'
+    workspacesTitle: Espais de treball
+    workspacesDescription: |
+        Diferents parts de la teva vida mereixen **el seu propi lloc**.
+
+        Fes servir diferents espais de treball per organitzar les tasques on corresponen, i evita pensar en la compra quan estàs treballant en aquell side-project.
+    localFirstTitle: Sense Internet? Sense problema!
+    localFirstDescription: |
+        Focus és [local-first](https://www.inkandswitch.com/local-first/), així que pots deixar de preocupar-te per la connexió inestable al metro.
+
+        També és completament privat. **Ni tan sols necessites un compte per començar!**
+    pwaTitle: Fet per a la web, no pels Appstores
+    pwaDescription: |
+        Focus és una [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app)
+        creada amb un disseny adaptable. **Es veurà genial en qualsevol dels teus dispositius.**
+    solidTitle: Sigues propietari de les teves dades
+    solidDescription: |
+        Gràcies a estàndards oberts com el [Protocol Solid](https://solidproject.org), tu decideixes on viuen les teves dades.
+
+        Les teves aplicacions haurien de treballar juntes, **digues adeu al vendor lock-in!**
+    a11yTitle: Fet per a tothom
+    a11yDescription: |
+        L'**accessibilitat** i la **localització** s'han tingut en compte des del principi.
+
+        També pots mirar el que hi ha a sota, perquè és [Codi Obert]({sourceUrl}).
+    more: i més...
+    moreMarkdown: 'Suport per a [Markdown](https://www.markdownguide.org/getting-started/)'
+    moreScratchpad: Bloc de notes
+    moreDeadlines: Dates límit per a tasques
+    moreImportant: Tasques importants
+    moreSearch: Cerca global
+    moreKeyboard: Dreceres de teclat
+    callout: Comprova-ho tu mateix.
+    syncing:
+        title: Sincronització en progrés ({progress}%)...
+        syncCancelledTitle: Sincronització aturada
+        syncCancelledMessage: S'ha interromput l'obtenció de dades, és necessari fer una sincronització completa abans de començar a fer servir l'aplicació.
+        syncCancelledResume: Continuar
+        syncCancelledLogout: Cancel·lar
+    getStarted:
+        cta: Començar
+        title: Comencem
+        intro: 'Primer, crea una tasca amb el que vols fer:'
+        a11yIntro: "Hola! Si estàs llegint aquest missatge, probablement fas servir un lector de pantalla perquè està ocult a la vista. M'importa l'accessibilitat, així que si trobes alguna cosa que no funciona o que es pot millorar, [fes-m'ho saber]({issuesUrl})!"
+        submit: Continuar
+        defaultWorkspaceName: Principal
+        back: tornar
+        loginError: Hi ha hagut un problema en connectar amb el compte.
+        advanced:
+            intro: Les tasques estan organitzades dins d'espais de treball, pots fer servir aquesta configuració per indicar el teu espai de treball predeterminat.
+            workspaceName: Nom de l'espai de treball
+            workspaceUrl: URL de l'espai de treball
+    logIn:
+        cta: Log in
+        title: Benvingut de nou!
+        back: tornar
+
+solid:
+    loginStale: Això està trigant massa...
+    loginOngoing: Iniciant sessió...
+    logIn:
+        submit: Iniciar sessió
+        switchAuthenticator: No pots iniciar sessió? Prova a fer servir un altre mètode d'autenticació
+    logoutConfirmWipe: Eliminar totes les dades locals (tasques, llistes, etc.)
+    logoutConfirmAccept: Tancar sessió
+    logoutConfirmCancel: Cancel·lar
+    logoutConfirmWipeNotice: Entenc que els canvis que no s'han sincronitzat es perdran.
+
+cloud:
+    logIn:
+        label: URL d'inici de sessió
+        placeholder: https://me.solidcommunity.net
+        submit: Iniciar sessió
+    setup:
+        title: Tens tots els ous a la mateixa cistella
+        message: Les teves dades només estan guardades al dispositiu actual, hauries de pujar-les al núvol per mantenir-les segures. Vols guardar-les a `{domain}`?
+        dismiss: encara no
+        submit: Guardar ara
+        ongoing: Guardant...
+        advanced: Utilitza el formulari a continuació per configurar les carpetes on es crearà cada espai de treball.
+        workspaceUrl: 'URL de {name}'
+    migrate:
+        title: Les teves dades fan servir un format antic
+        message: Les dades al teu POD fan servir un format antic que segurament no és el millor per a la interoperabilitat. Recomanem que les migris al format més recent per a una millor compatibilitat amb altres aplicacions.
+        learnMore: saber-ne més
+        submit: Migrar ara
+        ongoing: Migrant...
+        dismiss: encara no
+        dismissTitle: Posposar migració
+        dismissMessage: L'aplicació hauria de continuar funcionant amb el format antic, però recomanem que el migris en algun moment. Pots continuar aquest procés a la configuració sota la secció `Migració de dades`.
+        interruptedTitle: La migració de dades s'ha interromput!
+        interruptedMessage: Sembla que la migració del format s'ha interromput, hauries de completar-la abans de continuar fent servir l'aplicació o podries tenir problemes.
+        continue: Continuar
+        postpone: Posposar
+    info:
+        syncing: Sincronitzant...
+        reconnecting: Reconnectant...
+        error: S'ha produït un error al connectar.
+    status:
+        syncing: Sincronització en progrés
+        migrating: Migració en progrés
+        online: Online
+        disconnected: Desconnectat
+
+footer:
+    about: sobre
+    source: codi font
+
+about:
+    title: Sobre
+    info: |
+        Creat i mantingut per [Noel De Martin](https://noeldemartin.com).
+
+        Aquesta aplicació és de codi obert i les contribucions són benvingudes, troba el codi a [GitHub]({sourceUrl}).
+
+workspace:
+    search: Prem "s" per cercar
+    searchPlaceholder: Cercar tasques, llistes, espais de treball...
+    searchEmpty: No s'ha trobat res.
+    searchPending: Tasca pendent
+    searchCompleted: Tasca completada
+    searchList: Llista
+    searchWorkspace: Espai de treball
+    actions: Veure accions
+
+workspaces:
+    select: Seleccionar espai de treball
+    edit: Configuració de l'espai de treball
+    add: Nou espai de treball
+    name: Nom
+    color: Color
+    url: URL
+    description: Els espais de treball poden ajudar-te a gestionar diferents parts de la teva vida. Evita pensar en la compra quan estàs treballant en aquell side-project!
+    openSidebar: Mostrar llistes
+    hideSidebar: Ocultar llistes
+    notFound: No hem trobat l'espai de treball `{workspace}`, estaves buscant una altra cosa?
+    advanced:
+        mintUrl: Crear URL de la carpeta automàticament.
+        info: Aquest espai de treball fa servir la carpeta a `{url}`. Si vols migrar-lo, hauràs de fer-ho amb una altra aplicació (i assegurar-te d'actualitzar el [Type Index](https://solid.github.io/type-indexes/)!).
+
+lists:
+    inbox: Inbox
+    add: Nova llista
+    edit: Configuració de la llista
+    editA11y: Configuració de la llista {name}
+    name: Nom
+    notFound: No hem trobat la llista `{list}`, estaves buscant una altra cosa?
+
 tasks:
-    desktopInputDescription: Fes servir "+" per afegir una nova tasca
+    desktopInputDescription: Prem "+" per afegir una nova tasca
+    mobileInputDescription: Afegir nova tasca
+    inputLabel: Nom de la tasca
+    inputPlaceholder: Què vols fer?
+    inputClear: Esborrar
+    inputSubmit: Afegir
+    selectA11y: Seleccionar tasca "{name}"
+    selectTitle: Seleccionar tasca
+    important: (Important)
+    startTitle: Preparat per créixer
+    startMessage: El sòl està a punt, planta les teves idees aquí perquè puguin brotar com arbres. O simplement escriu el que tinguis al cap, no totes les tasques han de ser tan florides!
+    startSubmit: Crear tasca
+    empty: Felicitats, has completat totes les teves tasques! Hora de prendre un descans?
+    completed: Completades
+    showCompleted: Mostrar completades
+    hideCompleted: Ocultar completades
+
+task:
+    actions: Veure accions
+    edit: Editar
+    emptyDescription: Sense descripció
+    name: Nom
+    namePlaceholder: En què estàs treballant?
+    description: Descripció
+    descriptionPlaceholder: Escriu algunes notes...
+    editDescription: Editar descripció
+    dueDate: Data límit
+    editDueDate: Editar data límit
+    created: Creada el {date}
+    completed: Completada el {date}
+    notCompleted: No completada
+    complete: Completar
+    due: Data límit {date}
+    notDue: Sense data límit
+    important: Important
+    notImportant: No important
+    importantA11y: Aquesta tasca està marcada com a important
+    notImportantA11y: Aquesta tasca no està marcada com a important
+    pendingA11y: Aquesta tasca encara no s'ha completat
+    makeImportant: Marcar com a important
+    removeImportant: Treure importància
+    removeCompleted:
+        button: Desfer tasca
+        title: Desfer tasca?
+        message: Això mourà <code>{task}</code> a la llista de tasques pendents, i es perdrà la data de finalització anterior.
+        accept: Desfer tasca
+    delete:
+        button: Eliminar
+        title: Eliminar tasca
+        message: Això eliminarà la tasca <code>{task}</code>.
+
+notFound:
+    title: T'has perdut?
+    goHome: Anar a l'inici
+    logIn: Necessites iniciar sessió?
 
 settings:
     title: Configuració
+    migrate: Migrar
+    migrationTitle: Migració de dades
+    migrationDescription: Sembla que l'estructura de dades al teu POD està desactualitzada. Quan estiguis a punt, pots migrar a un format més nou per millorar la compatibilitat amb altres aplicacions.
+    locale: Idioma
+    localeDescription: Tria l'idioma de l'aplicació.
+    localeDefault: '{locale} (predeterminat)'
+    dangerZone: Zona perillosa
+    purge: Purgar dades
+    purgeConfirmTitle: Eliminar-ho tot?
+    purgeConfirmMessage: Si continues, totes les teves dades s'eliminaràn per sempre. Si vols guardar-les abans de netejar aquest dispositiu, pots [connectar-te al teu compte Solid](#action:connect).
+    purgeConfirmAccept: Purgar dades
+    debug: Inspeccionar
+    debugDescription: Habilitar la inspecció amb [Eruda](https://eruda.liriliri.io/).
+
+time:
+    yesterday: Ahir
+    today: Avui
+    tomorrow: Demà
+
+ui:
+    create: Crear
+    save: Guardar
+    cancel: Cancel·lar
+    close: Tancar
+    delete: Eliminar
+    advancedOptions: Opcions avançades
+    accept: Acceptar
+    confirm: Confirmar
+    loading: Carregant
+    loadingInProgress: Carregant...
+    select: Selecciona una opció
+    selectEmpty: No hi ha opcions disponibles
+
+errors:
+    required: Aquest camp és obligatori
+    containerEndingSlashMissing: Les URLs de les carpetes han d'acabar amb /
+    viewDetails: Veure detalls
+    unknown: Error desconegut
+    unknownDescription: Tipus d'error desconegut
+    notice: Hi ha hagut un error, però no és culpa teva. Torna-ho a provar!
+    copiedToClipboard: La informació de depuració s'ha copiat al porta-retalls
+    addedToConsole: Pots fer servir la variable **error** a la consola
+    report_clipboard: Copiar al porta-retalls
+    report_console: Registrar a la consola
+    previousReport: Mostrar informe anterior
+    nextReport: Mostrar informe següent
+    detailsEmpty: Aquest error no té stacktrace.
+
+startupCrash:
+    title: Hi ha hagut un error!
+    message: "Alguna cosa ha fallat en intentar iniciar l'aplicació.\n\nAquí hi ha algunes coses que pots provar:"
+    reload: Intentar de nou
+    inspect: Veure detalls de l'error
+
+account:
+    error: Hi ha hagut un error al connectar amb el compte.
+    dirty: Hi ha canvis locals que no s'han sincronitzat.
+
+user:
+    logIn: Connectar compte
+    settings: Configuració
+    menu: Configuració
