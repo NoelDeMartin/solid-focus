@@ -15,7 +15,7 @@
             <Markdown :lang-key="langKey" :lang-params="langParams" class="mt-4 text-xl text-gray-600" />
             <div class="mt-4 flex justify-center gap-2">
                 <Button route="home" class="text-sm">
-                    {{ $t('notFound.goHome') }}
+                    {{ $t('notFound.home') }}
                 </Button>
                 <Button
                     v-if="!$solid.hasLoggedIn()"

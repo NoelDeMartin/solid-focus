@@ -45,9 +45,9 @@ landing:
         syncCancelledResume: Continuar
         syncCancelledLogout: Cancel·lar
     getStarted:
-        cta: Començar
+        cta: Comença
         title: Comencem
-        intro: 'Primer, crea una tasca amb el que vols fer:'
+        intro: 'Per començar, crea la teva primera tasca:'
         a11yIntro: "Hola! Si estàs llegint aquest missatge, probablement fas servir un lector de pantalla perquè està ocult a la vista. M'importa l'accessibilitat, així que si trobes alguna cosa que no funciona o que es pot millorar, [fes-m'ho saber]({issuesUrl})!"
         submit: Continuar
         defaultWorkspaceName: Principal
@@ -67,17 +67,52 @@ solid:
     loginOngoing: Iniciant sessió...
     logIn:
         submit: Iniciar sessió
+        label: URL d'inici de sessió
+        placeholder: https://me.solidcommunity.net
         switchAuthenticator: No pots iniciar sessió? Prova a fer servir un altre mètode d'autenticació
+        switchAuthenticatorLabel: Mètode d'autenticació
+        manualUrl: Introdueix URL
+        dev: Entra al servidor de desenvolupament
     logoutConfirmWipe: Eliminar totes les dades locals (tasques, llistes, etc.)
     logoutConfirmAccept: Tancar sessió
     logoutConfirmCancel: Cancel·lar
     logoutConfirmWipeNotice: Entenc que els canvis que no s'han sincronitzat es perdran.
+    stuckConnecting: 'No hem rebut resposta de `{domain}`, potser prova de reconnectar?'
+    disconnectConfirmTitle: Desconnectar compte?
+    disconnectConfirmMessage: "Hauràs d'introduir les teves credencials de nou per connectar-te al teu POD."
+    logoutOngoing: Tancant sessió...
+    logoutConfirmTitle: Tancar sessió en aquest dispositiu
+    logoutConfirmMessage: "Tancar la sessió eliminarà totes les dades d'aquest dispositiu, però encara les tindràs al teu POD."
+    logoutConfirmMessageWithLocalChanges: "Hi ha alguns canvis que no s'han sincronitzat i es perdran, però la resta de dades romandran al teu POD."
 
 cloud:
+    stop: Aturar sincronització
+    stopping: Aturant...
+    reconnect: Reconnectar
+    sync: Sincronitzar
+    syncFailed: Ha fallat la sincronització
+    logOut: Tancar sessió
+    disconnect: Desconnectar
+    migrationFailed: Ha fallat la migració
+    migrationNotLoggedIn: Has de reconnectar abans de començar la migració
+    migrationNotReady: Has de guardar les teves dades al núvol abans de començar la migració
+    migrationNotSyncing: Espera que acabi la sincronització abans de començar la migració
+    migrationNotOnline: Has d'estar online per començar la migració
     logIn:
         label: URL d'inici de sessió
         placeholder: https://me.solidcommunity.net
         submit: Iniciar sessió
+        title: Connectar compte
+        learnMore: Què és Solid?
+        learnMoreMessage: |
+            Solid és un protocol d'emmagatzematge descentralitzat construït sobre estàndards web. Si vols fer servir aquesta aplicació en diversos dispositius,
+            pots utilitzar Solid per mantenir els canvis sincronitzats. Fins i tot si la fas servir en un sol dispositiu, això també mantindrà les teves dades segures en cas que el perdis.
+
+            En qualsevol cas, Focus funciona 100% sense connexió i pots connectar el teu POD més endavant. Si mai has sentit parlar de Solid i només estàs provant la app,
+            pots continuar fent-la servir sense compte.
+
+            [Més informació](https://solidproject.org)
+        info: Inicia sessió al teu [compte Solid](https://solidproject.org) per mantenir les dades segures entre dispositius.
     setup:
         title: Tens tots els ous a la mateixa cistella
         message: Les teves dades només estan guardades al dispositiu actual, hauries de pujar-les al núvol per mantenir-les segures. Vols guardar-les a `{domain}`?
@@ -103,11 +138,18 @@ cloud:
         syncing: Sincronitzant...
         reconnecting: Reconnectant...
         error: S'ha produït un error al connectar.
+        setup: Les teves dades encara no tenen còpia de seguretat.
+        changes: Tot està actualitzat. | Hi ha un canvi sense sincronitzar. | Hi ha {n} canvis sense sincronitzar.
     status:
         syncing: Sincronització en progrés
         migrating: Migració en progrés
         online: Online
         disconnected: Desconnectat
+    advanced:
+        reconnect: Reconectar al inici
+        startupSync: Sincronitzar al inici
+        polling: Sincronitzar cada {minutes} minuts
+        pollingMinutes: Interval de sincronització (en minuts)
 
 footer:
     about: sobre
@@ -206,8 +248,8 @@ task:
         message: Això eliminarà la tasca <code>{task}</code>.
 
 notFound:
-    title: T'has perdut?
-    goHome: Anar a l'inici
+    title: "T'has perdut?"
+    home: Anar a l'inici
     logIn: Necessites iniciar sessió?
 
 settings:
@@ -238,9 +280,11 @@ ui:
     close: Tancar
     delete: Eliminar
     advancedOptions: Opcions avançades
-    accept: Acceptar
+    alert: Alerta
+    accept: D'acord
     confirm: Confirmar
     loading: Carregant
+    progress: '{progress}% completat'
     loadingInProgress: Carregant...
     select: Selecciona una opció
     selectEmpty: No hi ha opcions disponibles
@@ -252,12 +296,15 @@ errors:
     unknown: Error desconegut
     unknownDescription: Tipus d'error desconegut
     notice: Hi ha hagut un error, però no és culpa teva. Torna-ho a provar!
+    viewLogs: Veure historial d'errors
     copiedToClipboard: La informació de depuració s'ha copiat al porta-retalls
     addedToConsole: Pots fer servir la variable **error** a la consola
+    report: Informe d'error
     report_clipboard: Copiar al porta-retalls
     report_console: Registrar a la consola
     previousReport: Mostrar informe anterior
     nextReport: Mostrar informe següent
+    inspectEmpty: Res per inspeccionar
     detailsEmpty: Aquest error no té stacktrace.
 
 startupCrash:
@@ -269,8 +316,11 @@ startupCrash:
 account:
     error: Hi ha hagut un error al connectar amb el compte.
     dirty: Hi ha canvis locals que no s'han sincronitzat.
+    title: Compte
+    open: Obrir compte
 
 user:
     logIn: Connectar compte
     settings: Configuració
     menu: Configuració
+    anonymous: Anònim

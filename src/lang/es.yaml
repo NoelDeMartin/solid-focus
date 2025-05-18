@@ -67,17 +67,52 @@ solid:
     loginOngoing: Iniciando sesión...
     logIn:
         submit: Iniciar sesión
+        label: URL de inicio de sesión
+        placeholder: https://me.solidcommunity.net
         switchAuthenticator: ¿No puedes iniciar sesión? Intenta usar un método de autenticación diferente
+        switchAuthenticatorLabel: Método de autenticación
+        manualUrl: Introduce url
+        dev: Entra al servidor de desarrollo
     logoutConfirmWipe: Eliminar todos los datos locales (tareas, listas, etc.)
     logoutConfirmAccept: Cerrar sesión
     logoutConfirmCancel: Cancelar
     logoutConfirmWipeNotice: Entiendo que los cambios que no se han sincronizado se perderán.
+    stuckConnecting: 'No hemos recibido respuesta de `{domain}`, ¿quizás intenta reconectar?'
+    disconnectConfirmTitle: ¿Desconectar cuenta?
+    disconnectConfirmMessage: 'Tendrás que introducir tus credenciales de nuevo para conectarte a tu POD.'
+    logoutOngoing: Cerrando sesión...
+    logoutConfirmTitle: Cerrar sesión en este dispositivo
+    logoutConfirmMessage: 'Cerrar la sesión eliminará todos los datos de este dispositivo, pero aún los tendrás en tu POD.'
+    logoutConfirmMessageWithLocalChanges: 'Hay algunos cambios que no se han sincronizado y se perderán, pero el resto de los datos permanecerán en tu POD.'
 
 cloud:
+    stop: Parar sincronización
+    stopping: Parando...
+    reconnect: Reconectar
+    sync: Sincronizar
+    syncFailed: Ha fallado la sincronización
+    logOut: Cerrar sesión
+    disconnect: Desconectar
+    migrationFailed: Ha fallado la migración
+    migrationNotLoggedIn: Necesitas reconectar antes de iniciar la migración
+    migrationNotReady: Necesitas guardar tus datos en la nube antes de iniciar la migración
+    migrationNotSyncing: Espera a que termine la sincronización antes de iniciar la migración
+    migrationNotOnline: Necesitas estar online para iniciar la migración
     logIn:
         label: URL de inicio de sesión
         placeholder: https://me.solidcommunity.net
         submit: Iniciar sesión
+        title: Conectar cuenta
+        learnMore: ¿Qué es Solid?
+        learnMoreMessage: |
+            Solid es un protocolo de almacenamiento descentralizado construido sobre estándares web. Si quieres usar esta aplicación en varios dispositivos,
+            puedes usar Solid para mantener los cambios sincronizados. Incluso si lo usas en un solo dispositivo, esto también mantendrá tus datos seguros en caso de que lo pierdas.
+
+            En cualquier caso, Focus funciona 100% sin conexión y puedes conectar tu POD de Solid más adelante. Si nunca has oído hablar de Solid y solo estás probando la app,
+            puedes seguir usándola sin crear una cuenta.
+
+            [Más información](https://solidproject.org)
+        info: Inicia sesión en tu [cuenta Solid](https://solidproject.org) para mantener los datos seguros entre dispositivos.
     setup:
         title: Tienes todos los huevos en la misma cesta
         message: Tus datos solo están guardados en el dispositivo actual, deberías subirlos a la nube para mantenerlos seguros. ¿Quieres guardarlos en `{domain}`?
@@ -103,11 +138,18 @@ cloud:
         syncing: Sincronizando...
         reconnecting: Reconectando...
         error: Ha habido un error al conectar.
+        setup: Tus datos aún no están guardados en la nube.
+        changes: Todo está actualizado. | Hay un cambio sin sincronizar. | Hay {n} cambios sin sincronizar.
     status:
         syncing: Sincronización en progreso
         migrating: Migración en progreso
         online: Online
         disconnected: Desconectado
+    advanced:
+        reconnect: Reconectar al inicio
+        startupSync: Sincronizar al inicio
+        polling: Sincronizar cada {minutes} minutos
+        pollingMinutes: Intervalo de sincronización (en minutos)
 
 footer:
     about: acerca de
@@ -207,7 +249,7 @@ task:
 
 notFound:
     title: ¿Estás perdido?
-    goHome: Ir al inicio
+    home: Ir al inicio
     logIn: ¿Necesitas loguearte?
 
 settings:
@@ -244,6 +286,8 @@ ui:
     loadingInProgress: Cargando...
     select: Selecciona una opción
     selectEmpty: No hay opciones disponibles
+    alert: Alerta
+    progress: '{progress}% completado'
 
 errors:
     required: Este campo es obligatorio
@@ -252,12 +296,15 @@ errors:
     unknown: Error desconocido
     unknownDescription: Tipo de error desconocido
     notice: Algo ha salido mal, pero no es tu culpa. ¡Inténtalo de nuevo!
+    viewLogs: Ver historial de errores
     copiedToClipboard: La información de depuración se ha copiado al portapapeles
     addedToConsole: Ahora puedes usar la variable **error** en la consola
+    report: Informe de error
     report_clipboard: Copiar al portapapeles
     report_console: Registrar en la consola
     previousReport: Mostrar informe anterior
     nextReport: Mostrar informe siguiente
+    inspectEmpty: Nada que inspeccionar
     detailsEmpty: Este error no tiene stacktrace.
 
 startupCrash:
@@ -269,8 +316,11 @@ startupCrash:
 account:
     error: Ha habido un error al conectar con la cuenta.
     dirty: Hay cambios locales que aún no se han sincronizado.
+    title: Cuenta
+    open: Abrir cuenta
 
 user:
     logIn: Conectar cuenta
     settings: Configuración
     menu: Configuración
+    anonymous: Anónimo

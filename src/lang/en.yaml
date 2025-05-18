@@ -67,17 +67,52 @@ solid:
     loginOngoing: Logging in...
     logIn:
         submit: Log in
+        label: Login url
+        placeholder: https://me.solidcommunity.net
         switchAuthenticator: Can't log in? Try using a different authentication method
+        switchAuthenticatorLabel: Authentication method
+        manualUrl: Enter url
+        dev: Log in to dev server
     logoutConfirmWipe: Also remove all existing data (tasks, lists, etc.)
     logoutConfirmAccept: Log out
     logoutConfirmCancel: Cancel
     logoutConfirmWipeNotice: I understand that changes that haven't been synchronized will be lost.
+    stuckConnecting: "We didn't hear back from the identity provider at `{domain}`, maybe try reconnecting?"
+    disconnectConfirmTitle: Disconnect account?
+    disconnectConfirmMessage: "You'll need to introduce your credentials again to connect to your Solid POD."
+    logoutOngoing: Logging out...
+    logoutConfirmTitle: Log out from this device
+    logoutConfirmMessage: "Logging out will remove all the data from this device, but you'll still have it in your Solid POD."
+    logoutConfirmMessageWithLocalChanges: "There are some changes that haven't been synchronized and will be lost, but the rest of the data will remain in your Solid POD."
 
 cloud:
+    stop: Stop synchronization
+    stopping: Stopping...
+    reconnect: Reconnect
+    sync: Synchronize
+    syncFailed: Sync failed
+    logOut: Log out
+    disconnect: Disconnect
+    migrationFailed: Migration failed
+    migrationNotLoggedIn: You need to reconnect before starting the migration
+    migrationNotReady: You need to backup your data before starting the migration
+    migrationNotSyncing: Wait for syncing to finish before starting the migration
+    migrationNotOnline: You need to be online in order to start the migration
     logIn:
         label: Login url
         placeholder: https://me.solidcommunity.net
         submit: Log in
+        title: Connect account
+        learnMore: What is Solid?
+        learnMoreMessage: |
+            Solid is a decentralized storage protocol built on top of web standards. If you want to use this app across devices,
+            you can use Solid to keep changes in sync. Even if you use it in a single device, this will also keep your data secure in case your device is lost.
+
+            In any case, Focus works 100% offline and you can connect your Solid POD later on. If you've never heard of Solid and you're just trying things out,
+            you can keep using it without an account.
+
+            [Learn more](https://solidproject.org)
+        info: Log in to your [Solid account](https://solidproject.org) to keep data safe across devices.
     setup:
         title: All your eggs are in the same basket
         message: Your data is only stored locally, you should upload it to the cloud to keep it safe. Do you want to proceed backing it up at `{domain}`?
@@ -103,11 +138,18 @@ cloud:
         syncing: Synchronizing...
         reconnecting: Reconnecting...
         error: There has been an error connecting.
+        setup: Your data is not backed up yet.
+        changes: Everything is up to date. | There is one local change. | There are {n} local changes.
     status:
         syncing: Synchronization in progress
         migrating: Migration in progress
         online: Online
         disconnected: Disconnected
+    advanced:
+        reconnect: Reconnect on startup
+        startupSync: Synchronize on startup
+        polling: Synchronize every {minutes} minutes
+        pollingMinutes: Synchronization interval (in minutes)
 
 footer:
     about: about
@@ -207,7 +249,7 @@ task:
 
 notFound:
     title: Are you lost?
-    goHome: Go home
+    home: Go home
     logIn: Need to log in?
 
 settings:
@@ -244,6 +286,8 @@ ui:
     loadingInProgress: Loading in progress...
     select: Select an option
     selectEmpty: No options available
+    alert: Alert
+    progress: '{progress}% complete'
 
 errors:
     required: This field is required
@@ -252,12 +296,15 @@ errors:
     unknown: Unknown Error
     unknownDescription: Unknown error object
     notice: Something went wrong, but it's not your fault. Try again!
+    viewLogs: View error logs
     copiedToClipboard: Debug information copied to clipboard
     addedToConsole: You can now use the **error** variable in the console
+    report: Error report
     report_clipboard: Copy to clipboard
     report_console: Log to console
     previousReport: Show previous report
     nextReport: Show next report
+    inspectEmpty: Nothing to inspect
     detailsEmpty: This error is missing a stacktrace.
 
 startupCrash:
@@ -269,8 +316,11 @@ startupCrash:
 account:
     error: There has been an error connecting with your account.
     dirty: There are local changes that haven't been synchronized yet.
+    title: Account
+    open: Open account
 
 user:
     logIn: Connect account
     settings: Settings
     menu: Configuration
+    anonymous: Anonymous
