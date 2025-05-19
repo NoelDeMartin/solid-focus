@@ -5,7 +5,7 @@ import { listName } from '@/utils/display';
 import type TasksList from '@/models/TasksList';
 import type WorkspaceModel from '@/models/Workspace';
 
-import Landing from './landing/Landing.vue';
+import LandingBeta from './landing/LandingBeta.vue';
 import Workspace from './workspace/Workspace.vue';
 
 export const bindings = defineRouteBindings({
@@ -23,7 +23,7 @@ export const routes = defineRoutes([
     {
         name: 'home',
         path: '/',
-        component: Landing,
+        component: LandingBeta,
         beforeEnter: () => Workspaces.open(),
     },
     {
