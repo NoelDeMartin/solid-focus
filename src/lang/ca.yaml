@@ -138,6 +138,7 @@ cloud:
         syncing: Sincronitzant...
         reconnecting: Reconnectant...
         error: S'ha produït un error al connectar.
+        disconnected: Estàs desconnectat del núvol, els canvis que facis romandràn al teu dispositiu.
         setup: Les teves dades encara no tenen còpia de seguretat.
         changes: Tot està actualitzat. | Hi ha un canvi sense sincronitzar. | Hi ha {n} canvis sense sincronitzar.
     status:

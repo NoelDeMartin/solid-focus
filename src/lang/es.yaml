@@ -138,6 +138,7 @@ cloud:
         syncing: Sincronizando...
         reconnecting: Reconectando...
         error: Ha habido un error al conectar.
+        disconnected: Estás desconectado de la nube, todos los cambios que hagas permanecerán en tu dispositivo.
         setup: Tus datos aún no están guardados en la nube.
         changes: Todo está actualizado. | Hay un cambio sin sincronizar. | Hay {n} cambios sin sincronizar.
     status:

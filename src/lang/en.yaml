@@ -138,6 +138,7 @@ cloud:
         syncing: Synchronizing...
         reconnecting: Reconnecting...
         error: There has been an error connecting.
+        disconnected: You are disconnected from your Solid account, all the changes you make will remain in your device.
         setup: Your data is not backed up yet.
         changes: Everything is up to date. | There is one local change. | There are {n} local changes.
     status:
