@@ -313,6 +313,14 @@ startupCrash:
     message: "Alguna cosa ha fallat en intentar iniciar l'aplicació.\n\nAquí hi ha algunes coses que pots provar:"
     reload: Intentar de nou
     inspect: Veure detalls de l'error
+    purge: Purgar dispositiu
+    purgeConfirmTitle: Eliminar-ho tot?
+    purgeConfirmMessage: |
+        Si no pots arreglar el problema, una opció és netejar el magatzem del dispositiu per tornar a començar. Però
+        tingues en compte que **totes les dades que no s'han sincronitzat s'eliminaràn per sempre**.
+
+        Encara vols continuar?
+    purgeConfirmAccept: Purgar dispositiu
 
 account:
     error: Hi ha hagut un error al connectar amb el compte.

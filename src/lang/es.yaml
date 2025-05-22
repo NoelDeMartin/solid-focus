@@ -313,6 +313,14 @@ startupCrash:
     message: "Algo ha fallado al intentar iniciar la aplicación.\n\nAquí hay algunas cosas que puedes probar:"
     reload: Intentar de nuevo
     inspect: Ver detalles del error
+    purge: Purgar dispositivo
+    purgeConfirmTitle: ¿Eliminar todo?
+    purgeConfirmMessage: |
+        Si no puedes resolver el problema, una solución es limpiar el almacenamiento en el dispositivo para empezar de cero. Sin embargo,
+        ten en cuenta que **todos los datos que no hayas sincronizados se eliminarán para siempre**.
+
+        ¿Aún así quieres continuar?
+    purgeConfirmAccept: Purgar dispositivo
 
 account:
     error: Ha habido un error al conectar con la cuenta.

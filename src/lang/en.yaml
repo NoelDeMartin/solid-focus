@@ -313,6 +313,14 @@ startupCrash:
     message: "Something failed trying to start the application.\n\nHere's some things you can do:"
     reload: Try again
     inspect: View error details
+    purge: Purge device
+    purgeConfirmTitle: Delete everything?
+    purgeConfirmMessage: |
+        If the problem persists, one drastic solution may be to wipe the storage in this device to start from scratch. However,
+        keep in mind that **all the data that you haven't synchronized will be deleted forever**.
+
+        Do you still want to proceed?
+    purgeConfirmAccept: Purge device
 
 account:
     error: There has been an error connecting with your account.
