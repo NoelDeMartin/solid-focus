@@ -310,7 +310,7 @@ errors:
 
 startupCrash:
     title: Hi ha hagut un error!
-    message: "Alguna cosa ha fallat en intentar iniciar l'aplicació.\n\nAquí hi ha algunes coses que pots provar:"
+    message: "Alguna cosa ha fallat en intentar iniciar l'aplicació, però aquí tens algunes coses que pots provar:"
     reload: Intentar de nou
     inspect: Veure detalls de l'error
     purge: Purgar dispositiu
@@ -321,6 +321,7 @@ startupCrash:
 
         Encara vols continuar?
     purgeConfirmAccept: Purgar dispositiu
+    debug: Inspeccionar
 
 account:
     error: Hi ha hagut un error al connectar amb el compte.

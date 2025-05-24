@@ -308,9 +308,8 @@ errors:
     inspectEmpty: Nothing to inspect
     detailsEmpty: This error is missing a stacktrace.
 
-startupCrash:
-    title: Something went wrong!
-    message: "Something failed trying to start the application.\n\nHere's some things you can do:"
+    title: Oops, something went wrong!
+    message: "There was a problem starting the application, but here's some things you can do:"
     reload: Try again
     inspect: View error details
     purge: Purge device
@@ -321,6 +320,7 @@ startupCrash:
 
         Do you still want to proceed?
     purgeConfirmAccept: Purge device
+    debug: Toggle debugging
 
 account:
     error: There has been an error connecting with your account.

@@ -310,7 +310,7 @@ errors:
 
 startupCrash:
     title: ¡Algo ha salido mal!
-    message: "Algo ha fallado al intentar iniciar la aplicación.\n\nAquí hay algunas cosas que puedes probar:"
+    message: 'Algo ha fallado al intentar iniciar la aplicación, pero aquí hay algunas cosas que puedes probar:'
     reload: Intentar de nuevo
     inspect: Ver detalles del error
     purge: Purgar dispositivo
@@ -321,6 +321,7 @@ startupCrash:
 
         ¿Aún así quieres continuar?
     purgeConfirmAccept: Purgar dispositivo
+    debug: Inspeccionar
 
 account:
     error: Ha habido un error al conectar con la cuenta.
