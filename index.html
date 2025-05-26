@@ -49,29 +49,43 @@
     }
 
     #wip-alert {
-        position: absolute;
+        position: fixed;
         top: 0;
-        right: 0;
         left: 0;
-        background: #333;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.85);
         color: white;
-        padding: 1rem;
+        padding: 2rem;
         z-index: 1000;
         display: flex;
+        flex-direction: column;
         font-family: "Roboto", sans-serif;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         text-align: center;
     }
 
+    #wip-alert span {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        max-width: 600px;
+    }
+
     #wip-alert a {
         color: #00a86b;
+        text-decoration: underline;
+        margin-bottom: 1rem;
     }
 
     #wip-alert button {
         background: #00a86b;
-        padding: .25rem .5rem;
-        margin-left: .25rem;
+        color: white;
+        border: none;
+        padding: .5rem 1.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 4px;
     }
 
     #wip-alert button:hover {
@@ -86,7 +100,10 @@
         #wip-alert span {
             margin-bottom: 1rem;
         }
-    }</style><link href=/solid-focus/js/chunk-228c3714.6f3e5267.js rel=prefetch><link href=/solid-focus/js/chunk-2d0b3e1d.87116961.js rel=prefetch><link href=/solid-focus/js/chunk-2d0c7a58.e8dabac1.js rel=prefetch><link href=/solid-focus/js/chunk-2d0db283.c2cd132a.js rel=prefetch><link href=/solid-focus/js/chunk-2d0df226.d6a8824a.js rel=prefetch><link href=/solid-focus/js/chunk-795096ba.505a5bdc.js rel=prefetch><link href=/solid-focus/css/app.e1fab5ba.css rel=preload as=style><link href=/solid-focus/css/chunk-vendors.1cd5d9ed.css rel=preload as=style><link href=/solid-focus/js/app.7d8f78ce.js rel=preload as=script><link href=/solid-focus/js/chunk-vendors.9ca30d13.js rel=preload as=script><link href=/solid-focus/css/chunk-vendors.1cd5d9ed.css rel=stylesheet><link href=/solid-focus/css/app.e1fab5ba.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/solid-focus/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/solid-focus/img/icons/favicon-16x16.png><link rel=manifest href=/solid-focus/manifest.json><meta name=theme-color content=#4dba87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content="Solid Focus"><link rel=apple-touch-icon href=/solid-focus/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/solid-focus/img/icons/safari-pinned-tab.svg color=#4dba87><meta name=msapplication-TileImage content=/solid-focus/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#4dba87></head><body loading><aside id=wip-alert style="display: none"><span>This app hasn't been updated for a while, so it may not work with some new PODs.</span><div><a href=https://github.com/NoelDeMartin/solid-focus/issues/10 target=_blank>Read more about the current status</a> <button onclick=dismissWIPAlert()>OK</button></div></aside><script>var wipAlert = document.getElementById('wip-alert');
+    }</style><link href=/solid-focus/js/chunk-228c3714.6f3e5267.js rel=prefetch><link href=/solid-focus/js/chunk-2d0b3e1d.87116961.js rel=prefetch><link href=/solid-focus/js/chunk-2d0c7a58.e8dabac1.js rel=prefetch><link href=/solid-focus/js/chunk-2d0db283.c2cd132a.js rel=prefetch><link href=/solid-focus/js/chunk-2d0df226.d6a8824a.js rel=prefetch><link href=/solid-focus/js/chunk-795096ba.505a5bdc.js rel=prefetch><link href=/solid-focus/css/app.e1fab5ba.css rel=preload as=style><link href=/solid-focus/css/chunk-vendors.1cd5d9ed.css rel=preload as=style><link href=/solid-focus/js/app.7d8f78ce.js rel=preload as=script><link href=/solid-focus/js/chunk-vendors.9ca30d13.js rel=preload as=script><link href=/solid-focus/css/chunk-vendors.1cd5d9ed.css rel=stylesheet><link href=/solid-focus/css/app.e1fab5ba.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=/solid-focus/img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/solid-focus/img/icons/favicon-16x16.png><link rel=manifest href=/solid-focus/manifest.json><meta name=theme-color content=#4dba87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content="Solid Focus"><link rel=apple-touch-icon href=/solid-focus/img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=/solid-focus/img/icons/safari-pinned-tab.svg color=#4dba87><meta name=msapplication-TileImage content=/solid-focus/img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#4dba87></head><body loading><aside id=wip-alert style="display: none">
+    <span>This app has recently been rebuilt from scratch, you can find the new version at <a href="https://focus.noeldemartin.com">focus.noeldemartin.com</a>.<br><br>You can also continue using the current version if you want, but keep in mind that this will be removed in a few months. It is Open Source, though, so you're free to fork it and self-host the older version.</span>
+    <button onclick=dismissWIPAlert()>Close</button>
+</aside><script>var wipAlert = document.getElementById('wip-alert');
 
         function dismissWIPAlert() {
             wipAlert.remove();
