@@ -9,7 +9,7 @@ describe('Onboarding', () => {
 
     it('Starts offline', () => {
         // Arrange
-        cy.see('Hello there');
+        cy.see('Forget with confidence');
 
         // Act
         cy.press('Get started');

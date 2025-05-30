@@ -21,12 +21,12 @@
         "test:serve-pod": "community-solid-server -l warn"
     },
     "dependencies": {
-        "@aerogel/core": "next",
-        "@aerogel/plugin-i18n": "next",
-        "@aerogel/plugin-local-first": "next",
-        "@aerogel/plugin-routing": "next",
-        "@aerogel/plugin-solid": "next",
-        "@aerogel/plugin-soukai": "next",
+        "@aerogel/core": "^0.1.0",
+        "@aerogel/plugin-i18n": "^0.1.0",
+        "@aerogel/plugin-local-first": "^0.1.0",
+        "@aerogel/plugin-routing": "^0.1.0",
+        "@aerogel/plugin-solid": "^0.1.0",
+        "@aerogel/plugin-soukai": "^0.1.0",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "^0.6.1",
         "@noeldemartin/utils": "^0.7.1",
@@ -44,9 +44,9 @@
         "vue-router": "^4.5.0"
     },
     "devDependencies": {
-        "@aerogel/cli": "next",
-        "@aerogel/cypress": "next",
-        "@aerogel/vite": "next",
+        "@aerogel/cli": "^0.1.0",
+        "@aerogel/cypress": "^0.1.0",
+        "@aerogel/vite": "^0.1.0",
         "@iconify/json": "2.2.340",
         "@noeldemartin/eslint-config-vue": "next",
         "@noeldemartin/scripts": "next",
