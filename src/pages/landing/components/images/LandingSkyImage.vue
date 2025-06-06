@@ -1,10 +1,6 @@
 <template>
     <picture>
-        <source
-            type="image/avif"
-            srcset="@/assets/img/landing/landscape/sky@2x.avif 1920w, @/assets/img/landing/landscape/sky.avif 1280w"
-            sizes="100vw"
-        >
+        <source type="image/avif" src="@/assets/img/landing/landscape/sky.avif">
         <img alt="" src="@/assets/img/landing/landscape/sky.png" v-bind="$attrs">
     </picture>
 </template>
