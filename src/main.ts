@@ -8,11 +8,13 @@ import { bootstrap } from '@aerogel/core';
 
 import './assets/css/main.css';
 import App from './App.vue';
+import directives from './components/directives';
 import settings from './components/settings';
 import { globals, services } from './services';
 import { bindings, routes } from './pages';
 
 bootstrap(App, {
+    directives,
     settings,
     services,
     plugins: [

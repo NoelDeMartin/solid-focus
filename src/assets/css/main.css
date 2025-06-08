@@ -10,4 +10,5 @@
     --font-*: initial;
     --font-onest: 'Onest', sans-serif;
     --color-primary: oklch(58.8% 0.158 241.966);
+    --ease-spring: cubic-bezier(0.06, 0.51, 0.45, 1.27);
 }
