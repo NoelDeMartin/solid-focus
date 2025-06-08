@@ -41,6 +41,13 @@ export default defineSolidModelSchema({
         },
     },
     hooks: {
+        afterInitialize() {
+            if (this.getAttribute('name') !== null) {
+                return;
+            }
+
+            this.setAttribute('name', this.getAttribute('description'));
+        },
         beforeSave() {
             this.setAttribute('status', this.getAttribute('completedAt') ? STATUS_COMPLETED : STATUS_POTENTIAL);
         },
