@@ -141,10 +141,12 @@ cloud:
         disconnected: Estás desconectado de la nube, todos los cambios que hagas permanecerán en tu dispositivo.
         setup: Tus datos aún no están guardados en la nube.
         changes: Todo está actualizado. | Hay un cambio sin sincronizar. | Hay {n} cambios sin sincronizar.
+        offline: Todo está actualizado, pero no tienes conexión.
     status:
         syncing: Sincronización en progreso
         migrating: Migración en progreso
         online: Online
+        offline: Sin conexión
         disconnected: Desconectado
     advanced:
         reconnect: Reconectar al inicio

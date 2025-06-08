@@ -141,10 +141,12 @@ cloud:
         disconnected: Estàs desconnectat del núvol, els canvis que facis romandràn al teu dispositiu.
         setup: Les teves dades encara no tenen còpia de seguretat.
         changes: Tot està actualitzat. | Hi ha un canvi sense sincronitzar. | Hi ha {n} canvis sense sincronitzar.
+        offline: Tot està actualitzat, però no tens conexió.
     status:
         syncing: Sincronització en progrés
         migrating: Migració en progrés
         online: Online
+        offline: Sense conexió
         disconnected: Desconnectat
     advanced:
         reconnect: Reconectar al inici
