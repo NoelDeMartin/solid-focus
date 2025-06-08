@@ -18,16 +18,16 @@
 
             <div
                 v-intersect="(visible: boolean) => after(700).then(() => (showWorkspaces ||= visible))"
-                :class="[
-                    'ease-spring mt-16 grid max-w-[780px] origin-center grid-cols-1 gap-x-12 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-32 md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr]',
+                class="ease-spring mt-16 grid max-w-[780px] origin-center grid-cols-1 gap-x-12 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-32 md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr]"
+                :class="
                     $ui.mobile
                         ? showWorkspaces
                             ? 'scale-100 opacity-100'
                             : 'scale-0 opacity-0'
                         : showWorkspaces
                             ? '-translate-x-[10%] opacity-100'
-                            : '-translate-x-[90%] opacity-0',
-                ]"
+                            : '-translate-x-[90%] opacity-0'
+                "
             >
                 <h2
                     id="workspaces"
@@ -45,16 +45,16 @@
 
             <div
                 v-intersect="(visible: boolean) => after(700).then(() => (showLocalFirst ||= visible))"
-                :class="[
-                    'ease-spring mt-8 grid origin-center grid-cols-1 gap-x-12 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:mr-8 md:ml-40 md:grid-cols-[auto_1fr]',
+                class="ease-spring mt-8 grid origin-center grid-cols-1 gap-x-12 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:mr-8 md:ml-40 md:grid-cols-[auto_1fr]"
+                :class="
                     $ui.mobile
                         ? showLocalFirst
                             ? 'scale-100 opacity-100'
                             : 'scale-0 opacity-0'
                         : showLocalFirst
                             ? 'translate-x-[10%] opacity-100'
-                            : 'translate-x-[90%] opacity-0',
-                ]"
+                            : 'translate-x-[90%] opacity-0'
+                "
             >
                 <h2 id="local-first" class="text-primary-900 scroll-mt-32 text-center text-3xl font-bold md:text-start">
                     {{ $t('landing.localFirstTitle') }}
@@ -65,10 +65,8 @@
 
             <div
                 v-intersect="(visible: boolean) => after(700).then(() => (showPWA ||= visible))"
-                :class="[
-                    'ease-spring mt-8 grid origin-center gap-8 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:grid-cols-[1fr_2.75fr] md:gap-4',
-                    showPWA ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
-                ]"
+                class="ease-spring mt-8 grid origin-center gap-8 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:grid-cols-[1fr_2.75fr] md:gap-4"
+                :class="showPWA ? 'scale-100 opacity-100' : 'scale-0 opacity-0'"
             >
                 <h2 id="pwa" class="text-primary-900 scroll-mt-32 text-center text-3xl font-bold md:col-span-2">
                     {{ $t('landing.pwaTitle') }}
@@ -91,16 +89,16 @@
 
             <div
                 v-intersect="(visible: boolean) => after(700).then(() => (showSolid ||= visible))"
-                :class="[
-                    'ease-spring mt-8 grid max-w-[750px] origin-center grid-cols-1 gap-x-8 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr]',
+                class="ease-spring mt-8 grid max-w-[750px] origin-center grid-cols-1 gap-x-8 gap-y-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr]"
+                :class="
                     $ui.mobile
                         ? showSolid
                             ? 'scale-100 opacity-100'
                             : 'scale-0 opacity-0'
                         : showSolid
                             ? '-translate-x-[10%] opacity-100'
-                            : '-translate-x-[90%] opacity-0',
-                ]"
+                            : '-translate-x-[90%] opacity-0'
+                "
             >
                 <h2 id="solid" class="text-primary-900 scroll-mt-32 text-center text-3xl font-bold md:text-start">
                     {{ $t('landing.solidTitle') }}
@@ -111,16 +109,16 @@
 
             <div
                 v-intersect="(visible: boolean) => after(700).then(() => (showA11y ||= visible))"
-                :class="[
-                    'ease-spring mt-8 grid origin-center grid-cols-1 gap-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:mr-12 md:ml-40 md:grid-cols-[1fr_auto] md:grid-rows-[auto_1fr]',
+                class="ease-spring mt-8 grid origin-center grid-cols-1 gap-6 rounded-lg bg-white/25 px-12 py-8 transition-all duration-700 md:mt-16 md:mr-12 md:ml-40 md:grid-cols-[1fr_auto] md:grid-rows-[auto_1fr]"
+                :class="
                     $ui.mobile
                         ? showA11y
                             ? 'scale-100 opacity-100'
                             : 'scale-0 opacity-0'
                         : showA11y
                             ? 'translate-x-[10%] opacity-100'
-                            : 'translate-x-[90%] opacity-0',
-                ]"
+                            : 'translate-x-[90%] opacity-0'
+                "
             >
                 <h2 id="a11y" class="text-primary-900 scroll-mt-32 text-center text-3xl font-bold md:text-start">
                     {{ $t('landing.a11yTitle') }}
@@ -136,70 +134,54 @@
             <h2
                 id="more"
                 v-intersect="(visible: boolean) => after(700).then(() => (showMore ||= visible))"
-                :class="[
-                    'ease-spring mt-16 origin-center text-center text-3xl font-light transition-all duration-700 md:mt-32 md:text-2xl',
-                    showMore ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
-                ]"
+                class="ease-spring mt-16 origin-center text-center text-3xl font-light transition-all duration-700 md:mt-32 md:text-2xl"
+                :class="showMore ? 'scale-100 opacity-100' : 'scale-0 opacity-0'"
             >
                 {{ $t('landing.more') }}
             </h2>
 
-            <ul role="list" class="text-primary-900 mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            <ul
+                role="list"
+                class="text-primary-900 [&_a]:text-primary-950 mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3"
+            >
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-ion-logo-markdown class="size-12" />
                     <Markdown lang-key="landing.moreMarkdown" class="text-primary-950 text-lg" />
                 </li>
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                        'delay-100',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all delay-100 duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-material-symbols-edit-document-rounded class="size-12" />
                     <Markdown lang-key="landing.moreScratchpad" class="text-primary-950 text-lg" />
                 </li>
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                        'delay-200',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all delay-200 duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-material-symbols-calendar-clock-rounded class="size-12" />
                     <Markdown lang-key="landing.moreDeadlines" class="text-primary-950 text-lg" />
                 </li>
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                        'delay-300',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all delay-300 duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-ic-sharp-star class="size-12" />
                     <Markdown lang-key="landing.moreImportant" class="text-primary-950 text-lg" />
                 </li>
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                        'delay-[400ms]',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all delay-[400ms] duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-material-symbols-search-rounded class="size-12" />
                     <Markdown lang-key="landing.moreSearch" class="text-primary-950 text-lg" />
                 </li>
                 <li
-                    :class="[
-                        'ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all duration-[1200ms]',
-                        showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0',
-                        'delay-500',
-                    ]"
+                    class="ease-spring bg-primary-200/25 flex flex-col items-center gap-y-2 rounded-lg p-8 transition-all delay-500 duration-[1200ms]"
+                    :class="showMore ? 'translate-y-0 opacity-100' : '-translate-y-[90%] opacity-0'"
                 >
                     <i-material-symbols-keyboard class="size-12" />
                     <Markdown lang-key="landing.moreKeyboard" class="text-primary-950 text-lg" />
