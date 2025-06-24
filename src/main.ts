@@ -22,7 +22,7 @@ bootstrap(App, {
         soukai({ models: import.meta.glob(['@/models/*', '!**/*.test.ts'], { eager: true }) }),
         routing({ routes, bindings }),
         solid(),
-        localFirst(),
+        localFirst({ manualSetup: true }),
     ],
     install(app) {
         app.use(vivant());
