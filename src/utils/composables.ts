@@ -1,6 +1,6 @@
 import { computed, customRef, onMounted, onUnmounted, reactive, readonly, watchEffect } from 'vue';
 import { tap } from '@noeldemartin/utils';
-import { UI } from '@aerogel/core';
+import { modals } from '@aerogel/core';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
 import type { Nullable } from '@noeldemartin/utils';
 
@@ -187,7 +187,7 @@ export function watchKeyboardShortcut(
             return false;
         }
 
-        if (event.key === 'Escape' && UI.modals.length > 0) {
+        if (event.key === 'Escape' && modals.value.length > 0) {
             return false;
         }
 

@@ -29,7 +29,7 @@
         "@aerogel/plugin-soukai": "next",
         "@intlify/unplugin-vue-i18n": "^0.12.2",
         "@noeldemartin/solid-utils": "^0.6.1",
-        "@noeldemartin/utils": "^0.7.1",
+        "@noeldemartin/utils": "next",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.9",
         "@vivantjs/core": "^0.0.1",

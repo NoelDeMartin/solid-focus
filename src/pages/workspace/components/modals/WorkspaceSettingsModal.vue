@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { Cloud } from '@aerogel/plugin-local-first';
 import { computed, ref, useTemplateRef, watchEffect } from 'vue';
-import { HeadlessSelectTrigger, UI, requiredStringInput, stringInput, useForm } from '@aerogel/core';
+import { HeadlessSelectTrigger, UI, requiredStringInput, stringInput, useForm, useModal } from '@aerogel/core';
 
 import Workspace from '@/models/Workspace';
 import Workspaces from '@/services/Workspaces';
@@ -83,6 +83,7 @@ import { mintWorkspaceUrl } from '@/utils/workspaces';
 import { COLORS, DEFAULT_COLOR, setThemeVariables } from '@/utils/theme';
 
 const { workspace } = defineProps<{ workspace?: Workspace }>();
+const { close } = useModal();
 const $modal = useTemplateRef('$modalRef');
 const form = useForm({
     url: stringInput(workspace?.url, { rules: 'container_url' }),
@@ -108,7 +109,7 @@ async function submit(): Promise<void> {
         await formWorkspace.open();
     }
 
-    $modal.value?.close();
+    close();
 }
 
 watchEffect(() => {
