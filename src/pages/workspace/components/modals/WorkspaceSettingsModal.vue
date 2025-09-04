@@ -1,7 +1,6 @@
 <template>
     <Modal
         ref="$modalRef"
-        v-slot="{ close }"
         :cancellable="false"
         :title="workspace ? $t('workspaces.edit') : $t('workspaces.add')"
         :description="workspace ? undefined : $t('workspaces.description')"

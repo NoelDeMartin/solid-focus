@@ -87,6 +87,9 @@ importers:
       '@noeldemartin/eslint-config-vue':
         specifier: next
         version: 0.1.1-next.8da46d7532acbe6ee4126f410141b7f281ec349a(eslint@8.57.1)(typescript@5.9.2)
+      '@noeldemartin/eslint-plugin':
+        specifier: ^0.1.0
+        version: 0.1.0(eslint@8.57.1)(typescript@5.9.2)
       '@noeldemartin/scripts':
         specifier: next
         version: 0.3.0-next.4f5c8122150097c05740e0252c9a77b573ddc1fd(prettier-eslint@16.4.2(typescript@5.9.2))(typescript@5.9.2)
@@ -102,6 +105,9 @@ importers:
       '@types/node':
         specifier: ^20.3.1
         version: 20.19.9
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.6.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)
       '@vue/tsconfig':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
@@ -114,6 +120,9 @@ importers:
       eslint:
         specifier: ^8.57.1
         version: 8.57.1
+      eslint-plugin-vue:
+        specifier: ^9.33.0
+        version: 9.33.0(eslint@8.57.1)
       prettier:
         specifier: ^3.5.3
         version: 3.6.2
@@ -1678,6 +1687,10 @@ packages:
 
   '@noeldemartin/eslint-plugin@0.0.0-next.9009de79669fb62b5da1a04e4c7fccc3e4310fca':
     resolution: {integrity: sha512-jj/qPdvpx866IWk5Z3XOydwKutkvHC9C30209KAlm2CFvXBCC5LtuIDetXJ6MN/hJi63UnMWFHQcCXD9Ogkcjw==}
+    engines: {node: '>=12.x'}
+
+  '@noeldemartin/eslint-plugin@0.1.0':
+    resolution: {integrity: sha512-JRjK/UhEUvjmIkTWuqHdR+Es4N1AytOV0MejJc7vpQPWWZgalQWL6OZDfanecJGay/dXP81xdOTpfMlUb2glvA==}
     engines: {node: '>=12.x'}
 
   '@noeldemartin/scripts@0.3.0-next.4f5c8122150097c05740e0252c9a77b573ddc1fd':
@@ -9180,6 +9193,14 @@ snapshots:
       - typescript
 
   '@noeldemartin/eslint-plugin@0.0.0-next.9009de79669fb62b5da1a04e4c7fccc3e4310fca(eslint@8.57.1)(typescript@5.9.2)':
+    dependencies:
+      '@typescript-eslint/utils': 5.62.0(eslint@8.57.1)(typescript@5.9.2)
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
+
+  '@noeldemartin/eslint-plugin@0.1.0(eslint@8.57.1)(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/utils': 5.62.0(eslint@8.57.1)(typescript@5.9.2)
     transitivePeerDependencies:
