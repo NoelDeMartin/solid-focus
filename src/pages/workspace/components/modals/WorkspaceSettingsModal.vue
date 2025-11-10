@@ -85,7 +85,7 @@ const { workspace } = defineProps<{ workspace?: Workspace }>();
 const { close } = useModal();
 const $modal = useTemplateRef('$modalRef');
 const form = useForm({
-    url: stringInput(workspace?.url, { rules: 'container_url' }),
+    url: stringInput(workspace?.url, { rules: ['container_url'] }),
     name: requiredStringInput(workspace?.name ?? ''),
     color: requiredStringInput(workspace?.color ?? DEFAULT_COLOR),
 });

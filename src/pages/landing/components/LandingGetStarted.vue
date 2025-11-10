@@ -66,7 +66,7 @@ import { DEFAULT_COLOR } from '@/utils/theme';
 const form = useForm({
     draft: requiredStringInput(),
     workspaceName: requiredStringInput(translate('landing.getStarted.defaultWorkspaceName')),
-    workspaceUrl: stringInput(undefined, { rules: Solid.hasLoggedIn() ? 'required|container_url' : '' }),
+    workspaceUrl: stringInput(undefined, { rules: Solid.hasLoggedIn() ? ['required', 'container_url'] : [] }),
 });
 const issuesUrl = computed(() => urlResolve(App.sourceUrl ?? '', 'issues'));
 const loginError = computed(() => Solid.previousSession?.error ?? Solid.loginStartupError ?? Cloud.syncError);

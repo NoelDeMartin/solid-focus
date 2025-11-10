@@ -60,7 +60,7 @@ const form = useForm(
     Workspaces.all.reduce(
         (fields, workspace, index) => {
             fields[`workspaces.${index}`] = stringInput(mintWorkspaceUrl(remoteCollection, required(workspace.name)), {
-                rules: 'required|container_url',
+                rules: ['required', 'container_url'],
             });
 
             return fields;
