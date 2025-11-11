@@ -95,7 +95,7 @@ const createsRemote = computed(() => !workspace && Cloud.ready);
 async function submit(): Promise<void> {
     const updates = {
         url: form.url,
-        name: form.name.trim(),
+        name: form.name,
         color: form.color,
     };
     const formWorkspace = await (workspace ? workspace.update(updates) : Workspace.create(updates));

@@ -315,8 +315,8 @@ async function save() {
     editing.value = false;
 
     await task.value.update({
-        name: form.name.trim(),
-        description: form.description?.trim() || null,
+        name: form.name,
+        description: form.description || null,
         dueDate: form.dueDate,
         priority: form.important ? 1 : null,
     });

@@ -8,7 +8,7 @@
         <Form
             :form="form"
             class="mt-6 flex max-w-full flex-col gap-2 md:flex-row"
-            @submit="$emit('create', form.draft.trim())"
+            @submit="$emit('create', form.draft)"
         >
             <Input
                 :aria-label="$t('tasks.inputLabel')"

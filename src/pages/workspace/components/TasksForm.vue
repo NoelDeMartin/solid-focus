@@ -69,7 +69,7 @@ function blur() {
 }
 
 function submit() {
-    const name = form.draft?.trim();
+    const name = form.draft;
 
     blur();
     form.reset();
