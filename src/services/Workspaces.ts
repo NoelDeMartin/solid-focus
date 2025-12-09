@@ -82,10 +82,12 @@ export class WorkspacesService extends Service {
         const containerUrls = rootContainer
             .statements(rootContainerUrl, 'ldp:contains')
             .map(({ object }) => object.value)
-            .filter((url) => url.endsWith('/') && (
-                !registeredContainers[url]?.includes('https://schema.org/Action') ||
-                !registeredContainers[url]?.includes('http://www.w3.org/2002/12/cal/ical#Vtodo')
-            ));
+            .filter(
+                (url) =>
+                    url.endsWith('/') &&
+                    (!registeredContainers[url]?.includes('https://schema.org/Action') ||
+                        !registeredContainers[url]?.includes('http://www.w3.org/2002/12/cal/ical#Vtodo')),
+            );
 
         for (const containerUrl of containerUrls) {
             const container = await silenced(fetchSolidDocument(containerUrl, { fetch: Solid.fetch }));
@@ -117,14 +119,17 @@ export class WorkspacesService extends Service {
     protected async loadRegisteredContainers(): Promise<Partial<Record<string, string[]>>> {
         const typeIndex = await Solid.findOrCreatePrivateTypeIndex();
 
-        return typeIndex.registrations.reduce((containers, registration) => {
-            if (registration.instanceContainer) {
-                containers[registration.instanceContainer] ??= [];
-                containers[registration.instanceContainer]?.push(...registration.forClass);
-            }
+        return typeIndex.registrations.reduce(
+            (containers, registration) => {
+                if (registration.instanceContainer) {
+                    containers[registration.instanceContainer] ??= [];
+                    containers[registration.instanceContainer]?.push(...registration.forClass);
+                }
 
-            return containers;
-        }, {} as Partial<Record<string, string[]>>);
+                return containers;
+            },
+            {} as Partial<Record<string, string[]>>,
+        );
     }
 
     protected onMigrationCompleted(): void {
