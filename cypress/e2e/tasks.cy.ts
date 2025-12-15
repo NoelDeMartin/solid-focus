@@ -142,4 +142,17 @@ describe('Tasks', () => {
         cy.dontSee('Cook Ramen');
     });
 
+    it('Intercepts back navigation on mobile', () => {
+        // Arrange
+        cy.viewport('samsung-s10');
+        cy.ariaLabel('Select task \\"Onboarding task\\"').click();
+        cy.wait(500); // Wait panel to open
+
+        // Act
+        cy.go('back');
+
+        // Assert
+        cy.dontSee('Created on');
+    });
+
 });

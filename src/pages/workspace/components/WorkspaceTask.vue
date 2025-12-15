@@ -229,6 +229,7 @@ import type { ElementSize } from '@aerogel/core';
 import Focus from '@/services/Focus';
 import Task from '@/models/Task';
 import Tasks from '@/services/Tasks';
+import { useWindowEvent } from '@/utils/composables';
 
 import PanelAnimator from '@/pages/workspace/animations/PanelAnimator';
 
@@ -369,6 +370,15 @@ useModelEvent(Task, 'updated', async (updatedTask) => {
     workspaceTask.value = undefined;
 });
 
+useWindowEvent('popstate', (event) => {
+    if (!event.state?.hideTask) {
+        return;
+    }
+
+    window.history.back();
+    Tasks.select(null);
+});
+
 watch(task, () => (editing.value = false));
 
 watchEffect(async () => {
@@ -376,6 +386,9 @@ watchEffect(async () => {
         workspaceTask.value = Tasks.current;
 
         await panelAnimator.show();
+
+        UI.mobile && window.history.pushState({ hideTask: true }, '', null);
+        UI.mobile && window.history.pushState({}, '', null);
 
         return;
     }
