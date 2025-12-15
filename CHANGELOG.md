@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.3.2](https://github.com/NoelDeMartin/solid-focus/releases/tag/v0.3.2) - 2025-12-15
+
+### Changed
+
+- Internal syncing and caching mechanisms have been refactored (shouldn't have any visible consequences, but watch out for unintended bugs).
+
+### Fixed
+
+- [#22](https://github.com/NoelDeMartin/solid-focus/issues/22) Intercept back navigation in mobile in task panel.
+- [#25](https://github.com/NoelDeMartin/solid-focus/issues/25) Updated Inrupt auth library to `3.1.1` (authentication was failing with some providers such as `igrant.io`).
+
 ## [v0.3.1](https://github.com/NoelDeMartin/solid-focus/releases/tag/v0.3.1) - 2025-06-08
 
 ### Added
