@@ -1,0 +1,78 @@
+diff --git a/dist/soukai-solid.js b/dist/soukai-solid.js
+index c6c0966..723b560 100644
+--- a/dist/soukai-solid.js
++++ b/dist/soukai-solid.js
+@@ -449,7 +449,7 @@ class Es {
+     const r = await this.getDocument(t);
+     if (r === null)
+       throw new ne(t);
+-    return this.processChangeUrlOperations(r, e), this.processUpdatePropertyOperations(r, e), e.length === 0 ? void 0 : (n = r.resource(t)) != null && n.isType(k) ? await this.updateContainerDocument(r, e) : await this.updateNonContainerDocument(r, e, s);
++    return this.processChangeUrlOperations(r, e), this.processUpdatePropertyOperations(r, e), e.length === 0 ? void 0 : (n = r.resource(t)) != null && Os.some((c) => n.isType(c)) ? await this.updateContainerDocument(r, e) : await this.updateNonContainerDocument(r, e, s);
+   }
+   async overwriteDocument(t, e) {
+     const s = await this.getDocument(t);
+@@ -472,7 +472,7 @@ class Es {
+     const s = e ?? await this.getDocument(t);
+     if (s === null)
+       return;
+-    if ((i = s.resource(t)) != null && i.isType(k)) {
++    if ((i = s.resource(t)) != null && Os.some((c) => i.isType(c))) {
+       const n = await this.getDocumentsFromContainer(t, s);
+       await Promise.all(n.map((a) => this.deleteDocument(a.url, a)));
+     }
+@@ -507,6 +507,7 @@ class Es {
+     const s = await this.fetch(e, {
+       method: "PUT",
+       headers: {
++        "Content-Type": "text/turtle",
+         Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+         "If-None-Match": "*"
+       }
+@@ -517,6 +518,7 @@ class Es {
+     const s = F(t), r = await this.fetch(s, {
+       method: "POST",
+       headers: {
++        "Content-Type": "text/turtle",
+         Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+         Slug: jt(t),
+         "If-None-Match": "*"
+@@ -3661,6 +3663,7 @@ const Sr = {
+   }
+ }, Mr = E({
+   rdfsClass: "ldp:Container",
++  rdfsClassesAliases: [["ldp:BasicContainer"]],
+   timestamps: !1,
+   fields: Sr
+ });
+diff --git a/src/models/SolidContainer.schema.ts b/src/models/SolidContainer.schema.ts
+index 75b882a..a3e2b33 100644
+--- a/src/models/SolidContainer.schema.ts
++++ b/src/models/SolidContainer.schema.ts
+@@ -28,6 +28,7 @@ export const solidContainerFields = {
+ 
+ export default defineSolidModelSchema({
+     rdfsClass: 'ldp:Container',
++    rdfsClassesAliases: [['ldp:BasicContainer']],
+     timestamps: false,
+     fields: solidContainerFields,
+ });
+diff --git a/src/solid/SolidClient.ts b/src/solid/SolidClient.ts
+index fd04065..d09641f 100644
+--- a/src/solid/SolidClient.ts
++++ b/src/solid/SolidClient.ts
+@@ -254,6 +254,7 @@ export default class SolidClient {
+         const response = await this.fetch(url, {
+             method: 'PUT',
+             headers: {
++                'Content-Type': 'text/turtle',
+                 'Link': '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+                 'If-None-Match': '*',
+             },
+@@ -278,6 +279,7 @@ export default class SolidClient {
+         const response = await this.fetch(parentUrl, {
+             method: 'POST',
+             headers: {
++                'Content-Type': 'text/turtle',
+                 'Link': '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+                 'Slug': requireUrlDirectoryName(url),
+                 'If-None-Match': '*',

@@ -1,2 +1,8 @@
-onlyBuiltDependencies:
-    - cypress
+allowBuilds:
+  core-js: true
+  cypress: true
+  esbuild: true
+  vue-demi: true
+
+patchedDependencies:
+  soukai-solid@0.7.1: patches/soukai-solid@0.7.1.patch
